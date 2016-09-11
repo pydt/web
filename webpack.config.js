@@ -1,6 +1,7 @@
 // Helper: root() is defined at the bottom
 var path = require('path');
 var webpack = require('webpack');
+var fs = require('fs');
 
 // Webpack Plugins
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
@@ -149,6 +150,18 @@ module.exports = function makeWebpackConfig() {
     };
   }
 
+  let apiUrl = "https://whateverthisisinproduction.com.org";
+
+  if (!isProd) {
+    apiUrl = fs.readFileSync('../api-url.txt', 'utf-8');
+
+    if (apiUrl) {
+      console.log('Using ' + apiUrl + ' for API URL!');
+    } else {
+      console.log('There wasn\'t anything in ../api-url.txt, have you deployed the serverless api?');
+    }
+  }
+
   /**
    * Plugins
    * Reference: http://webpack.github.io/docs/configuration.html#plugins
@@ -160,7 +173,8 @@ module.exports = function makeWebpackConfig() {
     new webpack.DefinePlugin({
       // Environment helpers
       'process.env': {
-        ENV: JSON.stringify(ENV)
+        ENV: JSON.stringify(ENV),
+        API_URL: JSON.stringify(apiUrl)
       }
     })
   ];
