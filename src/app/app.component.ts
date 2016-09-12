@@ -10,7 +10,11 @@ import '../style/app.scss';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  constructor(private api: ApiService) {
-    this.url = api.url;
+  constructor(private api: ApiService) {}
+
+  redirectToLogin() {
+    this.api.getLoginUrl().subscribe(url => {
+      window.location.href = url;
+    });
   }
 }

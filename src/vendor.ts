@@ -6,7 +6,13 @@ import '@angular/common';
 import '@angular/http';
 import '@angular/router';
 
-import 'rxjs';
+// RxJs (only what we need)
+import 'rxjs/add/observable/throw';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/map';
+
+
+
 import '@angularclass/hmr';
 
 // Other vendors for example jQuery, Lodash or Bootstrap

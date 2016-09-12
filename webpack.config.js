@@ -150,7 +150,7 @@ module.exports = function makeWebpackConfig() {
     };
   }
 
-  let apiUrl = "https://whateverthisisinproduction.com.org";
+  var apiUrl = "https://whateverthisisinproduction.com.org";
 
   if (!isProd) {
     apiUrl = fs.readFileSync('../api-url.txt', 'utf-8');

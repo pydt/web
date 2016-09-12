@@ -2,6 +2,7 @@
   <nav>
     <a [routerLink]="['']">Home</a>
     <a [routerLink]="['about']">About</a>
+    <a href="#" *ngIf="!api.isLoggedIn()" (click)="redirectToLogin()">Log In!</a>
   </nav>
 </header>
 <main>
