@@ -18,14 +18,18 @@ export class ApiService {
     return this.http.get(this.baseUrl + '/auth/steam/validate' + queryString)
       .map(res => {
         const data = res.json();
-        localStorage.setItem('token', data.token);
-        localStorage.setItem('user', JSON.stringify(data.user));
-        return data;
+        if (data.token) {
+          localStorage.setItem('token', data.token);
+          localStorage.setItem('steamProfile', JSON.stringify(data.user));
+          return data;
+        }
+
+        throw data;
       });
   }
 
-  getPrincipal() {
-    return JSON.parse(localStorage.getItem('user'));
+  getSteamProfile() {
+    return JSON.parse(localStorage.getItem('steamProfile'));
   }
 
   isLoggedIn() {
