@@ -10,6 +10,7 @@ import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
 import { ApiService } from './shared';
+import { ProfileCacheService } from './shared';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -30,7 +31,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     UserGamesComponent
   ],
   providers: [
-    ApiService
+    ApiService,
+    ProfileCacheService
   ],
   bootstrap: [AppComponent]
 })

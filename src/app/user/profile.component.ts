@@ -6,12 +6,12 @@ import { ApiService } from '../shared/api.service';
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {
-  private displayName: string;
+  private steamName: string;
 
   constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-    this.displayName = this.api.getSteamProfile().displayName;
+    this.steamName = this.api.getSteamProfile().personaname;
   }
 }

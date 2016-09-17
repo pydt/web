@@ -13,7 +13,7 @@ export class AppComponent {
   constructor(private api: ApiService) {}
 
   redirectToLogin() {
-    this.api.getLoginUrl().subscribe(url => {
+    this.api.getLoginUrl().then(url => {
       window.location.href = url;
     });
   }

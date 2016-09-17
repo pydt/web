@@ -11,7 +11,7 @@ export class ApiService {
     return this.http.get(this.baseUrl + '/auth/steam')
       .map(res => {
         return res.json().redirectURL;
-      });
+      }).toPromise();
   }
 
   validateSteamCredentials(queryString: string) {
@@ -25,21 +25,28 @@ export class ApiService {
         }
 
         throw data;
-      });
+      }).toPromise();
   }
 
   getUserGames() {
     return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
       .map(res => {
         return res.json();
-      });
+      }).toPromise();
   }
 
   createGame(gameName: string) {
     return this.http.post(this.baseUrl + '/game/create', {'displayName': gameName}, this.getAuthHeaders())
       .map(res => {
         return res.json();
-      });
+      }).toPromise();
+  }
+
+  getSteamProfiles(steamIds: string[]) {
+    return this.http.get(this.baseUrl + '/user/steamProfiles?steamIds=' + steamIds.join(), this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
   }
 
   getSteamProfile() {
