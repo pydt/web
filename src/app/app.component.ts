@@ -16,5 +16,7 @@ export class AppComponent {
     this.api.getLoginUrl().then(url => {
       window.location.href = url;
     });
+
+    return false;
   }
 }

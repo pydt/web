@@ -28,6 +28,20 @@ export class ApiService {
       }).toPromise();
   }
 
+  getGame(id) {
+    return this.http.get(this.baseUrl + '/game/' + id, this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
+  joinGame(id) {
+    return this.http.post(this.baseUrl + '/game/' + id + '/join', {}, this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
   getUserGames() {
     return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
       .map(res => {

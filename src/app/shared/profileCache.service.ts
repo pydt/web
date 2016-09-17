@@ -26,8 +26,9 @@ export class ProfileCacheService {
         for (let profile of profiles) {
           this.cache[profile.steamid] = profile;
           result[profile.steamid] = profile;
-          return result;
         }
+
+        return result;
       });
     }
 

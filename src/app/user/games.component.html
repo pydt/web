@@ -2,12 +2,7 @@
 <div *ngIf="games">
   <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
   <div *ngFor="let game of games">
-    <h1>{{game.displayName}}</h1>
-    <ul>
-      <template ngFor let-steamId [ngForOf]=game.playerSteamIds>
-        <li *ngIf="gamePlayerProfiles[steamId]"><img [src]="gamePlayerProfiles[steamId].avatarmedium"></li>
-      </template>
-    </ul>
+    <my-game-detail [game]="game"></my-game-detail>
     <div *ngIf="game.inProgress">
       <div *ngIf="game.currentPlayerSteamId === profile.id">
         <h2>It's your turn!</h2>
