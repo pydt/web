@@ -1,0 +1,5 @@
+<h1 *ngIf="!games">Loading...</h1>
+<div *ngIf="games">
+  <h1 *ngIf="games.length == 0">No games found. :(</h1>
+  <h1 *ngIf="games.length > 0">List the games...</h1>
+</div>

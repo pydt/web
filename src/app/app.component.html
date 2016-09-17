@@ -3,6 +3,8 @@
     <a [routerLink]="['']">Home</a>
     <a [routerLink]="['about']">About</a>
     <a href="#" *ngIf="!api.isLoggedIn()" (click)="redirectToLogin()">Log In!</a>
+    <a *ngIf="api.isLoggedIn()" [routerLink]="['user/profile']">Your Profile</a>
+    <a *ngIf="api.isLoggedIn()" [routerLink]="['user/games']">Your Games</a>
   </nav>
 </header>
 <main>
@@ -11,5 +13,5 @@
   <router-outlet></router-outlet>
 </main>
 <footer>
-  Shaka Zulu {{url}}
+  Shaka Zulu!
 </footer>

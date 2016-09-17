@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Headers } from '@angular/http';
 
 @Injectable()
 export class ApiService {
@@ -28,6 +28,13 @@ export class ApiService {
       });
   }
 
+  getUserGames() {
+    return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      });
+  }
+
   getSteamProfile() {
     return JSON.parse(localStorage.getItem('steamProfile'));
   }
@@ -36,7 +43,19 @@ export class ApiService {
     return !!this.getToken();
   }
 
-  getToken() {
+  getAuthHeaders() {
+    let headers = new Headers();
+
+    if (!this.isLoggedIn()) {
+      throw new Error("Not Logged In!");
+    }
+
+    headers.append('Authorization', this.getToken());
+
+    return { headers: headers };
+  }
+
+  private getToken() {
     return localStorage.getItem('token');
   }
 }

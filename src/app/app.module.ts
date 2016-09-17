@@ -7,6 +7,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
+import { UserProfileComponent } from './user/profile.component';
+import { UserGamesComponent } from './user/games.component';
 import { ApiService } from './shared';
 import { routing } from './app.routing';
 
@@ -23,7 +25,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent,
     HomeComponent,
     AboutComponent,
-    SteamReturnComponent
+    SteamReturnComponent,
+    UserProfileComponent,
+    UserGamesComponent
   ],
   providers: [
     ApiService
