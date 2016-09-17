@@ -20,7 +20,7 @@ export class ApiService {
         const data = res.json();
         if (data.token) {
           localStorage.setItem('token', data.token);
-          localStorage.setItem('steamProfile', JSON.stringify(data.user));
+          localStorage.setItem('steamProfile', JSON.stringify(data.steamProfile));
           return data;
         }
 
@@ -30,6 +30,13 @@ export class ApiService {
 
   getUserGames() {
     return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      });
+  }
+
+  createGame(gameName: string) {
+    return this.http.post(this.baseUrl + '/game/create', {'displayName': gameName}, this.getAuthHeaders())
       .map(res => {
         return res.json();
       });
@@ -47,7 +54,7 @@ export class ApiService {
     let headers = new Headers();
 
     if (!this.isLoggedIn()) {
-      throw new Error("Not Logged In!");
+      throw new Error('Not Logged In!');
     }
 
     headers.append('Authorization', this.getToken());

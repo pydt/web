@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../shared/api.service';
 
 @Component({
-  selector: 'user-profile',
+  selector: 'my-user-profile',
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {
+  private displayName: string;
 
-  constructor() {
-    // Do stuff
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {
-
+    this.displayName = this.api.getSteamProfile().displayName;
   }
 }
