@@ -7,12 +7,14 @@ import { ApiService } from '../shared/api.service';
 })
 export class UserGamesComponent implements OnInit {
   private games;
+  private profile;
 
   constructor(private api: ApiService) {
   }
 
   ngOnInit() {
     this.getGames();
+    this.profile = this.api.getSteamProfile();
   }
 
   getGames() {
@@ -23,6 +25,14 @@ export class UserGamesComponent implements OnInit {
 
   createGame() {
     this.api.createGame(this.api.getSteamProfile().personaname + '\'s game!').then(() => {
+      this.getGames();
+    });
+
+    return false;
+  }
+
+  startGame(id) {
+    this.api.startGame(id).then(() => {
       this.getGames();
     });
 

@@ -4,13 +4,14 @@
   <div *ngFor="let game of games">
     <my-game-detail [game]="game"></my-game-detail>
     <div *ngIf="game.inProgress">
-      <div *ngIf="game.currentPlayerSteamId === profile.id">
+      <div *ngIf="game.currentPlayerSteamId === profile.steamid">
         <h2>It's your turn!</h2>
       </div>
-      <h2 *ngIf="game.currentPlayerSteamId === profile.id">It's not your turn :(</h2>
+      <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
     </div>
     <div *ngIf="!game.inProgress">
-      <h2>Game not started :(</h2>
+      <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
+      <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
     </div>
   </div>
 </div>

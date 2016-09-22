@@ -42,6 +42,13 @@ export class ApiService {
       }).toPromise();
   }
 
+  startGame(id) {
+    return this.http.post(this.baseUrl + '/game/' + id + '/start', {}, this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
   getUserGames() {
     return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
       .map(res => {
