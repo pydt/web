@@ -38,4 +38,39 @@ export class UserGamesComponent implements OnInit {
 
     return false;
   }
+
+  fileSelected(event, gameId) {
+    if (event.target.files.length > 0) {
+      this.api.startTurnSubmit(gameId).then(response => {
+        return new Promise((resolve, reject) => {
+          let xhr = new XMLHttpRequest();
+          xhr.open('PUT', response.putUrl, true);
+
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              resolve();
+            } else {
+              reject(xhr.status);
+            }
+          };
+
+          xhr.onerror = () => {
+            reject(xhr.status);
+          };
+
+          xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+          xhr.send(event.target.files[0]);
+        });
+      })
+      .then(() => {
+        return this.api.finishTurnSubmit(gameId);
+      })
+      .then(() => {
+        this.getGames();
+      })
+      .catch(err => {
+        alert(err);
+      });
+    }
+  }
 }

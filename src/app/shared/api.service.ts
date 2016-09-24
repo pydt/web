@@ -49,6 +49,20 @@ export class ApiService {
       }).toPromise();
   }
 
+  startTurnSubmit(gameId) {
+    return this.http.post(this.baseUrl + '/game/' + gameId + '/turn/startSubmit', {}, this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
+  finishTurnSubmit(gameId) {
+    return this.http.post(this.baseUrl + '/game/' + gameId + '/turn/finishSubmit', {}, this.getAuthHeaders())
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
   getUserGames() {
     return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
       .map(res => {
