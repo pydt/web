@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ApiService } from '../shared/api.service';
 import { ProfileCacheService } from '../shared/profileCache.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'my-game-detail',
@@ -15,7 +16,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileCache.getProfiles(this.game.playerSteamIds).then(profiles => {
+    this.profileCache.getProfiles(_.map(this.game.players, _.property('steamId')) as string[]).then(profiles => {
       this.gamePlayerProfiles = profiles;
     });
   }

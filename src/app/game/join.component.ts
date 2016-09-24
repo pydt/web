@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../shared/api.service';
 import { ActivatedRoute, Router, Params } from '@angular/router';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'my-game-join',
@@ -15,7 +16,7 @@ export class GameJoinComponent implements OnInit {
   ngOnInit() {
     this.route.params.forEach((params: Params) => {
       this.api.getGame(params['id']).then(game => {
-        if (game.playerSteamIds.indexOf(this.api.getSteamProfile().steamid) >= 0) {
+        if (_.map(game.players, _.property('steamId')).indexOf(this.api.getSteamProfile().steamid) >= 0) {
           this.router.navigate(['/user/games']);
         } else {
           this.game = game;

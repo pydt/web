@@ -1,4 +1,4 @@
 <h1>{{game.displayName}}</h1>
 <ul>
-  <li *ngFor="let steamId of game.playerSteamIds"><img [src]="gamePlayerProfiles[steamId]?.avatarmedium"></li>
+  <li *ngFor="let player of game.players"><img [src]="gamePlayerProfiles[player.steamId]?.avatarmedium"></li>
 </ul>
