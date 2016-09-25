@@ -49,6 +49,13 @@ export class ApiService {
       }).toPromise();
   }
 
+  getTurnUrl(gameId) {
+    return this.http.get(this.baseUrl + '/game/' + gameId + '/turn', this.getAuthHeaders())
+      .map(res => {
+        return res.json().downloadUrl;
+      }).toPromise();
+  }
+
   startTurnSubmit(gameId) {
     return this.http.post(this.baseUrl + '/game/' + gameId + '/turn/startSubmit', {}, this.getAuthHeaders())
       .map(res => {

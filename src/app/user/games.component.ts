@@ -39,6 +39,14 @@ export class UserGamesComponent implements OnInit {
     return false;
   }
 
+  downloadTurn(gameId) {
+    this.api.getTurnUrl(gameId)
+      .then(url => {
+        // TODO: Maybe rename the file and save it using HTML5?
+        window.open(url);
+      });
+  }
+
   fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
       this.api.startTurnSubmit(gameId).then(response => {
