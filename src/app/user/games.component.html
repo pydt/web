@@ -6,7 +6,7 @@
     <div *ngIf="game.inProgress">
       <div *ngIf="game.currentPlayerSteamId === profile.steamid">
         <h2>It's your turn!</h2>
-        <div *ngIf="game.submittedTurnCount > 0">
+        <div *ngIf="game.gameTurnRangeKey > 1">
           <h3>Download goes here...</h3>
         </div>
         <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ5Save">
