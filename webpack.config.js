@@ -152,13 +152,12 @@ module.exports = function makeWebpackConfig() {
 
   var apiUrl = "https://z9cjeucs49.execute-api.us-east-1.amazonaws.com/prod";
 
-  if (!isProd) {
-    apiUrl = fs.readFileSync('../api-url.txt', 'utf-8');
-
-    if (apiUrl) {
+  if (process.env.NODE_ENV !== 'production') {
+    try {
+      apiUrl = fs.readFileSync('../api-url.txt', 'utf-8');
       console.log('Using ' + apiUrl + ' for API URL!');
-    } else {
-      console.log('There wasn\'t anything in ../api-url.txt, have you deployed the serverless api?');
+    } catch (Error) {
+      console.log('There wasn\'t anything in ../api-url.txt, using prod api url...');
     }
   }
 
