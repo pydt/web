@@ -16,4 +16,4 @@ const routes: Routes = [
   { path: 'user/games', component: UserGamesComponent }
 ];
 
-export const routing = RouterModule.forRoot(routes);
+export const routing = RouterModule.forRoot(routes, { useHash: true });
