@@ -7,11 +7,13 @@ import { ApiService } from '../shared/api.service';
 })
 export class UserProfileComponent implements OnInit {
   private steamName: string;
+  private token: string;
 
   constructor(private api: ApiService) {
   }
 
   ngOnInit() {
     this.steamName = this.api.getSteamProfile().personaname;
+    this.token = this.api.getToken();
   }
 }
