@@ -7,7 +7,7 @@ import { ApiService } from './shared';
   templateUrl: './app.component.html'
 })
 export class AppComponent {
-  private isCollapsed:boolean = true;
+  private isCollapsed: boolean = true;
   constructor(private api: ApiService) {}
 
   redirectToLogin() {

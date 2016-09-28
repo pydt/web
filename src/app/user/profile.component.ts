@@ -8,6 +8,7 @@ import { ApiService } from '../shared/api.service';
 export class UserProfileComponent implements OnInit {
   private steamName: string;
   private token: string;
+  private emailModel = new EmailModel("");
 
   constructor(private api: ApiService) {
   }
@@ -16,4 +17,12 @@ export class UserProfileComponent implements OnInit {
     this.steamName = this.api.getSteamProfile().personaname;
     this.token = this.api.getToken();
   }
+
+  onSubmit() {
+    alert('this doesn\'t work yet, fooled you!');
+  }
+}
+
+class EmailModel {
+  constructor(public email: string) {}
 }

@@ -7,3 +7,17 @@
     <strong>{{token}}</strong>
   </div>
 </div>
+
+<div class="panel panel-default">
+  <div class="panel-heading">Email Turn Notifications</div>
+  <div class="panel-body">
+    <p>Enter your email address to receive email turn notifications:</p>
+    <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
+      <div class="form-group">
+        <label for="emailAddress">Email Address</label>
+        <input type="text" class="form-control" id="emailAddress" [(ngModel)]="emailModel.emailAddress" name="emailAddress">
+      </div>
+      <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+  </div>
+</div>

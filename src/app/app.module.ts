@@ -23,7 +23,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     BrowserModule,
     HttpModule,
     FormsModule,
-    CollapseModule
+    CollapseModule,
     routing
   ],
   declarations: [

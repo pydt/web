@@ -111,7 +111,7 @@ export class ApiService {
     return { headers: headers };
   }
 
-  private getToken() {
+  getToken() {
     return localStorage.getItem('token');
   }
 }
