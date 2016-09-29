@@ -8,7 +8,8 @@ import { ApiService } from '../shared/api.service';
 export class UserProfileComponent implements OnInit {
   private steamName: string;
   private token: string;
-  private emailModel = new EmailModel("");
+  private emailModel = new EmailModel('');
+  private loaded: boolean;
 
   constructor(private api: ApiService) {
   }
@@ -16,13 +17,21 @@ export class UserProfileComponent implements OnInit {
   ngOnInit() {
     this.steamName = this.api.getSteamProfile().personaname;
     this.token = this.api.getToken();
+
+    this.api.getUser().then(user => {
+      this.emailModel.emailAddress = user.emailAddress;
+      this.loaded = true;
+    });
   }
 
   onSubmit() {
-    alert('this doesn\'t work yet, fooled you!');
+    this.loaded = false;
+    this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
+      this.loaded = true;
+    });
   }
 }
 
 class EmailModel {
-  constructor(public email: string) {}
+  constructor(public emailAddress: string) {}
 }

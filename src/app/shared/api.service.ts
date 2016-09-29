@@ -8,87 +8,67 @@ export class ApiService {
   constructor (private http: Http) {}
 
   getLoginUrl() {
-    return this.http.get(this.baseUrl + '/auth/steam')
-      .map(res => {
-        return res.json().redirectURL;
-      }).toPromise();
+    return this.get(this.baseUrl + '/auth/steam', true).then(data => {
+      return data.redirectURL;
+    });
   }
 
   validateSteamCredentials(queryString: string) {
-    return this.http.get(this.baseUrl + '/auth/steam/validate' + queryString)
-      .map(res => {
-        const data = res.json();
-        if (data.token) {
-          localStorage.setItem('token', data.token);
-          localStorage.setItem('steamProfile', JSON.stringify(data.steamProfile));
-          return data;
-        }
+    return this.get(this.baseUrl + '/auth/steam/validate' + queryString, true).then(data => {
+      if (data.token) {
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('steamProfile', JSON.stringify(data.steamProfile));
+        return data;
+      }
 
-        throw data;
-      }).toPromise();
+      throw data;
+    });
   }
 
   getGame(id) {
-    return this.http.get(this.baseUrl + '/game/' + id, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.get(this.baseUrl + '/game/' + id);
   }
 
   joinGame(id) {
-    return this.http.post(this.baseUrl + '/game/' + id + '/join', {}, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.post(this.baseUrl + '/game/' + id + '/join', {});
   }
 
   startGame(id) {
-    return this.http.post(this.baseUrl + '/game/' + id + '/start', {}, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.post(this.baseUrl + '/game/' + id + '/start', {});
   }
 
   getTurnUrl(gameId) {
-    return this.http.get(this.baseUrl + '/game/' + gameId + '/turn', this.getAuthHeaders())
-      .map(res => {
-        return res.json().downloadUrl;
-      }).toPromise();
+    return this.get(this.baseUrl + '/game/' + gameId + '/turn').then(data => {
+      return data.downloadUrl;
+    });
   }
 
   startTurnSubmit(gameId) {
-    return this.http.post(this.baseUrl + '/game/' + gameId + '/turn/startSubmit', {}, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.post(this.baseUrl + '/game/' + gameId + '/turn/startSubmit', {});
   }
 
   finishTurnSubmit(gameId) {
-    return this.http.post(this.baseUrl + '/game/' + gameId + '/turn/finishSubmit', {}, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.post(this.baseUrl + '/game/' + gameId + '/turn/finishSubmit', {});
   }
 
   getUserGames() {
-    return this.http.get(this.baseUrl + '/user/games', this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.get(this.baseUrl + '/user/games');
   }
 
   createGame(gameName: string) {
-    return this.http.post(this.baseUrl + '/game/create', {'displayName': gameName}, this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.post(this.baseUrl + '/game/create', {'displayName': gameName});
+  }
+
+  getUser() {
+    return this.get(this.baseUrl + '/user');
+  }
+
+  setNotificationEmailAddress(emailAddress: string) {
+    return this.post(this.baseUrl + '/user/setNotificationEmail', {'emailAddress': emailAddress});
   }
 
   getSteamProfiles(steamIds: string[]) {
-    return this.http.get(this.baseUrl + '/user/steamProfiles?steamIds=' + steamIds.join(), this.getAuthHeaders())
-      .map(res => {
-        return res.json();
-      }).toPromise();
+    return this.get(this.baseUrl + '/user/steamProfiles?steamIds=' + steamIds.join());
   }
 
   getSteamProfile() {
@@ -99,19 +79,35 @@ export class ApiService {
     return !!this.getToken();
   }
 
-  getAuthHeaders() {
+  getToken() {
+    return localStorage.getItem('token');
+  }
+
+  private getAuthHeaders(disableAuth) {
     let headers = new Headers();
 
-    if (!this.isLoggedIn()) {
-      throw new Error('Not Logged In!');
-    }
+    if (!disableAuth) {
+      if (!this.isLoggedIn()) {
+        throw new Error('Not Logged In!');
+      }
 
-    headers.append('Authorization', this.getToken());
+      headers.append('Authorization', this.getToken());
+    }
 
     return { headers: headers };
   }
 
-  getToken() {
-    return localStorage.getItem('token');
+  private get(url, disableAuth?) {
+    return this.http.get(url, this.getAuthHeaders(disableAuth))
+      .map(res => {
+        return res.json();
+      }).toPromise();
+  }
+
+  private post(url, data) {
+    return this.http.post(url, data, this.getAuthHeaders(false))
+      .map(res => {
+        return res.json();
+      }).toPromise();
   }
 }
