@@ -6,14 +6,15 @@ import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { GameJoinComponent } from './game/join.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
+import { AuthGuard } from './shared/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'about', component: AboutComponent },
   { path: 'steamreturn', component: SteamReturnComponent },
-  { path: 'game/:id/join', component: GameJoinComponent },
-  { path: 'user/profile', component: UserProfileComponent },
-  { path: 'user/games', component: UserGamesComponent }
+  { path: 'game/:id/join', component: GameJoinComponent, canActivate: [AuthGuard] },
+  { path: 'user/profile', component: UserProfileComponent, canActivate: [AuthGuard] },
+  { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard] }
 ];
 
 export const routing = RouterModule.forRoot(routes, { useHash: true });

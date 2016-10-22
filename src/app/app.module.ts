@@ -12,8 +12,7 @@ import { GameDetailComponent } from './game/detail.component';
 import { GameJoinComponent } from './game/join.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
-import { ApiService } from './shared';
-import { ProfileCacheService } from './shared';
+import { ApiService, ProfileCacheService, AuthGuard } from './shared';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -38,7 +37,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
   ],
   providers: [
     ApiService,
-    ProfileCacheService
+    ProfileCacheService,
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })
