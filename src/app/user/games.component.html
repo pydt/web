@@ -15,6 +15,13 @@
       <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
     </div>
     <div *ngIf="!game.inProgress">
+      <div class="panel panel-default">
+        <div class="panel-heading">Join Link</div>
+        <div class="panel-body">
+          Send this link to a friend so they can join the game:<br />
+          <strong><a [routerLink]="['/game/', game.gameId, 'join']">Join Game Link</a></strong>
+        </div>
+      </div>
       <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
       <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
     </div>
