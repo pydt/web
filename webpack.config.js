@@ -152,7 +152,7 @@ module.exports = function makeWebpackConfig() {
 
   var apiUrl = "https://z9cjeucs49.execute-api.us-east-1.amazonaws.com/prod";
 
-  if (process.env.NODE_ENV !== 'production') {
+  if (!isProd) {
     try {
       apiUrl = fs.readFileSync('../api-dev-url.txt', 'utf-8');
       console.log('Using ' + apiUrl + ' for API URL!');
