@@ -10,7 +10,7 @@
         <div *ngIf="game.gameTurnRangeKey > 1">
           <button (click)="downloadTurn(game.gameId)">Download Save File</button>
         </div>
-        <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ5Save">
+        <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save">
       </div>
       <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
     </div>
