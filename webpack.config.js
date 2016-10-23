@@ -154,10 +154,10 @@ module.exports = function makeWebpackConfig() {
 
   if (process.env.NODE_ENV !== 'production') {
     try {
-      apiUrl = fs.readFileSync('../api-url.txt', 'utf-8');
+      apiUrl = fs.readFileSync('../api-dev-url.txt', 'utf-8');
       console.log('Using ' + apiUrl + ' for API URL!');
     } catch (Error) {
-      console.log('There wasn\'t anything in ../api-url.txt, using prod api url...');
+      console.log('There wasn\'t anything in ../api-dev-url.txt, using prod api url...');
     }
   }
 
