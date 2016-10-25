@@ -8,6 +8,7 @@ deploy:
     - apt-get update
     - apt-get install -y python-pip
     - pip install awscli
-    - aws s3 cp ./dist s3://giant-multiplayer-ripoff/ --recursive
+    - aws s3 sync ./dist s3://giant-multiplayer-ripoff --exclude "js/*" --exclude="fonts/*"
+    - aws s3 sync ./dist s3://giant-multiplayer-ripoff --exclude "*" --include="js/*" --include="fonts/*" --expires 2034-01-01T00:00:00Z --cache-control max-age=2592000,public
   only:
     - master
