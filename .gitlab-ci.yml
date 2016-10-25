@@ -1,6 +1,11 @@
 image: node:4.6.1
 
-build:
+deploy to integration:
+  environment: integration
   script:
-   - npm install
-   - npm run build
+    - npm install --silent
+    - npm run build
+    - pip install awscli
+    - aws s3 cp ./dist s3://giant-multiplayer-ripoff-int/ --recursive
+  only:
+    - develop
