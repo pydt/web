@@ -13,7 +13,13 @@
     <div id="navbar" class="navbar-collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']"><a [routerLink]="['about']">About</a></li>
-        <li><a href="/giant-multiplayer-ripoff-setup.exe">Download Client</a></li>
+        <li id="download-clients" dropdown>
+          <a href="#" dropdownToggle>Download Client <span class="caret"></span></a>
+          <ul class="dropdown-menu" dropdownMenu aria-labelledby="download-clients">
+            <li><a href="/giant-multiplayer-ripoff-setup.exe">Windows</a></li>
+            <li><a href="/giant-multiplayer-ripoff.dmg">Mac OS X</a></li>
+          </ul>
+        </li>
         <li *ngIf="!api.isLoggedIn()" [routerLinkActive]="['active']"><a href="#" (click)="redirectToLogin()">Log In!</a></li>
         <li *ngIf="api.isLoggedIn()" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
         <li *ngIf="api.isLoggedIn()" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>

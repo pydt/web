@@ -1,6 +1,7 @@
 import { NgModule, ApplicationRef } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { CollapseModule } from 'ng2-bootstrap/components/collapse';
+import { DropdownModule } from 'ng2-bootstrap/components/dropdown';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 
@@ -23,6 +24,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     HttpModule,
     FormsModule,
     CollapseModule,
+    DropdownModule,
     routing
   ],
   declarations: [
