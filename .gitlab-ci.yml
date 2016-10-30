@@ -7,6 +7,6 @@ deploy:
     - npm run build
     - apt-get update
     - apt-get install -y lftp
-    - lftp -u $AZURE_DEPLOYMENT_USER,$AZURE_DEPLOYMENT_PASSWORD -e 'mirror --reverse dist /site/wwwroot; exit' ftps://waws-prod-ch1-013.ftp.azurewebsites.windows.net
+    - lftp -u $AZURE_DEPLOYMENT_USER,$AZURE_DEPLOYMENT_PASSWORD -e 'mirror -Rp dist /site/wwwroot; quit' ftps://waws-prod-ch1-013.ftp.azurewebsites.windows.net
   only:
     - master
