@@ -17,4 +17,4 @@ const routes: Routes = [
   { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard] }
 ];
 
-export const routing = RouterModule.forRoot(routes, { useHash: true });
+export const routing = RouterModule.forRoot(routes);
