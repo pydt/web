@@ -13,9 +13,7 @@ export class SteamReturnComponent implements OnInit {
   }
 
   ngOnInit() {
-    const hash = window.location.hash;
-    const query = hash.substring(hash.indexOf('?'));
-    this.api.validateSteamCredentials(query).then(() => {
+    this.api.validateSteamCredentials(window.location.search).then(() => {
       this.router.navigate(['/']);
     });
   }
