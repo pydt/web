@@ -18,8 +18,8 @@ export class UserGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.api.getUserGames().then(games => {
-      this.games = games;
+    this.api.getUserGames().then(resp => {
+      this.games = resp.data;
     });
   }
 
