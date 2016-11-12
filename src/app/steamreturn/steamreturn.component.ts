@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }    from '@angular/router';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from 'civx-angular2-shared';
 
 @Component({
   selector: 'my-steam-return',

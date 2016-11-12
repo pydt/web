@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from 'civx-angular2-shared';
 
 @Component({
   selector: 'my-user-profile',
@@ -15,8 +15,14 @@ export class UserProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.steamName = this.api.getSteamProfile().personaname;
-    this.token = this.api.getToken();
+    this.api.getSteamProfile().then(profile => {
+      this.steamName = profile.personaname;
+    });
+
+
+    this.api.getToken().then(token => {
+      this.token = token;
+    });
 
     this.api.getUser().then(user => {
       this.emailModel.emailAddress = user.emailAddress;

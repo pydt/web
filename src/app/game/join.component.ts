@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from 'civx-angular2-shared';
 import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as _ from 'lodash';
 
@@ -14,15 +14,17 @@ export class GameJoinComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.forEach((params: Params) => {
-      this.api.getGame(params['id']).then(game => {
-        if (_.map(game.players, _.property('steamId')).indexOf(this.api.getSteamProfile().steamid) >= 0) {
-          this.router.navigate(['/user/games']);
-        } else {
-          this.game = game;
-        }
+    this.api.getSteamProfile().then(profile => {
+      this.route.params.forEach((params: Params) => {
+        this.api.getGame(params['id']).then(game => {
+          if (_.map(game.players, _.property('steamId')).indexOf(profile.steamid) >= 0) {
+            this.router.navigate(['/user/games']);
+          } else {
+            this.game = game;
+          }
+        });
       });
-   });
+    });
   }
 
   joinGame() {

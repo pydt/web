@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApiService } from '../shared/api.service';
+import { ApiService } from 'civx-angular2-shared';
 import { ProfileCacheService } from '../shared/profileCache.service';
 import * as _ from 'lodash';
 

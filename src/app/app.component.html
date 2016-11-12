@@ -20,9 +20,9 @@
             <li><a href="/giant-multiplayer-ripoff.dmg">Mac OS X</a></li>
           </ul>
         </li>
-        <li *ngIf="!api.isLoggedIn()" [routerLinkActive]="['active']"><a href="#" (click)="redirectToLogin()">Log In!</a></li>
-        <li *ngIf="api.isLoggedIn()" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
-        <li *ngIf="api.isLoggedIn()" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>
+        <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="#" (click)="redirectToLogin()">Log In!</a></li>
+        <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
+        <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

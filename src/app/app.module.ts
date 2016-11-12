@@ -4,6 +4,8 @@ import { CollapseModule } from 'ng2-bootstrap/components/collapse';
 import { DropdownModule } from 'ng2-bootstrap/components/dropdown';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { ApiService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
+import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -13,7 +15,7 @@ import { GameDetailComponent } from './game/detail.component';
 import { GameJoinComponent } from './game/join.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
-import { ApiService, ProfileCacheService, AuthGuard } from './shared';
+import { ProfileCacheService, AuthGuard } from './shared';
 import { routing } from './app.routing';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
@@ -38,9 +40,11 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     UserGamesComponent
   ],
   providers: [
-    ApiService,
     ProfileCacheService,
-    AuthGuard
+    AuthGuard,
+    { provide: API_URL_PROVIDER_TOKEN, useClass: WebApiUrlProvider },
+    { provide: API_CREDENTIALS_PROVIDER_TOKEN, useClass: WebApiCredentialsProvider },
+    ApiService
   ],
   bootstrap: [AppComponent]
 })

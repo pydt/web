@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from './api.service';
+import { ApiService } from 'civx-angular2-shared';
 
 @Injectable()
 export class ProfileCacheService {
