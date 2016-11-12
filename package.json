@@ -31,13 +31,13 @@
     "@angular/platform-browser": "2.1.2",
     "@angular/platform-browser-dynamic": "2.1.2",
     "@angular/router": "3.1.2",
+    "civx-angular2-shared": "git+https://gitlab.com/civx/angular2-shared.git",
     "core-js": "^2.4.1",
     "lodash": "^4.16.1",
     "ng2-bootstrap": "^1.1.5",
     "reflect-metadata": "^0.1.3",
     "rxjs": "5.0.0-beta.12",
-    "zone.js": "^0.6.21",
-    "civx-angular2-shared": "https://gitlab.com/civx/angular2-shared.git#ab7451ac0be8"
+    "zone.js": "^0.6.21"
   },
   "devDependencies": {
     "@angularclass/hmr": "^1.0.1",
