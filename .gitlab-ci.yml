@@ -1,4 +1,4 @@
-image: node:4.6.1
+image: node:6.9.1
 
 deploy:
   environment: production
@@ -14,9 +14,9 @@ deploy:
     - mkdir -p ~/.ssh
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
   script:
-    - npm install -g npm
     - sed -i -e 's/https:\/\/gitlab.com\/civx/git@gitlab.com:civx/g' package.json
-    - npm install --silent
+    - sed -i -e 's/git+https:\/\/gitlab.com\/civx/git+ssh:\/\/git@gitlab.com:civx/g' npm-shrinkwrap.json
+    - npm install
     - npm run build
     - apt-get update
     - apt-get install -y lftp
