@@ -1,6 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ModalDirective } from 'ng2-bootstrap';
 import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'my-game-detail',
@@ -9,15 +11,20 @@ import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angula
 export class GameDetailComponent implements OnInit {
   private busy: Promise<any>;
   private game: Game;
-  private profile: Promise<SteamProfile>;
+  private profile: SteamProfile;
+  private userInGame = false;
+
+  @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
+  @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
 
   constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
-    this.profile = this.api.getSteamProfile();
-
-    this.getGame();
+    this.busy = this.api.getSteamProfile().then(profile => {
+      this.profile = profile;
+      this.getGame();
+    });
   }
 
   startGame(id) {
@@ -31,13 +38,19 @@ export class GameDetailComponent implements OnInit {
   getGame() {
     this.route.params.forEach(params => {
       this.busy = this.api.getGame(params['id']).then(game => {
-        this.game = game;
+        this.setGame(game);
       });
     });
   }
 
+  setGame(game: Game) {
+    this.game = game;
+    const steamIds = _.map(game.players, 'steamId');
+    this.userInGame = _.includes(steamIds, this.profile.steamid);
+  }
+
   downloadTurn(gameId) {
-    this.api.getTurnUrl(gameId)
+    this.busy = this.api.getTurnUrl(gameId)
       .then(url => {
         // TODO: Maybe rename the file and save it using HTML5?
         window.open(url);
@@ -46,7 +59,7 @@ export class GameDetailComponent implements OnInit {
 
   fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
-      this.api.startTurnSubmit(gameId).then(response => {
+      this.busy = this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
           let xhr = new XMLHttpRequest();
           xhr.open('PUT', response.putUrl, true);
@@ -74,8 +87,17 @@ export class GameDetailComponent implements OnInit {
         this.getGame();
       })
       .catch(err => {
-        alert(err);
+        console.log(err);
+        this.uploadFailedModal.show();
       });
     }
+  }
+
+  revert() {
+    this.confirmRevertModal.hide();
+
+    this.busy = this.api.revertTurn(this.game.gameId).then(game => {
+      this.setGame(game);
+    });
   }
 }

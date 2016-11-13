@@ -1,7 +1,7 @@
 <h3>{{game.displayName}}</h3>
 <div class="row">
   <div *ngFor="let player of game.players" class="col-xs-{{iconGridCells}}">
-    <a href="#" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId">
+    <a href="#" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltip]="gamePlayerProfiles[player.steamId]?.personaname">
       <img [src]="gamePlayerProfiles[player.steamId]?.avatarmedium">
     </a>
   </div>

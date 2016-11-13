@@ -1,15 +1,44 @@
 <div [ngBusy]="busy">
   <my-game-preview *ngIf="game" [game]="game"></my-game-preview>
-  <div *ngIf="game?.inProgress">
-    <div *ngIf="game.currentPlayerSteamId === profile.steamid">
-      <h2>It's your turn!</h2>
-      <h3 *ngIf="game.gameTurnRangeKey === 1">Please create the game and upload the file below.</h3>
-      <div *ngIf="game.gameTurnRangeKey > 1">
-        <button (click)="downloadTurn(game.gameId)">Download Save File</button>
+  <div *ngIf="game?.inProgress && userInGame">
+    <div class="panel panel-default">
+      <div class="panel-heading">Play Turn</div>
+      <div class="panel-body">
+        <div *ngIf="game.currentPlayerSteamId === profile.steamid">
+          <h3 style="margin-top:0;">It's your turn!</h3>
+          <div *ngIf="game.gameTurnRangeKey > 1">
+            <p>Press the button below to download the save file and play your turn...</p>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button class="btn btn-primary" (click)="downloadTurn(game.gameId)">Download Save File</button>
+              </div>
+            </div>
+            <hr />
+            <p>Then, upload the file using the button below after you've played your turn!</p>
+          </div>
+          <p *ngIf="game.gameTurnRangeKey === 1">Please create the game and upload the file below.</p>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <label class="btn btn-primary btn-file">
+                Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save" style="display:none;">            
+              </label>
+            </div>
+          </div>
+        </div>
+        <p *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</p>
       </div>
-      <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save">
     </div>
-    <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
+    <div class="panel panel-default" *ngIf="game.currentPlayerSteamId === profile.steamid || game.createdByPlayerId === profile.steamid">
+      <div class="panel-heading">Revert Turn</div>
+      <div class="panel-body">
+        <p>If you're having issues with the current state of the game, press the button below to revert to the previous turn.</p>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-danger" (click)="confirmRevertModal.show()">Revert Turn</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div *ngIf="game && !game.inProgress">
     <div class="panel panel-default">
@@ -21,5 +50,44 @@
     </div>
     <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
     <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
+  </div>
+</div>
+
+<div bsModal #uploadFailedModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFailedModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="uploadFailedModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Upload Failed</h4>
+      </div>
+      <div class="modal-body">
+        Your upload failed, please try again!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="uploadFailedModal.hide()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirmRevertModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmRevertModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmRevertModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you really want to revert to the previous turn in {{game?.displayName}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmRevertModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="revert()">Revert!</button>
+      </div>
+    </div>
   </div>
 </div>
