@@ -1,29 +1,15 @@
-<h1 *ngIf="!games">Loading...</h1>
-<div *ngIf="games">
-  <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
-  <div *ngFor="let game of games">
-    <my-game-detail [game]="game"></my-game-detail>
-    <div *ngIf="game.inProgress">
-      <div *ngIf="game.currentPlayerSteamId === profile.steamid">
-        <h2>It's your turn!</h2>
-        <h3 *ngIf="game.gameTurnRangeKey === 1">Please create the game and upload the file below.</h3>
-        <div *ngIf="game.gameTurnRangeKey > 1">
-          <button (click)="downloadTurn(game.gameId)">Download Save File</button>
-        </div>
-        <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save">
-      </div>
-      <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
-    </div>
-    <div *ngIf="!game.inProgress">
-      <div class="panel panel-default">
-        <div class="panel-heading">Join Link</div>
-        <div class="panel-body">
-          Send this link to a friend so they can join the game:<br />
-          <strong><a [routerLink]="['/game/', game.gameId, 'join']">Join Game Link</a></strong>
+<div [ngBusy]="busy">
+  <div *ngIf="games">
+    <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
+    <div *ngFor="let game of games">
+      <div class="well"> 
+        <my-game-preview [game]="game"></my-game-preview>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+          </div>
         </div>
       </div>
-      <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
-      <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
     </div>
   </div>
 </div>

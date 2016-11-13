@@ -31,6 +31,7 @@
     "@angular/platform-browser": "2.1.2",
     "@angular/platform-browser-dynamic": "2.1.2",
     "@angular/router": "3.1.2",
+    "angular2-busy": "^1.0.2",
     "civx-angular2-shared": "git+https://gitlab.com/civx/angular2-shared.git",
     "core-js": "^2.4.1",
     "lodash": "^4.16.1",

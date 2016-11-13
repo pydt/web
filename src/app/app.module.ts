@@ -4,6 +4,7 @@ import { CollapseModule } from 'ng2-bootstrap/components/collapse';
 import { DropdownModule } from 'ng2-bootstrap/components/dropdown';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { BusyModule } from 'angular2-busy';
 import { ApiService, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 
@@ -12,6 +13,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutComponent } from './about/about.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { GameDetailComponent } from './game/detail.component';
+import { GamePreviewComponent } from './game/preview.component';
 import { GameJoinComponent } from './game/join.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
@@ -27,6 +29,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     FormsModule,
     CollapseModule,
     DropdownModule,
+    BusyModule,
     routing
   ],
   declarations: [
@@ -34,6 +37,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     HomeComponent,
     AboutComponent,
     GameDetailComponent,
+    GamePreviewComponent,
     GameJoinComponent,
     SteamReturnComponent,
     UserProfileComponent,

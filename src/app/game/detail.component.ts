@@ -1,22 +1,81 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ApiService, ProfileCacheService } from 'civx-angular2-shared';
-import * as _ from 'lodash';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
 
 @Component({
   selector: 'my-game-detail',
   templateUrl: './detail.component.html'
 })
 export class GameDetailComponent implements OnInit {
-  @Input() game;
-  private gamePlayerProfiles;
+  private busy: Promise<any>;
+  private game: Game;
+  private profile: Promise<SteamProfile>;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
-    this.gamePlayerProfiles = {};
+  constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
-    this.profileCache.getProfiles(_.map(this.game.players, _.property('steamId')) as string[]).then(profiles => {
-      this.gamePlayerProfiles = profiles;
+    this.profile = this.api.getSteamProfile();
+
+    this.getGame();
+  }
+
+  startGame(id) {
+    this.api.startGame(id).then(() => {
+      this.getGame();
     });
+
+    return false;
+  }
+
+  getGame() {
+    this.route.params.forEach(params => {
+      this.busy = this.api.getGame(params['id']).then(game => {
+        this.game = game;
+      });
+    });
+  }
+
+  downloadTurn(gameId) {
+    this.api.getTurnUrl(gameId)
+      .then(url => {
+        // TODO: Maybe rename the file and save it using HTML5?
+        window.open(url);
+      });
+  }
+
+  fileSelected(event, gameId) {
+    if (event.target.files.length > 0) {
+      this.api.startTurnSubmit(gameId).then(response => {
+        return new Promise((resolve, reject) => {
+          let xhr = new XMLHttpRequest();
+          xhr.open('PUT', response.putUrl, true);
+
+          xhr.onload = () => {
+            if (xhr.status === 200) {
+              resolve();
+            } else {
+              reject(xhr.status);
+            }
+          };
+
+          xhr.onerror = () => {
+            reject(xhr.status);
+          };
+
+          xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+          xhr.send(event.target.files[0]);
+        });
+      })
+      .then(() => {
+        return this.api.finishTurnSubmit(gameId);
+      })
+      .then(() => {
+        this.getGame();
+      })
+      .catch(err => {
+        alert(err);
+      });
+    }
   }
 }

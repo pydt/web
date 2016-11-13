@@ -6,6 +6,7 @@ import { ApiService } from 'civx-angular2-shared';
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {
+  private busy: Promise<any>;
   private steamName: string;
   private token: string;
   private emailModel = new EmailModel('');
@@ -24,7 +25,7 @@ export class UserProfileComponent implements OnInit {
       this.token = token;
     });
 
-    this.api.getUser().then(user => {
+    this.busy = this.api.getUser().then(user => {
       this.emailModel.emailAddress = user.emailAddress;
       this.loaded = true;
     });

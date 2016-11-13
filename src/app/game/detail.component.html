@@ -1,4 +1,25 @@
-<h1>{{game.displayName}}</h1>
-<ul>
-  <li *ngFor="let player of game.players"><img [src]="gamePlayerProfiles[player.steamId]?.avatarmedium"></li>
-</ul>
+<div [ngBusy]="busy">
+  <my-game-preview *ngIf="game" [game]="game"></my-game-preview>
+  <div *ngIf="game?.inProgress">
+    <div *ngIf="game.currentPlayerSteamId === profile.steamid">
+      <h2>It's your turn!</h2>
+      <h3 *ngIf="game.gameTurnRangeKey === 1">Please create the game and upload the file below.</h3>
+      <div *ngIf="game.gameTurnRangeKey > 1">
+        <button (click)="downloadTurn(game.gameId)">Download Save File</button>
+      </div>
+      <input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save">
+    </div>
+    <h2 *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</h2>
+  </div>
+  <div *ngIf="game && !game.inProgress">
+    <div class="panel panel-default">
+      <div class="panel-heading">Join Link</div>
+      <div class="panel-body">
+        Send this link to a friend so they can join the game:<br />
+        <strong><a [routerLink]="['/game/', game.gameId, 'join']">Join Game Link</a></strong>
+      </div>
+    </div>
+    <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
+    <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
+  </div>
+</div>
