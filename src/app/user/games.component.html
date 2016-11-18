@@ -1,4 +1,4 @@
-<div [ngBusy]="busy">
+<div [ngBusy]="busy" class="container">
   <div *ngIf="games">
     <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
     <div *ngFor="let game of games">

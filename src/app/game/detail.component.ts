@@ -21,10 +21,28 @@ export class GameDetailComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.discourseEmbed();    
+
     this.busy = this.api.getSteamProfile().then(profile => {
       this.profile = profile;
       this.getGame();
     });
+  }
+
+  discourseEmbed() {
+    const discourseEmbed = {
+      discourseUrl: 'https://discourse.playyourdamnturn.com/',
+      discourseEmbedUrl: 'https://www.playyourdamnturn.com' + window.location.pathname
+    };
+
+    (<any>window).DiscourseEmbed = discourseEmbed;
+
+    let d = document.createElement('script');
+    d.type = 'text/javascript';
+    d.async = true;
+    d.src = discourseEmbed.discourseUrl + 'javascripts/embed.js';
+
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
   }
 
   startGame(id) {

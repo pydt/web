@@ -13,6 +13,7 @@
     <div id="navbar" class="navbar-collapse" [collapse]="isCollapsed">
       <ul class="nav navbar-nav">
         <li [routerLinkActive]="['active']"><a [routerLink]="['about']">About</a></li>
+        <li [routerLinkActive]="['active']"><a [routerLink]="['forum']">Forum</a></li>
         <li id="download-clients" dropdown>
           <a href="#" dropdownToggle>Download Client <span class="caret"></span></a>
           <ul class="dropdown-menu" dropdownMenu aria-labelledby="download-clients">
@@ -27,6 +28,4 @@
     </div><!--/.nav-collapse -->
   </div>
 </nav>
-<div class="container">
-  <router-outlet></router-outlet>
-</div>
+<router-outlet></router-outlet>

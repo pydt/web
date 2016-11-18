@@ -1,4 +1,4 @@
-<div [ngBusy]="busy">
+<div [ngBusy]="busy" class="container">
   <my-game-preview *ngIf="game" [game]="game"></my-game-preview>
   <div *ngIf="game?.inProgress && userInGame">
     <div class="panel panel-default">
@@ -51,6 +51,7 @@
     <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
     <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
   </div>
+  <div id='discourse-comments'></div>
 </div>
 
 <div bsModal #uploadFailedModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFailedModalLabel" aria-hidden="true">

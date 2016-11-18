@@ -9,6 +9,7 @@ import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiSer
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { ForumComponent } from './forum/forum.component';
 import { AboutComponent } from './about/about.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { GameDetailComponent } from './game/detail.component';
@@ -37,6 +38,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent,
     HomeComponent,
     AboutComponent,
+    ForumComponent,
     GameDetailComponent,
     GamePreviewComponent,
     GameJoinComponent,
