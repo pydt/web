@@ -13,6 +13,7 @@ export class GameDetailComponent implements OnInit {
   private game: Game;
   private profile: SteamProfile;
   private userInGame = false;
+  private discourse: HTMLScriptElement;
 
   @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
@@ -21,8 +22,6 @@ export class GameDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.discourseEmbed();    
-
     this.busy = this.api.getSteamProfile().then(profile => {
       this.profile = profile;
       this.getGame();
@@ -30,19 +29,21 @@ export class GameDetailComponent implements OnInit {
   }
 
   discourseEmbed() {
-    const discourseEmbed = {
-      discourseUrl: 'https://discourse.playyourdamnturn.com/',
-      discourseEmbedUrl: 'https://www.playyourdamnturn.com' + window.location.pathname
-    };
+    if (!this.discourse && this.game.discourseTopicId) {
+      const discourseEmbed = {
+        discourseUrl: 'https://discourse.playyourdamnturn.com/',
+        topicId: this.game.discourseTopicId
+      };
 
-    (<any>window).DiscourseEmbed = discourseEmbed;
+      (<any>window).DiscourseEmbed = discourseEmbed;
 
-    let d = document.createElement('script');
-    d.type = 'text/javascript';
-    d.async = true;
-    d.src = discourseEmbed.discourseUrl + 'javascripts/embed.js';
+      this.discourse = document.createElement('script');
+      this.discourse.type = 'text/javascript';
+      this.discourse.async = true;
+      this.discourse.src = discourseEmbed.discourseUrl + 'javascripts/embed.js';
 
-    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(d);
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(this.discourse);
+    }
   }
 
   startGame(id) {
@@ -65,6 +66,8 @@ export class GameDetailComponent implements OnInit {
     this.game = game;
     const steamIds = _.map(game.players, 'steamId');
     this.userInGame = _.includes(steamIds, this.profile.steamid);
+
+    this.discourseEmbed();
   }
 
   downloadTurn(gameId) {

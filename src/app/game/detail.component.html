@@ -51,7 +51,14 @@
     <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
     <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
   </div>
-  <div id='discourse-comments'></div>
+  <div *ngIf="game">
+    <div class="panel panel-default">
+      <div class="panel-heading">Smack Talk</div>
+      <div class="panel-body">
+        <div id='discourse-comments'></div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div bsModal #uploadFailedModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFailedModalLabel" aria-hidden="true">
