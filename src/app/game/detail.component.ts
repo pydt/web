@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ModalDirective } from 'ng2-bootstrap';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
 import * as _ from 'lodash';
 
