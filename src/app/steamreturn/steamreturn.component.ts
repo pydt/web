@@ -7,13 +7,14 @@ import { ApiService } from 'civx-angular2-shared';
   templateUrl: './steamreturn.component.html'
 })
 export class SteamReturnComponent implements OnInit {
+  private busy: Promise<any>;
 
   constructor(private api: ApiService, private router: Router) {
     // Do stuff
   }
 
   ngOnInit() {
-    this.api.validateSteamCredentials(window.location.search).then(() => {
+    this.busy = this.api.validateSteamCredentials(window.location.search).then(() => {
       this.router.navigate(['/']);
     });
   }

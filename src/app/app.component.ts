@@ -11,6 +11,7 @@ export class AppComponent implements OnInit {
   private isCollapsed: boolean = true;
   private isLoggedIn: boolean = false;
   private viewContainerRef: ViewContainerRef;
+  private busy: Promise<any>;
 
   constructor(private api: ApiService, private router: Router, viewContainerRef: ViewContainerRef) {
     // Angular2 Bootstrap hack: https://valor-software.com/ng2-bootstrap/#/modals
@@ -32,7 +33,7 @@ export class AppComponent implements OnInit {
   }
 
   redirectToLogin() {
-    this.api.getLoginUrl().then(url => {
+    this.busy = this.api.getLoginUrl().then(url => {
       window.location.href = url;
     });
 
