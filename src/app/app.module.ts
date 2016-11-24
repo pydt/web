@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CollapseModule, DropdownModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { BusyModule } from 'angular2-busy';
+import { BusyConfig, BusyModule } from 'angular2-busy';
 import { ApiService, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 
@@ -30,7 +30,9 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     DropdownModule,
     ModalModule,
     TooltipModule,
-    BusyModule,
+    BusyModule.forRoot(
+        new BusyConfig({template: `<div class="pydt-spinner"></div>`})
+    ),
     routing
   ],
   declarations: [

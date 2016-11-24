@@ -205,7 +205,7 @@
     "angular2-busy": {
       "version": "1.0.2",
       "from": "git+https://github.com/mrosack/angular2-busy.git",
-      "resolved": "git+https://github.com/mrosack/angular2-busy.git#232cc6094732375d85ef852c34e40ff6e1cb023f"
+      "resolved": "git+https://github.com/mrosack/angular2-busy.git#3a6f71259fcc63a3f0b28de6313eebfed63b334a"
     },
     "angular2-dynamic-component": {
       "version": "0.0.52",
