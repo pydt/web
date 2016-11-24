@@ -4,8 +4,8 @@ describe('Home', function () {
     browser.get('/');
   });
 
-  it('should have <my-home>', function () {
-    var home = element(by.css('my-app my-home'));
+  it('should have <pydt-home>', function () {
+    var home = element(by.css('pydt-app pydt-home'));
     expect(home.isPresent()).toEqual(true);
     expect(home.getText()).toEqual("Home Works!");
   });

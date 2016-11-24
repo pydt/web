@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'civx-angular2-shared';
 
 @Component({
-  selector: 'my-user-profile',
+  selector: 'pydt-user-profile',
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {

@@ -3,7 +3,7 @@ import { Router }    from '@angular/router';
 import { ApiService } from 'civx-angular2-shared';
 
 @Component({
-  selector: 'my-steam-return',
+  selector: 'pydt-steam-return',
   templateUrl: './steamreturn.component.html'
 })
 export class SteamReturnComponent implements OnInit {

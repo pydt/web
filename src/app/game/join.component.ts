@@ -4,7 +4,7 @@ import { ActivatedRoute, Router, Params } from '@angular/router';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'my-game-join',
+  selector: 'pydt-game-join',
   templateUrl: './join.component.html'
 })
 export class GameJoinComponent implements OnInit {

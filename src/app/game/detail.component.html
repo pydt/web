@@ -1,5 +1,5 @@
 <div [ngBusy]="busy" class="container">
-  <my-game-preview *ngIf="game" [game]="game"></my-game-preview>
+  <pydt-game-preview *ngIf="game" [game]="game"></pydt-game-preview>
   <div *ngIf="game?.inProgress && userInGame">
     <div class="panel panel-default">
       <div class="panel-heading">Play Turn</div>

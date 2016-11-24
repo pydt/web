@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from 'civx-angular2-shared';
 
 @Component({
-  selector: 'my-app', // <my-app></my-app>
+  selector: 'pydt-app',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {

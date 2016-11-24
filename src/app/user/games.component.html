@@ -3,7 +3,7 @@
     <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
     <div *ngFor="let game of games">
       <div class="well"> 
-        <my-game-preview [game]="game"></my-game-preview>
+        <pydt-game-preview [game]="game"></pydt-game-preview>
         <div class="row">
           <div class="col-xs-12 text-center">
             <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>

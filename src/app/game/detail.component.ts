@@ -5,7 +5,7 @@ import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angula
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'my-game-detail',
+  selector: 'pydt-game-detail',
   templateUrl: './detail.component.html'
 })
 export class GameDetailComponent implements OnInit {

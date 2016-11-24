@@ -1,7 +1,6 @@
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './home/home.component';
-import { AboutComponent } from './about/about.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GameJoinComponent } from './game/join.component';
@@ -12,7 +11,6 @@ import { AuthGuard } from './shared/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'about', component: AboutComponent },
   { path: 'forum', component: ForumComponent },
   { path: 'steamreturn', component: SteamReturnComponent },
   { path: 'game/:id', component: GameDetailComponent },

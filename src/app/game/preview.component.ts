@@ -3,7 +3,7 @@ import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angula
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'my-game-preview',
+  selector: 'pydt-game-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.scss']
 })

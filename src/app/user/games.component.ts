@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService, Game } from 'civx-angular2-shared';
 
 @Component({
-  selector: 'my-user-games',
+  selector: 'pydt-user-games',
   templateUrl: './games.component.html'
 })
 export class UserGamesComponent implements OnInit {
