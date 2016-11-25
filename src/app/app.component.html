@@ -21,7 +21,7 @@
               <li><a href="http://updates.playyourdamnturn.com/download/osx">Mac OS X</a></li>
             </ul>
           </li>
-          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="#" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:7px;"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
+          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="#" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>
         </ul>
@@ -29,4 +29,9 @@
     </div>
   </nav>
   <router-outlet></router-outlet>
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted" style="margin-top:20px;">Copyright {{copyrightDate}} <a href="mailto:mike@playyourdamnturn.com">playyourdamnturn.com</a>.</p>
+    </div>
+  </footer>
 </div>

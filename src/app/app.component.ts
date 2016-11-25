@@ -12,6 +12,7 @@ export class AppComponent implements OnInit {
   private isLoggedIn: boolean = false;
   private viewContainerRef: ViewContainerRef;
   private busy: Promise<any>;
+  private copyrightDate = new Date().getFullYear();
 
   constructor(private api: ApiService, private router: Router, viewContainerRef: ViewContainerRef) {
     // Angular2 Bootstrap hack: https://valor-software.com/ng2-bootstrap/#/modals
