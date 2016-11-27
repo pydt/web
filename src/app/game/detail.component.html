@@ -21,20 +21,27 @@
             </div>
             <hr />
             <p>Then, upload the file using the button below after you've played your turn!</p>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <label class="btn btn-primary btn-file">
+                  Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save" style="display:none;">            
+                </label>
+              </div>
+            </div>
           </div>
-          <p *ngIf="game.gameTurnRangeKey === 1">Please create the game and upload the file below.</p>
-          <div class="row">
-            <div class="col-xs-12 text-center">
-              <label class="btn btn-primary btn-file">
-                Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save" style="display:none;">            
-              </label>
+          <div *ngIf="game.gameTurnRangeKey === 1">
+            <p>Since you created the game, you need to create the initial save file.  Click the button below to start the process:</p>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" (click)="uploadFirstTurnModal.show()">Create Save File</button>
+              </div>
             </div>
           </div>
         </div>
         <p *ngIf="game.currentPlayerSteamId !== profile?.steamid">It's not your turn :(</p>
       </div>
     </div>
-    <div class="panel panel-default" *ngIf="game.currentPlayerSteamId === profile?.steamid || game.createdByPlayerId === profile?.steamid">
+    <div class="panel panel-default" *ngIf="(game.currentPlayerSteamId === profile?.steamid || game.createdByPlayerId === profile?.steamid) && game.gameTurnRangeKey > 1">
       <div class="panel-heading">Revert Turn</div>
       <div class="panel-body">
         <p>If you're having issues with the current state of the game, press the button below to revert to the previous turn.</p>
@@ -173,15 +180,18 @@
           Since you're the first player, you need to create the initial game save file.  Start Civ 6,
           go to Multiplayer / Hotseat, configure the game however you wish, but make sure you choose
           a map size large enough to support <b>{{game?.slots}}</b> slots (both human and AI players).
-          When you're ready, click "Confirm Settings", make sure that you have the appropriate number of
+          When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>
           slots active, and add the following human players, starting at the first slot:
         </p>
         <pydt-display-civ *ngFor="let civDef of civDefs" [civ]="civDef"></pydt-display-civ>
-        <p class="danger">If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</p>
+        <p class="text-danger"><b>If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</b></p>
         <p>Once you've created the game and played your first turn, save it and use the button below to upload it and begin the game!  Happy Civving!</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="uploadFirstTurnModal.hide()">Cancel</button>
+        <label class="btn btn-primary btn-file">
+          Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId); uploadFirstTurnModal.hide();" accept=".Civ6Save" style="display:none;">            
+        </label>
       </div>
     </div>
   </div>
