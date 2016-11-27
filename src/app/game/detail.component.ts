@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import { ApiService, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
+import { ApiService, CivDef, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -14,6 +14,9 @@ export class GameDetailComponent implements OnInit {
   private profile: SteamProfile;
   private userInGame = false;
   private discourse: HTMLScriptElement;
+  private civDefs: CivDef[] = [];
+  private unpickedCivs: CivDef[];
+  private joinGameCiv: CivDef;
 
   @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
@@ -62,10 +65,32 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
+  joinGame() {
+    this.busy = this.api.joinGame({
+      gameId: this.game.gameId,
+      playerCiv: this.joinGameCiv.leaderKey
+    }).then(game => {
+      return this.setGame(game);
+    });
+  }
+
   setGame(game: Game) {
     this.game = game;
     const steamIds = _.map(game.players, 'steamId');
     this.userInGame = _.includes(steamIds, this.profile.steamid);
+
+    this.civDefs = [];
+    this.unpickedCivs = _.clone(Civ6Leaders);
+
+    for (let player of this.game.players) {
+      let curLeader = _.find(Civ6Leaders, leader => {
+        return leader.leaderKey === player.civType;
+      });
+
+      this.civDefs.push(curLeader);
+      _.pull(this.unpickedCivs, curLeader);
+      this.joinGameCiv = this.unpickedCivs[0];
+    }
 
     this.discourseEmbed();
   }

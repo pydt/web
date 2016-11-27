@@ -8,8 +8,8 @@ import { ApiService, CivDef, Civ6Leaders } from 'civx-angular2-shared';
 })
 export class SelectCivComponent implements OnInit {
   @Input() curCiv: CivDef;
+  @Input() leaders = Civ6Leaders;
   @Output() selectedCiv = new EventEmitter<CivDef>();
-  leaders = Civ6Leaders;
 
   constructor(private api: ApiService) {
   }

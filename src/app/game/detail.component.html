@@ -1,10 +1,16 @@
 <div [ngBusy]="busy" class="container">
   <pydt-game-preview *ngIf="game" [game]="game"></pydt-game-preview>
+  <div class="panel panel-default" *ngIf="game?.description">
+    <div class="panel-heading">Game Description</div>
+    <div class="panel-body">
+      {{game.description}}
+    </div>
+  </div>
   <div *ngIf="game?.inProgress && userInGame">
     <div class="panel panel-default">
       <div class="panel-heading">Play Turn</div>
       <div class="panel-body">
-        <div *ngIf="game.currentPlayerSteamId === profile.steamid">
+        <div *ngIf="game.currentPlayerSteamId === profile?.steamid">
           <h3 style="margin-top:0;">It's your turn!</h3>
           <div *ngIf="game.gameTurnRangeKey > 1">
             <p>Press the button below to download the save file and play your turn...</p>
@@ -25,10 +31,10 @@
             </div>
           </div>
         </div>
-        <p *ngIf="game.currentPlayerSteamId !== profile.steamid">It's not your turn :(</p>
+        <p *ngIf="game.currentPlayerSteamId !== profile?.steamid">It's not your turn :(</p>
       </div>
     </div>
-    <div class="panel panel-default" *ngIf="game.currentPlayerSteamId === profile.steamid || game.createdByPlayerId === profile.steamid">
+    <div class="panel panel-default" *ngIf="game.currentPlayerSteamId === profile?.steamid || game.createdByPlayerId === profile?.steamid">
       <div class="panel-heading">Revert Turn</div>
       <div class="panel-body">
         <p>If you're having issues with the current state of the game, press the button below to revert to the previous turn.</p>
@@ -42,14 +48,38 @@
   </div>
   <div *ngIf="game && !game.inProgress">
     <div class="panel panel-default">
-      <div class="panel-heading">Join Link</div>
+      <div class="panel-heading">Join Game</div>
       <div class="panel-body">
-        Send this link to a friend so they can join the game:<br />
-        <strong><a [routerLink]="['/game/', game.gameId, 'join']">Join Game Link</a></strong>
+        <p *ngIf="userInGame">
+          Send your friends a link to this page to join your game:
+          <strong><a [routerLink]="['/game/', game.gameId]">Game Page Link</a></strong>
+        </p>
+        <p *ngIf="!profile">
+          Please use the "Sign in through STEAM" button above to login, and then you can join this game!
+        </p>
+        <div *ngIf="!userInGame && profile">
+          <p>If you want to join this game, select a civ and then press the button below!</p>
+          <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="joinGameCiv" (selectedCiv)="joinGameCiv = $event"></pydt-select-civ>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <h2 *ngIf="game.createdBySteamId !== profile.steamid">Game not started :(</h2>
-    <button *ngIf="game.createdBySteamId === profile.steamid" (click)="startGame(game.gameId)">Start game!</button>
+    <div *ngIf="game.createdBySteamId === profile?.steamid" class="panel panel-default">
+      <div class="panel-heading">Start Game</div>
+      <div class="panel-body">
+        <p *ngIf="game.players.length < 2">
+          You can't start the game until you have at least 2 human players registered.
+        <p>
+        <div *ngIf="game.players.length > 1">
+          When you're ready to start the game, click the button below!
+          <button (click)="confirmStartGame()">Start game!</button>
+        </div>
+      </div>
+    </div>
   </div>
   <div *ngIf="game">
     <div class="panel panel-default">
@@ -95,6 +125,54 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmRevertModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="revert()">Revert!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirmStartGame="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmStartGameLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmStartGame.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you're ready to start this game with <b>{{game?.players.length}}</b> human players?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmStartGame.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="startGame()">Start the Game!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #uploadFirstTurnModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFirstTurnModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="uploadFirstTurnModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Start Game</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Since you're the first player, you need to create the initial game save file.  Start Civ 6,
+          go to Multiplayer / Hotseat, configure the game however you wish, but make sure you choose
+          a map size large enough to support <b>{{game?.slots}}</b> slots (both human and AI players).
+          When you're ready, click "Confirm Settings", make sure that you have the appropriate number of
+          slots active, and add the following human players, starting at the first slot:
+        </p>
+        <pydt-display-civ *ngFor="let civDef of civDefs" [civ]="civDef"></pydt-display-civ>
+        <p class="danger">If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</p>
+        <p>Once you've created the game and played your first turn, save it and use the button below to upload it and begin the game!  Happy Civving!</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="uploadFirstTurnModal.hide()">Cancel</button>
       </div>
     </div>
   </div>

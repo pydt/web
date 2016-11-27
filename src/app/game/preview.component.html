@@ -1,8 +1,11 @@
-<h3>{{game.displayName}}</h3>
+<h3>{{game.displayName}}{{(game.inProgress? '' : ' (Not Started)')}}</h3>
 <div class="row">
-  <div *ngFor="let player of game.players" class="col-xs-{{iconGridCells}}">
-    <a href="#" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltip]="gamePlayerProfiles[player.steamId]?.personaname">
-      <img [src]="gamePlayerProfiles[player.steamId]?.avatarmedium">
+  <div *ngFor="let player of gamePlayers; let i = index;" class="col-xs-{{iconGridCells}}">
+    <a href="#" *ngIf="player" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltip]="gamePlayerProfiles[player.steamId]?.personaname + ' / ' + civDefs[i]?.getFullDisplayName()">
+      <img #profileImg [src]="gamePlayerProfiles[player.steamId]?.avatarmedium" style="height:64px;" on-mouseover="profileImg.src = '/img/civs/' + civDefs[i]?.getImageFileName();" on-mouseleave="profileImg.src = gamePlayerProfiles[player.steamId]?.avatarmedium;">
+    </a>
+    <a href="#" *ngIf="!player" class="thumbnail" tooltip="AI">
+      <img src="/img/android.png" style="height: 64px;">
     </a>
   </div>
 </div>

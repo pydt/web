@@ -5,3 +5,15 @@ h3 {
 .currentTurn {
   background-color: #ccffcc;
 }
+
+.showOnHover {
+  display: none;
+
+  &:hover {
+    display: block;
+  }
+}
+
+.showOnNoHover:hover {
+  display: none;
+}

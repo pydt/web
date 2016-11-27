@@ -27,10 +27,7 @@ export class CreateGameComponent implements OnInit {
     this.busy = this.api.createGame(this.model.toJSON())
       .then(game => {
         this.router.navigate(['/game', game.gameId]);
-      })
-      .catch(e => {
-        alert(e);
-      })
+      });
   }
 }
 
@@ -62,6 +59,6 @@ class CreateGameModel {
       slots: this._slots,
       humans: this.humans,
       player1Civ: this.player1Civ.leaderKey
-    }
+    };
   }
 }
