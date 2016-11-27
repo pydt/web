@@ -15,7 +15,14 @@ export class SteamReturnComponent implements OnInit {
 
   ngOnInit() {
     this.busy = this.api.validateSteamCredentials(window.location.search).then(() => {
-      this.router.navigate(['/user/profile']);
+      const returnUrl = localStorage.getItem('returnUrl');
+
+      if (returnUrl) {
+        localStorage.removeItem('returnUrl');
+        window.location.pathname = returnUrl;
+      } else {
+        this.router.navigate(['/user/profile']);
+      }
     });
   }
 }

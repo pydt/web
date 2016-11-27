@@ -35,6 +35,13 @@ export class AppComponent implements OnInit {
 
   redirectToLogin() {
     this.busy = this.api.getLoginUrl().then(url => {
+      const path = window.location.pathname;
+
+      if (path.toLowerCase().indexOf('/game') === 0) {
+        // If a user authenticated from a game page, return them there
+        localStorage.setItem('returnUrl', window.location.pathname);
+      }
+      
       window.location.href = url;
     });
 
