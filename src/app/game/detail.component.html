@@ -58,12 +58,17 @@
           Please use the "Sign in through STEAM" button above to login, and then you can join this game!
         </p>
         <div *ngIf="!userInGame && profile">
-          <p>If you want to join this game, select a civ and then press the button below!</p>
-          <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="joinGameCiv" (selectedCiv)="joinGameCiv = $event"></pydt-select-civ>
-          <div class="row">
-            <div class="col-xs-12 text-center">
-              <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>
+          <div *ngIf="game.players.length < game.humans">
+            <p>If you want to join this game, select a civ and then press the button below!</p>
+            <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="joinGameCiv" (selectedCiv)="joinGameCiv = $event"></pydt-select-civ>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>
+              </div>
             </div>
+          </div>
+          <div *ngIf="game.players.length >= game.humans">
+            <p>There are already too many players in this game, sorry!</p>
           </div>
         </div>
       </div>
@@ -71,12 +76,16 @@
     <div *ngIf="game.createdBySteamId === profile?.steamid" class="panel panel-default">
       <div class="panel-heading">Start Game</div>
       <div class="panel-body">
-        <p *ngIf="game.players.length < 2">
-          You can't start the game until you have at least 2 human players registered.
-        <p>
+        <div *ngIf="game.players.length < 2">
+          <p>You can't start the game until you have at least 2 human players registered.</p>
+        </div>
         <div *ngIf="game.players.length > 1">
-          When you're ready to start the game, click the button below!
-          <button (click)="confirmStartGame()">Start game!</button>
+          <p>When you're ready to start the game, click the button below!</p>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-primary" (click)="confirmStartGame.show()">Start Game!</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -144,7 +153,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmStartGame.hide()">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="startGame()">Start the Game!</button>
+        <button type="button" class="btn btn-primary" (click)="confirmStartGame.hide(); startGame();">Start the Game!</button>
       </div>
     </div>
   </div>

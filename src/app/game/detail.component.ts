@@ -49,12 +49,10 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
-  startGame(id) {
-    this.api.startGame(id).then(() => {
-      this.getGame();
+  startGame() {
+    this.busy = this.api.startGame(this.game.gameId).then(game => {
+      this.setGame(game);
     });
-
-    return false;
   }
 
   getGame() {
