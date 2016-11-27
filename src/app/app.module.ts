@@ -13,9 +13,12 @@ import { ForumComponent } from './forum/forum.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GamePreviewComponent } from './game/preview.component';
+import { CreateGameComponent } from './game/create.component';
 import { GameJoinComponent } from './game/join.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
+import { DisplayCivComponent } from './game/displayCiv.component';
+import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard } from './shared';
 import { routing } from './app.routing';
 
@@ -41,7 +44,10 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ForumComponent,
     GameDetailComponent,
     GamePreviewComponent,
+    CreateGameComponent,
     GameJoinComponent,
+    DisplayCivComponent,
+    SelectCivComponent,
     SteamReturnComponent,
     UserProfileComponent,
     UserGamesComponent

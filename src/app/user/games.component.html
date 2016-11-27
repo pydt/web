@@ -1,6 +1,7 @@
 <div [ngBusy]="busy" class="container">
   <div *ngIf="games">
-    <h1 *ngIf="games.length == 0">No games found.  <a href="#" (click)="createGame()">Create one?</a></h1>
+    <h1>Your Games</h1>
+    <h1 *ngIf="games.length == 0">No games found.</h1>
     <div *ngFor="let game of games">
       <div class="well"> 
         <pydt-game-preview [game]="game"></pydt-game-preview>
@@ -11,5 +12,21 @@
         </div>
       </div>
     </div>
+    <h1>Create a New Game</h1>
+    <div *ngIf="canCreateGame">
+      <p>
+        Press the button below to start the new game creation process.  Note that currently you can only be the creator of
+        a single game at a time.  This is a temporary limitation while we work out the kinks in the system.
+      </p>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <button class="btn btn-primary" [routerLink]="['/game/create']">Create a New Game!</button> 
+        </div>
+      </div>
+    </div>
+    <p *ngIf="!canCreateGame">
+      You have already created a game.  Currently we have a temporary limitation in place to prevent users from creating more
+      than one game at a time.
+    </p>
   </div>
 </div>

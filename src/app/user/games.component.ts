@@ -8,6 +8,7 @@ import { ApiService, Game } from 'civx-angular2-shared';
 export class UserGamesComponent implements OnInit {
   private busy: Promise<any>;
   private games: Game[];
+  private canCreateGame: boolean;
 
   constructor(private api: ApiService) {
   }
@@ -19,16 +20,16 @@ export class UserGamesComponent implements OnInit {
   getGames() {
     this.busy = this.api.getUserGames().then(resp => {
       this.games = resp.data;
-    });
-  }
 
-  createGame() {
-    this.api.getSteamProfile().then(profile => {
-      this.api.createGame(profile.personaname + '\'s game!').then(() => {
-        this.getGames();
+      this.api.getSteamProfile().then(profile => {
+        this.canCreateGame = true;
+
+        for (let game of this.games) {
+          if (game.createdBySteamId === profile.steamid) {
+            this.canCreateGame = false;
+          }
+        }
       });
     });
-
-    return false;
   }
 }
