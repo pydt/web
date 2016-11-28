@@ -41,7 +41,7 @@
         <p *ngIf="game.currentPlayerSteamId !== profile?.steamid">It's not your turn :(</p>
       </div>
     </div>
-    <div class="panel panel-default" *ngIf="(game.currentPlayerSteamId === profile?.steamid || game.createdByPlayerId === profile?.steamid) && game.gameTurnRangeKey > 1">
+    <div class="panel panel-default" *ngIf="(game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) && game.gameTurnRangeKey > 1">
       <div class="panel-heading">Revert Turn</div>
       <div class="panel-body">
         <p>If you're having issues with the current state of the game, press the button below to revert to the previous turn.</p>
