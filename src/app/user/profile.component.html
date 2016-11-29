@@ -10,10 +10,28 @@
       </div>
     </div>
 
-    <div class="panel panel-default">
+    <div *ngIf="noDiscourseUser" class="panel panel-danger">
+      <div class="panel-heading">You haven't joined the forum!</div>
+      <div class="panel-body">
+        <p>
+          Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
+          communicate with other users during matchups.
+        </p>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel" [class.panel-default]="emailModel.emailAddress" [class.panel-danger]="!emailModel.emailAddress">
       <div class="panel-heading">Email Turn Notifications</div>
       <div class="panel-body">
-        <p>Enter your email address to receive email turn notifications:</p>
+        <p>
+          Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
+          will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
+        </p>
         <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
           <div class="form-group">
             <label for="emailAddress">Email Address</label>

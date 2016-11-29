@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Http } from '@angular/http';
 import { ApiService } from 'civx-angular2-shared';
 
 @Component({
@@ -11,11 +12,13 @@ export class UserProfileComponent implements OnInit {
   private token: string;
   private emailModel = new EmailModel('');
   private loaded: boolean;
+  private noDiscourseUser: boolean;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private http: Http) {
   }
 
   ngOnInit() {
+
     this.api.getSteamProfile().then(profile => {
       this.steamName = profile.personaname;
     });
@@ -25,10 +28,15 @@ export class UserProfileComponent implements OnInit {
       this.token = token;
     });
 
-    this.busy = this.api.getUser().then(user => {
-      this.emailModel.emailAddress = user.emailAddress;
-      this.loaded = true;
-    });
+    this.busy = Promise.all([
+      this.api.getUser().then(user => {
+        this.emailModel.emailAddress = user.emailAddress;
+        this.loaded = true;
+      }),
+      this.http.get('https://discourse.playyourdamnturn.com/users/sackgt.json').toPromise().catch(() => {
+        this.noDiscourseUser = true;
+      })
+    ]);
   }
 
   onSubmit() {
