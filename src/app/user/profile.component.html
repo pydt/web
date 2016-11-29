@@ -5,8 +5,13 @@
     <div class="panel panel-default">
       <div class="panel-heading">Client Token</div>
       <div class="panel-body">
-        Use this token in your Play Your Damn Turn client:<br />
-        <strong>{{token}}</strong>
+        <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
+        <div class="input-group">
+          <input type="text" class="form-control" [value]="token" readonly>
+          <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ngIIclipboard [cbContent]="token">Copy Token to Clipboard</button>
+          </span>
+        </div>
       </div>
     </div>
 
