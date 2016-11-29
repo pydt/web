@@ -54,6 +54,11 @@
       "resolved": "https://registry.npmjs.org/@angularclass/hmr-loader/-/hmr-loader-3.0.2.tgz",
       "dev": true
     },
+    "@types/clipboard": {
+      "version": "1.5.29",
+      "from": "@types/clipboard@1.5.29",
+      "resolved": "https://registry.npmjs.org/@types/clipboard/-/clipboard-1.5.29.tgz"
+    },
     "@types/core-js": {
       "version": "0.9.34",
       "from": "@types/core-js@>=0.9.0 <0.10.0",
@@ -206,6 +211,11 @@
       "version": "1.0.2",
       "from": "git+https://github.com/mrosack/angular2-busy.git",
       "resolved": "git+https://github.com/mrosack/angular2-busy.git#3a6f71259fcc63a3f0b28de6313eebfed63b334a"
+    },
+    "angular2-clipboard": {
+      "version": "1.0.2",
+      "from": "angular2-clipboard@latest",
+      "resolved": "https://registry.npmjs.org/angular2-clipboard/-/angular2-clipboard-1.0.2.tgz"
     },
     "angular2-dynamic-component": {
       "version": "0.0.52",
@@ -790,6 +800,11 @@
         }
       }
     },
+    "clipboard": {
+      "version": "1.5.15",
+      "from": "clipboard@>=1.5.12 <1.6.0",
+      "resolved": "https://registry.npmjs.org/clipboard/-/clipboard-1.5.15.tgz"
+    },
     "cliui": {
       "version": "2.1.0",
       "from": "cliui@>=2.1.0 <3.0.0",
@@ -1246,6 +1261,11 @@
       "from": "delayed-stream@>=1.0.0 <1.1.0",
       "resolved": "https://registry.npmjs.org/delayed-stream/-/delayed-stream-1.0.0.tgz",
       "dev": true
+    },
+    "delegate": {
+      "version": "3.1.0",
+      "from": "delegate@>=3.1.0 <4.0.0",
+      "resolved": "https://registry.npmjs.org/delegate/-/delegate-3.1.0.tgz"
     },
     "delegates": {
       "version": "1.0.0",
@@ -2036,6 +2056,11 @@
       "from": "glogg@>=1.0.0 <2.0.0",
       "resolved": "https://registry.npmjs.org/glogg/-/glogg-1.0.0.tgz",
       "dev": true
+    },
+    "good-listener": {
+      "version": "1.2.0",
+      "from": "good-listener@>=1.2.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/good-listener/-/good-listener-1.2.0.tgz"
     },
     "graceful-fs": {
       "version": "1.2.3",
@@ -4525,6 +4550,11 @@
       "resolved": "https://registry.npmjs.org/sax/-/sax-1.2.1.tgz",
       "dev": true
     },
+    "select": {
+      "version": "1.1.0",
+      "from": "select@>=1.0.6 <2.0.0",
+      "resolved": "https://registry.npmjs.org/select/-/select-1.1.0.tgz"
+    },
     "selenium-webdriver": {
       "version": "2.52.0",
       "from": "selenium-webdriver@2.52.0",
@@ -5051,6 +5081,11 @@
       "from": "timers-browserify@>=1.0.1 <2.0.0",
       "resolved": "https://registry.npmjs.org/timers-browserify/-/timers-browserify-1.4.2.tgz",
       "dev": true
+    },
+    "tiny-emitter": {
+      "version": "1.1.0",
+      "from": "tiny-emitter@>=1.0.0 <2.0.0",
+      "resolved": "https://registry.npmjs.org/tiny-emitter/-/tiny-emitter-1.1.0.tgz"
     },
     "tmp": {
       "version": "0.0.28",

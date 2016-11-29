@@ -17,11 +17,13 @@ export class GameDetailComponent implements OnInit {
   private civDefs: CivDef[] = [];
   private unpickedCivs: CivDef[];
   private joinGameCiv: CivDef;
+  private pageUrl: string;
 
   @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
 
   constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
+    this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
 
   ngOnInit() {

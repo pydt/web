@@ -57,10 +57,17 @@
     <div class="panel panel-default">
       <div class="panel-heading">Join Game</div>
       <div class="panel-body">
-        <p *ngIf="userInGame">
-          Send your friends a link to this page to join your game:
-          <strong><a [routerLink]="['/game/', game.gameId]">Game Page Link</a></strong>
-        </p>
+        <div *ngIf="userInGame">
+          <p>
+            Send your friends a link to this page to join your game!
+          </p>
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="pageUrl" readonly>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ngIIclipboard [cbContent]="pageUrl">Copy Game URL to Clipboard</button>
+            </span>
+          </div>
+        </div>
         <p *ngIf="!profile">
           Please use the "Sign in through STEAM" button above to login, and then you can join this game!
         </p>
