@@ -115,7 +115,7 @@
 </div>
 
 <div bsModal #uploadFailedModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFailedModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm">
+  <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" (click)="uploadFailedModal.hide()">
@@ -124,7 +124,8 @@
         <h4 class="modal-title">Upload Failed</h4>
       </div>
       <div class="modal-body">
-        Your upload failed, please try again!
+        <p>Your upload failed, please try again!<p>
+        <p class="text-danger" *ngIf="uploadFailedModalMessage">Error Message: {{uploadFailedModalMessage}}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="uploadFailedModal.hide()">Close</button>

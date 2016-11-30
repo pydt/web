@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, CivDef, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
@@ -18,6 +19,7 @@ export class GameDetailComponent implements OnInit {
   private unpickedCivs: CivDef[];
   private joinGameCiv: CivDef;
   private pageUrl: string;
+  private uploadFailedModalMessage: string;
 
   @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
@@ -104,6 +106,8 @@ export class GameDetailComponent implements OnInit {
   }
 
   fileSelected(event, gameId) {
+    this.uploadFailedModalMessage = null;
+
     if (event.target.files.length > 0) {
       this.busy = this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
@@ -127,13 +131,22 @@ export class GameDetailComponent implements OnInit {
         });
       })
       .then(() => {
-        return this.api.finishTurnSubmit(gameId);
+        return this.api.finishTurnSubmit(gameId).catch(err => {
+          if (err instanceof Response) {
+            this.uploadFailedModalMessage = (err as Response).json().errorMessage;
+
+            if (this.uploadFailedModalMessage) {
+              this.uploadFailedModalMessage = this.uploadFailedModalMessage.replace(/^\[\d+\]/, "");
+            }
+          }
+
+          throw err;
+        });
       })
       .then(() => {
         this.getGame();
       })
       .catch(err => {
-        console.log(err);
         this.uploadFailedModal.show();
       });
     }
