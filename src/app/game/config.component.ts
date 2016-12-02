@@ -1,13 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody, Game } from 'civx-angular2-shared';
+import { Game } from 'civx-angular2-shared';
 
 @Component({
   selector: 'pydt-configure-game',
   templateUrl: './config.component.html'
 })
 export class ConfigureGameComponent implements OnInit {
-  @Input() game: Game
+  @Input() game: Game;
   @Input() model: ConfigureGameModel;
   private minHumans = 2;
 

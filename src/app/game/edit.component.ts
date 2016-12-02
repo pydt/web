@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, EditGameRequestBody, Game } from 'civx-angular2-shared';
+import { ApiService, EditGameRequestBody, Game } from 'civx-angular2-shared';
 import { ConfigureGameModel } from './config.component';
 
 @Component({
@@ -40,7 +40,7 @@ export class EditGameComponent implements OnInit {
 class EditGameModel extends ConfigureGameModel {
   gameId: string;
 
-  toJSON() : EditGameRequestBody {
+  toJSON(): EditGameRequestBody {
     const result: any = super.toJSON();
     result.gameId = this.gameId;
     return result;

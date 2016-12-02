@@ -104,10 +104,10 @@
       <div class="panel-heading">Change Your Civ</div>
       <div class="panel-body">
         <p>If you want to change your civ before the game starts, use the selector below...</p>
-        <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
+        <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="newCiv" (selectedCiv)="newCiv = $event"></pydt-select-civ>
         <div class="row">
           <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" (click)="changeCiv()">Change Civ!</button>
+            <button type="button" class="btn btn-primary" [disabled]="playerCiv == newCiv" (click)="changeCiv()">Change Civ!</button>
           </div>
         </div>
       </div>
@@ -134,26 +134,6 @@
       <div class="panel-heading">Smack Talk</div>
       <div class="panel-body">
         <div id='discourse-comments'></div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div bsModal #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="errorModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Error</h4>
-      </div>
-      <div class="modal-body">
-        <p>There was an error with your request.<p>
-        <p class="text-danger" *ngIf="errorModalMessage">Error Message: {{errorModalMessage}}</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="errorModal.hide()">Close</button>
       </div>
     </div>
   </div>

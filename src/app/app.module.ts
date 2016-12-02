@@ -1,4 +1,5 @@
-import { NgModule, ApplicationRef } from '@angular/core';
+import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
+import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CollapseModule, DropdownModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { HttpModule } from '@angular/http';
@@ -23,6 +24,8 @@ import { DisplayCivComponent } from './game/displayCiv.component';
 import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard } from './shared';
 import { routing } from './app.routing';
+import { ErrorHandlerService } from './error.service';
+import { PydtHttp } from './pydtHttp.service';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
@@ -61,7 +64,15 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AuthGuard,
     { provide: API_URL_PROVIDER_TOKEN, useClass: WebApiUrlProvider },
     { provide: API_CREDENTIALS_PROVIDER_TOKEN, useClass: WebApiCredentialsProvider },
-    ApiService
+    { provide: ErrorHandler, useClass: ErrorHandlerService },
+    ApiService,
+    {
+      provide: Http,
+      useFactory: (backend: XHRBackend, options: RequestOptions, error: ErrorHandler) => {
+        return new PydtHttp(backend, options, error);
+      },
+      deps: [XHRBackend, RequestOptions, ErrorHandler]
+    }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Response } from '@angular/http';
 import { ActivatedRoute } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, CivDef, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
@@ -18,10 +17,9 @@ export class GameDetailComponent implements OnInit {
   private civDefs: CivDef[] = [];
   private unpickedCivs: CivDef[];
   private playerCiv: CivDef;
+  private newCiv: CivDef;
   private pageUrl: string;
-  private errorModalMessage: string;
 
-  @ViewChild('errorModal') errorModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
 
   constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
@@ -73,16 +71,17 @@ export class GameDetailComponent implements OnInit {
       playerCiv: this.playerCiv.leaderKey
     }).then(game => {
       return this.setGame(game);
-    }).catch(this.handleError);
+    });
   }
 
   changeCiv() {
     this.busy = this.api.changeCiv({
       gameId: this.game.gameId,
-      playerCiv: this.playerCiv.leaderKey
+      playerCiv: this.newCiv.leaderKey
     }).then(game => {
+      this.newCiv = null;
       return this.setGame(game);
-    }).catch(this.handleError);
+    });
   }
 
   setGame(game: Game) {
@@ -106,6 +105,7 @@ export class GameDetailComponent implements OnInit {
 
     if (userPlayer) {
       this.playerCiv = this.findLeader(userPlayer.civType);
+      this.newCiv = this.playerCiv;
     } else {
       this.playerCiv = this.unpickedCivs[0];
     }
@@ -151,8 +151,7 @@ export class GameDetailComponent implements OnInit {
       })
       .then(() => {
         this.getGame();
-      })
-      .catch(this.handleError);
+      });
     }
   }
 
@@ -162,15 +161,5 @@ export class GameDetailComponent implements OnInit {
     this.busy = this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
     });
-  }
-
-  private handleError = err => {
-    this.errorModalMessage = null;
-
-    if (err instanceof Response) {
-      this.errorModalMessage = (err as Response).json().errorMessage;
-    }
-    
-    this.errorModal.show();
   }
 }
