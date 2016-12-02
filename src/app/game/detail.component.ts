@@ -150,6 +150,9 @@ export class GameDetailComponent implements OnInit {
         });
       })
       .then(() => {
+        return this.api.finishTurnSubmit(gameId);
+      })
+      .then(() => {
         this.getGame();
       });
     }
