@@ -1,0 +1,13 @@
+<div [ngBusy]="busy" class="container">
+  <div *ngIf="game">
+    <h1>Edit Game</h1>
+    <form class="form-horizontal" (ngSubmit)="onSubmit()" #editGameForm="ngForm" novalidate="novalidate">
+      <pydt-configure-game [game]="game" [model]="model"></pydt-configure-game>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <button type="submit" class="btn btn-primary" [disabled]="!editGameForm.form.valid">Edit Game</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

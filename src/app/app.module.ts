@@ -12,6 +12,8 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { ForumComponent } from './forum/forum.component';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
+import { ConfigureGameComponent } from './game/config.component';
+import { EditGameComponent } from './game/edit.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GamePreviewComponent } from './game/preview.component';
 import { CreateGameComponent } from './game/create.component';
@@ -43,6 +45,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     AppComponent,
     HomeComponent,
     ForumComponent,
+    ConfigureGameComponent,
+    EditGameComponent,
     GameDetailComponent,
     GamePreviewComponent,
     CreateGameComponent,

@@ -1,38 +1,7 @@
 <div [ngBusy]="busy" class="container">
   <h1>Create New Game</h1>
   <form class="form-horizontal" (ngSubmit)="onSubmit()" #newGameForm="ngForm" novalidate="novalidate">
-    <div class="form-group" [class.has-error]="!name.valid">
-      <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
-      <div class="col-sm-9">
-        <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #name="ngModel">
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="description" class="col-sm-3 control-label">Description:</label>
-      <div class="col-sm-9">
-        <textarea rows="3" class="form-control" id="description" [(ngModel)]="model.description" name="description" placeholder="A short description of game parameters, house rules, etc."></textarea>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="slotsRange" class="col-sm-3 control-label">Number of Slots:</label>
-      <div class="col-sm-1">
-        <p class="form-control-static"><b>{{model.slots}}</b></p>
-      </div>
-      <div class="col-sm-8">
-        <input type="range" id="slotsRange" min="2" max="12" step="1" [(ngModel)]="model.slots" name="slots" aria-describedby="slotsHelp">
-      </div>
-      <span id="slotsHelp" class="help-block col-sm-offset-3">The total number of civilizations in the game (human or ai).</span>
-    </div>
-    <div class="form-group">
-      <label for="humansRange" class="col-sm-3 control-label">Maximum Number of Humans:</label>
-      <div class="col-sm-1">
-        <p class="form-control-static"><b>{{model.humans}}</b></p>
-      </div>
-      <div class="col-sm-8">
-        <input type="range" id="humansRange" min="2" max="{{model.slots}}" step="1" [(ngModel)]="model.humans" name="humans" aria-describedby="humansHelp">
-      </div>
-      <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
-    </div>
+    <pydt-configure-game [model]="model"></pydt-configure-game>
     <div class="form-group">
       <label for="selectCiv" class="col-sm-3 control-label">Select Your Civ:</label>
       <pydt-select-civ [curCiv]="model.player1Civ" class="col-sm-9" (selectedCiv)="selectedCivChange($event)"></pydt-select-civ>

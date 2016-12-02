@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody } from 'civx-angular2-shared';
+import { ConfigureGameModel } from './config.component';
 
 @Component({
   selector: 'pydt-create-game',
@@ -31,34 +32,12 @@ export class CreateGameComponent implements OnInit {
   }
 }
 
-class CreateGameModel {
-  private _slots = 4;
-
-  public displayName: string;
-  public description: string;
-  public humans: number = 4;
+class CreateGameModel extends ConfigureGameModel {
   public player1Civ = Civ6Leaders[0];
 
-  set slots(slots: number) {
-    this._slots = Number(slots);
-
-    // I think the range slider sends through strings, make sure we compare as numbers...
-    if (Number(slots) < Number(this.humans)) {
-      this.humans = slots;
-    }
-  }
-
-  get slots() {
-    return this._slots;
-  }
-
   toJSON(): CreateGameRequestBody {
-    return {
-      displayName: this.displayName,
-      description: this.description,
-      slots: this._slots,
-      humans: this.humans,
-      player1Civ: this.player1Civ.leaderKey
-    };
+    const result: any = super.toJSON();
+    result.player1Civ = this.player1Civ.leaderKey;
+    return result;
   }
 }
