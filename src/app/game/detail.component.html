@@ -74,7 +74,7 @@
         <div *ngIf="!userInGame && profile">
           <div *ngIf="game.players.length < game.humans">
             <p>If you want to join this game, select a civ and then press the button below!</p>
-            <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="joinGameCiv" (selectedCiv)="joinGameCiv = $event"></pydt-select-civ>
+            <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
             <div class="row">
               <div class="col-xs-12 text-center">
                 <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>
@@ -83,6 +83,18 @@
           </div>
           <div *ngIf="game.players.length >= game.humans">
             <p>There are already too many players in this game, sorry!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel panel-default" *ngIf="userInGame">
+      <div class="panel-heading">Change Your Civ</div>
+      <div class="panel-body">
+        <p>If you want to change your civ before the game starts, use the selector below...</p>
+        <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary" (click)="changeCiv()">Change Civ!</button>
           </div>
         </div>
       </div>
@@ -114,21 +126,21 @@
   </div>
 </div>
 
-<div bsModal #uploadFailedModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="uploadFailedModalLabel" aria-hidden="true">
+<div bsModal #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="uploadFailedModal.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="errorModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h4 class="modal-title">Upload Failed</h4>
+        <h4 class="modal-title">Error</h4>
       </div>
       <div class="modal-body">
-        <p>Your upload failed, please try again!<p>
-        <p class="text-danger" *ngIf="uploadFailedModalMessage">Error Message: {{uploadFailedModalMessage}}</p>
+        <p>There was an error with your request.<p>
+        <p class="text-danger" *ngIf="errorModalMessage">Error Message: {{errorModalMessage}}</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="uploadFailedModal.hide()">Close</button>
+        <button type="button" class="btn btn-default" (click)="errorModal.hide()">Close</button>
       </div>
     </div>
   </div>

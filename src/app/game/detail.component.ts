@@ -17,11 +17,11 @@ export class GameDetailComponent implements OnInit {
   private discourse: HTMLScriptElement;
   private civDefs: CivDef[] = [];
   private unpickedCivs: CivDef[];
-  private joinGameCiv: CivDef;
+  private playerCiv: CivDef;
   private pageUrl: string;
-  private uploadFailedModalMessage: string;
+  private errorModalMessage: string;
 
-  @ViewChild('uploadFailedModal') uploadFailedModal: ModalDirective;
+  @ViewChild('errorModal') errorModal: ModalDirective;
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
 
   constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
@@ -70,10 +70,19 @@ export class GameDetailComponent implements OnInit {
   joinGame() {
     this.busy = this.api.joinGame({
       gameId: this.game.gameId,
-      playerCiv: this.joinGameCiv.leaderKey
+      playerCiv: this.playerCiv.leaderKey
     }).then(game => {
       return this.setGame(game);
-    });
+    }).catch(this.handleError);
+  }
+
+  changeCiv() {
+    this.busy = this.api.changeCiv({
+      gameId: this.game.gameId,
+      playerCiv: this.playerCiv.leaderKey
+    }).then(game => {
+      return this.setGame(game);
+    }).catch(this.handleError);
   }
 
   setGame(game: Game) {
@@ -85,29 +94,39 @@ export class GameDetailComponent implements OnInit {
     this.unpickedCivs = _.clone(Civ6Leaders);
 
     for (let player of this.game.players) {
-      let curLeader = _.find(Civ6Leaders, leader => {
-        return leader.leaderKey === player.civType;
-      });
+      let curLeader = this.findLeader(player.civType);
 
       this.civDefs.push(curLeader);
       _.pull(this.unpickedCivs, curLeader);
-      this.joinGameCiv = this.unpickedCivs[0];
+    }
+
+    const userPlayer = _.find(game.players, player => {
+      return player.steamId === this.profile.steamid;
+    });
+
+    if (userPlayer) {
+      this.playerCiv = this.findLeader(userPlayer.civType);
+    } else {
+      this.playerCiv = this.unpickedCivs[0];
     }
 
     this.discourseEmbed();
   }
 
+  private findLeader(civType: string) {
+    return _.find(Civ6Leaders, leader => {
+      return leader.leaderKey === civType;
+    });
+  }
+
   downloadTurn(gameId) {
     this.busy = this.api.getTurnUrl(gameId)
       .then(url => {
-        // TODO: Maybe rename the file and save it using HTML5?
         window.open(url);
       });
   }
 
   fileSelected(event, gameId) {
-    this.uploadFailedModalMessage = null;
-
     if (event.target.files.length > 0) {
       this.busy = this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
@@ -131,24 +150,9 @@ export class GameDetailComponent implements OnInit {
         });
       })
       .then(() => {
-        return this.api.finishTurnSubmit(gameId).catch(err => {
-          if (err instanceof Response) {
-            this.uploadFailedModalMessage = (err as Response).json().errorMessage;
-
-            if (this.uploadFailedModalMessage) {
-              this.uploadFailedModalMessage = this.uploadFailedModalMessage.replace(/^\[\d+\]/, "");
-            }
-          }
-
-          throw err;
-        });
-      })
-      .then(() => {
         this.getGame();
       })
-      .catch(err => {
-        this.uploadFailedModal.show();
-      });
+      .catch(this.handleError);
     }
   }
 
@@ -158,5 +162,15 @@ export class GameDetailComponent implements OnInit {
     this.busy = this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
     });
+  }
+
+  private handleError = err => {
+    this.errorModalMessage = null;
+
+    if (err instanceof Response) {
+      this.errorModalMessage = (err as Response).json().errorMessage;
+    }
+    
+    this.errorModal.show();
   }
 }
