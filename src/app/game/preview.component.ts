@@ -12,18 +12,11 @@ export class GamePreviewComponent implements OnChanges {
   private gamePlayerProfiles = new Map<string, SteamProfile>();
   private gamePlayers: GamePlayer[];
   private civDefs: CivDef[];
-  private iconGridCells: number;
 
   constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
 
   ngOnChanges() {
-    this.iconGridCells = Math.floor(12 / this.game.slots);
-
-    if (this.iconGridCells < 1) {
-      this.iconGridCells = 1;
-    }
-
     this.profileCache.getProfiles(_.map(this.game.players, _.property('steamId')) as string[]).then(profiles => {
       this.gamePlayerProfiles = profiles;
     });
