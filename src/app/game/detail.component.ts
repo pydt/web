@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, CivDef, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
 import * as _ from 'lodash';
@@ -21,8 +21,9 @@ export class GameDetailComponent implements OnInit {
   private pageUrl: string;
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
+  @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
 
-  constructor(private api: ApiService, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
+  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
 
@@ -163,6 +164,14 @@ export class GameDetailComponent implements OnInit {
 
     this.busy = this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
+    });
+  }
+
+  surrender() {
+    this.confirmSurrenderModal.hide();
+
+    this.busy = this.api.surrender(this.game.gameId).then(() => {
+      this.router.navigate(['/user/games']);
     });
   }
 }
