@@ -22,6 +22,7 @@ export class GameDetailComponent implements OnInit {
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
   @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
+  @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
@@ -171,6 +172,14 @@ export class GameDetailComponent implements OnInit {
     this.confirmSurrenderModal.hide();
 
     this.busy = this.api.surrender(this.game.gameId).then(() => {
+      this.router.navigate(['/user/games']);
+    });
+  }
+
+  delete() {
+    this.confirmDeleteModal.hide();
+    
+    this.busy = this.api.deleteGame(this.game.gameId).then(() => {
       this.router.navigate(['/user/games']);
     });
   }
