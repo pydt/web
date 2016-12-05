@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody } from 'civx-angular2-shared';
 import { ConfigureGameModel } from './config.component';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 
 @Component({
   selector: 'pydt-create-game',
@@ -12,12 +13,24 @@ export class CreateGameComponent implements OnInit {
   private busy: Promise<any>;
   private allLeaders = Civ6Leaders;
 
+  @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
+
   constructor(private api: ApiService, private router: Router) {
   }
 
   ngOnInit() {
     this.api.getSteamProfile().then(profile => {
       this.model.displayName = profile.personaname + '\'s game!';
+    });
+
+    this.busy = this.api.getUserGames().then(resp => {
+      this.api.getSteamProfile().then(profile => {
+        for (let game of resp.data) {
+          if (game.createdBySteamId === profile.steamid) {
+            this.cannotCreateGameModal.show();
+          }
+        }
+      });
     });
   }
 

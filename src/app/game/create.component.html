@@ -13,3 +13,22 @@
     </div>
   </form>
 </div>
+
+<div bsModal #cannotCreateGameModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="cannotCreateGameModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" [routerLink]="['user/games']">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Cannot Create Game</h4>
+      </div>
+      <div class="modal-body">
+        You can currently only be the creator of a single game at a time.  This is a temporary limitation while we work out the kinks in the system.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" [routerLink]="['/user/games']">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

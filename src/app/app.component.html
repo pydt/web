@@ -21,6 +21,7 @@
               <li><a href="http://updates.playyourdamnturn.com/download/osx">Mac OS X</a></li>
             </ul>
           </li>
+          <li [routerLinkActive]="['active']"><a [routerLink]="['game/listOpen']">Open Games</a></li>
           <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="javascript:void(0)" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>

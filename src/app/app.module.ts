@@ -18,6 +18,7 @@ import { EditGameComponent } from './game/edit.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GamePreviewComponent } from './game/preview.component';
 import { CreateGameComponent } from './game/create.component';
+import { OpenGamesComponent } from './game/opengames.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
@@ -53,6 +54,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     GameDetailComponent,
     GamePreviewComponent,
     CreateGameComponent,
+    OpenGamesComponent,
     DisplayCivComponent,
     SelectCivComponent,
     SteamReturnComponent,
