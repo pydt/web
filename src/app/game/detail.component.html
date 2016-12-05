@@ -13,7 +13,7 @@
           <p><b>Max Human Players:</b> {{game.humans}}</p>
         </div>
       </div>
-      <div class="row" *ngIf="game.createdBySteamId === profile?.steamid">
+      <div class="row" *ngIf="game.createdBySteamId === profile?.steamid && !game.inProgress">
         <div class="col-xs-12 text-center">
           <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
         </div>
@@ -70,7 +70,7 @@
         </div>
       </div>
     </div>
-    <div class="panel panel-default">
+    <div *ngIf="game.gameTurnRangeKey > 1" class="panel panel-default">
       <div class="panel-heading">Surrender</div>
       <div class="panel-body">
         <p>If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.</p>
@@ -288,8 +288,14 @@
       </div>
       <div class="modal-body">
         <p>
-          Since you're the first player, you need to create the initial game save file.  Start Civ 6,
-          go to Multiplayer / Hotseat, configure the game however you wish, but make sure you choose
+          Since you're the first player, you need to create the initial game save file!  First, make sure that you have the appropriate DLC
+          enabled for the game.  The only way I know of to modify the enabled DLC is through the Steam UI: Select Civ 6 from your Steam Library,
+          scroll down to the DLC section, and
+          <span *ngIf="game?.dlc.length">ensure that <b>ONLY</b> the following DLC is enabled: <b>{{dlcEnabled}}</b>.</span>
+          <span *ngIf="!game?.dlc.length">ensure that <b>NO DLC</b> is enabled!</span>
+        </p>
+        <p>
+          Now start Civ 6, go to Multiplayer / Hotseat, configure the game however you wish, but make sure you choose
           a map size large enough to support <b>{{game?.slots}}</b> slots (both human and AI players).
           When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>
           slots active, and add the following human players, starting at the first slot:

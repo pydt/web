@@ -90,8 +90,9 @@ export class GameDetailComponent implements OnInit {
 
   setGame(game: Game) {
     this.game = game;
+    game.dlc = game.dlc || [];
     const steamIds = _.map(game.players, 'steamId');
-    this.userInGame = _.includes(steamIds, this.profile.steamid);
+    this.userInGame = false;
 
     this.civDefs = [];
     this.unpickedCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
@@ -103,18 +104,22 @@ export class GameDetailComponent implements OnInit {
       _.pull(this.unpickedCivs, curLeader);
     }
 
-    const userPlayer = _.find(game.players, player => {
-      return player.steamId === this.profile.steamid;
-    });
+    if (this.profile) {
+      this.userInGame = _.includes(steamIds, this.profile.steamid);
 
-    if (userPlayer) {
-      this.playerCiv = this.findLeader(userPlayer.civType);
-      this.newCiv = this.playerCiv;
-    } else {
-      this.playerCiv = this.unpickedCivs[0];
+      const userPlayer = _.find(game.players, player => {
+        return player.steamId === this.profile.steamid;
+      });
+
+      if (userPlayer) {
+        this.playerCiv = this.findLeader(userPlayer.civType);
+        this.newCiv = this.playerCiv;
+      } else {
+        this.playerCiv = this.unpickedCivs[0];
+      }
     }
 
-    this.dlcEnabled = _.map(game.dlc || [], dlcId => {
+    this.dlcEnabled = _.map(game.dlc, dlcId => {
       return _.find(Civ6DLCs, dlc => {
         return dlc.id === dlcId;
       }).displayName;
