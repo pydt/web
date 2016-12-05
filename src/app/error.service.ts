@@ -10,5 +10,6 @@ export class ErrorHandlerService implements ErrorHandler {
 
   handleError(error) {
     this.errorStream.next(error);
+    throw error;
   }
 }

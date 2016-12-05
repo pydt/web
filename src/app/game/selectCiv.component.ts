@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ApiService, CivDef, Civ6Leaders } from 'civx-angular2-shared';
+import { ApiService, CivDef, Civ6LeaderArray } from 'civx-angular2-shared';
 
 @Component({
   selector: 'pydt-select-civ',
@@ -8,7 +8,7 @@ import { ApiService, CivDef, Civ6Leaders } from 'civx-angular2-shared';
 })
 export class SelectCivComponent implements OnInit {
   @Input() curCiv: CivDef;
-  @Input() leaders = Civ6Leaders;
+  @Input() leaders: Civ6LeaderArray;
   @Output() selectedCiv = new EventEmitter<CivDef>();
 
   constructor(private api: ApiService) {

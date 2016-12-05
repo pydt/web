@@ -10,6 +10,7 @@ import { ConfigureGameModel } from './config.component';
 export class CreateGameComponent implements OnInit {
   private model = new CreateGameModel();
   private busy: Promise<any>;
+  private allLeaders = Civ6Leaders;
 
   constructor(private api: ApiService, private router: Router) {
   }

@@ -11,6 +11,18 @@
   </div>
 </div>
 <div class="form-group">
+  <label for="description" class="col-sm-3 control-label">DLC Support:</label>
+  <div class="col-sm-9">
+    <div class="checkbox" *ngFor="let dlc of dlcOptions">
+      <label>
+        <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc(dlc)">
+        {{dlc.displayName}}
+      </label>
+    </div>
+  </div>
+  <span id="dlcHelp" class="help-block col-sm-offset-3">All players in your game must have any DLC selected installed, otherwise they will be unable to load save files!</span>
+</div>
+<div class="form-group">
   <label for="slotsRange" class="col-sm-3 control-label">Number of Slots:</label>
   <div class="col-sm-1">
     <p class="form-control-static"><b>{{model.slots}}</b></p>

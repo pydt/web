@@ -11,7 +11,7 @@
       </div>
       <div class="modal-body">
         <div style="height:300px;overflow-y:scroll;">
-          <div *ngFor="let civ of leaders" [class.selectedCiv]="civ.civKey === curCiv.civKey">
+          <div *ngFor="let civ of leaders" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
             <pydt-display-civ [civ]="civ" (click)="civClicked(civ);selectCivModal.hide();"></pydt-display-civ>
           </div>
         </div>

@@ -772,7 +772,7 @@
     "civx-angular2-shared": {
       "version": "1.0.0",
       "from": "git+https://gitlab.com/civx/angular2-shared.git",
-      "resolved": "git+https://gitlab.com/civx/angular2-shared.git#3fc3abd144ac3f76e9599ceacec70aca9041f5e5"
+      "resolved": "git+https://gitlab.com/civx/angular2-shared.git#11e6b2927e87ae0457a3da35008497888b615d73"
     },
     "clap": {
       "version": "1.1.1",

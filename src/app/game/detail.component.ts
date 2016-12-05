@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import { ApiService, CivDef, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'civx-angular2-shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -19,6 +19,7 @@ export class GameDetailComponent implements OnInit {
   private playerCiv: CivDef;
   private newCiv: CivDef;
   private pageUrl: string;
+  private dlcEnabled: string;
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
   @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
@@ -93,7 +94,7 @@ export class GameDetailComponent implements OnInit {
     this.userInGame = _.includes(steamIds, this.profile.steamid);
 
     this.civDefs = [];
-    this.unpickedCivs = _.clone(Civ6Leaders);
+    this.unpickedCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
 
     for (let player of this.game.players) {
       let curLeader = this.findLeader(player.civType);
@@ -111,6 +112,16 @@ export class GameDetailComponent implements OnInit {
       this.newCiv = this.playerCiv;
     } else {
       this.playerCiv = this.unpickedCivs[0];
+    }
+
+    this.dlcEnabled = _.map(game.dlc || [], dlcId => {
+      return _.find(Civ6DLCs, dlc => {
+        return dlc.id === dlcId;
+      }).displayName;
+    }).join(", ");
+
+    if (!this.dlcEnabled) {
+      this.dlcEnabled = "None";
     }
 
     this.discourseEmbed();
