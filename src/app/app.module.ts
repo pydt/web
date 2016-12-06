@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { CollapseModule, DropdownModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
+import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { BusyConfig, BusyModule } from 'angular2-busy';
 import { ApiService, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
@@ -43,7 +44,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     BusyModule.forRoot(
         new BusyConfig({template: `<div class="pydt-spinner"></div>`})
     ),
-    routing
+    routing,
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ])
   ],
   declarations: [
     AppComponent,

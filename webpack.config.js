@@ -46,7 +46,7 @@ module.exports = function makeWebpackConfig() {
    * Reference: http://webpack.github.io/docs/configuration.html#entry
    */
   config.entry = isTest ? {} : {
-    'rollbar': './src/rollbar.js',
+    'vendorasap': './src/vendorasap.js',
     'polyfills': './src/polyfills.ts',
     'vendor': './src/vendor.ts',
     'app': './src/main.ts' // our angular app

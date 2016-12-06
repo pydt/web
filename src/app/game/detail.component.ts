@@ -125,10 +125,10 @@ export class GameDetailComponent implements OnInit {
       return _.find(Civ6DLCs, dlc => {
         return dlc.id === dlcId;
       }).displayName;
-    }).join(", ");
+    }).join(', ');
 
     if (!this.dlcEnabled) {
-      this.dlcEnabled = "None";
+      this.dlcEnabled = 'None';
     }
 
     this.discourseEmbed();

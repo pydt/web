@@ -47,7 +47,7 @@ export class ConfigureGameComponent implements OnInit {
 
 export class ConfigureGameModel {
   private _slots = 4;
-  
+
   public displayName: string;
   public description: string;
   public humans: number = 4;

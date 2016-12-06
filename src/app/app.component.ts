@@ -1,6 +1,7 @@
 import { Component, ErrorHandler, OnInit, ViewChild, ViewContainerRef  } from '@angular/core';
 import { Response } from '@angular/http';
 import { Router } from '@angular/router';
+import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ErrorHandlerService } from './error.service';
 
@@ -24,6 +25,7 @@ export class AppComponent implements OnInit {
     private api: ApiService,
     private errorService: ErrorHandler,
     private router: Router,
+    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     viewContainerRef: ViewContainerRef
   ) {
     // Angular2 Bootstrap hack: https://valor-software.com/ng2-bootstrap/#/modals

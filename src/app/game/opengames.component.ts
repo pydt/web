@@ -25,7 +25,7 @@ export class OpenGamesComponent implements OnInit {
     this.busy = this.api.listOpenGames().then(games => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(games);
-      
+
       this.games = games;
     });
   }
