@@ -18,7 +18,7 @@
     runs a "hotseat" mode game of Civilization 6 for you, passing save files around so everyone can play their damn turn at their damn
     convenience.
   </p>
-  <div class="row" style="margin-bottom:40px;">
+  <div class="row">
     <div class="col-md-4">
       <h3>Steam Authentication</h3>
       No need to create yet another new account on another random website, just use your Steam login!
@@ -30,6 +30,96 @@
     <div class="col-md-4">
       <h3>Forums and Smack Talk</h3>
       Use our forums to find new opponents to conquer, and talk smack to your opponents when you ruin their plans for world domination!
+    </div>
+  </div>
+  <h2 style="text-align:center;margin-top:50px;">How does it work?</h2>
+  <div class="media">
+    <div class="media-left">
+      <a href="javascript:void(0)" (click)="step1ImageModal.show()">
+        <img class="media-object" src="/img/home/step1.jpg" style="width:200px;" alt="Step 1">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">1. Join a Game!</h4>
+      Look in the <a [routerLink]="['game/listOpen']">Open Games</a> area to find games to join, or create your own game if you don't see one!
+    </div>
+  </div>
+  <div class="media">
+    <div class="media-body">
+      <h4 class="media-heading">2. Play Your Damn Turn!</h4>
+      Once the game starts, you'll get notified with an email when it's your turn.  You can then use either the website or our Windows/OSX client
+      to download the save file and Play Your Damn Turn!
+    </div>
+    <div class="media-right">
+      <a href="javascript:void(0)" (click)="step2ImageModal.show()">
+        <img class="media-object" src="/img/home/step2.jpg" style="width:200px;" alt="Step 2">
+      </a>
+    </div>
+  </div>
+  <div class="media" style="margin-bottom:40px;">
+    <div class="media-left">
+      <a href="javascript:void(0)" (click)="step3ImageModal.show()">
+        <img class="media-object" src="/img/home/step3.jpg" style="width:200px;" alt="Step 3">
+      </a>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading">3. Upload Your Turn!</h4>
+      When you're done playing your turn, save the game and the client will detect the new save file and allow you to upload your turn for the next player
+      to play.  Or, if you don't like convenience, you can use our website to do it in a slightly more annoying fashion!
+    </div>
+  </div>
+</div>
+
+<div bsModal #step1ImageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="step1ImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="step1ImageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Create Game</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;">  
+          <img src="/img/home/step1.jpg" style="height:65vh;" alt="Step 1">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #step2ImageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="step1ImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="step2ImageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Windows Client</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;">  
+          <img src="/img/home/step2.jpg" style="height:65vh;" alt="Step 2">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #step3ImageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="step1ImageModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="step3ImageModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Play Turn on Web</h4>
+      </div>
+      <div class="modal-body">
+        <div style="text-align:center;">  
+          <img src="/img/home/step3.jpg" style="height:65vh;" alt="Step 3">
+        </div>
+      </div>
     </div>
   </div>
 </div>
