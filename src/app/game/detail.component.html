@@ -4,7 +4,14 @@
     <div class="panel-heading">Game Details</div>
     <div class="panel-body">
       <p *ngIf="game.description"><b>Description:</b> {{game.description}}</p>
-      <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
+      <div class="row">
+        <div class="col-md-6">
+          <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
+        </div>
+        <div class="col-md-6">
+          <p><b>Password Protected:</b> {{game.hashedPassword ? 'Yes': 'No'}}</p>
+        </div>
+      </div>
       <div class="row">
         <div class="col-md-6">
           <p><b>Number of Slots:</b> {{game.slots}}</p>
@@ -104,6 +111,10 @@
           <div *ngIf="game.players.length < game.humans">
             <p>If you want to join this game, select a civ and then press the button below!</p>
             <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
+            <div class="form-group" *ngIf="game.hashedPassword">
+              <label for="password">The creator of the game has set a password:</label>
+              <input type="password" class="form-control" id="password" placeholder="Game Password" [(ngModel)]="joinGamePassword" name="password">
+            </div>
             <div class="row">
               <div class="col-xs-12 text-center">
                 <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>

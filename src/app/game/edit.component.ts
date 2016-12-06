@@ -27,6 +27,7 @@ export class EditGameComponent implements OnInit {
         this.model.slots = game.slots;
         this.model.humans = game.humans;
         this.model.gameId = game.gameId;
+        this.model.password = game.hashedPassword;
 
         for (let dlcId of game.dlc || []) {
           this.model.dlc[dlcId] = true;

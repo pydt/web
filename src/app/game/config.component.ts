@@ -52,6 +52,7 @@ export class ConfigureGameModel {
   public description: string;
   public humans: number = 4;
   public dlc = new Map<string, boolean>();
+  public password: string;
 
   set slots(slots: number) {
     this._slots = Number(slots);
@@ -84,6 +85,7 @@ export class ConfigureGameModel {
       description: this.description,
       slots: this.slots,
       humans: this.humans,
+      password: this.password,
       dlc: this.dlcIdArray()
     };
   }

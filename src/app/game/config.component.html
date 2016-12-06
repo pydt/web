@@ -42,3 +42,10 @@
   </div>
   <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
 </div>
+<div class="form-group">
+  <label for="displayName" class="col-sm-3 control-label">Game Password:</label>
+  <div class="col-sm-9">
+    <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password" #name="ngModel">
+  </div>
+  <span id="passwordHelp" class="help-block col-sm-offset-3">If you wish for your game to be protected so that only people who know the password can join, set a password in the field above.</span>
+</div>

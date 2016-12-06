@@ -17,6 +17,7 @@ export class GameDetailComponent implements OnInit {
   private civDefs: CivDef[] = [];
   private unpickedCivs: CivDef[];
   private playerCiv: CivDef;
+  private joinGamePassword: string;
   private newCiv: CivDef;
   private pageUrl: string;
   private dlcEnabled: string;
@@ -72,7 +73,8 @@ export class GameDetailComponent implements OnInit {
   joinGame() {
     this.busy = this.api.joinGame({
       gameId: this.game.gameId,
-      playerCiv: this.playerCiv.leaderKey
+      playerCiv: this.playerCiv.leaderKey,
+      password: this.joinGamePassword
     }).then(game => {
       return this.setGame(game);
     });
