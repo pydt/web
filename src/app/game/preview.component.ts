@@ -17,7 +17,7 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    this.profileCache.getProfiles(_.map(this.game.players, _.property('steamId')) as string[]).then(profiles => {
+    this.profileCache.getProfilesForGame(this.game).then(profiles => {
       this.gamePlayerProfiles = profiles;
     });
 

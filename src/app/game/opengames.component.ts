@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, Game, SteamProfile } from 'civx-angular2-shared';
+import { ApiService, Game, SteamProfile, ProfileCacheService } from 'civx-angular2-shared';
 
 @Component({
   selector: 'pydt-open-games',
@@ -10,7 +10,7 @@ export class OpenGamesComponent implements OnInit {
   private games: Game[];
   private profile: SteamProfile;
 
-  constructor(private api: ApiService) {
+  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
@@ -23,6 +23,9 @@ export class OpenGamesComponent implements OnInit {
 
   getGames() {
     this.busy = this.api.listOpenGames().then(games => {
+      // Go ahead and get all profiles for all the games in one request
+      this.profileCache.getProfilesForGames(games);
+      
       this.games = games;
     });
   }
