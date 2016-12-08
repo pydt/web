@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { ConnectionBackend, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
+import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import { ErrorHandlerService } from './error.service';
 
@@ -10,8 +10,25 @@ export class PydtHttp extends Http {
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
+    let headers: Headers;
+    let ignoreErrorHandler = false;
+
+    if (url instanceof Request) {
+      headers = (url as Request).headers;
+    } else if (options) {
+      headers = options.headers;
+    }
+
+    if (headers && headers.has('ignore-error-handler')) {
+      ignoreErrorHandler = true;
+      headers.delete('ignore-error-handler');
+    }
+
     return super.request(url, options).catch((err, caught): ObservableInput<any> => {
-      (this.errorHandler as ErrorHandlerService).handleError(err);
+      if (!ignoreErrorHandler) {
+        (this.errorHandler as ErrorHandlerService).handleError(err);
+      }
+
       return Observable.throw(err);
     });
   }
