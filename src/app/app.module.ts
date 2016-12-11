@@ -6,8 +6,7 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ClipboardModule }  from 'angular2-clipboard';
-import { BusyConfig, BusyModule } from 'angular2-busy';
-import { ApiService, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
+import { ApiService, BusyModule, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'civx-angular2-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 
 import { AppComponent } from './app.component';
@@ -41,10 +40,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     DropdownModule,
     ModalModule,
     TooltipModule,
-    BusyModule.forRoot(
-        new BusyConfig({template: `<div class="pydt-spinner"></div>`})
-    ),
     routing,
+    BusyModule,
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ])
   ],
   declarations: [

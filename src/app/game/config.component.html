@@ -1,7 +1,7 @@
-<div class="form-group" [class.has-error]="!name.valid">
+<div class="form-group" [class.has-error]="!displayName.valid">
   <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
   <div class="col-sm-9">
-    <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #name="ngModel">
+    <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
   </div>
 </div>
 <div class="form-group">
@@ -45,7 +45,7 @@
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Game Password:</label>
   <div class="col-sm-9">
-    <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password" #name="ngModel">
+    <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password">
   </div>
   <span id="passwordHelp" class="help-block col-sm-offset-3">If you wish for your game to be protected so that only people who know the password can join, set a password in the field above.</span>
 </div>

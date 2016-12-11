@@ -7,6 +7,30 @@ import { ErrorHandlerService } from './error.service';
 
 import { ApiService } from 'civx-angular2-shared';
 
+// HACKITY HACK HACK, see https://github.com/valor-software/ng2-bootstrap/issues/986#issuecomment-262293199
+import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap'
+
+ComponentsHelper.prototype.getRootViewContainerRef = function () {
+    // https://github.com/angular/angular/issues/9293
+    if (this.root) {
+        return this.root;
+    }
+    var comps = this.applicationRef.components;
+    if (!comps.length) {
+        throw new Error("ApplicationRef instance not found");
+    }
+    try {
+        /* one more ugly hack, read issue above for details */
+        var rootComponent = this.applicationRef._rootComponents[0];
+        //this.root = rootComponent._hostElement.vcRef;
+        this.root = rootComponent._component.viewContainerRef;
+        return this.root;
+    }
+    catch (e) {
+        throw new Error("ApplicationRef instance not found");
+    }
+};
+
 @Component({
   selector: 'pydt-app',
   templateUrl: './app.component.html'
