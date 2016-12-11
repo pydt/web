@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pydt/web.svg?branch=master)](https://travis-ci.org/pydt/web)
+
 # PYDT angular2 web
 
 ## Dev Setup
