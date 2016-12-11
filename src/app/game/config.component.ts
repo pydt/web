@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, Input, OnInit } from '@angular/core';
-import { Game, Civ6DLCs, Civ6Leaders, DLC } from 'civx-angular2-shared';
+import { Game, Civ6DLCs, Civ6Leaders, DLC } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({

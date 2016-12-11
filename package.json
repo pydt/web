@@ -33,7 +33,7 @@
     "@angular/router": "3.3.0",
     "angular2-clipboard": "^1.0.2",
     "angulartics2": "^1.5.2",
-    "civx-angular2-shared": "git+https://gitlab.com/civx/angular2-shared.git",
+    "pydt-shared": "https://github.com/pydt/shared.git",
     "core-js": "^2.4.1",
     "lodash": "^4.17.2",
     "ng2-bootstrap": "1.1.16",

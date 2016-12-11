@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Headers, Http, RequestOptionsArgs } from '@angular/http';
-import { ApiService } from 'civx-angular2-shared';
+import { ApiService } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-user-profile',

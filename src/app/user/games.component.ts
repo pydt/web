@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, Game, ProfileCacheService } from 'civx-angular2-shared';
+import { ApiService, Game, ProfileCacheService } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-user-games',

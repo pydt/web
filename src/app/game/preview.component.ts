@@ -1,5 +1,5 @@
 import { Component, OnChanges, Input } from '@angular/core';
-import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, Game, GamePlayer, SteamProfile } from 'civx-angular2-shared';
+import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, Game, GamePlayer, SteamProfile } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({

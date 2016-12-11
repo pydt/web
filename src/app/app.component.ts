@@ -5,7 +5,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ErrorHandlerService } from './error.service';
 
-import { ApiService } from 'civx-angular2-shared';
+import { ApiService } from 'pydt-shared';
 
 // HACKITY HACK HACK, see https://github.com/valor-software/ng2-bootstrap/issues/986#issuecomment-262293199
 import { ComponentsHelper } from 'ng2-bootstrap/ng2-bootstrap'

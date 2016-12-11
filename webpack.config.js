@@ -91,7 +91,7 @@ module.exports = function makeWebpackConfig() {
       {
         test: /\.ts$/,
         loaders: ['ts', 'angular2-template-loader', '@angularclass/hmr-loader'],
-        exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules[\/\\](?!(((civx|ng2)-|angular2-clipboard).+))/]
+        exclude: [isTest ? /\.(e2e)\.ts$/ : /\.(spec|e2e)\.ts$/, /node_modules[\/\\](?!(((pydt|ng2)-|angular2-clipboard).+))/]
       },
 
       // copy those assets to output

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, EditGameRequestBody, Game } from 'civx-angular2-shared';
+import { ApiService, EditGameRequestBody, Game } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import * as _ from 'lodash';
 

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { CivDef } from 'civx-angular2-shared';
+import { CivDef } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-display-civ',

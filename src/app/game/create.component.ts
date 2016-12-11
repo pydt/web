@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody } from 'civx-angular2-shared';
+import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 

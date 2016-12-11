@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ApiService, CivDef, Civ6LeaderArray } from 'civx-angular2-shared';
+import { ApiService, CivDef, Civ6LeaderArray } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-select-civ',

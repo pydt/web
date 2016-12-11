@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ApiUrlProvider, ApiCredentialsProvider, SteamProfile } from 'civx-angular2-shared';
+import { ApiUrlProvider, ApiCredentialsProvider, SteamProfile } from 'pydt-shared';
 
 @Injectable()
 export class WebApiCredentialsProvider implements ApiCredentialsProvider {
