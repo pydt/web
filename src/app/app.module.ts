@@ -5,6 +5,7 @@ import { CollapseModule, DropdownModule, TooltipModule, ModalModule } from 'ng2-
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { MetaModule } from 'ng2-meta';
 import { ClipboardModule }  from 'angular2-clipboard';
 import { ApiService, BusyModule, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'pydt-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
@@ -42,7 +43,13 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     TooltipModule,
     routing,
     BusyModule,
-    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ])
+    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
+    MetaModule.forRoot({
+      useTitleSuffix: true,
+      defaults: {
+        titleSuffix: ' | Play Your Damn Turn'
+      }
+    })
   ],
   declarations: [
     AppComponent,

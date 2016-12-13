@@ -12,15 +12,15 @@ import { ForumComponent } from './forum/forum.component';
 import { AuthGuard } from './shared/auth.guard';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent },
-  { path: 'forum', component: ForumComponent },
-  { path: 'steamreturn', component: SteamReturnComponent },
-  { path: 'game/create', component: CreateGameComponent, canActivate: [AuthGuard] },
-  { path: 'game/listOpen', component: OpenGamesComponent },
-  { path: 'game/:id', component: GameDetailComponent },
-  { path: 'game/:id/edit', component: EditGameComponent },
-  { path: 'user/profile', component: UserProfileComponent, canActivate: [AuthGuard] },
-  { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard] }
+  { path: '', component: HomeComponent, data: { meta: { title: 'Civ 6 Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 6 game easy.' } } },
+  { path: 'forum', component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
+  { path: 'steamreturn', component: SteamReturnComponent, data: { meta: { title: 'Finishing Steam Auth...' } } },
+  { path: 'game/create', component: CreateGameComponent, canActivate: [AuthGuard], data: { meta: { title: 'Create a New Game!' } } },
+  { path: 'game/listOpen', component: OpenGamesComponent, data: { meta: { title: 'Open Games List', description: 'Games that are currently forming and available to join.' } } },
+  { path: 'game/:id', component: GameDetailComponent, data: { meta: { title: 'Game Info' } } },
+  { path: 'game/:id/edit', component: EditGameComponent, data: { meta: { title: 'Edit Game' } } },
+  { path: 'user/profile', component: UserProfileComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Profile' } } },
+  { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Games' } } },
 ];
 
 export const routing = RouterModule.forRoot(routes);

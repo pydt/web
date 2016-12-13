@@ -110,8 +110,7 @@
     "@types/node": {
       "version": "6.0.51",
       "from": "@types/node@>=6.0.38 <7.0.0",
-      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.51.tgz",
-      "dev": true
+      "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.51.tgz"
     },
     "@types/protractor": {
       "version": "4.0.0",
@@ -3355,6 +3354,23 @@
       "version": "1.1.16",
       "from": "ng2-bootstrap@1.1.16",
       "resolved": "https://registry.npmjs.org/ng2-bootstrap/-/ng2-bootstrap-1.1.16.tgz"
+    },
+    "ng2-meta": {
+      "version": "2.0.3",
+      "from": "ng2-meta@latest",
+      "resolved": "https://registry.npmjs.org/ng2-meta/-/ng2-meta-2.0.3.tgz",
+      "dependencies": {
+        "reflect-metadata": {
+          "version": "0.1.8",
+          "from": "reflect-metadata@>=0.1.8 <0.2.0",
+          "resolved": "https://registry.npmjs.org/reflect-metadata/-/reflect-metadata-0.1.8.tgz"
+        },
+        "zone.js": {
+          "version": "0.6.26",
+          "from": "zone.js@>=0.6.25 <0.7.0",
+          "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.6.26.tgz"
+        }
+      }
     },
     "no-case": {
       "version": "2.3.0",

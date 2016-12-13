@@ -5,7 +5,6 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install -y lftp
 script:
-  - npm install
   - npm run build
   - lftp -u ${AZURE_DEPLOYMENT_USER},${AZURE_DEPLOYMENT_PASSWORD} -e 'mirror -Rp dist /site/wwwroot; quit' ftps://waws-prod-ch1-013.ftp.azurewebsites.windows.net
 branches:
