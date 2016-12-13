@@ -9,22 +9,23 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" [routerLink]="['']"><img src="/img/pydt_large.png" style="height:45px;margin-top:-12px;"></a>
+        <a class="navbar-brand" [routerLink]="['']"><img src="/img/pydt_large.png" style="height:45px;margin-top:-12px;" (click)="isCollapsed = true"></a>
       </div>
       <div id="navbar" class="navbar-collapse" [collapse]="isCollapsed">
         <ul class="nav navbar-nav">
-          <li [routerLinkActive]="['active']"><a [routerLink]="['forum']">Forum</a></li>
+          <li [routerLinkActive]="['active']"><a [routerLink]="['forum']" (click)="isCollapsed = true">Forum</a></li>
           <li id="download-clients" dropdown>
             <a href="javascript:void(0)" dropdownToggle>Download Client <span class="caret"></span></a>
             <ul class="dropdown-menu" dropdownMenu aria-labelledby="download-clients">
-              <li><a href="javascript:void(0)" (click)="codesignModal.show()">Windows</a></li>
-              <li><a href="http://updates.playyourdamnturn.com/download/osx">Mac OS X</a></li>
+              <li><a href="javascript:void(0)" (click)="codesignModal.show()" (click)="isCollapsed = true">Windows</a></li>
+              <li><a href="http://updates.playyourdamnturn.com/download/osx" (click)="isCollapsed = true">Mac OS X</a></li>
             </ul>
           </li>
-          <li [routerLinkActive]="['active']"><a [routerLink]="['game/listOpen']">Open Games</a></li>
-          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="javascript:void(0)" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']">Your Profile</a></li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']">Your Games</a></li>
+          <li [routerLinkActive]="['active']"><a [routerLink]="['game/listOpen']" (click)="isCollapsed = true">Open Games</a></li>
+          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="javascript:void(0)" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;" (click)="isCollapsed = true"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
+          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a></li>
+          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a></li>
+          <li><a href="https://github.com/pydt" target="_blank" class="visible-xs" (click)="isCollapsed = true">Source code on Github</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
@@ -34,10 +35,10 @@
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <div class="col-xs-6">
+        <div class="col-sm-6">
           <p class="text-muted" style="margin-top:20px;">Copyright {{copyrightDate}} <a href="mailto:mike@playyourdamnturn.com">playyourdamnturn.com</a>.</p>
         </div>
-        <div class="col-xs-6 text-right">
+        <div class="col-sm-6 text-right hidden-xs">
           <p class="text-muted" style="margin-top:20px;">Source code available on <a href="https://github.com/pydt" target="_blank">Github</a>.</p>
         </div>
       </div>
