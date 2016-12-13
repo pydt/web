@@ -472,13 +472,30 @@ input[type=range]:focus::-ms-fill-upper {
   // Prevent columns from collapsing when empty
   min-height: 1px;
   // Inner gutter via padding
-  padding-left:  ($grid-gutter-width / 2);
-  padding-right: ($grid-gutter-width / 2);
+  padding-left:  2px;
+  padding-right: 2px;
 
   // Calculate width based on number of columns available
-  @media (min-width: $grid-float-breakpoint) {
-    float: left;
-    width: percentage(1 / $slots);
+  float: left;
+  width: percentage(1 / $slots);
+
+  @media (max-width: $grid-float-breakpoint) {
+    $scRows: 1;
+
+    @if ($slots > 8) {
+      $scRows: 3;
+    }
+    @if ($slots <= 8 and $slots > 4) {
+      $scRows: 2;
+    }
+
+    $scFinalSlots: $slots;
+
+    @while($scFinalSlots % $scRows != 0) {
+      $scFinalSlots: $scFinalSlots + 1;
+    }
+
+    width: percentage($scRows / $scFinalSlots);
   }
 }
 
