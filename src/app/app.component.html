@@ -17,7 +17,7 @@
           <li id="download-clients" dropdown>
             <a href="javascript:void(0)" dropdownToggle>Download Client <span class="caret"></span></a>
             <ul class="dropdown-menu" dropdownMenu aria-labelledby="download-clients">
-              <li><a href="javascript:void(0)" (click)="codesignModal.show()" (click)="isCollapsed = true">Windows</a></li>
+              <li><a href="http://updates.playyourdamnturn.com/download/win32" (click)="isCollapsed = true">Windows</a></li>
               <li><a href="http://updates.playyourdamnturn.com/download/osx" (click)="isCollapsed = true">Mac OS X</a></li>
             </ul>
           </li>
@@ -61,33 +61,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="errorModal.hide()">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div bsModal #codesignModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="codesignModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="codesignModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Windows Codesigning</h4>
-      </div>
-      <div class="modal-body">
-        <p>
-          We're currently working on getting a codesigning certificate for the Windows build.  Until we get the certificate, Windows will likely alert
-          you that the software is coming from an untrusted source when you try to install the client.  I can understand if you don't want to install
-          the client because of this, and hopefully we'll have the cert soon.
-        <p>
-        <p>
-          If you still want to download the client, click the button below to do so.  Thanks for your understanding!
-        </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="codesignModal.hide()">Close</button>
-        <a class="btn btn-primary" href="http://updates.playyourdamnturn.com/download/win32">Download Windows Client</a>
       </div>
     </div>
   </div>
