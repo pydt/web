@@ -98,15 +98,6 @@ table,
     }
   }
 
-  > thead > tr > th,
-  > tbody > tr > th,
-  > tfoot > tr > th,
-  > thead > tr > td,
-  > tbody > tr > td,
-  > tfoot > tr > td {
-    border: none;
-  }
-
   &-bordered > thead > tr > th,
   &-bordered > tbody > tr > th,
   &-bordered > tfoot > tr > th,
@@ -541,4 +532,18 @@ input[type=range]:focus::-ms-fill-upper {
 
 .col-12-slots {
   @include make-slot-column(12);
+}
+
+.nav-tabs {
+  li a {
+    color: $brand-primary;
+    border: 1px solid $gray-light;
+    border-bottom: none;
+  }
+
+  > li.active {
+    > a, > a:hover, > a:focus {    
+      background-color: $gray-lighter;
+    }
+  }
 }

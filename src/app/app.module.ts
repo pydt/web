@@ -1,7 +1,7 @@
 import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { CollapseModule, DropdownModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { CollapseModule, DropdownModule, TabsModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
@@ -40,6 +40,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     CollapseModule,
     DropdownModule,
     ModalModule,
+    TabsModule,
     TooltipModule,
     routing,
     BusyModule,

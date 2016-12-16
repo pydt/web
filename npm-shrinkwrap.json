@@ -65,6 +65,12 @@
       "resolved": "https://registry.npmjs.org/@types/core-js/-/core-js-0.9.35.tgz",
       "dev": true
     },
+    "@types/countdown": {
+      "version": "0.0.5",
+      "from": "@types/countdown@latest",
+      "resolved": "https://registry.npmjs.org/@types/countdown/-/countdown-0.0.5.tgz",
+      "dev": true
+    },
     "@types/fs-extra": {
       "version": "0.0.33",
       "from": "@types/fs-extra@0.0.33",
@@ -1105,6 +1111,11 @@
           "dev": true
         }
       }
+    },
+    "countdown": {
+      "version": "2.6.0",
+      "from": "countdown@latest",
+      "resolved": "https://registry.npmjs.org/countdown/-/countdown-2.6.0.tgz"
     },
     "cross-spawn": {
       "version": "3.0.1",
@@ -4117,7 +4128,7 @@
     "pydt-shared": {
       "version": "1.0.0",
       "from": "git+https://github.com/pydt/shared.git",
-      "resolved": "git+https://github.com/pydt/shared.git#d635e235fe8912b8c934537e1728e749742f0a46"
+      "resolved": "git+https://github.com/pydt/shared.git#f95e260ffd3fde094f27734518b9690bf658c74c"
     },
     "q": {
       "version": "1.4.1",

@@ -1,36 +1,67 @@
 <div [pydtBusy]="busy" class="container">
   <pydt-game-preview *ngIf="game" [game]="game"></pydt-game-preview>
-  <div class="panel panel-default" *ngIf="game">
-    <div class="panel-heading">Game Details</div>
-    <div class="panel-body">
-      <p *ngIf="game.description"><b>Description:</b> {{game.description}}</p>
-      <div class="row">
-        <div class="col-md-6">
-          <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
-        </div>
-        <div class="col-md-6">
-          <p><b>Password Protected:</b> {{game.hashedPassword ? 'Yes': 'No'}}</p>
+  <tabset *ngIf="game">
+    <tab heading="Game Stats" *ngIf="game.gameTurnRangeKey > 1">
+      <div class="well">
+        <div class="row">
+          <div class="col-md-4">
+            <p><b>Current Round:</b> {{game.round}}</p>
+            <p><b>Last Turn:</b> {{lastTurn()}} ago</p>
+            <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
+          </div>
+          <div class="col-md-8">
+            <table class="table table-condensed table-striped">
+              <thead>
+                <tr>
+                  <th>Player</th>
+                  <th>Avg Turn Time</th>
+                  <th class="text-success">&lt; 1 hour</th>
+                  <th class="text-danger">&gt; 6 hours</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let player of game.players">
+                  <td><img [src]="gamePlayerProfiles[player.steamId]?.avatar"> {{gamePlayerProfiles[player.steamId]?.personaname}}</td>
+                  <td>{{averagePlayerTurnTime(player)}}</td>
+                  <td>{{player.fastTurns}}</td>
+                  <td>{{player.slowTurns}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-      <div class="row">
-        <div class="col-md-6">
-          <p><b>Number of Slots:</b> {{game.slots}}</p>
+    </tab>
+    <tab heading="Game Details" *ngIf="game">
+      <div class="well">
+        <p *ngIf="game.description"><b>Description:</b> {{game.description}}</p>
+        <div class="row">
+          <div class="col-md-6">
+            <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Password Protected:</b> {{game.hashedPassword ? 'Yes': 'No'}}</p>
+          </div>
         </div>
-        <div class="col-md-6">
-          <p><b>Max Human Players:</b> {{game.humans}}</p>
+        <div class="row">
+          <div class="col-md-6">
+            <p><b>Number of Slots:</b> {{game.slots}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Max Human Players:</b> {{game.humans}}</p>
+          </div>
+        </div>
+        <div class="row" *ngIf="game.createdBySteamId === profile?.steamid && !game.inProgress">
+          <div class="col-xs-12 text-center">
+            <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
+          </div>
         </div>
       </div>
-      <div class="row" *ngIf="game.createdBySteamId === profile?.steamid && !game.inProgress">
-        <div class="col-xs-12 text-center">
-          <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div *ngIf="game?.inProgress && userInGame">
-    <div class="panel panel-default">
-      <div class="panel-heading">Play Turn</div>
-      <div class="panel-body">
+    </tab>
+  </tabset>
+  <tabset *ngIf="game?.inProgress && userInGame">
+    <tab heading="Play Turn">
+      <div class="well">
         <div *ngIf="game.currentPlayerSteamId === profile?.steamid">
           <h3 style="margin-top:0;">It's your turn!</h3>
           <div *ngIf="game.gameTurnRangeKey > 1">
@@ -65,10 +96,9 @@
         </div>
         <p *ngIf="game.currentPlayerSteamId !== profile?.steamid">It's not your turn :(</p>
       </div>
-    </div>
-    <div class="panel panel-default" *ngIf="(game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) && game.gameTurnRangeKey > 1">
-      <div class="panel-heading">Revert Turn</div>
-      <div class="panel-body">
+    </tab>
+    <tab heading="Revert Turn" *ngIf="(game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) && game.gameTurnRangeKey > 1">
+      <div class="well">
         <p>If you're having issues with the current state of the game, press the button below to revert to the previous turn.</p>
         <div class="row">
           <div class="col-xs-12 text-center">
@@ -76,10 +106,9 @@
           </div>
         </div>
       </div>
-    </div>
-    <div *ngIf="game.gameTurnRangeKey > 1" class="panel panel-default">
-      <div class="panel-heading">Surrender</div>
-      <div class="panel-body">
+    </tab>
+    <tab heading="Surrender" *ngIf="game.gameTurnRangeKey > 1">
+      <div class="well">
         <p>If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.</p>
         <div class="row">
           <div class="col-xs-12 text-center">
@@ -87,8 +116,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </div>
+    </tab>
+  </tabset>
   <div *ngIf="game && !game.inProgress">
     <div class="panel panel-default">
       <div class="panel-heading">Join Game</div>
