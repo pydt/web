@@ -39,11 +39,14 @@ ComponentsHelper.prototype.getRootViewContainerRef = function () {
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
+  // tslint:disable:no-unused-variable - template variables
   private isCollapsed: boolean = true;
+  private copyrightDate = new Date().getFullYear();
+  // tslint:enable:no-unused-variable
+
   private isLoggedIn: boolean = false;
   private viewContainerRef: ViewContainerRef;
   private busy: Promise<any>;
-  private copyrightDate = new Date().getFullYear();
   private errorModalMessage: string;
 
   @ViewChild('errorModal') errorModal: ModalDirective;

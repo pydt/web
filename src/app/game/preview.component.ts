@@ -10,7 +10,7 @@ import * as _ from 'lodash';
 })
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
-  @ViewChild("playerDetailModal") playerDetailModal: ModalDirective;
+  @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
   private gamePlayerProfiles = new Map<string, SteamProfile>();
   private gamePlayers: GamePlayer[];
   private civDefs: CivDef[];

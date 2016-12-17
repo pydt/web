@@ -11,6 +11,7 @@ import { UserGamesComponent } from './user/games.component';
 import { ForumComponent } from './forum/forum.component';
 import { AuthGuard } from './shared/auth.guard';
 
+/*tslint:disable:max-line-length */
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { meta: { title: 'Civ 6 Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 6 game easy.' } } },
   { path: 'forum', component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
@@ -22,5 +23,6 @@ const routes: Routes = [
   { path: 'user/profile', component: UserProfileComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Profile' } } },
   { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Games' } } },
 ];
+/*tslint:enable:max-line-length */
 
 export const routing = RouterModule.forRoot(routes);

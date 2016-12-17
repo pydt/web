@@ -11,6 +11,8 @@ import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 export class CreateGameComponent implements OnInit {
   private model = new CreateGameModel();
   private busy: Promise<any>;
+
+  // tslint:disable-next-line:no-unused-variable - template variable
   private allLeaders = Civ6Leaders;
 
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;

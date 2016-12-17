@@ -11,6 +11,8 @@ export class ConfigureGameComponent implements OnInit {
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   private minHumans = 2;
+
+  // tslint:disable-next-line:no-unused-variable - template variable
   private dlcOptions = Civ6DLCs;
 
   constructor(private cdRef: ChangeDetectorRef) {

@@ -20,6 +20,7 @@ export class UserInfoComponent implements OnInit {
   }
 
   averageTurnTime() {
-    return countdown(0, this.user.timeTaken / (this.user.turnsPlayed + this.user.turnsSkipped), countdown.DAYS | countdown.HOURS | countdown.MINUTES);
+    const avgTurnTime = this.user.timeTaken / (this.user.turnsPlayed + this.user.turnsSkipped);
+    return countdown(0, avgTurnTime, countdown.DAYS | countdown.HOURS | countdown.MINUTES);
   }
 }

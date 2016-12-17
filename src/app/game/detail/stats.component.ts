@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Game, GamePlayer, ProfileCacheService, SteamProfile } from 'pydt-shared';
+import { Game, ProfileCacheService } from 'pydt-shared';
 import { NgTableSortingDirective } from 'ng2-table/ng2-table';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
@@ -63,10 +63,10 @@ export class GameDetailStatsComponent implements OnInit {
     return countdown(Date.parse(this.game.updatedAt), null, COUNTDOWN_FORMAT);
   }
 
-  public onChangeTable():any {
+  public onChangeTable(): any {
     let columns = this.tableConfig.sorting.columns || [];
-    let columnName:string = void 0;
-    let sort:string = void 0;
+    let columnName: string = void 0;
+    let sort: string = void 0;
 
     for (let i = 0; i < columns.length; i++) {
       if (columns[i].sort) {
@@ -80,9 +80,9 @@ export class GameDetailStatsComponent implements OnInit {
     }
 
     // simple sorting
-    this.tableData.sort((previous:any, current:any) => {
-      var previous = previous[columnName + '_sort'] || previous[columnName];
-      var current = current[columnName + '_sort'] || current[columnName];
+    this.tableData.sort((prevRow, curRow) => {
+      const previous = prevRow[columnName + '_sort'] || prevRow[columnName];
+      const current = curRow[columnName + '_sort'] || curRow[columnName];
 
       if (previous > current) {
         return sort === 'desc' ? -1 : 1;

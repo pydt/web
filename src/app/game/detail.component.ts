@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, GamePlayer, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
 import * as _ from 'lodash';
-import * as countdown from 'countdown';
 
 @Component({
   selector: 'pydt-game-detail',
