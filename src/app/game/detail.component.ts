@@ -5,14 +5,11 @@ import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, GamePlayer, ProfileCacheServ
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
-const COUNTDOWN_FORMAT = countdown.DAYS | countdown.HOURS | countdown.MINUTES;
-
 @Component({
   selector: 'pydt-game-detail',
   templateUrl: './detail.component.html'
 })
 export class GameDetailComponent implements OnInit {
-  private gamePlayerProfiles = new Map<string, SteamProfile>();
   private busy: Promise<any>;
   private game: Game;
   private profile: SteamProfile;
@@ -84,26 +81,6 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
-  averageTurnTime() {
-    const totalTimeTaken = _.sum(_.map(this.game.players, player => {
-      return player.timeTaken;
-    }));
-
-    const totalTurns = _.sum(_.map(this.game.players, player => {
-      return player.turnsPlayed + player.turnsSkipped;
-    }));
-
-    return countdown(0, totalTimeTaken / totalTurns, COUNTDOWN_FORMAT);
-  }
-
-  averagePlayerTurnTime(player: GamePlayer) {
-    return countdown(0, player.timeTaken / (player.turnsPlayed + player.turnsSkipped), COUNTDOWN_FORMAT);
-  }
-
-  lastTurn() {
-    return countdown(Date.parse(this.game.updatedAt), null, COUNTDOWN_FORMAT);
-  }
-
   changeCiv() {
     this.busy = this.api.changeCiv({
       gameId: this.game.gameId,
@@ -122,10 +99,6 @@ export class GameDetailComponent implements OnInit {
 
     this.civDefs = [];
     this.unpickedCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
-
-    this.profileCache.getProfilesForGame(this.game).then(profiles => {
-      this.gamePlayerProfiles = profiles;
-    });
 
     for (let player of this.game.players) {
       let curLeader = this.findLeader(player.civType);

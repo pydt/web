@@ -3,33 +3,7 @@
   <tabset *ngIf="game">
     <tab heading="Game Stats" *ngIf="game.gameTurnRangeKey > 1">
       <div class="well">
-        <div class="row">
-          <div class="col-md-4">
-            <p><b>Current Round:</b> {{game.round}}</p>
-            <p><b>Last Turn:</b> {{lastTurn()}} ago</p>
-            <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
-          </div>
-          <div class="col-md-8">
-            <table class="table table-condensed table-striped">
-              <thead>
-                <tr>
-                  <th>Player</th>
-                  <th>Avg Turn Time</th>
-                  <th class="text-success">&lt; 1 hour</th>
-                  <th class="text-danger">&gt; 6 hours</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngFor="let player of game.players">
-                  <td><img [src]="gamePlayerProfiles[player.steamId]?.avatar"> {{gamePlayerProfiles[player.steamId]?.personaname}}</td>
-                  <td>{{averagePlayerTurnTime(player)}}</td>
-                  <td>{{player.fastTurns}}</td>
-                  <td>{{player.slowTurns}}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
       </div>
     </tab>
     <tab heading="Game Details" *ngIf="game">

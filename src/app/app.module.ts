@@ -2,6 +2,7 @@ import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { CollapseModule, DropdownModule, TabsModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
@@ -17,6 +18,7 @@ import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { ConfigureGameComponent } from './game/config.component';
 import { EditGameComponent } from './game/edit.component';
 import { GameDetailComponent } from './game/detail.component';
+import { GameDetailStatsComponent } from './game/detail/stats.component';
 import { GamePreviewComponent } from './game/preview.component';
 import { CreateGameComponent } from './game/create.component';
 import { OpenGamesComponent } from './game/opengames.component';
@@ -45,6 +47,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     TooltipModule,
     routing,
     BusyModule,
+    Ng2TableModule,
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     MetaModule.forRoot({
       useTitleSuffix: true,
@@ -60,6 +63,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ConfigureGameComponent,
     EditGameComponent,
     GameDetailComponent,
+    GameDetailStatsComponent,
     GamePreviewComponent,
     CreateGameComponent,
     OpenGamesComponent,

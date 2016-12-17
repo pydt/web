@@ -3383,6 +3383,11 @@
         }
       }
     },
+    "ng2-table": {
+      "version": "1.3.2",
+      "from": "git+https://github.com/pydt/ng2-table.git#5425be434a13b5ec493d8d33292ed5a07859ebf5",
+      "resolved": "git+https://github.com/pydt/ng2-table.git#5425be434a13b5ec493d8d33292ed5a07859ebf5"
+    },
     "no-case": {
       "version": "2.3.0",
       "from": "no-case@>=2.2.0 <3.0.0",
