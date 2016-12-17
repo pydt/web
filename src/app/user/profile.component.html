@@ -1,7 +1,8 @@
 <div [pydtBusy]="busy" class="container">
   <div *ngIf="loaded">
-    <h1>Hello, {{steamName}}</h1>
-
+    <div class="well">
+      <pydt-user-info [user]="user"></pydt-user-info>
+    </div>
     <div class="panel panel-default">
       <div class="panel-heading">Client Token</div>
       <div class="panel-body">

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Headers, Http, RequestOptionsArgs } from '@angular/http';
-import { ApiService } from 'pydt-shared';
+import { ApiService, User } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
   private token: string;
   private emailModel = new EmailModel('');
   private loaded: boolean;
+  private user: User;
   private noDiscourseUser: boolean;
 
   constructor(private api: ApiService, private http: Http) {
@@ -24,6 +25,7 @@ export class UserProfileComponent implements OnInit {
 
     this.busy = Promise.all([
       this.api.getUser().then(user => {
+        this.user = user;
         this.emailModel.emailAddress = user.emailAddress;
         this.loaded = true;
       }),

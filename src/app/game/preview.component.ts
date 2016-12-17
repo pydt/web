@@ -1,5 +1,6 @@
-import { Component, OnChanges, Input } from '@angular/core';
-import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, Game, GamePlayer, SteamProfile } from 'pydt-shared';
+import { Component, OnChanges, Input, ViewChild } from '@angular/core';
+import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
+import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, Game, GamePlayer, User, SteamProfile } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,9 +10,12 @@ import * as _ from 'lodash';
 })
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
+  @ViewChild("playerDetailModal") playerDetailModal: ModalDirective;
   private gamePlayerProfiles = new Map<string, SteamProfile>();
   private gamePlayers: GamePlayer[];
   private civDefs: CivDef[];
+  private userPromise: Promise<any>;
+  private user: User;
 
   constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
@@ -34,5 +38,14 @@ export class GamePreviewComponent implements OnChanges {
         this.gamePlayers.push(null);
       }
     }
+  }
+
+  showUserDetail(userId) {
+    this.user = null;
+    this.playerDetailModal.show();
+
+    this.userPromise = this.api.getUserById(userId).then(user => {
+      this.user = user;
+    });
   }
 }

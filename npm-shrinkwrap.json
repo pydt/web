@@ -4128,7 +4128,7 @@
     "pydt-shared": {
       "version": "1.0.0",
       "from": "git+https://github.com/pydt/shared.git",
-      "resolved": "git+https://github.com/pydt/shared.git#f95e260ffd3fde094f27734518b9690bf658c74c"
+      "resolved": "git+https://github.com/pydt/shared.git#248e7af20349a1b7ea6ae0939a7e250dbb4e4f86"
     },
     "q": {
       "version": "1.4.1",

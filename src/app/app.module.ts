@@ -22,6 +22,7 @@ import { CreateGameComponent } from './game/create.component';
 import { OpenGamesComponent } from './game/opengames.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
+import { UserInfoComponent } from './user/info.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
 import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard } from './shared';
@@ -66,6 +67,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     SelectCivComponent,
     SteamReturnComponent,
     UserProfileComponent,
+    UserInfoComponent,
     UserGamesComponent
   ],
   providers: [
