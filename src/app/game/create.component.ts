@@ -16,6 +16,7 @@ export class CreateGameComponent implements OnInit {
   private allLeaders = Civ6Leaders;
 
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
+  @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
 
   constructor(private api: ApiService, private router: Router) {
   }
@@ -25,15 +26,26 @@ export class CreateGameComponent implements OnInit {
       this.model.displayName = profile.personaname + '\'s game!';
     });
 
-    this.busy = this.api.getUserGames().then(resp => {
-      this.api.getSteamProfile().then(profile => {
-        for (let game of resp.data) {
-          if (game.createdBySteamId === profile.steamid) {
-            this.cannotCreateGameModal.show();
+    this.busy = this.api.getUserGames()
+      .then(resp => {
+        return this.api.getSteamProfile().then(profile => {
+          for (let game of resp.data) {
+            if (game.createdBySteamId === profile.steamid) {
+              this.cannotCreateGameModal.show();
+              return;
+            }
+          }
+
+          return this.api.getUser();
+        })
+      })
+      .then(user => {
+        if (user) {
+          if (!user.emailAddress) {
+            this.mustSetEmailModal.show();
           }
         }
       });
-    });
   }
 
   selectedCivChange(civ: CivDef) {
