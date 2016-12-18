@@ -16,21 +16,6 @@
       </div>
     </div>
 
-    <div *ngIf="noDiscourseUser" class="panel panel-danger">
-      <div class="panel-heading">You haven't joined the forum!</div>
-      <div class="panel-body">
-        <p>
-          Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
-          communicate with other users during matchups.
-        </p>
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <div class="panel" [class.panel-default]="emailModel.emailAddress" [class.panel-danger]="!emailModel.emailAddress">
       <div class="panel-heading">Email Turn Notifications</div>
       <div class="panel-body">
@@ -45,6 +30,21 @@
           </div>
           <button type="submit" class="btn btn-default">Submit</button>
         </form>
+      </div>
+    </div>
+
+    <div *ngIf="noDiscourseUser" class="panel panel-danger">
+      <div class="panel-heading">You haven't joined the forum!</div>
+      <div class="panel-body">
+        <p>
+          Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
+          communicate with other users during matchups.
+        </p>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
