@@ -8,6 +8,7 @@ import { OpenGamesComponent } from './game/opengames.component';
 import { EditGameComponent } from './game/edit.component';
 import { UserProfileComponent } from './user/profile.component';
 import { UserGamesComponent } from './user/games.component';
+import { UserStatsComponent } from './user/stats.component';
 import { ForumComponent } from './forum/forum.component';
 import { AuthGuard } from './shared/auth.guard';
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'game/:id', component: GameDetailComponent, data: { meta: { title: 'Game Info' } } },
   { path: 'game/:id/edit', component: EditGameComponent, data: { meta: { title: 'Edit Game' } } },
   { path: 'user/profile', component: UserProfileComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Profile' } } },
+  { path: 'user/stats', component: UserStatsComponent, data: { meta: { title: 'User Statistics', description: 'All users that have played at least one damn turn.' } } },
   { path: 'user/games', component: UserGamesComponent, canActivate: [AuthGuard], data: { meta: { title: 'Your Games' } } },
 ];
 /*tslint:enable:max-line-length */

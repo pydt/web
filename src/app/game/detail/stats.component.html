@@ -5,6 +5,6 @@
     <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
   </div>
   <div class="col-md-8">
-    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="onChangeTable()"></ng-table>
+    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="onChangeTable(tableConfig, tableData)"></ng-table>
   </div>
 </div>

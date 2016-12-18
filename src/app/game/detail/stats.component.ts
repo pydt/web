@@ -1,10 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Game, ProfileCacheService } from 'pydt-shared';
 import { NgTableSortingDirective } from 'ng2-table/ng2-table';
+import { Utility } from '../../shared/utility';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
-const COUNTDOWN_FORMAT = countdown.DAYS | countdown.HOURS | countdown.MINUTES;
+
 
 @Component({
   selector: 'pydt-game-detail-stats',
@@ -24,6 +25,7 @@ export class GameDetailStatsComponent implements OnInit {
     className: ['table', 'table-condensed', 'table-striped']
   };
   private tableData: Array<any>;
+  private onChangeTable = Utility.onChangeTable;
 
   constructor(private profileCache: ProfileCacheService) {
   }
@@ -36,14 +38,14 @@ export class GameDetailStatsComponent implements OnInit {
         return {
           player: `<img src="${profiles[player.steamId].avatar}"> ${profiles[player.steamId].personaname}`,
           player_sort: profiles[player.steamId].personaname.toLowerCase(),
-          avgTurnTime: countdown(0, avgTurnTime, COUNTDOWN_FORMAT),
+          avgTurnTime: countdown(0, avgTurnTime, Utility.COUNTDOWN_FORMAT),
           avgTurnTime_sort: avgTurnTime,
           fastTurns: player.fastTurns,
           slowTurns: player.slowTurns
         };
       });
 
-      this.onChangeTable();
+      this.onChangeTable(this.tableConfig, this.tableData);
     });
   }
 
@@ -56,40 +58,10 @@ export class GameDetailStatsComponent implements OnInit {
       return player.turnsPlayed + player.turnsSkipped;
     }));
 
-    return countdown(0, totalTimeTaken / totalTurns, COUNTDOWN_FORMAT);
+    return countdown(0, totalTimeTaken / totalTurns, Utility.COUNTDOWN_FORMAT);
   }
 
   lastTurn() {
-    return countdown(Date.parse(this.game.updatedAt), null, COUNTDOWN_FORMAT);
-  }
-
-  public onChangeTable(): any {
-    let columns = this.tableConfig.sorting.columns || [];
-    let columnName: string = void 0;
-    let sort: string = void 0;
-
-    for (let i = 0; i < columns.length; i++) {
-      if (columns[i].sort) {
-        columnName = columns[i].name;
-        sort = columns[i].sort;
-      }
-    }
-
-    if (!columnName) {
-      return;
-    }
-
-    // simple sorting
-    this.tableData.sort((prevRow, curRow) => {
-      const previous = prevRow[columnName + '_sort'] || prevRow[columnName];
-      const current = curRow[columnName + '_sort'] || curRow[columnName];
-
-      if (previous > current) {
-        return sort === 'desc' ? -1 : 1;
-      } else if (previous < current) {
-        return sort === 'asc' ? -1 : 1;
-      }
-      return 0;
-    });
+    return countdown(Date.parse(this.game.updatedAt), null, Utility.COUNTDOWN_FORMAT);
   }
 }

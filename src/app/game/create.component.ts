@@ -37,7 +37,7 @@ export class CreateGameComponent implements OnInit {
           }
 
           return this.api.getUser();
-        })
+        });
       })
       .then(user => {
         if (user) {

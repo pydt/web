@@ -23,6 +23,7 @@ import { GamePreviewComponent } from './game/preview.component';
 import { CreateGameComponent } from './game/create.component';
 import { OpenGamesComponent } from './game/opengames.component';
 import { UserProfileComponent } from './user/profile.component';
+import { UserStatsComponent } from './user/stats.component';
 import { UserGamesComponent } from './user/games.component';
 import { UserInfoComponent } from './user/info.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
@@ -72,7 +73,8 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     SteamReturnComponent,
     UserProfileComponent,
     UserInfoComponent,
-    UserGamesComponent
+    UserGamesComponent,
+    UserStatsComponent
   ],
   providers: [
     ProfileCacheService,

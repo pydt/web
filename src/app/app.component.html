@@ -22,6 +22,7 @@
             </ul>
           </li>
           <li [routerLinkActive]="['active']"><a [routerLink]="['game/listOpen']" (click)="isCollapsed = true">Open Games</a></li>
+          <li [routerLinkActive]="['active']"><a [routerLink]="['user/stats']" (click)="isCollapsed = true">Users</a></li>
           <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="javascript:void(0)" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;" (click)="isCollapsed = true"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a></li>
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a></li>

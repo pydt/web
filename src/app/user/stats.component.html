@@ -1,0 +1,6 @@
+<div [pydtBusy]="busy" class="container">
+  <div *ngIf="tableData">
+    <h1>User Statistics</h1>
+    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="onChangeTable(tableConfig, tableData)"></ng-table>
+  </div>
+</div>
