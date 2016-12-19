@@ -33,13 +33,19 @@ export class GameDetailStatsComponent implements OnInit {
   ngOnInit() {
     this.profileCache.getProfiles(_.map(this.game.players, 'steamId') as string[]).then(profiles => {
       this.tableData = _.map(this.game.players, player => {
-        const avgTurnTime = player.timeTaken / (player.turnsPlayed + player.turnsSkipped);
+        let avgTurnTimeSort = 999999999999999;
+        let avgTurnTime: any = 'N/A';
+        
+        if (player.timeTaken) {
+          avgTurnTimeSort = player.timeTaken / (player.turnsPlayed + player.turnsSkipped);
+          avgTurnTime = countdown(0, avgTurnTimeSort, Utility.COUNTDOWN_FORMAT);
+        }
 
         return {
           player: `<img src="${profiles[player.steamId].avatar}"> ${profiles[player.steamId].personaname}`,
           player_sort: profiles[player.steamId].personaname.toLowerCase(),
-          avgTurnTime: countdown(0, avgTurnTime, Utility.COUNTDOWN_FORMAT),
-          avgTurnTime_sort: avgTurnTime,
+          avgTurnTime: avgTurnTime,
+          avgTurnTime_sort: avgTurnTimeSort,
           fastTurns: player.fastTurns,
           slowTurns: player.slowTurns
         };
