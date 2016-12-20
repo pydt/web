@@ -36,6 +36,7 @@ export class GamePreviewComponent implements OnChanges {
         }));
       } else {
         this.gamePlayers.push(null);
+        this.civDefs.push(null);
       }
     }
   }
