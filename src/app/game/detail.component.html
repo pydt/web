@@ -211,6 +211,26 @@
   </div>
 </div>
 
+<div bsModal #mustHaveEmailSetToJoinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mustHaveEmailSetToJoinModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="mustHaveEmailSetToJoinModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Please set your email address first!</h4>
+      </div>
+      <div class="modal-body">
+        Before you join a game, please set your email address to receive notifications in your profile.  Otherwise, it makes it harder to guarantee
+        that you'll know it's your turn, and games go a lot slower!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" [routerLink]="['/user/profile']">Go to Your Profile</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div bsModal #confirmSurrenderModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmSurrenderModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">

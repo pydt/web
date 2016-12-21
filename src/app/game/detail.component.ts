@@ -26,6 +26,7 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
   @ViewChild('confirmLeaveModal') confirmLeaveModal: ModalDirective;
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
+  @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
 
   constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
@@ -71,12 +72,18 @@ export class GameDetailComponent implements OnInit {
   }
 
   joinGame() {
-    this.busy = this.api.joinGame({
-      gameId: this.game.gameId,
-      playerCiv: this.playerCiv.leaderKey,
-      password: this.joinGamePassword
-    }).then(game => {
-      return this.setGame(game);
+    this.busy = this.api.getUser().then(user => {
+      if (!user.emailAddress) {
+        this.mustHaveEmailSetToJoinModal.show();
+      } else {
+        return this.api.joinGame({
+          gameId: this.game.gameId,
+          playerCiv: this.playerCiv.leaderKey,
+          password: this.joinGamePassword
+        }).then(game => {
+          return this.setGame(game);
+        });
+      }
     });
   }
 

@@ -1,16 +1,12 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Game, ProfileCacheService } from 'pydt-shared';
-import { NgTableSortingDirective } from 'ng2-table/ng2-table';
 import { Utility } from '../../shared/utility';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
-
-
 @Component({
   selector: 'pydt-game-detail-stats',
-  templateUrl: './stats.component.html',
-  providers: [ NgTableSortingDirective ]
+  templateUrl: './stats.component.html'
 })
 export class GameDetailStatsComponent implements OnInit {
   @Input() game: Game;
@@ -35,7 +31,7 @@ export class GameDetailStatsComponent implements OnInit {
       this.tableData = _.map(this.game.players, player => {
         let avgTurnTimeSort = 999999999999999;
         let avgTurnTime: any = 'N/A';
-        
+
         if (player.timeTaken) {
           avgTurnTimeSort = player.timeTaken / (player.turnsPlayed + player.turnsSkipped);
           avgTurnTime = countdown(0, avgTurnTimeSort, Utility.COUNTDOWN_FORMAT);
