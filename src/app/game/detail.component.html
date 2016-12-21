@@ -1,4 +1,4 @@
-<div [pydtBusy]="busy" class="container">
+<div class="container">
   <pydt-game-preview *ngIf="game" [game]="game"></pydt-game-preview>
   <tabset *ngIf="game">
     <tab heading="Game Stats" *ngIf="game.gameTurnRangeKey > 1">

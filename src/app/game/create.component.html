@@ -1,4 +1,4 @@
-<div [pydtBusy]="busy" class="container">
+<div class="container">
   <h1>Create New Game</h1>
   <form class="form-horizontal" (ngSubmit)="onSubmit()" #newGameForm="ngForm">
     <pydt-configure-game [model]="model" [selectedCivs]="[model.player1Civ.leaderKey]"></pydt-configure-game>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, User, ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../shared/utility';
+import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
@@ -9,7 +10,6 @@ import * as countdown from 'countdown';
   templateUrl: './stats.component.html'
 })
 export class UserStatsComponent implements OnInit {
-  private busy: Promise<any>;
   private tableColumns: Array<any> = [
     { title: 'Player', name: 'player', className: 'cursor-pointer' },
     { title: 'Active Games', name: 'activeGames', className: 'cursor-pointer' },
@@ -26,13 +26,13 @@ export class UserStatsComponent implements OnInit {
   private tableData: Array<any>;
   private onChangeTable = Utility.onChangeTable;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
+  constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
     let users: User[];
 
-    this.busy = this.api.getUsers().then(_users => {
+    this.notificationService.setBusy(this.api.getUsers().then(_users => {
       users = _users;
       return this.profileCache.getProfiles(_.map(users, 'steamId') as string[]);
     }).then(profiles => {
@@ -54,6 +54,6 @@ export class UserStatsComponent implements OnInit {
       });
 
       this.onChangeTable(this.tableConfig, this.tableData);
-    });
+    }));
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
+import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,7 +10,6 @@ import * as _ from 'lodash';
   templateUrl: './detail.component.html'
 })
 export class GameDetailComponent implements OnInit {
-  private busy: Promise<any>;
   private game: Game;
   private profile: SteamProfile;
   private userInGame = false;
@@ -28,15 +28,21 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
   @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
 
-  constructor(private api: ApiService, private router: Router, private route: ActivatedRoute, private profileCache: ProfileCacheService) {
+  constructor(
+    private api: ApiService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private notificationService: NotificationService,
+    private profileCache: ProfileCacheService
+  ) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
 
   ngOnInit() {
-    this.busy = this.api.getSteamProfile().then(profile => {
+    this.notificationService.setBusy(this.api.getSteamProfile().then(profile => {
       this.profile = profile;
       this.getGame();
-    });
+    }));
   }
 
   discourseEmbed() {
@@ -58,21 +64,21 @@ export class GameDetailComponent implements OnInit {
   }
 
   startGame() {
-    this.busy = this.api.startGame(this.game.gameId).then(game => {
+    this.notificationService.setBusy(this.api.startGame(this.game.gameId).then(game => {
       this.setGame(game);
-    });
+    }));
   }
 
   getGame() {
     this.route.params.forEach(params => {
-      this.busy = this.api.getGame(params['id']).then(game => {
+      this.notificationService.setBusy(this.api.getGame(params['id']).then(game => {
         this.setGame(game);
-      });
+      }));
     });
   }
 
   joinGame() {
-    this.busy = this.api.getUser().then(user => {
+    this.notificationService.setBusy(this.api.getUser().then(user => {
       if (!user.emailAddress) {
         this.mustHaveEmailSetToJoinModal.show();
       } else {
@@ -84,17 +90,17 @@ export class GameDetailComponent implements OnInit {
           return this.setGame(game);
         });
       }
-    });
+    }));
   }
 
   changeCiv() {
-    this.busy = this.api.changeCiv({
+    this.notificationService.setBusy(this.api.changeCiv({
       gameId: this.game.gameId,
       playerCiv: this.newCiv.leaderKey
     }).then(game => {
       this.newCiv = null;
       return this.setGame(game);
-    });
+    }));
   }
 
   setGame(game: Game) {
@@ -148,15 +154,16 @@ export class GameDetailComponent implements OnInit {
   }
 
   downloadTurn(gameId) {
-    this.busy = this.api.getTurnUrl(gameId)
+    this.notificationService.setBusy(this.api.getTurnUrl(gameId)
       .then(url => {
         window.open(url);
-      });
+      })
+    );
   }
 
   fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
-      this.busy = this.api.startTurnSubmit(gameId).then(response => {
+      this.notificationService.setBusy(this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
           let xhr = new XMLHttpRequest();
           xhr.open('PUT', response.putUrl, true);
@@ -182,39 +189,39 @@ export class GameDetailComponent implements OnInit {
       })
       .then(() => {
         this.getGame();
-      });
+      }));
     }
   }
 
   revert() {
     this.confirmRevertModal.hide();
 
-    this.busy = this.api.revertTurn(this.game.gameId).then(game => {
+    this.notificationService.setBusy(this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
-    });
+    }));
   }
 
   leave() {
     this.confirmLeaveModal.hide();
 
-    this.busy = this.api.leaveGame(this.game.gameId).then(() => {
+    this.notificationService.setBusy(this.api.leaveGame(this.game.gameId).then(() => {
       this.router.navigate(['/user/games']);
-    });
+    }));
   }
 
   surrender() {
     this.confirmSurrenderModal.hide();
 
-    this.busy = this.api.surrender(this.game.gameId).then(() => {
+    this.notificationService.setBusy(this.api.surrender(this.game.gameId).then(() => {
       this.router.navigate(['/user/games']);
-    });
+    }));
   }
 
   delete() {
     this.confirmDeleteModal.hide();
 
-    this.busy = this.api.deleteGame(this.game.gameId).then(() => {
+    this.notificationService.setBusy(this.api.deleteGame(this.game.gameId).then(() => {
       this.router.navigate(['/user/games']);
-    });
+    }));
   }
 }

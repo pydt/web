@@ -28,7 +28,7 @@ import { UserGamesComponent } from './user/games.component';
 import { UserInfoComponent } from './user/info.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
 import { SelectCivComponent } from './game/selectCiv.component';
-import { AuthGuard } from './shared';
+import { AuthGuard, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { ErrorHandlerService } from './error.service';
 import { PydtHttp } from './pydtHttp.service';
@@ -82,6 +82,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     { provide: API_URL_PROVIDER_TOKEN, useClass: WebApiUrlProvider },
     { provide: API_CREDENTIALS_PROVIDER_TOKEN, useClass: WebApiCredentialsProvider },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
+    NotificationService,
     ApiService,
     {
       provide: Http,

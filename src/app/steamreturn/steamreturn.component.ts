@@ -1,20 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { Router }    from '@angular/router';
 import { ApiService } from 'pydt-shared';
+import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-steam-return',
   templateUrl: './steamreturn.component.html'
 })
 export class SteamReturnComponent implements OnInit {
-  private busy: Promise<any>;
-
-  constructor(private api: ApiService, private router: Router) {
+  constructor(private api: ApiService, private router: Router, private notificationService: NotificationService) {
     // Do stuff
   }
 
   ngOnInit() {
-    this.busy = this.api.validateSteamCredentials(window.location.search).then(() => {
+    this.notificationService.setBusy(this.api.validateSteamCredentials(window.location.search).then(() => {
       const returnUrl = localStorage.getItem('returnUrl');
 
       if (returnUrl) {
@@ -23,6 +22,6 @@ export class SteamReturnComponent implements OnInit {
       } else {
         this.router.navigate(['/user/profile']);
       }
-    });
+    }));
   }
 }

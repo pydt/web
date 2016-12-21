@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Headers, Http, RequestOptionsArgs } from '@angular/http';
 import { ApiService, User } from 'pydt-shared';
+import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-user-profile',
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {
-  private busy: Promise<any>;
   private steamName: string;
   private token: string;
   private emailModel = new EmailModel('');
@@ -15,7 +15,7 @@ export class UserProfileComponent implements OnInit {
   private user: User;
   private noDiscourseUser: boolean;
 
-  constructor(private api: ApiService, private http: Http) {
+  constructor(private api: ApiService, private http: Http, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
       this.token = token;
     });
 
-    this.busy = Promise.all([
+    this.notificationService.setBusy(Promise.all([
       this.api.getUser().then(user => {
         this.user = user;
         this.emailModel.emailAddress = user.emailAddress;
@@ -44,14 +44,14 @@ export class UserProfileComponent implements OnInit {
           this.noDiscourseUser = true;
         });
       })
-    ]);
+    ]));
   }
 
   onSubmit() {
     this.loaded = false;
-    this.busy = this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
+    this.notificationService.setBusy(this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
       this.loaded = true;
-    });
+    }));
   }
 }
 

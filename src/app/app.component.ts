@@ -5,6 +5,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { MetaService } from 'ng2-meta';
 import { ErrorHandlerService } from './error.service';
+import { NotificationService } from './shared';
 
 import { ApiService } from 'pydt-shared';
 
@@ -56,6 +57,7 @@ export class AppComponent implements OnInit {
     private errorService: ErrorHandler,
     private router: Router,
     private metaService: MetaService,
+    private notificationService: NotificationService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
     viewContainerRef: ViewContainerRef
   ) {
@@ -68,6 +70,12 @@ export class AppComponent implements OnInit {
 
     this.router.events.subscribe(() => {
       this.updateIsLoggedIn();
+    });
+
+    this.notificationService.subscribeBusy({
+      next: promise => {
+        this.busy = promise;
+      }
     });
 
     (this.errorService as ErrorHandlerService).subscribe(next => {

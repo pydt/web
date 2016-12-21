@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService, EditGameRequestBody, Game } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
+import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -11,15 +12,19 @@ import * as _ from 'lodash';
 export class EditGameComponent implements OnInit {
   private game: Game;
   private model = new EditGameModel();
-  private busy: Promise<any>;
   private selectedCivs: string[];
 
-  constructor(private api: ApiService, private route: ActivatedRoute, private router: Router) {
+  constructor(
+    private api: ApiService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnInit() {
     this.route.params.forEach(params => {
-      this.busy = this.api.getGame(params['id']).then(game => {
+      this.notificationService.setBusy(this.api.getGame(params['id']).then(game => {
         this.game = game;
 
         this.model.displayName = game.displayName;
@@ -34,15 +39,15 @@ export class EditGameComponent implements OnInit {
         }
 
         this.selectedCivs = _.map(game.players, 'civType') as string[];
-      });
+      }));
     });
   }
 
   onSubmit() {
-    this.busy = this.api.editGame(this.model.toJSON())
+    this.notificationService.setBusy(this.api.editGame(this.model.toJSON())
       .then(game => {
         this.router.navigate(['/game', game.gameId]);
-      });
+    }));
   }
 }
 

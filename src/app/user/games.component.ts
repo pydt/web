@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, Game, ProfileCacheService } from 'pydt-shared';
+import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-user-games',
   templateUrl: './games.component.html'
 })
 export class UserGamesComponent implements OnInit {
-  private busy: Promise<any>;
   private games: Game[];
   private canCreateGame: boolean;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
+  constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -18,7 +18,7 @@ export class UserGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.busy = this.api.getUserGames().then(resp => {
+    this.notificationService.setBusy(this.api.getUserGames().then(resp => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(resp.data);
 
@@ -33,6 +33,6 @@ export class UserGamesComponent implements OnInit {
           }
         }
       });
-    });
+    }));
   }
 }
