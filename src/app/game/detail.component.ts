@@ -66,6 +66,10 @@ export class GameDetailComponent implements OnInit {
   startGame() {
     this.notificationService.setBusy(this.api.startGame(this.game.gameId).then(game => {
       this.setGame(game);
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Game started!'
+      });
     }));
   }
 
@@ -87,6 +91,10 @@ export class GameDetailComponent implements OnInit {
           playerCiv: this.playerCiv.leaderKey,
           password: this.joinGamePassword
         }).then(game => {
+          this.notificationService.showAlert({
+            type: 'success',
+            msg: 'Joined game!'
+          });
           return this.setGame(game);
         });
       }
@@ -99,6 +107,10 @@ export class GameDetailComponent implements OnInit {
       playerCiv: this.newCiv.leaderKey
     }).then(game => {
       this.newCiv = null;
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Changed civilization!'
+      });
       return this.setGame(game);
     }));
   }
@@ -189,6 +201,10 @@ export class GameDetailComponent implements OnInit {
       })
       .then(() => {
         this.getGame();
+        this.notificationService.showAlert({
+          type: 'success',
+          msg: 'Turn submitted successfully!'
+        });
       }));
     }
   }
@@ -198,6 +214,10 @@ export class GameDetailComponent implements OnInit {
 
     this.notificationService.setBusy(this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
+      this.notificationService.showAlert({
+        type: 'warning',
+        msg: 'Turn Reverted!'
+      });
     }));
   }
 
@@ -205,6 +225,10 @@ export class GameDetailComponent implements OnInit {
     this.confirmLeaveModal.hide();
 
     this.notificationService.setBusy(this.api.leaveGame(this.game.gameId).then(() => {
+      this.notificationService.showAlert({
+        type: 'warning',
+        msg: 'Left Game :('
+      });
       this.router.navigate(['/user/games']);
     }));
   }
@@ -213,6 +237,10 @@ export class GameDetailComponent implements OnInit {
     this.confirmSurrenderModal.hide();
 
     this.notificationService.setBusy(this.api.surrender(this.game.gameId).then(() => {
+      this.notificationService.showAlert({
+        type: 'warning',
+        msg: 'Surrendered :('
+      });
       this.router.navigate(['/user/games']);
     }));
   }
@@ -221,6 +249,10 @@ export class GameDetailComponent implements OnInit {
     this.confirmDeleteModal.hide();
 
     this.notificationService.setBusy(this.api.deleteGame(this.game.gameId).then(() => {
+      this.notificationService.showAlert({
+        type: 'warning',
+        msg: 'Game Deleted :('
+      });
       this.router.navigate(['/user/games']);
     }));
   }

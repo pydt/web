@@ -56,6 +56,10 @@ export class CreateGameComponent implements OnInit {
     this.notificationService.setBusy(this.api.createGame(this.model.toJSON())
       .then(game => {
         this.router.navigate(['/game', game.gameId]);
+        this.notificationService.showAlert({
+          type: 'success',
+          msg: 'Game created!'
+        });
       })
     );
   }

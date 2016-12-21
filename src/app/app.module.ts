@@ -1,7 +1,7 @@
 import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { CollapseModule, DropdownModule, TabsModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { AlertModule, CollapseModule, DropdownModule, TabsModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -28,15 +28,15 @@ import { UserGamesComponent } from './user/games.component';
 import { UserInfoComponent } from './user/info.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
 import { SelectCivComponent } from './game/selectCiv.component';
-import { AuthGuard, NotificationService } from './shared';
+import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
-import { ErrorHandlerService } from './error.service';
 import { PydtHttp } from './pydtHttp.service';
 
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 
 @NgModule({
   imports: [
+    AlertModule,
     BrowserModule,
     HttpModule,
     FormsModule,

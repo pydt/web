@@ -51,6 +51,10 @@ export class UserProfileComponent implements OnInit {
     this.loaded = false;
     this.notificationService.setBusy(this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
       this.loaded = true;
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Email address updated!'
+      });
     }));
   }
 }

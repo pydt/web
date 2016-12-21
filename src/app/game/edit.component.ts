@@ -46,6 +46,11 @@ export class EditGameComponent implements OnInit {
   onSubmit() {
     this.notificationService.setBusy(this.api.editGame(this.model.toJSON())
       .then(game => {
+        this.notificationService.showAlert({
+          type: 'success',
+          msg: 'Game updated!'
+        });
+
         this.router.navigate(['/game', game.gameId]);
     }));
   }

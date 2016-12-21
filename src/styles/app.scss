@@ -551,3 +551,33 @@ input[type=range]:focus::-ms-fill-upper {
 .cursor-pointer {
   cursor: pointer;
 }
+
+
+.alert-container {
+  position: fixed;
+  z-index: 200;
+  right: 50%;
+  width: 100%;
+  margin-right: -50%;
+
+  .alert {
+    width: 250px;
+    float: right;
+    box-shadow: 5px 5px 10px #000;
+  }
+
+  @media (min-width: $screen-sm-min) {
+    width: $container-tablet;
+    margin-right: $container-tablet / -2;
+  }
+
+  @media (min-width: $screen-md-min) {
+    width: $container-desktop;
+    margin-right: $container-desktop / -2;
+  }
+
+  @media (min-width: $screen-lg-min) {
+    width: $container-large-desktop;
+    margin-right: $container-large-desktop / -2;
+  }
+}

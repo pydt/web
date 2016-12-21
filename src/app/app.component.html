@@ -31,6 +31,9 @@
       </div><!--/.nav-collapse -->
     </div>
   </nav>
+  <div class="container alert-container">
+    <alert *ngFor="let config of alerts" dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{config.msg}}</alert>
+  </div>
   <router-outlet></router-outlet>
   <div style="padding:15px"></div>
   <footer class="footer">

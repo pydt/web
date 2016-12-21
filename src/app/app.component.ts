@@ -4,8 +4,7 @@ import { Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { MetaService } from 'ng2-meta';
-import { ErrorHandlerService } from './error.service';
-import { NotificationService } from './shared';
+import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
 
 import { ApiService } from 'pydt-shared';
 
@@ -49,6 +48,7 @@ export class AppComponent implements OnInit {
   private viewContainerRef: ViewContainerRef;
   private busy: Promise<any>;
   private errorModalMessage: string;
+  private alerts: AlertConfig[] = [];
 
   @ViewChild('errorModal') errorModal: ModalDirective;
 
@@ -75,6 +75,12 @@ export class AppComponent implements OnInit {
     this.notificationService.subscribeBusy({
       next: promise => {
         this.busy = promise;
+      }
+    });
+
+    this.notificationService.subscribeAlert({
+      next: config => {
+        this.alerts.push(config);
       }
     });
 
