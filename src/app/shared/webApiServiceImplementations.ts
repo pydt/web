@@ -11,11 +11,11 @@ export class WebApiCredentialsProvider implements ApiCredentialsProvider {
   }
 
   getToken(): Promise<string> {
-    return Promise.resolve(localStorage.getItem('token'));
+    return Promise.resolve((localStorage.getItem('token') || '').trim());
   }
 
   getSteamProfile(): Promise<SteamProfile> {
-    return Promise.resolve(JSON.parse(localStorage.getItem('steamProfile')));
+    return Promise.resolve(JSON.parse((localStorage.getItem('steamProfile') || '{}').trim()));
   }
 }
 
