@@ -10,6 +10,8 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var DashboardPlugin = require('webpack-dashboard/plugin');
+var GitRevisionPlugin = require('git-revision-webpack-plugin');
+var gitRevisions = new GitRevisionPlugin();
 
 /**
  * Env
@@ -174,7 +176,8 @@ module.exports = function makeWebpackConfig() {
       // Environment helpers
       'process.env': {
         ENV: JSON.stringify(ENV),
-        API_URL: JSON.stringify(apiUrl)
+        API_URL: JSON.stringify(apiUrl),
+        COMMIT_HASH: JSON.stringify(gitRevisions.commithash())
       }
     })
   ];

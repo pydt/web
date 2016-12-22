@@ -2040,6 +2040,12 @@
         }
       }
     },
+    "git-revision-webpack-plugin": {
+      "version": "2.4.0",
+      "from": "git-revision-webpack-plugin@latest",
+      "resolved": "https://registry.npmjs.org/git-revision-webpack-plugin/-/git-revision-webpack-plugin-2.4.0.tgz",
+      "dev": true
+    },
     "glob": {
       "version": "7.1.1",
       "from": "glob@>=7.0.3 <8.0.0",

@@ -4,7 +4,14 @@ if (process.env.ENV === 'build') {
       captureUncaught: true,
       captureUnhandledRejections: true,
       payload: {
-          environment: "prod"
+          environment: "prod",
+          client: {
+              javascript: {
+                  source_map_enabled: true,
+                  code_version: process.env.COMMIT_HASH,
+                  guess_uncaught_frames: true
+              }
+          }
       }
   };
 
