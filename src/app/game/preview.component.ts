@@ -13,6 +13,7 @@ export class GamePreviewComponent implements OnChanges {
   @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
   private gamePlayerProfiles = new Map<string, SteamProfile>();
   private gamePlayers: GamePlayer[];
+  private activeProfile: SteamProfile;
   private civDefs: CivDef[];
   private userPromise: Promise<any>;
   private user: User;
@@ -21,6 +22,10 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   ngOnChanges() {
+    this.api.getSteamProfile().then(profile => {
+      this.activeProfile = profile;
+    });
+
     this.profileCache.getProfilesForGame(this.game).then(profiles => {
       this.gamePlayerProfiles = profiles;
     });
