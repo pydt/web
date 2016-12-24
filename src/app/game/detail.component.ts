@@ -24,6 +24,7 @@ export class GameDetailComponent implements OnInit {
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
   @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
+  @ViewChild('confirmKickUserModal') confirmKickUserModal: ModalDirective;
   @ViewChild('confirmLeaveModal') confirmLeaveModal: ModalDirective;
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
   @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
@@ -242,6 +243,18 @@ export class GameDetailComponent implements OnInit {
         msg: 'Surrendered :('
       });
       this.router.navigate(['/user/games']);
+    }));
+  }
+
+  kickPlayer() {
+    this.confirmKickUserModal.hide();
+
+    this.notificationService.setBusy(this.api.kickUser(this.game.gameId, this.game.currentPlayerSteamId).then(game => {
+      this.notificationService.showAlert({
+        type: 'warning',
+        msg: 'Successfully kicked user :('
+      });
+      this.setGame(game);
     }));
   }
 
