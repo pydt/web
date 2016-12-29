@@ -33,7 +33,7 @@ export class GameDetailStatsComponent implements OnInit {
         let avgTurnTime: any = 'N/A';
 
         if (player.timeTaken) {
-          avgTurnTimeSort = player.timeTaken / (player.turnsPlayed + player.turnsSkipped);
+          avgTurnTimeSort = player.timeTaken / (player.turnsPlayed || 0 + player.turnsSkipped || 0);
           avgTurnTime = countdown(0, avgTurnTimeSort, Utility.COUNTDOWN_FORMAT);
         }
 
@@ -42,8 +42,8 @@ export class GameDetailStatsComponent implements OnInit {
           player_sort: profiles[player.steamId].personaname.toLowerCase(),
           avgTurnTime: avgTurnTime,
           avgTurnTime_sort: avgTurnTimeSort,
-          fastTurns: player.fastTurns,
-          slowTurns: player.slowTurns
+          fastTurns: player.fastTurns || 0,
+          slowTurns: player.slowTurns || 0
         };
       });
 
