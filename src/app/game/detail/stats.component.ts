@@ -53,11 +53,11 @@ export class GameDetailStatsComponent implements OnInit {
 
   averageTurnTime() {
     const totalTimeTaken = _.sum(_.map(this.game.players, player => {
-      return player.timeTaken;
+      return player.timeTaken || 0;
     }));
 
     const totalTurns = _.sum(_.map(this.game.players, player => {
-      return player.turnsPlayed + player.turnsSkipped;
+      return player.turnsPlayed || 0 + player.turnsSkipped || 0;
     }));
 
     return countdown(0, totalTimeTaken / totalTurns, Utility.COUNTDOWN_FORMAT);
