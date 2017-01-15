@@ -30,7 +30,7 @@ export class CreateGameComponent implements OnInit {
       .then(resp => {
         return this.api.getSteamProfile().then(profile => {
           for (let game of resp.data) {
-            if (game.createdBySteamId === profile.steamid) {
+            if (game.createdBySteamId === profile.steamid && !game.inProgress) {
               this.cannotCreateGameModal.show();
               return;
             }

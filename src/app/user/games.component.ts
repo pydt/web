@@ -28,7 +28,7 @@ export class UserGamesComponent implements OnInit {
         this.canCreateGame = true;
 
         for (let game of this.games) {
-          if (game.createdBySteamId === profile.steamid) {
+          if (game.createdBySteamId === profile.steamid && !game.inProgress) {
             this.canCreateGame = false;
           }
         }
