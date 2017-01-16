@@ -66,7 +66,7 @@ export class CreateGameComponent implements OnInit {
 }
 
 class CreateGameModel extends ConfigureGameModel {
-  public player1Civ = Civ6Leaders[0];
+  public player1Civ = Civ6Leaders[1];
 
   toJSON(): CreateGameRequestBody {
     const result: any = super.toJSON();

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 
@@ -129,7 +129,10 @@ export class GameDetailComponent implements OnInit {
       let curLeader = this.findLeader(player.civType);
 
       this.civDefs.push(curLeader);
-      _.pull(this.unpickedCivs, curLeader);
+
+      if (curLeader !== RandomCiv) {
+        _.pull(this.unpickedCivs, curLeader);
+      }
     }
 
     if (this.profile) {
