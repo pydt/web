@@ -31,16 +31,15 @@ export class ConfigureGameComponent implements OnInit {
       });
 
       if (leader.dlcId) {
-        const foundDlc = _.some(_.keys(this.model.dlc), key => {
-          return this.model.dlc[key];
-        });
+        if (!this.model.dlc[leader.dlcId]) {
+          alert(`Can't deselect DLC because there's a player in the game using that DLC.`);
 
-        if (!foundDlc) {
-          alert('Can\'t deselect DLC because there\'s a player in the game using that DLC.');
           setTimeout(() => {
             this.model.dlc[leader.dlcId] = true;
             this.cdRef.detectChanges();
           }, 10);
+
+          return;
         }
       }
     }
