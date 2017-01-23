@@ -1,6 +1,19 @@
 <div class="container">
-  <div *ngIf="tableData">
+  <div *ngIf="rawData">
     <h1>User Statistics</h1>
-    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="onChangeTable(tableConfig, tableData)"></ng-table>
+    <hr />
+    <div class="row">
+      <div class="col-md-6 form-inline">
+        <div class="form-group">
+          <label for="exampleInputName2">Search for User:</label>
+          <input type="text" class="form-control" [(ngModel)]="tableConfig.filtering.filterString" (ngModelChange)="onChangeTable(tableConfig, rawData, visibleData)">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <pagination class="pull-right" [(ngModel)]="tableConfig.paging.page" [totalItems]="tableConfig.filtering.filteredResults" [itemsPerPage]="tableConfig.paging.itemsPerPage" (pageChanged)="onChangeTable(tableConfig, rawData, visibleData, $event)"></pagination>
+      </div>
+    </div>
+    <hr />
+    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="visibleData" (tableChanged)="onChangeTable(tableConfig, rawData, visibleData)"></ng-table>
   </div>
 </div>

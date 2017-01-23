@@ -1,7 +1,10 @@
 import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { AlertModule, CollapseModule, DropdownModule, TabsModule, TooltipModule, ModalModule } from 'ng2-bootstrap/ng2-bootstrap';
+import {
+  AlertModule, CollapseModule, DropdownModule, PaginationModule,
+  TabsModule, TooltipModule, ModalModule
+} from 'ng2-bootstrap/ng2-bootstrap';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -44,6 +47,7 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     CollapseModule,
     DropdownModule,
     ModalModule,
+    PaginationModule,
     TabsModule,
     TooltipModule,
     routing,

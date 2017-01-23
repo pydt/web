@@ -7,11 +7,13 @@ import * as countdown from 'countdown';
 
 @Component({
   selector: 'pydt-user-stats',
-  templateUrl: './stats.component.html'
+  templateUrl: './stats.component.html',
+  styleUrls: ['./stats.component.scss']
 })
 export class UserStatsComponent implements OnInit {
   private tableColumns: Array<any> = [
-    { title: 'Player', name: 'player', className: 'cursor-pointer' },
+    { title: 'Rank', name: 'rank', sort: false },
+    { title: 'Player', name: 'player', className: 'cursor-pointer', filter: true },
     { title: 'Active Games', name: 'activeGames', className: 'cursor-pointer' },
     { title: 'Total Games', name: 'totalGames', className: 'cursor-pointer' },
     { title: 'Turns Played', name: 'turnsPlayed', className: 'cursor-pointer', sort: 'desc' },
@@ -20,11 +22,14 @@ export class UserStatsComponent implements OnInit {
     { title: '> 6 hours', name: 'slowTurns', className: 'cursor-pointer text-danger' }
   ];
   private tableConfig = {
+    columns: this.tableColumns,
     sorting: { columns: this.tableColumns },
-    className: ['table', 'table-condensed', 'table-striped']
+    filtering: { filterString: '', filteredResults: 0 },
+    className: ['table', 'table-condensed', 'table-striped'],
+    paging: { page: 1, itemsPerPage: 25 }
   };
-  private tableData: Array<any>;
-  private onChangeTable = Utility.onChangeTable;
+  private rawData: Array<any> = [];
+  private visibleData: Array<any> = [];
 
   constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
   }
@@ -34,15 +39,17 @@ export class UserStatsComponent implements OnInit {
 
     this.notificationService.setBusy(this.api.getUsers().then(_users => {
       users = _users;
-      return this.profileCache.getProfiles(_.map(users, 'steamId') as string[]);
-    }).then(profiles => {
-      this.tableData = _.map(users, user => {
+
+      this.rawData = _.map(users, user => {
         const avgTurnTime = user.timeTaken / (user.turnsPlayed + user.turnsSkipped);
         const activeGames = (user.activeGameIds || []).length;
 
         return {
-          player: `<img src="${profiles[user.steamId].avatar}"> ${profiles[user.steamId].personaname}`,
-          player_sort: profiles[user.steamId].personaname.toLowerCase(),
+          rank: '',
+          steamId: user.steamId,
+          player: user.displayName,
+          gotAvatar: false,
+          player_sort: user.displayName.toLowerCase(),
           activeGames: activeGames,
           totalGames: activeGames + (user.inactiveGameIds || []).length,
           turnsPlayed: user.turnsPlayed,
@@ -53,7 +60,24 @@ export class UserStatsComponent implements OnInit {
         };
       });
 
-      this.onChangeTable(this.tableConfig, this.tableData);
+      this.onChangeTable(this.tableConfig, this.rawData, this.visibleData);
     }));
+  }
+
+  onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
+    Utility.onChangeTable(tableConfig, rawData, visibleData, page);
+
+    const vdCopy = _.filter(visibleData.slice(), row => {
+      return !row.gotAvatar;
+    });
+
+    if (vdCopy.length) {
+      this.profileCache.getProfiles(_.map(vdCopy, 'steamId') as string[]).then(profiles => {
+        for (let row of vdCopy) {
+          row.player = `<img src="${profiles[row.steamId].avatar}"> ${profiles[row.steamId].personaname}`;
+          row.gotAvatar = true;
+        }
+      });
+    }
   }
 }
