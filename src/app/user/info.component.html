@@ -1,8 +1,9 @@
 <div class="row">
-  <div class="col-sm-4">
-    <a href="javascript:void()" class="thumbnail" style="cursor:default;">
+  <div class="col-sm-4 text-center">
+    <a href="https://steamcommunity.com/profiles/{{user.steamId}}" target="_steamprofile" class="thumbnail">
       <img [src]="profile?.avatarfull">
     </a>
+    <a href="https://steamcommunity.com/profiles/{{user.steamId}}" target="_steamprofile" class="btn btn-sm btn-default">Open Steam Profile</a>
   </div>
   <div class="col-sm-8">
     <h1 style="margin-top:0;">{{user?.displayName}}</h1>
