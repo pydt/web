@@ -33,6 +33,9 @@ export class EditGameComponent implements OnInit {
         this.model.humans = game.humans;
         this.model.gameId = game.gameId;
         this.model.password = game.hashedPassword;
+        this.model.gameSpeed = game.gameSpeed;
+        this.model.mapFile = game.mapFile;
+        this.model.mapSize = game.mapSize;
 
         for (let dlcId of game.dlc || []) {
           this.model.dlc[dlcId] = true;

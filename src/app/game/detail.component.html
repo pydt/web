@@ -25,6 +25,15 @@
             <p><b>Max Human Players:</b> {{game.humans}}</p>
           </div>
         </div>
+        <div class="row" *ngIf="game.gameSpeed">
+          <div class="col-md-6">
+            <p><b>Game Speed:</b> {{game.gameSpeed | civ6gamespeed}}</p>
+          </div>
+          <div class="col-md-6">
+            <p><b>Map Type:</b> {{game.mapFile | civ6map}}</p>
+          </div>
+        </div>
+        <p *ngIf="game.mapSize"><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</p>
         <div class="row" *ngIf="game.createdBySteamId === profile?.steamid && !game.inProgress">
           <div class="col-xs-12 text-center">
             <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
@@ -363,8 +372,15 @@
           <span *ngIf="!game?.dlc.length">ensure that <b>NO DLC</b> is enabled!</span>
         </p>
         <p>
-          Now start Civ 6, go to Multiplayer / Hotseat, configure the game however you wish, but make sure you choose
-          a map size large enough to support <b>{{game?.slots}}</b> slots (both human and AI players).
+          Now start Civ 6, go to Multiplayer / Hotseat, and configure the game.
+          <span *ngIf="game?.gameSpeed">
+            Set the following settings:
+            <ul>
+              <li><b>Game Speed:</b> {{game.gameSpeed | civ6gamespeed}}</li>
+              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game.mapFile | civ6map}}</li>
+              <li><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</li>
+            </ul>
+          </span>
           When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>
           slots active, and add the following human players, starting at the first slot:
         </p>

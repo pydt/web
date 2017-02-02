@@ -11,7 +11,10 @@ import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { MetaModule } from 'ng2-meta';
 import { ClipboardModule }  from 'angular2-clipboard';
-import { ApiService, BusyModule, ProfileCacheService, API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN } from 'pydt-shared';
+import {
+  ApiService, BusyModule, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe,
+  API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN
+} from 'pydt-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 
 import { AppComponent } from './app.component';
@@ -78,7 +81,10 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     UserProfileComponent,
     UserInfoComponent,
     UserGamesComponent,
-    UserStatsComponent
+    UserStatsComponent,
+    Civ6GameSpeedPipe,
+    Civ6MapPipe,
+    Civ6MapSizePipe
   ],
   providers: [
     ProfileCacheService,

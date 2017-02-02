@@ -209,6 +209,10 @@ export class GameDetailComponent implements OnInit {
           type: 'success',
           msg: 'Turn submitted successfully!'
         });
+      })
+      .catch(err => {
+        event.target.value = '';
+        throw err;
       }));
     }
   }

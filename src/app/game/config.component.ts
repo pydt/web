@@ -1,10 +1,11 @@
 import { Component, ChangeDetectorRef, Input, OnInit } from '@angular/core';
-import { Game, Civ6DLCs, Civ6Leaders, DLC } from 'pydt-shared';
+import { Game, Civ6DLCs, Civ6Leaders, Civ6GameSpeeds, Civ6Maps, Civ6MapSizes, DLC } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({
   selector: 'pydt-configure-game',
-  templateUrl: './config.component.html'
+  templateUrl: './config.component.html',
+  styleUrls: ['./config.component.css']
 })
 export class ConfigureGameComponent implements OnInit {
   @Input() game: Game;
@@ -12,15 +13,19 @@ export class ConfigureGameComponent implements OnInit {
   @Input() selectedCivs: string[];
   private minHumans = 2;
 
-  // tslint:disable-next-line:no-unused-variable - template variable
+  // tslint:disable:no-unused-variable - template variable
   private dlcOptions = Civ6DLCs;
+  private gameSpeeds = Civ6GameSpeeds;
+  private maps = Civ6Maps;
+  private mapSizes = Civ6MapSizes;
+  // tslint:enable:no-unused-variable - template variable
 
   constructor(private cdRef: ChangeDetectorRef) {
   }
 
   ngOnInit() {
     if (this.game) {
-      this.minHumans = this.game.humans;
+      this.minHumans = Math.max(2, this.game.players.length);
     }
   }
 
@@ -47,13 +52,16 @@ export class ConfigureGameComponent implements OnInit {
 }
 
 export class ConfigureGameModel {
-  private _slots = 4;
+  private _slots = 6;
 
   public displayName: string;
   public description: string;
-  public humans: number = 4;
+  public humans: number = 6;
   public dlc = new Map<string, boolean>();
   public password: string;
+  public gameSpeed = Civ6GameSpeeds[0].key;
+  public mapFile = Civ6Maps[0].file;
+  public mapSize = Civ6MapSizes[2].key;
 
   set slots(slots: number) {
     this._slots = Number(slots);
@@ -80,6 +88,20 @@ export class ConfigureGameModel {
     });
   }
 
+  selectedMap() {
+    return _.find(Civ6Maps, map => {
+      return map.file === this.mapFile;
+    });
+  }
+
+  possiblyUpdateMapSize() {
+    const selectedMap = this.selectedMap();
+
+    if (selectedMap && selectedMap.mapSize) {
+      this.mapSize = selectedMap.mapSize.key;
+    }
+  }
+
   toJSON() {
     return {
       displayName: this.displayName,
@@ -87,7 +109,10 @@ export class ConfigureGameModel {
       slots: this.slots,
       humans: this.humans,
       password: this.password,
-      dlc: this.dlcIdArray()
+      dlc: this.dlcIdArray(),
+      gameSpeed: this.gameSpeed,
+      mapFile: this.mapFile,
+      mapSize: this.mapSize
     };
   }
 }
