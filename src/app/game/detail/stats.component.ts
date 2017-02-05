@@ -27,8 +27,8 @@ export class GameDetailStatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileCache.getProfiles(_.map(this.game.players, 'steamId') as string[]).then(profiles => {
-      this.tableData = _.map(this.game.players, player => {
+    this.profileCache.getProfiles(_.map(this.humanPlayers(), 'steamId') as string[]).then(profiles => {
+      this.tableData = _.map(this.humanPlayers(), player => {
         let avgTurnTimeSort = 999999999999999;
         let avgTurnTime: any = 'N/A';
 
@@ -51,8 +51,14 @@ export class GameDetailStatsComponent implements OnInit {
     });
   }
 
+  humanPlayers() {
+    return _.filter(this.game.players, player => {
+      return player.steamId;
+    });
+  }
+
   averageTurnTime() {
-    const totalTimeTaken = _.sum(_.map(this.game.players, player => {
+    const totalTimeTaken = _.sum(_.map(this.humanPlayers(), player => {
       return player.timeTaken || 0;
     }));
 

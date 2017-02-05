@@ -34,7 +34,7 @@ export class GamePreviewComponent implements OnChanges {
     this.civDefs = [];
 
     for (let i = 0; i < this.game.slots; i++) {
-      if (this.game.players.length > i && !this.game.players[i].hasSurrendered) {
+      if (this.game.players.length > i) {
         this.gamePlayers.push(this.game.players[i]);
         this.civDefs.push(_.find(Civ6Leaders, leader => {
           return leader.leaderKey === this.game.players[i].civType;
@@ -46,12 +46,37 @@ export class GamePreviewComponent implements OnChanges {
     }
   }
 
-  showUserDetail(userId) {
-    this.user = null;
-    this.playerDetailModal.show();
+  getTooltip(player: GamePlayer, civDef: CivDef) {
+    if (player) {
+      let playerName = 'AI';
+      let profile = this.gamePlayerProfiles[player.steamId];
 
-    this.userPromise = this.api.getUserById(userId).then(user => {
-      this.user = user;
-    });
+      if (profile && !player.hasSurrendered) {
+        playerName = profile.personaname;
+      }
+
+      return `${playerName} /<br />${civDef.getFullDisplayName()}`;
+    } else {
+      return 'AI';
+    }
+  }
+
+  getProfileImg(player: GamePlayer) {
+    if (player && player.steamId && !player.hasSurrendered) {
+      return (this.gamePlayerProfiles[player.steamId] || {}).avatarmedium;
+    }
+
+    return '/img/android.png';
+  }
+
+  showUserDetail(userId) {
+    if (userId) {
+      this.user = null;
+      this.playerDetailModal.show();
+
+      this.userPromise = this.api.getUserById(userId).then(user => {
+        this.user = user;
+      });
+    }
   }
 }
