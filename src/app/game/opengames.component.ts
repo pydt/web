@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, Game, SteamProfile, ProfileCacheService } from 'pydt-shared';
+import { ApiService, OpenGamesResponse, SteamProfile, ProfileCacheService } from 'pydt-shared';
 import { NotificationService } from '../shared';
 
 @Component({
@@ -7,7 +7,7 @@ import { NotificationService } from '../shared';
   templateUrl: './opengames.component.html'
 })
 export class OpenGamesComponent implements OnInit {
-  private games: Game[];
+  private openGames: OpenGamesResponse;
   private profile: SteamProfile;
 
   constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
@@ -24,9 +24,8 @@ export class OpenGamesComponent implements OnInit {
   getGames() {
     this.notificationService.setBusy(this.api.listOpenGames().then(games => {
       // Go ahead and get all profiles for all the games in one request
-      this.profileCache.getProfilesForGames(games);
-
-      this.games = games;
+      this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
+      this.openGames = games;
     }));
   }
 }

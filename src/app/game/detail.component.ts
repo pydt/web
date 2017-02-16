@@ -15,7 +15,8 @@ export class GameDetailComponent implements OnInit {
   private userInGame = false;
   private discourse: HTMLScriptElement;
   private civDefs: CivDef[] = [];
-  private unpickedCivs: CivDef[];
+  private availableCivs: CivDef[];
+  private tooManyHumans = false;
   private playerCiv: CivDef;
   private joinGamePassword: string;
   private newCiv: CivDef;
@@ -119,21 +120,13 @@ export class GameDetailComponent implements OnInit {
   setGame(game: Game) {
     this.game = game;
     game.dlc = game.dlc || [];
-    const steamIds = _.map(game.players, 'steamId');
+    const steamIds = _.compact(_.map(game.players, 'steamId'));
+    this.tooManyHumans = steamIds.length >= game.humans;
     this.userInGame = false;
 
     this.civDefs = [];
-    this.unpickedCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
-
-    for (let player of this.game.players) {
-      let curLeader = this.findLeader(player.civType);
-
-      this.civDefs.push(curLeader);
-
-      if (curLeader !== RandomCiv) {
-        _.pull(this.unpickedCivs, curLeader);
-      }
-    }
+    this.availableCivs = [];
+    this.playerCiv = null;
 
     if (this.profile) {
       this.userInGame = _.includes(steamIds, this.profile.steamid);
@@ -145,9 +138,38 @@ export class GameDetailComponent implements OnInit {
       if (userPlayer) {
         this.playerCiv = this.findLeader(userPlayer.civType);
         this.newCiv = this.playerCiv;
-      } else {
-        this.playerCiv = this.unpickedCivs[0];
       }
+    }
+
+    if (game.inProgress) {
+      if (!this.playerCiv) {
+        this.availableCivs = _(game.players)
+          .filter(player => {
+            return !player.steamId;
+          })
+          .map(player => {
+            return _.find(Civ6Leaders, leader => {
+              return leader.leaderKey === player.civType;
+            });
+          })
+          .value();
+      }
+    } else {
+      this.availableCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
+
+      for (let player of this.game.players) {
+        let curLeader = this.findLeader(player.civType);
+
+        this.civDefs.push(curLeader);
+
+        if (curLeader !== RandomCiv) {
+          _.pull(this.availableCivs, curLeader);
+        }
+      }
+    }
+
+    if (this.profile && !this.playerCiv && this.availableCivs.length) {
+      this.playerCiv = this.availableCivs[0];
     }
 
     this.dlcEnabled = _.map(game.dlc, dlcId => {

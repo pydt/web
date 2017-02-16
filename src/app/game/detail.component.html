@@ -115,7 +115,7 @@
       </div>
     </tab>
   </tabset>
-  <div *ngIf="game && !game.inProgress">
+  <div *ngIf="game && availableCivs.length">
     <div class="panel panel-default">
       <div class="panel-heading">Join Game</div>
       <div class="panel-body">
@@ -134,9 +134,9 @@
           Please use the "Sign in through STEAM" button above to login, and then you can join this game!
         </p>
         <div *ngIf="!userInGame && profile">
-          <div *ngIf="game.players.length < game.humans">
+          <div *ngIf="!tooManyHumans">
             <p>If you want to join this game, select a civ and then press the button below!</p>
-            <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
+            <pydt-select-civ [leaders]="availableCivs" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
             <div class="form-group" *ngIf="game.hashedPassword">
               <label for="password">The creator of the game has set a password:</label>
               <input type="password" class="form-control" id="password" placeholder="Game Password" [(ngModel)]="joinGamePassword" name="password">
@@ -147,7 +147,7 @@
               </div>
             </div>
           </div>
-          <div *ngIf="game.players.length >= game.humans">
+          <div *ngIf="tooManyHumans">
             <p>There are already too many players in this game, sorry!</p>
           </div>
         </div>
@@ -157,7 +157,7 @@
       <div class="panel-heading">Change Your Civ</div>
       <div class="panel-body">
         <p>If you want to change your civ before the game starts, use the selector below...</p>
-        <pydt-select-civ [leaders]="unpickedCivs" [curCiv]="newCiv" (selectedCiv)="newCiv = $event"></pydt-select-civ>
+        <pydt-select-civ [leaders]="availableCivs" [curCiv]="newCiv" (selectedCiv)="newCiv = $event"></pydt-select-civ>
         <div class="row">
           <div class="col-xs-12 text-center">
             <button type="button" class="btn btn-primary" [disabled]="playerCiv == newCiv" (click)="changeCiv()">Change Civ!</button>

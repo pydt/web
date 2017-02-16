@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="games">
+  <div *ngIf="openGames">
     <h1>Open Games</h1>
     <p>
       This is a list of all games that are currently forming and available to join.  <span *ngIf="profile">If you don't see one that you want
@@ -11,16 +11,33 @@
       </div>
     </div>
     <hr />
-    <h1 *ngIf="games.length == 0">No games found.</h1>
-    <div *ngFor="let game of games">
-      <div class="well"> 
-        <pydt-game-preview [game]="game"></pydt-game-preview>
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+    <tabset>
+      <tab heading="New Games">
+        <h1 *ngIf="openGames.notStarted.length == 0">No games found.</h1>
+        <div *ngFor="let game of openGames.notStarted">
+          <div class="well"> 
+            <pydt-game-preview [game]="game"></pydt-game-preview>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </tab>
+      <tab heading="In-Progress Games with Open Slots">
+        <h1 *ngIf="openGames.openSlots.length == 0">No games found.</h1>
+        <div *ngFor="let game of openGames.openSlots">
+          <div class="well"> 
+            <pydt-game-preview [game]="game"></pydt-game-preview>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </tab>
+    </tabset>
   </div>
 </div>
