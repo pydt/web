@@ -36,6 +36,7 @@ export class EditGameComponent implements OnInit {
         this.model.gameSpeed = game.gameSpeed;
         this.model.mapFile = game.mapFile;
         this.model.mapSize = game.mapSize;
+        this.model.allowJoinAfterStart = game.allowJoinAfterStart;
 
         for (let dlcId of game.dlc || []) {
           this.model.dlc[dlcId] = true;

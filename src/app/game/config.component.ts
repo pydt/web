@@ -62,6 +62,7 @@ export class ConfigureGameModel {
   public gameSpeed = Civ6GameSpeeds[0].key;
   public mapFile = Civ6Maps[0].file;
   public mapSize = Civ6MapSizes[2].key;
+  public allowJoinAfterStart = true;
 
   set slots(slots: number) {
     this._slots = Number(slots);
@@ -112,7 +113,8 @@ export class ConfigureGameModel {
       dlc: this.dlcIdArray(),
       gameSpeed: this.gameSpeed,
       mapFile: this.mapFile,
-      mapSize: this.mapSize
+      mapSize: this.mapSize,
+      allowJoinAfterStart: this.allowJoinAfterStart
     };
   }
 }

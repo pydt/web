@@ -33,8 +33,15 @@
             <p><b>Map Type:</b> {{game.mapFile | civ6map}}</p>
           </div>
         </div>
-        <p *ngIf="game.mapSize"><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</p>
-        <div class="row" *ngIf="game.createdBySteamId === profile?.steamid && !game.inProgress">
+        <div class="row">
+          <div class="col-md-6">
+            <p><b>Allow Users to Join After Start:</b> {{game.allowJoinAfterStart ? 'Yes': 'No'}}</p>
+          </div>
+          <div *ngIf="game.mapSize">
+            <p><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</p>
+          </div>
+        </div>
+        <div class="row" *ngIf="game.createdBySteamId === profile?.steamid">
           <div class="col-xs-12 text-center">
             <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
           </div>
