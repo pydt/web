@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, User, ProfileCacheService } from 'pydt-shared';
+import { ApiService, User } from 'pydt-shared';
 import { Utility } from '../shared/utility';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
@@ -31,7 +31,7 @@ export class UserStatsComponent implements OnInit {
   private rawData: Array<any> = [];
   private visibleData: Array<any> = [];
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
+  constructor(private api: ApiService, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
@@ -47,8 +47,7 @@ export class UserStatsComponent implements OnInit {
         return {
           rank: '',
           steamId: user.steamId,
-          player: user.displayName,
-          gotAvatar: false,
+          player: `<img src="${user.avatarSmall}"> ${user.displayName}`,
           player_sort: user.displayName.toLowerCase(),
           activeGames: activeGames,
           totalGames: activeGames + (user.inactiveGameIds || []).length,
@@ -66,18 +65,5 @@ export class UserStatsComponent implements OnInit {
 
   onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
     Utility.onChangeTable(tableConfig, rawData, visibleData, page);
-
-    const vdCopy = _.filter(visibleData.slice(), row => {
-      return !row.gotAvatar;
-    });
-
-    if (vdCopy.length) {
-      this.profileCache.getProfiles(_.map(vdCopy, 'steamId') as string[]).then(profiles => {
-        for (let row of vdCopy) {
-          row.player = `<img src="${profiles[row.steamId].avatar}"> ${profiles[row.steamId].personaname}`;
-          row.gotAvatar = true;
-        }
-      });
-    }
   }
 }
