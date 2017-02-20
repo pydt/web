@@ -1,4 +1,4 @@
-<div *ngIf="game.inProgress">
+<div *ngIf="game && game.inProgress">
   <div class="form-group">
     <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
@@ -6,12 +6,11 @@
     </div>
   </div>
 </div>
-<div *ngIf="!game.inProgress"> 
+<div *ngIf="!game || !game.inProgress"> 
   <div class="form-group" [class.has-error]="!displayName.valid">
     <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel" *ngIf="!game.inProgress">
-      <p >class='form-control-static'>{{model.displayName}}</p>
+      <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
     </div>
   </div>
   <div class="form-group">
