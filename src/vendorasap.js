@@ -23,3 +23,7 @@ if (process.env.ENV === 'build') {
 
   ga('create', 'UA-88598537-1', 'auto');
 }
+
+window.Rollbar = window.Rollbar || {
+    error: function() {}
+};

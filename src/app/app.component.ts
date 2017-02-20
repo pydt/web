@@ -5,6 +5,7 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { MetaService } from 'ng2-meta';
 import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
+declare const Rollbar: any;
 
 import { ApiService } from 'pydt-shared';
 
@@ -92,6 +93,10 @@ export class AppComponent implements OnInit {
       }
 
       this.errorModal.show();
+
+      if (!this.errorModalMessage) {
+        Rollbar.error(next);
+      }
     });
   }
 
