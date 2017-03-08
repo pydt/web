@@ -102,7 +102,8 @@
         <p>If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.</p>
         <div class="row">
           <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-danger" (click)="confirmSurrenderModal.show()">Surrender</button>
+            <button type="button" *ngIf="game.gameTurnRangeKey > 1" class="btn btn-danger" (click)="confirmSurrenderModal.show()">Surrender</button>
+            <button type="button" *ngIf="game.gameTurnRangeKey <= 1"class="btn btn-danger" (click)="confirmLeaveModal.show()">Surrender</button>
           </div>
         </div>
       </div>
