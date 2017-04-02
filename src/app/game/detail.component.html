@@ -37,7 +37,7 @@
           <div class="col-md-6">
             <p><b>Allow Users to Join After Start:</b> {{game.allowJoinAfterStart ? 'Yes': 'No'}}</p>
           </div>
-          <div *ngIf="game.mapSize">
+          <div class="col-md-6" *ngIf="game.mapSize">
             <p><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</p>
           </div>
         </div>
@@ -151,7 +151,7 @@
             </div>
             <div class="row">
               <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" (click)="joinGame()">Join Game!</button>
+                <button type="button" class="btn btn-primary" (click)="startJoinGame()">Join Game!</button>
               </div>
             </div>
           </div>
@@ -357,6 +357,28 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmStartGame.hide()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="confirmStartGame.hide(); startGame();">Start the Game!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirmDlcModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmDlcModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmDlcModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">DLC Validation</h4>
+      </div>
+      <div class="modal-body">
+        <p>This game requires the following DLC:</p>
+        <p><b>{{dlcEnabled}}</b></p>
+        <p><span class="text-danger">If you don't have all of these DLCs you won't be able to play in this game!</span>  If you've got all the DLC, go ahead and press the Join Game button below.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmDlcModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDlcModal.hide(); finishJoinGame();">Join Game!</button>
       </div>
     </div>
   </div>

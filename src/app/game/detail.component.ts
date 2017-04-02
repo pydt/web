@@ -28,6 +28,7 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmKickUserModal') confirmKickUserModal: ModalDirective;
   @ViewChild('confirmLeaveModal') confirmLeaveModal: ModalDirective;
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
+  @ViewChild('confirmDlcModal') confirmDlcModal: ModalDirective;
   @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
 
   constructor(
@@ -83,7 +84,15 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
-  joinGame() {
+  startJoinGame() {
+    if (this.game.dlc.length) {
+      this.confirmDlcModal.show();
+    } else {
+      this.finishJoinGame();
+    }
+  }
+
+  finishJoinGame() {
     this.notificationService.setBusy(this.api.getUser().then(user => {
       if (!user.emailAddress) {
         this.mustHaveEmailSetToJoinModal.show();
@@ -141,6 +150,10 @@ export class GameDetailComponent implements OnInit {
       }
     }
 
+    for (let player of this.game.players) {
+      this.civDefs.push(this.findLeader(player.civType));
+    }
+
     if (game.inProgress) {
       if (!this.playerCiv) {
         this.availableCivs = _(game.players)
@@ -159,8 +172,6 @@ export class GameDetailComponent implements OnInit {
 
       for (let player of this.game.players) {
         let curLeader = this.findLeader(player.civType);
-
-        this.civDefs.push(curLeader);
 
         if (curLeader !== RandomCiv) {
           _.pull(this.availableCivs, curLeader);
