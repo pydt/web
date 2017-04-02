@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody } from 'pydt-shared';
+import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody, RandomCiv } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { NotificationService } from '../shared';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'pydt-create-game',
@@ -66,7 +67,9 @@ export class CreateGameComponent implements OnInit {
 }
 
 class CreateGameModel extends ConfigureGameModel {
-  public player1Civ = Civ6Leaders[1];
+  public player1Civ = _.find(Civ6Leaders, leader => {
+    return !leader.dlcId && leader !== RandomCiv;
+  });
 
   toJSON(): CreateGameRequestBody {
     const result: any = super.toJSON();
