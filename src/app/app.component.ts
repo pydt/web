@@ -70,9 +70,9 @@ export class AppComponent implements OnInit {
     this.viewContainerRef = viewContainerRef;
 
     this.updateInterval = setInterval(() => {
-      // Check for app update once a minute
+      // Check for app update every 5 minutes
       this.checkForAppUpdate();
-    }, 60 * 1000);
+    }, 5 * 60 * 1000);
 
     this.checkForAppUpdate();
   }
