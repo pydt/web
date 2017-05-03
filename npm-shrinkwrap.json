@@ -118,6 +118,12 @@
       "from": "https://registry.npmjs.org/@types/node/-/node-6.0.51.tgz",
       "resolved": "https://registry.npmjs.org/@types/node/-/node-6.0.51.tgz"
     },
+    "@types/pako": {
+      "version": "1.0.0",
+      "from": "@types/pako@latest",
+      "resolved": "https://registry.npmjs.org/@types/pako/-/pako-1.0.0.tgz",
+      "dev": true
+    },
     "@types/protractor": {
       "version": "4.0.0",
       "from": "https://registry.npmjs.org/@types/protractor/-/protractor-4.0.0.tgz",
@@ -3647,8 +3653,7 @@
     "pako": {
       "version": "0.2.9",
       "from": "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz",
-      "resolved": "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz",
-      "dev": true
+      "resolved": "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz"
     },
     "param-case": {
       "version": "2.1.0",

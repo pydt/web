@@ -4,6 +4,7 @@ import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
 import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
+import * as pako from 'pako';
 
 @Component({
   selector: 'pydt-game-detail',
@@ -230,7 +231,13 @@ export class GameDetailComponent implements OnInit {
           };
 
           xhr.setRequestHeader('Content-Type', 'application/octet-stream');
-          xhr.send(event.target.files[0]);
+          const reader = new FileReader();
+          reader.onload = function() {
+            const array = new Uint8Array(this.result);
+            const toSend = pako.gzip(array);
+            xhr.send(toSend);
+          };
+          reader.readAsArrayBuffer(event.target.files[0]);
         });
       })
       .then(() => {
