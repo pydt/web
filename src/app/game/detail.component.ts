@@ -156,7 +156,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     if (game.inProgress) {
-      if (!this.playerCiv) {
+      if (!this.playerCiv && game.allowJoinAfterStart) {
         this.availableCivs = _(game.players)
           .filter(player => {
             return !player.steamId;
