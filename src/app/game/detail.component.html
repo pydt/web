@@ -200,14 +200,14 @@
         </div>
       </div>
     </div>
-    <div *ngIf="game.createdBySteamId === profile?.steamid" class="panel panel-default">
-      <div class="panel-heading">Delete Game</div>
-      <div class="panel-body">
-        <p>To delete this game before it starts, click the button below.</p>
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-danger" (click)="confirmDeleteModal.show()">Delete Game</button>
-          </div>
+  </div>
+  <div *ngIf="game && game.gameTurnRangeKey <= 1 && game.createdBySteamId === profile?.steamid" class="panel panel-default">
+    <div class="panel-heading">Delete Game</div>
+    <div class="panel-body">
+      <p>To delete this game before it starts, click the button below.</p>
+      <div class="row">
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-danger" (click)="confirmDeleteModal.show()">Delete Game</button>
         </div>
       </div>
     </div>
