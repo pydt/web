@@ -3,6 +3,7 @@
     <img class="media-object" [src]="imageUrl()">
   </div>
   <div class="media-body">
-    <h4 class="media-heading" style="padding-top:20px;">{{civ.leaderDisplayName}}: {{civ.civDisplayName}}</h4>
+    <h4 *ngIf="!civ" class="media-heading" style="padding-top:20px;">Unknown Civ</h4>
+    <h4 *ngIf="civ" class="media-heading" style="padding-top:20px;">{{civ.leaderDisplayName}}: {{civ.civDisplayName}}</h4>
   </div>
 </div>

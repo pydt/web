@@ -396,10 +396,9 @@
       <div class="modal-body">
         <p>
           Since you're the first player, you need to create the initial game save file!  First, make sure that you have the appropriate DLC
-          enabled for the game.  The only way I know of to modify the enabled DLC is through the Steam UI: Select Civ 6 from your Steam Library,
-          scroll down to the DLC section, and
-          <span *ngIf="game?.dlc.length">ensure that <b>ONLY</b> the following DLC is enabled: <b>{{dlcEnabled}}</b>.</span>
-          <span *ngIf="!game?.dlc.length">ensure that <b>NO DLC</b> is enabled!</span>
+          enabled for the game.  You can do this through the Mods dialog on the Multiplayer Game Setup screen.
+          <span *ngIf="game?.dlc.length">Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{dlcEnabled}}</b>.</span>
+          <span *ngIf="!game?.dlc.length">Ensure that <b>NO DLC</b> is enabled!</span>
         </p>
         <p>
           Now start Civ 6, go to Multiplayer / Hotseat, and configure the game.

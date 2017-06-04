@@ -13,7 +13,13 @@ export class DisplayCivComponent {
   }
 
   imageUrl() {
-    return `/img/civs/${this.civ.getImageFileName()}`;
+    let url = 'RANDOM_RANDOM.png';
+
+    if (this.civ) {
+      url = this.civ.getImageFileName();
+    }
+
+    return `/img/civs/${url}`;
   }
 
   clicked() {

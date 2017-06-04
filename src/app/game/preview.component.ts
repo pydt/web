@@ -55,7 +55,13 @@ export class GamePreviewComponent implements OnChanges {
         playerName = profile.personaname;
       }
 
-      return `${playerName} /<br />${civDef.getFullDisplayName()}`;
+      let civDesc = 'Unknown Civ';
+
+      if (civDef) {
+        civDesc = civDef.getFullDisplayName();
+      }
+
+      return `${playerName} /<br />${civDesc}`;
     } else {
       return 'AI';
     }
