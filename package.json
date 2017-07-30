@@ -40,7 +40,7 @@
     "ng2-meta": "^2.0.3",
     "ng2-table": "https://github.com/pydt/ng2-table.git#5425be434a13b5ec493d8d33292ed5a07859ebf5",
     "pako": "https://registry.npmjs.org/pako/-/pako-0.2.9.tgz",
-    "pydt-shared": "https://github.com/pydt/shared.git",
+    "pydt-shared": "git+https://github.com/pydt/shared.git",
     "reflect-metadata": "^0.1.8",
     "rxjs": "5.0.0-rc.4",
     "zone.js": "0.7.2"
