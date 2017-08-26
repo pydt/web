@@ -1,6 +1,6 @@
 import { Component, OnChanges, Input, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ng2-bootstrap/ng2-bootstrap';
-import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, Game, GamePlayer, User, SteamProfile } from 'pydt-shared';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, GamePlayer, User, SteamProfile } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,7 +9,7 @@ import * as _ from 'lodash';
   styleUrls: ['./preview.component.scss']
 })
 export class GamePreviewComponent implements OnChanges {
-  @Input() game: Game;
+  @Input() game: any;
   @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
   private gamePlayerProfiles = new Map<string, SteamProfile>();
   private gamePlayers: GamePlayer[];

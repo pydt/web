@@ -16,7 +16,7 @@
           <li [routerLinkActive]="['active']"><a [routerLink]="['forum']" (click)="isCollapsed = true">Forum</a></li>
           <li id="download-clients" dropdown>
             <a href="javascript:void(0)" dropdownToggle>Download Client <span class="caret"></span></a>
-            <ul class="dropdown-menu" dropdownMenu aria-labelledby="download-clients">
+            <ul class="dropdown-menu" *dropdownMenu aria-labelledby="download-clients">
               <li><a href="http://updates.playyourdamnturn.com/download/win32" (click)="isCollapsed = true">Windows</a></li>
               <li><a href="http://updates.playyourdamnturn.com/download/osx" (click)="isCollapsed = true">Mac OS X</a></li>
             </ul>

@@ -1,19 +1,24 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES5",
-    "module": "commonjs",
+    "outDir": "./dist/out-tsc",
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "sourceMap": true,
-    "noEmitHelpers": true,
-    "types": [
-      "core-js",
-      "jasmine",
-      "node",
-      "protractor",
-      "selenium-webdriver"
+    "target": "es5",
+    "typeRoots": [
+      "node_modules/@types"
+    ],
+    "paths": {
+      "pydt-shared": [
+        "../node_modules/pydt-shared"
+      ]
+    },
+    "lib": [
+      "es2017",
+      "dom"
     ]
-  },
-  "compileOnSave": false,
-  "buildOnSave": false
+  }
 }

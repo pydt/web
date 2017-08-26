@@ -1,21 +1,25 @@
 import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import {
-  AlertModule, CollapseModule, DropdownModule, PaginationModule,
-  TabsModule, TooltipModule, ModalModule
-} from 'ng2-bootstrap/ng2-bootstrap';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
-import { MetaModule } from 'ng2-meta';
-import { ClipboardModule }  from 'angular2-clipboard';
+import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
+import { ClipboardModule }  from 'ngx-clipboard';
 import {
   ApiService, BusyModule, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe,
   API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN
 } from 'pydt-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
+
+import { AlertModule } from "ngx-bootstrap/alert";
+import { CollapseModule } from "ngx-bootstrap/collapse";
+import { BsDropdownModule } from "ngx-bootstrap/dropdown";
+import { PaginationModule } from "ngx-bootstrap/pagination";
+import { TabsModule } from "ngx-bootstrap/tabs";
+import { TooltipModule } from "ngx-bootstrap/tooltip";
+import { ModalModule } from "ngx-bootstrap/modal";
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -38,30 +42,38 @@ import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
 
-import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
+export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, error: ErrorHandler) {
+  return new PydtHttp(backend, options, error);
+}
+
+export function metaFactory(): MetaLoader {
+  return new MetaStaticLoader({
+    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
+    pageTitleSeparator: ' | ',
+    applicationName: 'Play Your Damn Turn'
+  });
+}
 
 @NgModule({
   imports: [
-    AlertModule,
+    AlertModule.forRoot(),
     BrowserModule,
     HttpModule,
     FormsModule,
     ClipboardModule,
-    CollapseModule,
-    DropdownModule,
-    ModalModule,
-    PaginationModule,
-    TabsModule,
-    TooltipModule,
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    TabsModule.forRoot(),
+    TooltipModule.forRoot(),
     routing,
     BusyModule,
     Ng2TableModule,
     Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
     MetaModule.forRoot({
-      useTitleSuffix: true,
-      defaults: {
-        titleSuffix: ' | Play Your Damn Turn'
-      }
+      provide: MetaLoader,
+      useFactory: (metaFactory)
     })
   ],
   declarations: [
@@ -96,29 +108,10 @@ import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
     ApiService,
     {
       provide: Http,
-      useFactory: (backend: XHRBackend, options: RequestOptions, error: ErrorHandler) => {
-        return new PydtHttp(backend, options, error);
-      },
+      useFactory: pydtHttpFactory,
       deps: [XHRBackend, RequestOptions, ErrorHandler]
     }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor(public appRef: ApplicationRef) {}
-  hmrOnInit(store) {
-    console.log('HMR store', store);
-  }
-  hmrOnDestroy(store) {
-    let cmpLocation = this.appRef.components.map(cmp => cmp.location.nativeElement);
-    // recreate elements
-    store.disposeOldHosts = createNewHosts(cmpLocation);
-    // remove styles
-    removeNgStyles();
-  }
-  hmrAfterDestroy(store) {
-    // display new elements
-    store.disposeOldHosts();
-    delete store.disposeOldHosts;
-  }
-}
+export class AppModule { }

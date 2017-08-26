@@ -4,8 +4,9 @@
 
 ## Dev Setup
 
-* `npm install`
-* `npm run start:hmr`
+* install yarn and angular-cli
+* `yarn`
+* `ng serve`
 
 # License
 

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProfileCacheService, SteamProfile, User } from 'pydt-shared';
+import { ProfileCacheService, SteamProfile } from 'pydt-shared';
 import { Utility } from '../shared/utility';
 import * as countdown from 'countdown';
 
@@ -8,7 +8,7 @@ import * as countdown from 'countdown';
   templateUrl: './info.component.html'
 })
 export class UserInfoComponent implements OnInit {
-  @Input() user: User;
+  @Input() user: any;
   private profile: SteamProfile;
 
   constructor(private profileCache: ProfileCacheService) {

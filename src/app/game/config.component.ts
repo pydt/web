@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef, Input, OnInit } from '@angular/core';
-import { Game, Civ6DLCs, Civ6Leaders, Civ6GameSpeeds, Civ6Maps, Civ6MapSizes, DLC } from 'pydt-shared';
+import { Civ6DLCs, Civ6Leaders, Civ6GameSpeeds, Civ6Maps, Civ6MapSizes, DLC } from 'pydt-shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -8,7 +8,7 @@ import * as _ from 'lodash';
   styleUrls: ['./config.component.css']
 })
 export class ConfigureGameComponent implements OnInit {
-  @Input() game: Game;
+  @Input() game: any;
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   private minHumans = 2;
