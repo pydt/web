@@ -1,16 +1,17 @@
-import { ErrorHandler } from '@angular/core';
+import { ErrorHandler, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '../../environments/environment';
 import * as Rollbar from 'rollbar';
 import * as envVars from '../../envVars';
 
+@Injectable()
 export class ErrorHandlerService implements ErrorHandler {
   private errorStream = new Subject();
   private rollbar: Rollbar;
 
   constructor() {
-    /*this.rollbar = new Rollbar({
+    this.rollbar = new Rollbar({
       accessToken: '449af5e02e4248a489633e6c917b333b',
       captureUncaught: true,
       captureUnhandledRejections: true,
@@ -25,7 +26,7 @@ export class ErrorHandlerService implements ErrorHandler {
           }
         }
       }
-    });*/
+    });
   }
 
   subscribe(fn) {
@@ -40,7 +41,7 @@ export class ErrorHandlerService implements ErrorHandler {
     }
 
     if (!endUserErrorMessage) {
-      // this.rollbar.error(error);
+      this.rollbar.error(error);
     }
 
     this.errorStream.next(endUserErrorMessage);
