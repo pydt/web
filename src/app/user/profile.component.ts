@@ -8,12 +8,12 @@ import { NotificationService } from '../shared';
   templateUrl: './profile.component.html'
 })
 export class UserProfileComponent implements OnInit {
+  token: string;
+  emailModel = new EmailModel('');
+  loaded: boolean;
+  user: User;
+  noDiscourseUser: boolean;
   private steamName: string;
-  private token: string;
-  private emailModel = new EmailModel('');
-  private loaded: boolean;
-  private user: User;
-  private noDiscourseUser: boolean;
 
   constructor(private api: ApiService, private http: Http, private notificationService: NotificationService) {
   }

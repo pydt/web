@@ -11,14 +11,11 @@ export class ConfigureGameComponent implements OnInit {
   @Input() game: Game;
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
-  private minHumans = 2;
-
-  // tslint:disable:no-unused-variable - template variable
-  private dlcOptions = Civ6DLCs;
-  private gameSpeeds = Civ6GameSpeeds;
-  private maps = Civ6Maps;
-  private mapSizes = Civ6MapSizes;
-  // tslint:enable:no-unused-variable - template variable
+  minHumans = 2;
+  dlcOptions = Civ6DLCs;
+  gameSpeeds = Civ6GameSpeeds;
+  maps = Civ6Maps;
+  mapSizes = Civ6MapSizes;
 
   constructor(private cdRef: ChangeDetectorRef) {
   }
@@ -30,9 +27,9 @@ export class ConfigureGameComponent implements OnInit {
   }
 
   validateDlc(dlc: DLC) {
-    for (let civ of this.selectedCivs) {
-      const leader = _.find(Civ6Leaders, leader => {
-        return leader.leaderKey === civ;
+    for (const civ of this.selectedCivs) {
+      const leader = _.find(Civ6Leaders, l => {
+        return l.leaderKey === civ;
       });
 
       if (leader.dlcId) {
@@ -56,7 +53,7 @@ export class ConfigureGameModel {
 
   public displayName: string;
   public description: string;
-  public humans: number = 6;
+  public humans = 6;
   public dlc = new Map<string, boolean>();
   public password: string;
   public gameSpeed = Civ6GameSpeeds[0].key;

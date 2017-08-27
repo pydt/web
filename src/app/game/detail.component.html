@@ -194,7 +194,7 @@
           <p>When you're ready to start the game, click the button below!</p>
           <div class="row">
             <div class="col-xs-12 text-center">
-              <button type="button" class="btn btn-primary" (click)="confirmStartGame.show()">Start Game!</button>
+              <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.show()">Start Game!</button>
             </div>
           </div>
         </div>
@@ -342,11 +342,11 @@
   </div>
 </div>
 
-<div bsModal #confirmStartGame="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmStartGameLabel" aria-hidden="true">
+<div bsModal #confirmStartGameModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmStartGameLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmStartGame.hide()">
+        <button type="button" class="close" aria-label="Close" (click)="confirmStartGameModal.hide()">
           <span aria-hidden="true">&times;</span>
         </button>
         <h4 class="modal-title">Are you sure?</h4>
@@ -355,8 +355,8 @@
         Are you sure you're ready to start this game with <b>{{game?.players.length}}</b> human players?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmStartGame.hide()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmStartGame.hide(); startGame();">Start the Game!</button>
+        <button type="button" class="btn btn-default" (click)="confirmStartGameModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.hide(); startGame();">Start the Game!</button>
       </div>
     </div>
   </div>

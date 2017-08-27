@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router }    from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiService } from 'pydt-shared';
-import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-steam-return',
   templateUrl: './steamreturn.component.html'
 })
 export class SteamReturnComponent implements OnInit {
-  constructor(private api: ApiService, private router: Router, private notificationService: NotificationService) {
+  constructor(private api: ApiService, private router: Router) {
     // Do stuff
   }
 

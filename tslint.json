@@ -69,7 +69,8 @@
     "no-trailing-whitespace": true,
     "no-unnecessary-initializer": true,
     "no-unused-expression": true,
-    "no-use-before-declare": true,
+    "no-unused-variable": true,
+    "no-use-before-declare": false,
     "no-var-keyword": true,
     "object-literal-sort-keys": false,
     "one-line": [
@@ -117,13 +118,13 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "pydt",
       "camelCase"
     ],
     "component-selector": [
       true,
       "element",
-      "app",
+      "pydt",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

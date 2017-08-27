@@ -10,9 +10,9 @@ import * as _ from 'lodash';
   templateUrl: './edit.component.html'
 })
 export class EditGameComponent implements OnInit {
-  private game: Game;
-  private model = new EditGameModel();
-  private selectedCivs: string[];
+  game: Game;
+  model = new EditGameModel();
+  selectedCivs: string[];
 
   constructor(
     private api: ApiService,
@@ -38,7 +38,7 @@ export class EditGameComponent implements OnInit {
         this.model.mapSize = game.mapSize;
         this.model.allowJoinAfterStart = game.allowJoinAfterStart;
 
-        for (let dlcId of game.dlc || []) {
+        for (const dlcId of game.dlc || []) {
           this.model.dlc[dlcId] = true;
         }
 

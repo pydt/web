@@ -1,26 +1,20 @@
-import { Component, ErrorHandler, OnInit, ViewChild, ViewContainerRef  } from '@angular/core';
-import { Response, Http } from '@angular/http';
+import { Component, ErrorHandler, OnInit, ViewChild } from '@angular/core';
+import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
-
-import { ApiService, BusyService } from 'pydt-shared';
+import { ApiService } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-app',
   templateUrl: './app.component.html'
 })
 export class AppComponent implements OnInit {
-  // tslint:disable:no-unused-variable - template variables
-  private isCollapsed: boolean = true;
-  private copyrightDate = new Date().getFullYear();
-  // tslint:enable:no-unused-variable
-
-  private isLoggedIn: boolean = false;
-  private viewContainerRef: ViewContainerRef;
-  private busy: Promise<any>;
-  private errorModalMessage: string;
-  private alerts: AlertConfig[] = [];
+  isCollapsed = true;
+  copyrightDate = new Date().getFullYear();
+  isLoggedIn = false;
+  errorModalMessage: string;
+  alerts: AlertConfig[] = [];
   private updateInterval: any;
   private lastIndexHash?: number;
 
@@ -100,8 +94,10 @@ export class AppComponent implements OnInit {
 
     let i;
     for (i = 0; i < len; i++) {
+      // tslint:disable:no-bitwise
       hash = ((hash << 5) - hash) + str.charCodeAt(i);
       hash |= 0; // Convert to 32bit integer
+      // tslint:enable:no-bitwise
     }
     return hash;
   }
@@ -113,7 +109,7 @@ export class AppComponent implements OnInit {
   }
 
   redirectToLogin() {
-    this.busy = this.api.getLoginUrl().then(url => {
+    this.api.getLoginUrl().then(url => {
       const path = window.location.pathname;
 
       if (path.toLowerCase().indexOf('/game') === 0) {

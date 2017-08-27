@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, ProfileCacheService, Game, SteamProfile } from 'pydt-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile } from 'pydt-shared';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 import * as pako from 'pako';
@@ -11,18 +11,18 @@ import * as pako from 'pako';
   templateUrl: './detail.component.html'
 })
 export class GameDetailComponent implements OnInit {
-  private game: Game;
-  private profile: SteamProfile;
-  private userInGame = false;
+  game: Game;
+  profile: SteamProfile;
+  userInGame = false;
+  civDefs: CivDef[] = [];
+  availableCivs: CivDef[];
+  tooManyHumans = false;
+  playerCiv: CivDef;
+  joinGamePassword: string;
+  newCiv: CivDef;
+  pageUrl: string;
+  dlcEnabled: string;
   private discourse: HTMLScriptElement;
-  private civDefs: CivDef[] = [];
-  private availableCivs: CivDef[];
-  private tooManyHumans = false;
-  private playerCiv: CivDef;
-  private joinGamePassword: string;
-  private newCiv: CivDef;
-  private pageUrl: string;
-  private dlcEnabled: string;
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
   @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
@@ -31,13 +31,14 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
   @ViewChild('confirmDlcModal') confirmDlcModal: ModalDirective;
   @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
+  @ViewChild('uploadFirstTurnModal') uploadFirstTurnModal: ModalDirective;
+  @ViewChild('confirmStartGameModal') confirmStartGameModal: ModalDirective;
 
   constructor(
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: NotificationService,
-    private profileCache: ProfileCacheService
+    private notificationService: NotificationService
   ) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
@@ -151,7 +152,7 @@ export class GameDetailComponent implements OnInit {
       }
     }
 
-    for (let player of this.game.players) {
+    for (const player of this.game.players) {
       this.civDefs.push(this.findLeader(player.civType));
     }
 
@@ -171,8 +172,8 @@ export class GameDetailComponent implements OnInit {
     } else {
       this.availableCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
 
-      for (let player of this.game.players) {
-        let curLeader = this.findLeader(player.civType);
+      for (const player of this.game.players) {
+        const curLeader = this.findLeader(player.civType);
 
         if (curLeader !== RandomCiv) {
           _.pull(this.availableCivs, curLeader);
@@ -214,7 +215,7 @@ export class GameDetailComponent implements OnInit {
     if (event.target.files.length > 0) {
       this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
-          let xhr = new XMLHttpRequest();
+          const xhr = new XMLHttpRequest();
           xhr.open('PUT', response.putUrl, true);
 
           xhr.onload = () => {

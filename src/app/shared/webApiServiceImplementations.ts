@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ApiUrlProvider, ApiCredentialsProvider, SteamProfile } from 'pydt-shared';
-import * as envVars from "../../envVars";
+import * as envVars from '../../envVars';
 
 @Injectable()
 export class WebApiCredentialsProvider implements ApiCredentialsProvider {

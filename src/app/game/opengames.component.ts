@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, OpenGamesResponse, SteamProfile, ProfileCacheService } from 'pydt-shared';
-import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-open-games',
   templateUrl: './opengames.component.html'
 })
 export class OpenGamesComponent implements OnInit {
-  private openGames: OpenGamesResponse;
-  private profile: SteamProfile;
+  openGames: OpenGamesResponse;
+  profile: SteamProfile;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
+  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {

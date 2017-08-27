@@ -9,7 +9,7 @@ import * as countdown from 'countdown';
 })
 export class UserInfoComponent implements OnInit {
   @Input() user: User;
-  private profile: SteamProfile;
+  profile: SteamProfile;
 
   constructor(private profileCache: ProfileCacheService) {
   }

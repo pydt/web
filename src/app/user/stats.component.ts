@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, User } from 'pydt-shared';
 import { Utility } from '../shared/utility';
-import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
@@ -11,7 +10,7 @@ import * as countdown from 'countdown';
   styleUrls: ['./stats.component.scss']
 })
 export class UserStatsComponent implements OnInit {
-  private tableColumns: Array<any> = [
+  tableColumns: Array<any> = [
     { title: 'Rank', name: 'rank', sort: false },
     { title: 'Player', name: 'player', className: 'cursor-pointer', filter: true },
     { title: 'Active Games', name: 'activeGames', className: 'cursor-pointer' },
@@ -21,17 +20,17 @@ export class UserStatsComponent implements OnInit {
     { title: '< 1 hour', name: 'fastTurns', className: 'cursor-pointer text-success' },
     { title: '> 6 hours', name: 'slowTurns', className: 'cursor-pointer text-danger' }
   ];
-  private tableConfig = {
+  tableConfig = {
     columns: this.tableColumns,
     sorting: { columns: this.tableColumns },
     filtering: { filterString: '', filteredResults: 0 },
     className: ['table', 'table-condensed', 'table-striped'],
     paging: { page: 1, itemsPerPage: 25 }
   };
-  private rawData: Array<any> = [];
-  private visibleData: Array<any> = [];
+  rawData: Array<any> = [];
+  visibleData: Array<any> = [];
 
-  constructor(private api: ApiService, private notificationService: NotificationService) {
+  constructor(private api: ApiService) {
   }
 
   ngOnInit() {

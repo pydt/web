@@ -4,13 +4,14 @@ import * as _ from 'lodash';
 
 @Injectable()
 export class Utility {
+  // tslint:disable-next-line:no-bitwise
   public static COUNTDOWN_FORMAT = countdown.DAYS | countdown.HOURS | countdown.MINUTES;
 
   public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
     visibleData = visibleData || rawData.slice();
     page = page || tableConfig.paging;
 
-    let columns = tableConfig.sorting.columns || [];
+    const columns = tableConfig.sorting.columns || [];
     let columnName: string = void 0;
     let sort: string = void 0;
 
@@ -72,7 +73,7 @@ export class Utility {
         start = (page.page - 1) * page.itemsPerPage;
       }
 
-      let end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : rawData.length;
+      const end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : rawData.length;
       Array.prototype.push.apply(visibleData, filteredData.slice(start, end));
     } else {
       Array.prototype.push.apply(visibleData, filteredData);

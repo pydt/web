@@ -1,7 +1,7 @@
-import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -13,15 +13,15 @@ import {
   API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN
 } from 'pydt-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
-import { environment } from "../environments/environment";
+import { environment } from '../environments/environment';
 
-import { AlertModule } from "ngx-bootstrap/alert";
-import { CollapseModule } from "ngx-bootstrap/collapse";
-import { BsDropdownModule } from "ngx-bootstrap/dropdown";
-import { PaginationModule } from "ngx-bootstrap/pagination";
-import { TabsModule } from "ngx-bootstrap/tabs";
-import { TooltipModule } from "ngx-bootstrap/tooltip";
-import { ModalModule } from "ngx-bootstrap/modal";
+import { AlertModule } from 'ngx-bootstrap/alert';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { TabsModule } from 'ngx-bootstrap/tabs';
+import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -43,7 +43,6 @@ import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
-import * as envVars from "../envVars";
 
 export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, error: ErrorHandler, busy: BusyService) {
   return new PydtHttp(backend, options, error, busy);
@@ -59,7 +58,7 @@ export function metaFactory(): MetaLoader {
 
 const angularticsModules = [];
 
-if (environment.name !== "dev") {
+if (environment.name !== 'dev') {
   angularticsModules.push(Angulartics2GoogleAnalytics);
 }
 

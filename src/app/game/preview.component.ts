@@ -11,12 +11,12 @@ import * as _ from 'lodash';
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
   @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
-  private gamePlayerProfiles = new Map<string, SteamProfile>();
-  private gamePlayers: GamePlayer[];
-  private activeProfile: SteamProfile;
+  gamePlayers: GamePlayer[];
+  activeProfile: SteamProfile;
+  user: User;
   private civDefs: CivDef[];
   private userPromise: Promise<any>;
-  private user: User;
+  private gamePlayerProfiles = new Map<string, SteamProfile>();
 
   constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
@@ -48,8 +48,8 @@ export class GamePreviewComponent implements OnChanges {
 
   getTooltip(player: GamePlayer, civDef: CivDef) {
     if (player) {
+      const profile = this.gamePlayerProfiles[player.steamId];
       let playerName = 'AI';
-      let profile = this.gamePlayerProfiles[player.steamId];
 
       if (profile && !player.hasSurrendered) {
         playerName = profile.personaname;

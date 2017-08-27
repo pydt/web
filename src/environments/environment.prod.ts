@@ -1,4 +1,4 @@
 export const environment = {
-  name: "prod",
+  name: 'prod',
   production: true
 };

@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ApiService, CivDef, Civ6LeaderArray } from 'pydt-shared';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { CivDef, Civ6LeaderArray } from 'pydt-shared';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'pydt-select-civ',
@@ -10,8 +11,9 @@ export class SelectCivComponent implements OnInit {
   @Input() curCiv: CivDef;
   @Input() leaders: Civ6LeaderArray;
   @Output() selectedCiv = new EventEmitter<CivDef>();
+  @ViewChild('selectCivModal') selectCivModal: ModalDirective;
 
-  constructor(private api: ApiService) {
+  constructor() {
   }
 
   ngOnInit() {

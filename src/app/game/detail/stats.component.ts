@@ -10,18 +10,18 @@ import * as countdown from 'countdown';
 })
 export class GameDetailStatsComponent implements OnInit {
   @Input() game: Game;
-  private tableColumns: Array<any> = [
+  tableColumns: Array<any> = [
     { title: 'Player', name: 'player', className: 'cursor-pointer' },
     { title: 'Avg Turn Time', name: 'avgTurnTime', sort: 'asc', className: 'cursor-pointer' },
     { title: '< 1 hour', name: 'fastTurns', className: 'cursor-pointer text-success' },
     { title: '> 6 hours', name: 'slowTurns', className: 'cursor-pointer text-danger' }
   ];
-  private tableConfig = {
+  tableConfig = {
     sorting: { columns: this.tableColumns },
     className: ['table', 'table-condensed', 'table-striped']
   };
-  private tableData: Array<any>;
-  private onChangeTable = Utility.onChangeTable;
+  tableData: Array<any>;
+  onChangeTable = Utility.onChangeTable;
 
   constructor(private profileCache: ProfileCacheService) {
   }

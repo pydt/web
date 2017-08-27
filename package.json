@@ -4,10 +4,10 @@
   "scripts": {
     "ng": "ng",
     "env-vars": "node generateEnvVars.js",
-    "start": "ng serve",
-    "build": "ng build",
+    "start": "npm run env-vars && ng serve",
+    "build": "npm run env-vars && ng build",
     "test": "ng test",
-    "lint": "ng lint",
+    "lint": "ng lint --type-check",
     "e2e": "ng e2e"
   },
   "private": true,

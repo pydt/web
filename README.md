@@ -6,7 +6,7 @@
 
 * install yarn and angular-cli
 * `yarn`
-* `ng serve`
+* `npm run start`
 
 # License
 

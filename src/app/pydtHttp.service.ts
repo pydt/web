@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable } from '@angular/core';
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import { ErrorHandlerService } from './shared';
-import { BusyService } from "pydt-shared";
+import { BusyService } from 'pydt-shared';
 
 @Injectable()
 export class PydtHttp extends Http {

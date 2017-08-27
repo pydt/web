@@ -11,10 +11,8 @@ import * as _ from 'lodash';
   templateUrl: './create.component.html'
 })
 export class CreateGameComponent implements OnInit {
-  private model = new CreateGameModel();
-
-  // tslint:disable-next-line:no-unused-variable - template variable
-  private allLeaders = Civ6Leaders;
+  model = new CreateGameModel();
+  allLeaders = Civ6Leaders;
 
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
@@ -30,7 +28,7 @@ export class CreateGameComponent implements OnInit {
     this.api.getUserGames()
       .then(resp => {
         return this.api.getSteamProfile().then(profile => {
-          for (let game of resp.data) {
+          for (const game of resp.data) {
             if (game.createdBySteamId === profile.steamid && !game.inProgress) {
               this.cannotCreateGameModal.show();
               return;

@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService, Game, ProfileCacheService } from 'pydt-shared';
-import { NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-user-games',
   templateUrl: './games.component.html'
 })
 export class UserGamesComponent implements OnInit {
-  private games: Game[];
-  private canCreateGame: boolean;
+  games: Game[];
+  canCreateGame: boolean;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService, private notificationService: NotificationService) {
+  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
@@ -27,7 +26,7 @@ export class UserGamesComponent implements OnInit {
       this.api.getSteamProfile().then(profile => {
         this.canCreateGame = true;
 
-        for (let game of this.games) {
+        for (const game of this.games) {
           if (game.createdBySteamId === profile.steamid && !game.inProgress) {
             this.canCreateGame = false;
           }
