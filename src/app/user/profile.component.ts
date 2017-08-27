@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit {
       this.token = token;
     });
 
-    this.notificationService.setBusy(Promise.all([
+    Promise.all([
       this.api.getUser().then(user => {
         this.user = user;
         this.emailModel.emailAddress = user.emailAddress;
@@ -44,18 +44,18 @@ export class UserProfileComponent implements OnInit {
           this.noDiscourseUser = true;
         });
       })
-    ]));
+    ]);
   }
 
   onSubmit() {
     this.loaded = false;
-    this.notificationService.setBusy(this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
+    this.api.setNotificationEmailAddress(this.emailModel.emailAddress).then(() => {
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Email address updated!'
       });
-    }));
+    });
   }
 }
 

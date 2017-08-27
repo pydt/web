@@ -13,7 +13,7 @@ export class SteamReturnComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.notificationService.setBusy(this.api.validateSteamCredentials(window.location.search).then(() => {
+    this.api.validateSteamCredentials(window.location.search).then(() => {
       const returnUrl = localStorage.getItem('returnUrl');
 
       if (returnUrl) {
@@ -22,6 +22,6 @@ export class SteamReturnComponent implements OnInit {
       } else {
         this.router.navigate(['/user/profile']);
       }
-    }));
+    });
   }
 }

@@ -18,7 +18,7 @@ export class UserGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.notificationService.setBusy(this.api.getUserGames().then(resp => {
+    this.api.getUserGames().then(resp => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(resp.data);
 
@@ -33,6 +33,6 @@ export class UserGamesComponent implements OnInit {
           }
         }
       });
-    }));
+    });
   }
 }

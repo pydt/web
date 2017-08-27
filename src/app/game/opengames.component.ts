@@ -22,10 +22,10 @@ export class OpenGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.notificationService.setBusy(this.api.listOpenGames().then(games => {
+    this.api.listOpenGames().then(games => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
       this.openGames = games;
-    }));
+    });
   }
 }

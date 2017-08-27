@@ -1,17 +1,19 @@
 import { NgModule, ApplicationRef, ErrorHandler } from '@angular/core';
 import { Http, XHRBackend, RequestOptions } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
-import { ClipboardModule }  from 'ngx-clipboard';
+import { ClipboardModule } from 'ngx-clipboard';
 import {
-  ApiService, BusyModule, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe,
+  ApiService, BusyService, BusyComponent, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe,
   API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN
 } from 'pydt-shared';
 import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
+import { environment } from "../environments/environment";
 
 import { AlertModule } from "ngx-bootstrap/alert";
 import { CollapseModule } from "ngx-bootstrap/collapse";
@@ -41,9 +43,10 @@ import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
+import * as envVars from "../envVars";
 
-export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, error: ErrorHandler) {
-  return new PydtHttp(backend, options, error);
+export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, error: ErrorHandler, busy: BusyService) {
+  return new PydtHttp(backend, options, error, busy);
 }
 
 export function metaFactory(): MetaLoader {
@@ -54,9 +57,16 @@ export function metaFactory(): MetaLoader {
   });
 }
 
+const angularticsModules = [];
+
+if (environment.name !== "dev") {
+  angularticsModules.push(Angulartics2GoogleAnalytics);
+}
+
 @NgModule({
   imports: [
     AlertModule.forRoot(),
+    BrowserAnimationsModule,
     BrowserModule,
     HttpModule,
     FormsModule,
@@ -68,9 +78,8 @@ export function metaFactory(): MetaLoader {
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     routing,
-    BusyModule,
     Ng2TableModule,
-    Angulartics2Module.forRoot([ Angulartics2GoogleAnalytics ]),
+    Angulartics2Module.forRoot(angularticsModules),
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: (metaFactory)
@@ -78,6 +87,7 @@ export function metaFactory(): MetaLoader {
   ],
   declarations: [
     AppComponent,
+    BusyComponent,
     HomeComponent,
     ForumComponent,
     ConfigureGameComponent,
@@ -99,6 +109,7 @@ export function metaFactory(): MetaLoader {
     Civ6MapSizePipe
   ],
   providers: [
+    BusyService,
     ProfileCacheService,
     AuthGuard,
     { provide: API_URL_PROVIDER_TOKEN, useClass: WebApiUrlProvider },
@@ -109,7 +120,7 @@ export function metaFactory(): MetaLoader {
     {
       provide: Http,
       useFactory: pydtHttpFactory,
-      deps: [XHRBackend, RequestOptions, ErrorHandler]
+      deps: [XHRBackend, RequestOptions, ErrorHandler, BusyService]
     }
   ],
   bootstrap: [AppComponent]

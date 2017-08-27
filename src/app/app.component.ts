@@ -1,12 +1,10 @@
 import { Component, ErrorHandler, OnInit, ViewChild, ViewContainerRef  } from '@angular/core';
 import { Response, Http } from '@angular/http';
 import { Router } from '@angular/router';
-import { Angulartics2GoogleAnalytics } from 'angulartics2';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
-declare const Rollbar: any;
 
-import { ApiService } from 'pydt-shared';
+import { ApiService, BusyService } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-app',
@@ -34,8 +32,7 @@ export class AppComponent implements OnInit {
     private http: Http,
     private errorService: ErrorHandler,
     private router: Router,
-    private notificationService: NotificationService,
-    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+    private notificationService: NotificationService
   ) {
     this.updateInterval = setInterval(() => {
       // Check for app update every 5 minutes
@@ -52,30 +49,15 @@ export class AppComponent implements OnInit {
       this.updateIsLoggedIn();
     });
 
-    this.notificationService.subscribeBusy({
-      next: promise => {
-        this.busy = promise;
-      }
-    });
-
     this.notificationService.subscribeAlert({
       next: config => {
         this.alerts.push(config);
       }
     });
 
-    (this.errorService as ErrorHandlerService).subscribe(next => {
-      this.errorModalMessage = null;
-
-      if (next instanceof Response) {
-        this.errorModalMessage = (next as Response).json().errorMessage;
-      }
-
+    (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
+      this.errorModalMessage = endUserErrorMessage;
       this.errorModal.show();
-
-      if (!this.errorModalMessage) {
-        Rollbar.error(next);
-      }
     });
   }
 

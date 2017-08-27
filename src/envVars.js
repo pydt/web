@@ -1,0 +1,1 @@
+module.exports={"rev":"46e7b3700e71d7243af9fb1c1abca970d04683c1","apiUrl":"https://z9cjeucs49.execute-api.us-east-1.amazonaws.com/prod"};

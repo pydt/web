@@ -9,10 +9,10 @@
       "outDir": "dist",
       "assets": [
         {
-  "glob": "**/*",
-  "input": "./public/",
-  "output": "./"
-}
+          "glob": "**/*",
+          "input": "./public/",
+          "output": "./"
+        }
       ],
       "index": "index.html",
       "main": "main.ts",
@@ -58,7 +58,9 @@
   },
   "defaults": {
     "styleExt": "scss",
-    "component": {
-    }
+    "serve": {
+      "port": 8080
+    },
+    "component": {}
   }
 }

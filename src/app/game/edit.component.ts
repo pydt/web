@@ -24,7 +24,7 @@ export class EditGameComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach(params => {
-      this.notificationService.setBusy(this.api.getGame(params['id']).then(game => {
+      this.api.getGame(params['id']).then(game => {
         this.game = game;
 
         this.model.displayName = game.displayName;
@@ -43,12 +43,12 @@ export class EditGameComponent implements OnInit {
         }
 
         this.selectedCivs = _.map(game.players, 'civType') as string[];
-      }));
+      });
     });
   }
 
   onSubmit() {
-    this.notificationService.setBusy(this.api.editGame(this.model.toJSON())
+    this.api.editGame(this.model.toJSON())
       .then(game => {
         this.notificationService.showAlert({
           type: 'success',
@@ -56,7 +56,7 @@ export class EditGameComponent implements OnInit {
         });
 
         this.router.navigate(['/game', game.gameId]);
-    }));
+    });
   }
 }
 
@@ -64,7 +64,7 @@ class EditGameModel extends ConfigureGameModel {
   gameId: string;
 
   toJSON(): EditGameRequestBody {
-    const result: any = super.toJSON();
+    const result = super.toJSON() as EditGameRequestBody;
     result.gameId = this.gameId;
     return result;
   }

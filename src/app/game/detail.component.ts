@@ -43,10 +43,10 @@ export class GameDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.notificationService.setBusy(this.api.getSteamProfile().then(profile => {
+    this.api.getSteamProfile().then(profile => {
       this.profile = profile;
       this.getGame();
-    }));
+    });
   }
 
   discourseEmbed() {
@@ -68,20 +68,20 @@ export class GameDetailComponent implements OnInit {
   }
 
   startGame() {
-    this.notificationService.setBusy(this.api.startGame(this.game.gameId).then(game => {
+    this.api.startGame(this.game.gameId).then(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Game started!'
       });
-    }));
+    });
   }
 
   getGame() {
     this.route.params.forEach(params => {
-      this.notificationService.setBusy(this.api.getGame(params['id']).then(game => {
+      this.api.getGame(params['id']).then(game => {
         this.setGame(game);
-      }));
+      });
     });
   }
 
@@ -94,7 +94,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   finishJoinGame() {
-    this.notificationService.setBusy(this.api.getUser().then(user => {
+    this.api.getUser().then(user => {
       if (!user.emailAddress) {
         this.mustHaveEmailSetToJoinModal.show();
       } else {
@@ -110,11 +110,11 @@ export class GameDetailComponent implements OnInit {
           return this.setGame(game);
         });
       }
-    }));
+    });
   }
 
   changeCiv() {
-    this.notificationService.setBusy(this.api.changeCiv({
+    this.api.changeCiv({
       gameId: this.game.gameId,
       playerCiv: this.newCiv.leaderKey
     }).then(game => {
@@ -124,7 +124,7 @@ export class GameDetailComponent implements OnInit {
         msg: 'Changed civilization!'
       });
       return this.setGame(game);
-    }));
+    });
   }
 
   setGame(game: Game) {
@@ -204,16 +204,15 @@ export class GameDetailComponent implements OnInit {
   }
 
   downloadTurn(gameId) {
-    this.notificationService.setBusy(this.api.getTurnUrl(gameId)
+    this.api.getTurnUrl(gameId)
       .then(url => {
         window.open(url);
-      })
-    );
+      });
   }
 
   fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
-      this.notificationService.setBusy(this.api.startTurnSubmit(gameId).then(response => {
+      this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
           let xhr = new XMLHttpRequest();
           xhr.open('PUT', response.putUrl, true);
@@ -253,67 +252,67 @@ export class GameDetailComponent implements OnInit {
       .catch(err => {
         event.target.value = '';
         throw err;
-      }));
+      });
     }
   }
 
   revert() {
     this.confirmRevertModal.hide();
 
-    this.notificationService.setBusy(this.api.revertTurn(this.game.gameId).then(game => {
+    this.api.revertTurn(this.game.gameId).then(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Turn Reverted!'
       });
-    }));
+    });
   }
 
   leave() {
     this.confirmLeaveModal.hide();
 
-    this.notificationService.setBusy(this.api.leaveGame(this.game.gameId).then(() => {
+    this.api.leaveGame(this.game.gameId).then(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Left Game :('
       });
       this.router.navigate(['/user/games']);
-    }));
+    });
   }
 
   surrender() {
     this.confirmSurrenderModal.hide();
 
-    this.notificationService.setBusy(this.api.surrender(this.game.gameId).then(() => {
+    this.api.surrender(this.game.gameId).then(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Surrendered :('
       });
       this.router.navigate(['/user/games']);
-    }));
+    });
   }
 
   kickPlayer() {
     this.confirmKickUserModal.hide();
 
-    this.notificationService.setBusy(this.api.kickUser(this.game.gameId, this.game.currentPlayerSteamId).then(game => {
+    this.api.kickUser(this.game.gameId, this.game.currentPlayerSteamId).then(game => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Successfully kicked user :('
       });
       this.setGame(game);
-    }));
+    });
   }
 
   delete() {
     this.confirmDeleteModal.hide();
 
-    this.notificationService.setBusy(this.api.deleteGame(this.game.gameId).then(() => {
+    this.api.deleteGame(this.game.gameId).then(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Game Deleted :('
       });
       this.router.navigate(['/user/games']);
-    }));
+    });
   }
 }

@@ -1,4 +1,4 @@
-<span *ngIf="game.hashedPassword" tooltip="This game is password protected." tooltipPlacement="left" class="glyphicon glyphicon-lock pull-right"></span>
+<span *ngIf="game.hashedPassword" tooltip="This game is password protected." placement="left" class="glyphicon glyphicon-lock pull-right"></span>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   {{game.displayName}}
   <span *ngIf="!game.inProgress">(Not Started)</span>
@@ -6,7 +6,8 @@
 </h3>
 <div class="row" style="padding-left:13px;padding-right:13px;">
   <div *ngFor="let player of gamePlayers; let i = index;" class="col-{{game.slots}}-slots">
-    <a href="javascript:void(0)" (click)="showUserDetail(player.steamId)" *ngIf="player" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltipHtml]="getTooltip(player, civDefs[i])">
+    <template #tooltipTemplate><span [innerHtml]="getTooltip(player, civDefs[i])"></span></template>
+    <a href="javascript:void(0)" (click)="showUserDetail(player.steamId)" *ngIf="player" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltip]="tooltipTemplate">
       <img #profileImg [src]="getProfileImg(player)" style="height:64px;" on-mouseover="profileImg.src = '/img/civs/' + (civDefs[i]?.getImageFileName() || 'RANDOM_RANDOM.png');" on-mouseleave="profileImg.src = getProfileImg(player);">
     </a>
     <a href="javascript:void(0)" *ngIf="!player" class="thumbnail" tooltip="AI">

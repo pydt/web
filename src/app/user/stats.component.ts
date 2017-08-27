@@ -37,7 +37,7 @@ export class UserStatsComponent implements OnInit {
   ngOnInit() {
     let users: User[];
 
-    this.notificationService.setBusy(this.api.getUsers().then(_users => {
+    this.api.getUsers().then(_users => {
       users = _users;
 
       this.rawData = _.map(users, user => {
@@ -60,7 +60,7 @@ export class UserStatsComponent implements OnInit {
       });
 
       this.onChangeTable(this.tableConfig, this.rawData, this.visibleData);
-    }));
+    });
   }
 
   onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {

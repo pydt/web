@@ -4,16 +4,7 @@ import { NextObserver } from 'rxjs/Observer';
 
 @Injectable()
 export class NotificationService {
-  private busyStream = new Subject<Promise<any>>();
   private alertStream = new Subject<AlertConfig>();
-
-  setBusy(promise: Promise<any>) {
-    this.busyStream.next(promise);
-  }
-
-  subscribeBusy(fn: NextObserver<Promise<any>>) {
-    this.busyStream.subscribe(fn);
-  }
 
   showAlert(cfg: AlertConfig) {
     this.alertStream.next(cfg);

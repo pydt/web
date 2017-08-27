@@ -27,7 +27,7 @@ export class CreateGameComponent implements OnInit {
       this.model.displayName = profile.personaname + '\'s game!';
     });
 
-    this.notificationService.setBusy(this.api.getUserGames()
+    this.api.getUserGames()
       .then(resp => {
         return this.api.getSteamProfile().then(profile => {
           for (let game of resp.data) {
@@ -46,7 +46,7 @@ export class CreateGameComponent implements OnInit {
             this.mustSetEmailModal.show();
           }
         }
-    }));
+    });
   }
 
   selectedCivChange(civ: CivDef) {
@@ -54,15 +54,14 @@ export class CreateGameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.notificationService.setBusy(this.api.createGame(this.model.toJSON())
+    this.api.createGame(this.model.toJSON())
       .then(game => {
         this.router.navigate(['/game', game.gameId]);
         this.notificationService.showAlert({
           type: 'success',
           msg: 'Game created!'
         });
-      })
-    );
+      });
   }
 }
 
@@ -72,7 +71,7 @@ class CreateGameModel extends ConfigureGameModel {
   });
 
   toJSON(): CreateGameRequestBody {
-    const result: any = super.toJSON();
+    const result = super.toJSON() as CreateGameRequestBody;
     result.player1Civ = this.player1Civ.leaderKey;
     return result;
   }
