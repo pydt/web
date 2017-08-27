@@ -12,11 +12,6 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "paths": {
-      "pydt-shared": [
-        "../node_modules/pydt-shared"
-      ]
-    },
     "lib": [
       "es2017",
       "dom"

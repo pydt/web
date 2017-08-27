@@ -10,7 +10,7 @@
         </div>
       </div>
       <div class="col-md-6">
-        <pagination class="pull-right" [(ngModel)]="tableConfig.paging.page" [totalItems]="tableConfig.filtering.filteredResults" [itemsPerPage]="tableConfig.paging.itemsPerPage" (pageChanged)="onChangeTable(tableConfig, rawData, visibleData, $event)"></pagination>
+        <pagination class="pull-right" [(ngModel)]="tableConfig.paging.page" [totalItems]="tableConfig.filtering.filteredResults" [itemsPerPage]="tableConfig.paging.itemsPerPage" [maxSize]="5" [rotate]="false" (pageChanged)="onChangeTable(tableConfig, rawData, visibleData, $event)"></pagination>
       </div>
     </div>
     <hr />
