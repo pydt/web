@@ -53,7 +53,7 @@ export class GameDetailStatsComponent implements OnInit {
 
   humanPlayers() {
     return _.filter(this.game.players, player => {
-      return player.steamId;
+      return !!player.steamId;
     });
   }
 

@@ -3,6 +3,8 @@ import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptio
 import { Observable, ObservableInput } from 'rxjs/Observable';
 import { ErrorHandlerService } from './shared';
 import { BusyService } from 'pydt-shared';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/finally';
 
 @Injectable()
 export class PydtHttp extends Http {
