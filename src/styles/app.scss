@@ -347,28 +347,20 @@ body {
 }
 
 .pydt-busy {
-  z-index: 10001;
+  position:fixed;
+  top:0;
+  left:0;
+  z-index:100000;
+  width:100%;
+  height:100%;
 
-  .backdrop {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 10002;
-    background: #000;
-    opacity: .7;
+  &.backdrop {
+    background: rgba(0, 0, 0, 0.75);
   }
 
-  .spinner {
-    z-index:10003;
-    position: fixed;
-    top:0;
-    left:0;
+  &.spinner {
     background: url(/img/pydt_large.png) no-repeat fixed center;
     background-size: 100px;
-    height: 100%;
-    width:100%;
     animation: busy-spinner-anim 2s linear infinite;
   }
 }

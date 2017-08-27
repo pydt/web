@@ -5,7 +5,7 @@
     "ng": "ng",
     "env-vars": "node generateEnvVars.js",
     "start": "npm run env-vars && ng serve",
-    "build": "npm run env-vars && ng build",
+    "build": "npm run env-vars && ng build --prod",
     "test": "ng test",
     "lint": "ng lint --type-check",
     "e2e": "ng e2e"
@@ -34,7 +34,7 @@
     "ngx-bootstrap": "^1.9.1",
     "ngx-clipboard": "^8.0.4",
     "pako": "^1.0.5",
-    "pydt-shared": "git+https://github.com/pydt/shared.git#b6dfc8d8b67301f66196d2797b0f58adecaa22b2",
+    "pydt-shared": "git+https://github.com/pydt/shared.git#2b566b1253b601033c604a9a49ea365c6ccc5da4",
     "rollbar": "2.2.2",
     "rxjs": "^5.4.2",
     "web-animations-js": "^2.3.1",
