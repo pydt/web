@@ -34,7 +34,7 @@
     "ngx-bootstrap": "^1.9.1",
     "ngx-clipboard": "^8.0.4",
     "pako": "^1.0.5",
-    "pydt-shared": "git+https://github.com/pydt/shared.git#2b566b1253b601033c604a9a49ea365c6ccc5da4",
+    "pydt-shared": "git+https://github.com/pydt/shared.git#8534696c4e871473121a8d9ac1714aabb4bc60cc",
     "rollbar": "2.2.2",
     "rxjs": "^5.4.2",
     "web-animations-js": "^2.3.1",

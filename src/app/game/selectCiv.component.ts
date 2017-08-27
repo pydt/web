@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { CivDef, Civ6LeaderArray } from 'pydt-shared';
+import { CivDef } from 'pydt-shared';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -9,7 +9,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 })
 export class SelectCivComponent implements OnInit {
   @Input() curCiv: CivDef;
-  @Input() leaders: Civ6LeaderArray;
+  @Input() leaders: CivDef[];
   @Output() selectedCiv = new EventEmitter<CivDef>();
   @ViewChild('selectCivModal') selectCivModal: ModalDirective;
 

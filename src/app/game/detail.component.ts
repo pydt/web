@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile } from 'pydt-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile, filterCivsByDlc } from 'pydt-shared';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 import * as pako from 'pako';
@@ -170,7 +170,7 @@ export class GameDetailComponent implements OnInit {
           .value();
       }
     } else {
-      this.availableCivs = _.clone(Civ6Leaders.filterByDlc(this.game.dlc));
+      this.availableCivs =  _.clone(filterCivsByDlc(Civ6Leaders, this.game.dlc));
 
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody, RandomCiv } from 'pydt-shared';
+import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody, RandomCiv, filterCivsByDlc } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NotificationService } from '../shared';
@@ -12,12 +12,15 @@ import * as _ from 'lodash';
 })
 export class CreateGameComponent implements OnInit {
   model = new CreateGameModel();
-  allLeaders = Civ6Leaders;
 
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
 
   constructor(private api: ApiService, private router: Router, private notificationService: NotificationService) {
+  }
+
+  filteredLeaders() {
+    return filterCivsByDlc(Civ6Leaders, this.model.dlcIdArray());
   }
 
   ngOnInit() {
