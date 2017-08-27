@@ -5,7 +5,7 @@
     "ng": "ng",
     "env-vars": "node generateEnvVars.js",
     "start": "npm run env-vars && ng serve",
-    "build": "npm run env-vars && ng build --prod",
+    "build": "npm run env-vars && ng build --prod -sm",
     "test": "ng test",
     "lint": "ng lint --type-check",
     "e2e": "ng e2e"
