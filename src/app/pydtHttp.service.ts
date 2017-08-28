@@ -1,20 +1,17 @@
-import { ErrorHandler, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
-import { Observable, ObservableInput } from 'rxjs/Observable';
-import { ErrorHandlerService } from './shared';
+import { Observable } from 'rxjs/Observable';
 import { BusyService } from 'pydt-shared';
-import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/finally';
 
 @Injectable()
 export class PydtHttp extends Http {
-  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private errorHandler: ErrorHandler, private busy: BusyService) {
+  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private busy: BusyService) {
     super(backend, defaultOptions);
   }
 
   request(url: string | Request, options?: RequestOptionsArgs): Observable<Response> {
     let headers: Headers;
-    let ignoreErrorHandler = false;
 
     if (url instanceof Request) {
       headers = (url as Request).headers;
@@ -22,20 +19,9 @@ export class PydtHttp extends Http {
       headers = options.headers;
     }
 
-    if (headers && headers.has('ignore-error-handler')) {
-      ignoreErrorHandler = true;
-      headers.delete('ignore-error-handler');
-    }
-
     this.busy.incrementBusy(true);
 
-    return super.request(url, options).catch((err, caught): ObservableInput<any> => {
-      if (!ignoreErrorHandler) {
-        (this.errorHandler as ErrorHandlerService).handleError(err);
-      }
-
-      return Observable.throw(err);
-    }).finally(() => {
+    return super.request(url, options).finally(() => {
       this.busy.incrementBusy(false);
     });
   }

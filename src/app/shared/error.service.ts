@@ -35,9 +35,16 @@ export class ErrorHandlerService implements ErrorHandler {
 
   handleError(error) {
     let endUserErrorMessage = null;
+    let response: Response;
 
     if (error instanceof Response) {
-      endUserErrorMessage = (error as Response).json().errorMessage;
+      response = error as Response;
+    } else if (error.rejection instanceof Response) {
+      response = error.rejection as Response;
+    }
+
+    if (response) {
+      endUserErrorMessage = response.json().errorMessage;
     }
 
     if (!endUserErrorMessage) {
@@ -45,6 +52,5 @@ export class ErrorHandlerService implements ErrorHandler {
     }
 
     this.errorStream.next(endUserErrorMessage);
-    throw error;
   }
 }

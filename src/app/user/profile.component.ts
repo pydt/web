@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Headers, Http, RequestOptionsArgs } from '@angular/http';
+import { Http } from '@angular/http';
 import { ApiService, User } from 'pydt-shared';
 import { NotificationService } from '../shared';
 
@@ -32,15 +32,9 @@ export class UserProfileComponent implements OnInit {
       this.api.getSteamProfile().then(profile => {
         this.steamName = profile.personaname;
 
-        const options: RequestOptionsArgs = {
-          headers: new Headers({
-            'ignore-error-handler': true
-          })
-        };
-
         const discourseUrl = `https://discourse.playyourdamnturn.com/users/${profile.personaname.toLowerCase()}.json`;
 
-        return this.http.get(discourseUrl, options).toPromise().catch(() => {
+        return this.http.get(discourseUrl).toPromise().catch(() => {
           this.noDiscourseUser = true;
         });
       })

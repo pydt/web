@@ -44,8 +44,8 @@ import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
 
-export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, error: ErrorHandler, busy: BusyService) {
-  return new PydtHttp(backend, options, error, busy);
+export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, busy: BusyService) {
+  return new PydtHttp(backend, options, busy);
 }
 
 export function metaFactory(): MetaLoader {
@@ -119,7 +119,7 @@ if (environment.name !== 'dev') {
     {
       provide: Http,
       useFactory: pydtHttpFactory,
-      deps: [XHRBackend, RequestOptions, ErrorHandler, BusyService]
+      deps: [XHRBackend, RequestOptions, BusyService]
     }
   ],
   bootstrap: [AppComponent]
