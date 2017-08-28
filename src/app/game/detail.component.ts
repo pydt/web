@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile, filterCivsByDlc } from 'pydt-shared';
+import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile, filterCivsByDlc, BusyService } from 'pydt-shared';
 import { NotificationService } from '../shared';
 import * as _ from 'lodash';
 import * as pako from 'pako';
@@ -38,7 +38,8 @@ export class GameDetailComponent implements OnInit {
     private api: ApiService,
     private router: Router,
     private route: ActivatedRoute,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private busyService: BusyService
   ) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
@@ -213,6 +214,8 @@ export class GameDetailComponent implements OnInit {
 
   fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
+      this.busyService.incrementBusy(true);
+
       this.api.startTurnSubmit(gameId).then(response => {
         return new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
@@ -249,8 +252,11 @@ export class GameDetailComponent implements OnInit {
           type: 'success',
           msg: 'Turn submitted successfully!'
         });
+
+        this.busyService.incrementBusy(false);
       })
       .catch(err => {
+        this.busyService.incrementBusy(false);
         event.target.value = '';
         throw err;
       });
