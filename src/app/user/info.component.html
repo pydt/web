@@ -8,7 +8,7 @@
   <div class="col-sm-8">
     <h1 style="margin-top:0;">{{user?.displayName}}</h1>
     <div *ngIf="user.turnsPlayed">
-      <p><b>Active Games:</b> {{user.activeGameIds.length}}</p>
+      <p><b>Active Games:</b> {{(user.activeGameIds || []).length}}</p>
       <p><b>Turns Played:</b> {{user.turnsPlayed}}</p>
       <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
       <p><b class="text-success">Fast Turns (< 1 hour):</b> {{user.fastTurns}}</p>
