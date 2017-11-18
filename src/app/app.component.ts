@@ -1,9 +1,10 @@
-import { Component, ErrorHandler, OnInit, ViewChild } from '@angular/core';
+import { Component, ErrorHandler, OnInit, ViewChild, Optional } from '@angular/core';
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
 import { ApiService } from 'pydt-shared';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 @Component({
   selector: 'pydt-app',
@@ -26,7 +27,8 @@ export class AppComponent implements OnInit {
     private http: Http,
     private errorService: ErrorHandler,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    @Optional() angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.updateInterval = setInterval(() => {
       // Check for app update every 5 minutes

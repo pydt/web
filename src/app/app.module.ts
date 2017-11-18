@@ -5,7 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
-import { Angulartics2Module, Angulartics2GoogleAnalytics } from 'angulartics2';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import {
@@ -43,6 +44,7 @@ import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
+import * as _ from 'lodash';
 
 export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, busy: BusyService) {
   return new PydtHttp(backend, options, busy);
@@ -56,14 +58,8 @@ export function metaFactory(): MetaLoader {
   });
 }
 
-const angularticsModules = [];
-
-if (environment.name !== 'dev') {
-  angularticsModules.push(Angulartics2GoogleAnalytics);
-}
-
 @NgModule({
-  imports: [
+  imports: _.compact([
     AlertModule.forRoot(),
     BrowserAnimationsModule,
     BrowserModule,
@@ -78,12 +74,12 @@ if (environment.name !== 'dev') {
     TooltipModule.forRoot(),
     routing,
     Ng2TableModule,
-    Angulartics2Module.forRoot(angularticsModules),
+    environment.name !== 'dev' ? Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]) : null,
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: (metaFactory)
     })
-  ],
+  ]),
   declarations: [
     AppComponent,
     BusyComponent,

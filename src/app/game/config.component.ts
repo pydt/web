@@ -54,7 +54,7 @@ export class ConfigureGameModel {
   public displayName: string;
   public description: string;
   public humans = 6;
-  public dlc = new Map<string, boolean>();
+  public dlc: { [index: string]: boolean; } = {};
   public password: string;
   public gameSpeed = Civ6GameSpeeds[0].key;
   public mapFile = Civ6Maps[0].file;
@@ -75,7 +75,7 @@ export class ConfigureGameModel {
   }
 
   dlcSelected(dlc: DLC) {
-    return _.some(this.dlc.keys(), key => {
+    return _.some(_.keys(this.dlc), key => {
       return key === dlc.id && this.dlc[key];
     });
   }
