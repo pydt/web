@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, OpenGamesResponse, SteamProfile, ProfileCacheService } from 'pydt-shared';
+import { ProfileCacheService } from 'pydt-shared';
+import { DefaultApi, OpenGamesResponse, SteamProfile } from '../swagger/api';
+import { AuthService } from '../shared';
 
 @Component({
   selector: 'pydt-open-games',
@@ -9,19 +11,16 @@ export class OpenGamesComponent implements OnInit {
   openGames: OpenGamesResponse;
   profile: SteamProfile;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
+  constructor(private api: DefaultApi, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
     this.getGames();
-
-    this.api.getSteamProfile().then(profile => {
-      this.profile = profile;
-    });
+    this.profile = this.auth.getSteamProfile();
   }
 
   getGames() {
-    this.api.listOpenGames().then(games => {
+    this.api.gameListOpen().subscribe(games => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
       this.openGames = games;

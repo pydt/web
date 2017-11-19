@@ -1,6 +1,8 @@
 import { Component, OnChanges, Input, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ApiService, ProfileCacheService, CivDef, Civ6Leaders, GamePlayer, User, SteamProfile, Game } from 'pydt-shared';
+import { ProfileCacheService, CivDef, CIV6_LEADERS, PcsProfileMap, PcsSteamProfile } from 'pydt-shared';
+import { Game, GamePlayer, SteamProfile, User, DefaultApi } from '../swagger/api';
+import { AuthService } from '../shared';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,16 +17,13 @@ export class GamePreviewComponent implements OnChanges {
   activeProfile: SteamProfile;
   user: User;
   private civDefs: CivDef[];
-  private userPromise: Promise<any>;
-  private gamePlayerProfiles = new Map<string, SteamProfile>();
+  private gamePlayerProfiles: PcsProfileMap = {};
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
+  constructor(private api: DefaultApi, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnChanges() {
-    this.api.getSteamProfile().then(profile => {
-      this.activeProfile = profile;
-    });
+    this.activeProfile = this.auth.getSteamProfile();
 
     this.profileCache.getProfilesForGame(this.game).then(profiles => {
       this.gamePlayerProfiles = profiles;
@@ -36,7 +35,7 @@ export class GamePreviewComponent implements OnChanges {
     for (let i = 0; i < this.game.slots; i++) {
       if (this.game.players.length > i) {
         this.gamePlayers.push(this.game.players[i]);
-        this.civDefs.push(_.find(Civ6Leaders, leader => {
+        this.civDefs.push(_.find(CIV6_LEADERS, leader => {
           return leader.leaderKey === this.game.players[i].civType;
         }));
       } else {
@@ -69,7 +68,7 @@ export class GamePreviewComponent implements OnChanges {
 
   getProfileImg(player: GamePlayer) {
     if (player && player.steamId && !player.hasSurrendered) {
-      return (this.gamePlayerProfiles[player.steamId] || {}).avatarmedium;
+      return (this.gamePlayerProfiles[player.steamId] || {} as PcsSteamProfile).avatarmedium;
     }
 
     return '/img/android.png';
@@ -80,7 +79,7 @@ export class GamePreviewComponent implements OnChanges {
       this.user = null;
       this.playerDetailModal.show();
 
-      this.userPromise = this.api.getUserById(userId).then(user => {
+      this.api.userById(userId).subscribe(user => {
         this.user = user;
       });
     }

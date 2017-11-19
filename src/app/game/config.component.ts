@@ -1,5 +1,6 @@
 import { Component, ChangeDetectorRef, Input, OnInit } from '@angular/core';
-import { Civ6DLCs, Civ6Leaders, Civ6GameSpeeds, Civ6Maps, Civ6MapSizes, DLC, Game } from 'pydt-shared';
+import { CIV6_DLCS, CIV6_LEADERS, CIV6_GAME_SPEEDS, CIV6_MAPS, CIV6_MAP_SIZES, DLC } from 'pydt-shared';
+import { Game } from '../swagger/api';
 import * as _ from 'lodash';
 
 @Component({
@@ -12,10 +13,10 @@ export class ConfigureGameComponent implements OnInit {
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   minHumans = 2;
-  dlcOptions = Civ6DLCs;
-  gameSpeeds = Civ6GameSpeeds;
-  maps = Civ6Maps;
-  mapSizes = Civ6MapSizes;
+  dlcOptions = CIV6_DLCS;
+  gameSpeeds = CIV6_GAME_SPEEDS;
+  maps = CIV6_MAPS;
+  mapSizes = CIV6_MAP_SIZES;
 
   constructor(private cdRef: ChangeDetectorRef) {
   }
@@ -28,7 +29,7 @@ export class ConfigureGameComponent implements OnInit {
 
   validateDlc(dlc: DLC) {
     for (const civ of this.selectedCivs) {
-      const leader = _.find(Civ6Leaders, l => {
+      const leader = _.find(CIV6_LEADERS, l => {
         return l.leaderKey === civ;
       });
 
@@ -56,9 +57,9 @@ export class ConfigureGameModel {
   public humans = 6;
   public dlc: { [index: string]: boolean; } = {};
   public password: string;
-  public gameSpeed = Civ6GameSpeeds[0].key;
-  public mapFile = Civ6Maps[0].file;
-  public mapSize = Civ6MapSizes[2].key;
+  public gameSpeed = CIV6_GAME_SPEEDS[0].key;
+  public mapFile = CIV6_MAPS[0].file;
+  public mapSize = CIV6_MAP_SIZES[2].key;
   public allowJoinAfterStart = true;
 
   set slots(slots: number) {
@@ -87,7 +88,7 @@ export class ConfigureGameModel {
   }
 
   selectedMap() {
-    return _.find(Civ6Maps, map => {
+    return _.find(CIV6_MAPS, map => {
       return map.file === this.mapFile;
     });
   }
@@ -100,7 +101,7 @@ export class ConfigureGameModel {
     }
   }
 
-  toJSON() {
+  toJSON(): any {
     return {
       displayName: this.displayName,
       description: this.description,

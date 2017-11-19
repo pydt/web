@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ApiService, CivDef, Civ6DLCs, Civ6Leaders, RandomCiv, Game, SteamProfile, filterCivsByDlc, BusyService } from 'pydt-shared';
-import { NotificationService } from '../shared';
+import { CivDef, CIV6_DLCS, CIV6_LEADERS, RANDOM_CIV, filterCivsByDlc, BusyService } from 'pydt-shared';
+import { NotificationService, AuthService } from '../shared';
+import { Game, SteamProfile, DefaultApi } from '../swagger/api';
 import * as _ from 'lodash';
 import * as pako from 'pako';
 
@@ -35,7 +36,8 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmStartGameModal') confirmStartGameModal: ModalDirective;
 
   constructor(
-    private api: ApiService,
+    private api: DefaultApi,
+    private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
@@ -45,10 +47,8 @@ export class GameDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.getSteamProfile().then(profile => {
-      this.profile = profile;
-      this.getGame();
-    });
+    this.profile = this.auth.getSteamProfile();
+    this.getGame();
   }
 
   discourseEmbed() {
@@ -70,7 +70,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   startGame() {
-    this.api.startGame(this.game.gameId).then(game => {
+    this.api.gameStart(this.game.gameId).subscribe(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'success',
@@ -81,7 +81,7 @@ export class GameDetailComponent implements OnInit {
 
   getGame() {
     this.route.params.forEach(params => {
-      this.api.getGame(params['id']).then(game => {
+      this.api.gameGet(params['id']).subscribe(game => {
         this.setGame(game);
       });
     });
@@ -95,37 +95,37 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
-  finishJoinGame() {
-    this.api.getUser().then(user => {
-      if (!user.emailAddress) {
-        this.mustHaveEmailSetToJoinModal.show();
-      } else {
-        return this.api.joinGame({
-          gameId: this.game.gameId,
-          playerCiv: this.playerCiv.leaderKey,
-          password: this.joinGamePassword
-        }).then(game => {
-          this.notificationService.showAlert({
-            type: 'success',
-            msg: 'Joined game!'
-          });
-          return this.setGame(game);
-        });
-      }
-    });
+  async finishJoinGame() {
+    const user = await this.api.userGetCurrent().toPromise();
+
+    if (!user.emailAddress) {
+      this.mustHaveEmailSetToJoinModal.show();
+    } else {
+      const game = await this.api.gameJoin(this.game.gameId, {
+        playerCiv: this.playerCiv.leaderKey,
+        password: this.joinGamePassword
+      }).toPromise();
+
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Joined game!'
+      });
+
+      this.setGame(game);
+    }
   }
 
   changeCiv() {
-    this.api.changeCiv({
-      gameId: this.game.gameId,
+    this.api.gameChangeCiv(this.game.gameId, {
       playerCiv: this.newCiv.leaderKey
-    }).then(game => {
+    }).subscribe(game => {
       this.newCiv = null;
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Changed civilization!'
       });
-      return this.setGame(game);
+
+      this.setGame(game);
     });
   }
 
@@ -164,19 +164,19 @@ export class GameDetailComponent implements OnInit {
             return !player.steamId;
           })
           .map(player => {
-            return _.find(Civ6Leaders, leader => {
+            return _.find(CIV6_LEADERS, leader => {
               return leader.leaderKey === player.civType;
             });
           })
           .value();
       }
     } else {
-      this.availableCivs =  _.clone(filterCivsByDlc(Civ6Leaders, this.game.dlc));
+      this.availableCivs =  _.clone(filterCivsByDlc(CIV6_LEADERS, this.game.dlc));
 
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
 
-        if (curLeader !== RandomCiv) {
+        if (curLeader !== RANDOM_CIV) {
           _.pull(this.availableCivs, curLeader);
         }
       }
@@ -187,7 +187,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     this.dlcEnabled = _.map(game.dlc, dlcId => {
-      return _.find(Civ6DLCs, dlc => {
+      return _.find(CIV6_DLCS, dlc => {
         return dlc.id === dlcId;
       }).displayName;
     }).join(', ');
@@ -200,26 +200,27 @@ export class GameDetailComponent implements OnInit {
   }
 
   private findLeader(civType: string) {
-    return _.find(Civ6Leaders, leader => {
+    return _.find(CIV6_LEADERS, leader => {
       return leader.leaderKey === civType;
     });
   }
 
   downloadTurn(gameId) {
-    this.api.getTurnUrl(gameId)
-      .then(url => {
-        window.open(url);
+    this.api.gameGetTurn(gameId)
+      .subscribe(resp => {
+        window.open(resp.downloadUrl);
       });
   }
 
-  fileSelected(event, gameId) {
+  async fileSelected(event, gameId) {
     if (event.target.files.length > 0) {
       this.busyService.incrementBusy(true);
 
-      this.api.startTurnSubmit(gameId).then(response => {
-        return new Promise((resolve, reject) => {
+      try {
+        const gameResp = await this.api.gameStartSubmit(gameId).toPromise();
+        await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
-          xhr.open('PUT', response.putUrl, true);
+          xhr.open('PUT', gameResp.putUrl, true);
 
           xhr.onload = () => {
             if (xhr.status === 200) {
@@ -242,31 +243,27 @@ export class GameDetailComponent implements OnInit {
           };
           reader.readAsArrayBuffer(event.target.files[0]);
         });
-      })
-      .then(() => {
-        return this.api.finishTurnSubmit(gameId);
-      })
-      .then(() => {
+
+        await this.api.gameFinishSubmit(gameId);
+
         this.getGame();
         this.notificationService.showAlert({
           type: 'success',
           msg: 'Turn submitted successfully!'
         });
-
-        this.busyService.incrementBusy(false);
-      })
-      .catch(err => {
-        this.busyService.incrementBusy(false);
+      } catch (err) {
         event.target.value = '';
         throw err;
-      });
+      } finally {
+        this.busyService.incrementBusy(false);
+      }
     }
   }
 
   revert() {
     this.confirmRevertModal.hide();
 
-    this.api.revertTurn(this.game.gameId).then(game => {
+    this.api.gameRevert(this.game.gameId).subscribe(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'warning',
@@ -278,7 +275,7 @@ export class GameDetailComponent implements OnInit {
   leave() {
     this.confirmLeaveModal.hide();
 
-    this.api.leaveGame(this.game.gameId).then(() => {
+    this.api.gameLeave(this.game.gameId).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Left Game :('
@@ -290,7 +287,7 @@ export class GameDetailComponent implements OnInit {
   surrender() {
     this.confirmSurrenderModal.hide();
 
-    this.api.surrender(this.game.gameId).then(() => {
+    this.api.gameSurrender(this.game.gameId, {}).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Surrendered :('
@@ -302,7 +299,7 @@ export class GameDetailComponent implements OnInit {
   kickPlayer() {
     this.confirmKickUserModal.hide();
 
-    this.api.kickUser(this.game.gameId, this.game.currentPlayerSteamId).then(game => {
+    this.api.gameSurrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Successfully kicked user :('
@@ -314,7 +311,7 @@ export class GameDetailComponent implements OnInit {
   delete() {
     this.confirmDeleteModal.hide();
 
-    this.api.deleteGame(this.game.gameId).then(() => {
+    this.api.gameDelete(this.game.gameId).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Game Deleted :('

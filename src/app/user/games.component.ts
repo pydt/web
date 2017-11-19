@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService, Game, ProfileCacheService } from 'pydt-shared';
+import { ProfileCacheService } from 'pydt-shared';
+import { Game, DefaultApi } from '../swagger/api';
+import { AuthService } from '../shared';
 
 @Component({
   selector: 'pydt-user-games',
@@ -9,7 +11,7 @@ export class UserGamesComponent implements OnInit {
   games: Game[];
   canCreateGame: boolean;
 
-  constructor(private api: ApiService, private profileCache: ProfileCacheService) {
+  constructor(private api: DefaultApi, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
@@ -17,21 +19,20 @@ export class UserGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.api.getUserGames().then(resp => {
+    this.api.userGames().subscribe(resp => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(resp.data);
 
       this.games = resp.data;
 
-      this.api.getSteamProfile().then(profile => {
-        this.canCreateGame = true;
+      const profile = this.auth.getSteamProfile();
+      this.canCreateGame = true;
 
-        for (const game of this.games) {
-          if (game.createdBySteamId === profile.steamid && !game.inProgress) {
-            this.canCreateGame = false;
-          }
+      for (const game of this.games) {
+        if (game.createdBySteamId === profile.steamid && !game.inProgress) {
+          this.canCreateGame = false;
         }
-      });
+      }
     });
   }
 }

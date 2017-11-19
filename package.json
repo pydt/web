@@ -8,7 +8,8 @@
     "build": "npm run env-vars && ng build --prod -sm",
     "test": "ng test",
     "lint": "ng lint --type-check",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "swagger-codegen": "bash -c \"mkdir -p .tmp && cp ../api/api/_gen/swagger/swagger.json .tmp/swagger.json && MSYS_NO_PATHCONV=1 docker run --rm -v ${PWD}:/local jimschubert/swagger-codegen-cli:2.2.3 generate -i /local/.tmp/swagger.json -l typescript-angular2 -o /local/src/app/swagger/api -DmodelPropertyNaming=original\""
   },
   "private": true,
   "dependencies": {

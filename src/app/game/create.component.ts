@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService, CivDef, Civ6Leaders, CreateGameRequestBody, RandomCiv, filterCivsByDlc } from 'pydt-shared';
+import { CivDef, CIV6_LEADERS, RANDOM_CIV, filterCivsByDlc } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { NotificationService } from '../shared';
+import { NotificationService, AuthService } from '../shared';
 import * as _ from 'lodash';
+import { DefaultApi, CreateGameRequestBody } from '../swagger/api/index';
 
 @Component({
   selector: 'pydt-create-game',
@@ -16,38 +17,38 @@ export class CreateGameComponent implements OnInit {
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
 
-  constructor(private api: ApiService, private router: Router, private notificationService: NotificationService) {
+  constructor(
+    private api: DefaultApi,
+    private auth: AuthService,
+    private router: Router,
+    private notificationService: NotificationService
+  ) {
   }
 
   filteredLeaders() {
-    return filterCivsByDlc(Civ6Leaders, this.model.dlcIdArray());
+    return filterCivsByDlc(CIV6_LEADERS, this.model.dlcIdArray());
   }
 
-  ngOnInit() {
-    this.api.getSteamProfile().then(profile => {
-      this.model.displayName = profile.personaname + '\'s game!';
-    });
+  async ngOnInit() {
+    const profile = this.auth.getSteamProfile();
+    this.model.displayName = profile.personaname + '\'s game!';
 
-    this.api.getUserGames()
-      .then(resp => {
-        return this.api.getSteamProfile().then(profile => {
-          for (const game of resp.data) {
-            if (game.createdBySteamId === profile.steamid && !game.inProgress) {
-              this.cannotCreateGameModal.show();
-              return;
-            }
-          }
+    const userGames = await this.api.userGames().toPromise();
 
-          return this.api.getUser();
-        });
-      })
-      .then(user => {
-        if (user) {
-          if (!user.emailAddress) {
-            this.mustSetEmailModal.show();
-          }
-        }
-    });
+    for (const game of userGames.data) {
+      if (game.createdBySteamId === profile.steamid && !game.inProgress) {
+        this.cannotCreateGameModal.show();
+        return;
+      }
+    }
+
+    const user = await this.api.userGetCurrent().toPromise();
+
+    if (user) {
+      if (!user.emailAddress) {
+        this.mustSetEmailModal.show();
+      }
+    }
   }
 
   selectedCivChange(civ: CivDef) {
@@ -55,8 +56,8 @@ export class CreateGameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.api.createGame(this.model.toJSON())
-      .then(game => {
+    this.api.gameCreate(this.model.toJSON())
+      .subscribe(game => {
         this.router.navigate(['/game', game.gameId]);
         this.notificationService.showAlert({
           type: 'success',
@@ -67,8 +68,8 @@ export class CreateGameComponent implements OnInit {
 }
 
 class CreateGameModel extends ConfigureGameModel {
-  public player1Civ = _.find(Civ6Leaders, leader => {
-    return !leader.dlcId && leader !== RandomCiv;
+  public player1Civ = _.find(CIV6_LEADERS, leader => {
+    return !leader.dlcId && leader !== RANDOM_CIV;
   });
 
   toJSON(): CreateGameRequestBody {

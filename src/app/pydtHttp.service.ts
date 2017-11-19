@@ -2,11 +2,12 @@ import { Injectable } from '@angular/core';
 import { ConnectionBackend, Headers, Http, Request, RequestOptions, RequestOptionsArgs, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { BusyService } from 'pydt-shared';
+import { AuthService } from './shared';
 import 'rxjs/add/operator/finally';
 
 @Injectable()
 export class PydtHttp extends Http {
-  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private busy: BusyService) {
+  constructor(backend: ConnectionBackend, defaultOptions: RequestOptions, private busy: BusyService, private auth: AuthService) {
     super(backend, defaultOptions);
   }
 
@@ -17,6 +18,12 @@ export class PydtHttp extends Http {
       headers = (url as Request).headers;
     } else if (options) {
       headers = options.headers;
+    }
+
+    const token = this.auth.getToken();
+
+    if (token) {
+      headers.append('Authorization', token);
     }
 
     this.busy.incrementBusy(true);

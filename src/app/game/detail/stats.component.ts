@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProfileCacheService, Game } from 'pydt-shared';
+import { ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
+import { Game } from '../../swagger/api';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
@@ -70,6 +71,6 @@ export class GameDetailStatsComponent implements OnInit {
   }
 
   lastTurn() {
-    return countdown(Date.parse(this.game.updatedAt), null, Utility.COUNTDOWN_FORMAT);
+    return countdown(Date.parse(this.game.updatedAt as any), null, Utility.COUNTDOWN_FORMAT);
   }
 }

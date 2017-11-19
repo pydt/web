@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService, EditGameRequestBody, Game } from 'pydt-shared';
 import { ConfigureGameModel } from './config.component';
 import { NotificationService } from '../shared';
+import { Game, DefaultApi, GameRequestBody } from '../swagger/api';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,7 +15,7 @@ export class EditGameComponent implements OnInit {
   selectedCivs: string[];
 
   constructor(
-    private api: ApiService,
+    private api: DefaultApi,
     private route: ActivatedRoute,
     private router: Router,
     private notificationService: NotificationService
@@ -24,7 +24,7 @@ export class EditGameComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach(params => {
-      this.api.getGame(params['id']).then(game => {
+      this.api.gameGet(params['id']).subscribe(game => {
         this.game = game;
 
         this.model.displayName = game.displayName;
@@ -48,8 +48,8 @@ export class EditGameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.api.editGame(this.model.toJSON())
-      .then(game => {
+    this.api.gameEdit(this.model.gameId, this.model.toJSON())
+      .subscribe(game => {
         this.notificationService.showAlert({
           type: 'success',
           msg: 'Game updated!'
@@ -63,9 +63,7 @@ export class EditGameComponent implements OnInit {
 class EditGameModel extends ConfigureGameModel {
   gameId: string;
 
-  toJSON(): EditGameRequestBody {
-    const result = super.toJSON() as EditGameRequestBody;
-    result.gameId = this.gameId;
-    return result;
+  toJSON(): GameRequestBody {
+    return super.toJSON() as GameRequestBody;
   }
 }

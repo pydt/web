@@ -10,10 +10,8 @@ import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 import { ClipboardModule } from 'ngx-clipboard';
 import {
-  ApiService, BusyService, BusyComponent, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe,
-  API_URL_PROVIDER_TOKEN, API_CREDENTIALS_PROVIDER_TOKEN
+  BusyService, BusyComponent, ProfileCacheService, Civ6GameSpeedPipe, Civ6MapPipe, Civ6MapSizePipe
 } from 'pydt-shared';
-import { WebApiUrlProvider, WebApiCredentialsProvider } from './shared/webApiServiceImplementations';
 import { environment } from '../environments/environment';
 
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -41,13 +39,19 @@ import { UserGamesComponent } from './user/games.component';
 import { UserInfoComponent } from './user/info.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
 import { SelectCivComponent } from './game/selectCiv.component';
-import { AuthGuard, ErrorHandlerService, NotificationService } from './shared';
+import { AuthService, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
+import { BASE_PATH, DefaultApi } from './swagger/api';
 import * as _ from 'lodash';
+import * as envVars from '../envVars';
 
-export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, busy: BusyService) {
-  return new PydtHttp(backend, options, busy);
+export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, busy: BusyService, auth: AuthService) {
+  return new PydtHttp(backend, options, busy, auth);
+}
+
+export function pcsFactory(api: DefaultApi) {
+  return new ProfileCacheService(api);
 }
 
 export function metaFactory(): MetaLoader {
@@ -105,18 +109,21 @@ export function metaFactory(): MetaLoader {
   ],
   providers: [
     BusyService,
-    ProfileCacheService,
-    AuthGuard,
-    { provide: API_URL_PROVIDER_TOKEN, useClass: WebApiUrlProvider },
-    { provide: API_CREDENTIALS_PROVIDER_TOKEN, useClass: WebApiCredentialsProvider },
+    AuthService,
+    {
+      provide: ProfileCacheService,
+      useFactory: pcsFactory,
+      deps: [DefaultApi]
+    },
+    { provide: BASE_PATH, useValue: envVars.apiUrl },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService,
-    ApiService,
     {
       provide: Http,
       useFactory: pydtHttpFactory,
-      deps: [XHRBackend, RequestOptions, BusyService]
-    }
+      deps: [XHRBackend, RequestOptions, BusyService, AuthService]
+    },
+    DefaultApi
   ],
   bootstrap: [AppComponent]
 })

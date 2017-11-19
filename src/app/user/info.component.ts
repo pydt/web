@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProfileCacheService, SteamProfile, User } from 'pydt-shared';
+import { ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../shared/utility';
+import { User, SteamProfile } from '../swagger/api';
 import * as countdown from 'countdown';
 
 @Component({

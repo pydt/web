@@ -2,9 +2,9 @@ import { Component, ErrorHandler, OnInit, ViewChild, Optional } from '@angular/c
 import { Http } from '@angular/http';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { AlertConfig, ErrorHandlerService, NotificationService } from './shared';
-import { ApiService } from 'pydt-shared';
+import { AlertConfig, ErrorHandlerService, NotificationService, AuthService } from './shared';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import { DefaultApi } from './swagger/api/index';
 
 @Component({
   selector: 'pydt-app',
@@ -23,7 +23,8 @@ export class AppComponent implements OnInit {
   @ViewChild('updateModal') updateModal: ModalDirective;
 
   constructor(
-    private api: ApiService,
+    private api: DefaultApi,
+    private auth: AuthService,
     private http: Http,
     private errorService: ErrorHandler,
     private router: Router,
@@ -105,13 +106,11 @@ export class AppComponent implements OnInit {
   }
 
   updateIsLoggedIn() {
-    this.api.isLoggedIn().then(isLoggedIn => {
-      this.isLoggedIn = isLoggedIn;
-    });
+    this.isLoggedIn = !!this.auth.getToken();
   }
 
   redirectToLogin() {
-    this.api.getLoginUrl().then(url => {
+    this.api.authAuthenticate().subscribe(resp => {
       const path = window.location.pathname;
 
       if (path.toLowerCase().indexOf('/game') === 0) {
@@ -119,7 +118,7 @@ export class AppComponent implements OnInit {
         localStorage.setItem('returnUrl', window.location.pathname);
       }
 
-      window.location.href = url;
+      window.location.href = resp.redirectURL;
     });
 
     return false;
