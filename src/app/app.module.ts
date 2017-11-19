@@ -62,8 +62,16 @@ export function metaFactory(): MetaLoader {
   });
 }
 
+let prodImports = [
+  Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
+];
+
+if (environment.name === 'dev') {
+  prodImports = [];
+}
+
 @NgModule({
-  imports: _.compact([
+  imports: [
     AlertModule.forRoot(),
     BrowserAnimationsModule,
     BrowserModule,
@@ -78,12 +86,12 @@ export function metaFactory(): MetaLoader {
     TooltipModule.forRoot(),
     routing,
     Ng2TableModule,
-    environment.name !== 'dev' ? Angulartics2Module.forRoot([Angulartics2GoogleAnalytics]) : null,
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: (metaFactory)
-    })
-  ]),
+    }),
+    ...prodImports
+  ],
   declarations: [
     AppComponent,
     BusyComponent,
