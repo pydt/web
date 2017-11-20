@@ -244,7 +244,7 @@ export class GameDetailComponent implements OnInit {
           reader.readAsArrayBuffer(event.target.files[0]);
         });
 
-        await this.api.gameFinishSubmit(gameId);
+        await this.api.gameFinishSubmit(gameId).toPromise();
 
         this.getGame();
         this.notificationService.showAlert({
