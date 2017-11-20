@@ -206,7 +206,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   downloadTurn(gameId) {
-    this.api.gameGetTurn(gameId, "yup")
+    this.api.gameGetTurn(gameId)
       .subscribe(resp => {
         window.open(resp.downloadUrl);
       });
