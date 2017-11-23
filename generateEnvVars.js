@@ -1,7 +1,7 @@
 const fs = require('fs');
 const cp = require('child_process');
 
-let apiUrl = "https://5wa5xzappj.execute-api.us-east-1.amazonaws.com/prod";
+let apiUrl = "https://api.playyourdamnturn.com";
 
 try {
   apiUrl = fs.readFileSync('../api-dev-url.txt', 'utf-8');
