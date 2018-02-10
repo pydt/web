@@ -4549,7 +4549,7 @@ punycode@^1.2.4, punycode@^1.4.1:
 
 "pydt-shared@git+https://github.com/pydt/shared.git":
   version "1.0.0"
-  resolved "git+https://github.com/pydt/shared.git#b981b694d5bad40dff7873b40a983d7dc52f273f"
+  resolved "git+https://github.com/pydt/shared.git#4e3ff5c27f55ca358cbe8b7b9d4eb3acaebef436"
 
 q@1.4.1:
   version "1.4.1"
