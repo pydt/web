@@ -59,16 +59,13 @@ export class AppComponent implements OnInit {
   }
 
   downloadLinux() {
-    // Why doesn't this work?
-    /*this.http.get('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
+    this.http.get('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
       for (const asset of resp.json().assets) {
         if ((asset.name as string).endsWith(".AppImage")) {
           window.location.href = asset.browser_download_url;
         }
       }
-    });*/
-
-    window.location.href = 'https://github.com/pydt/client/releases/download/v1.2.0/playyourdamnturn-1.2.0-x86_64.AppImage';
+    });
   }
 
   checkForAppUpdate() {

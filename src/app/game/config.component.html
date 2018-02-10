@@ -22,7 +22,14 @@
   <div class="form-group">
     <label class="col-sm-3 control-label">DLC Support:</label>
     <div class="col-sm-9">
-      <div class="checkbox" *ngFor="let dlc of dlcOptions">
+      <div class="checkbox" *ngFor="let dlc of majorDlc">
+        <label>
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc(dlc)">
+          {{dlc.displayName}}
+        </label>
+      </div>
+      <hr />
+      <div class="checkbox" *ngFor="let dlc of minorDlc">
         <label>
           <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc(dlc)">
           {{dlc.displayName}}

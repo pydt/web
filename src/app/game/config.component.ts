@@ -13,7 +13,6 @@ export class ConfigureGameComponent implements OnInit {
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   minHumans = 2;
-  dlcOptions = CIV6_DLCS;
   gameSpeeds = CIV6_GAME_SPEEDS;
   maps = CIV6_MAPS;
   mapSizes = CIV6_MAP_SIZES;
@@ -25,6 +24,18 @@ export class ConfigureGameComponent implements OnInit {
     if (this.game) {
       this.minHumans = Math.max(2, this.game.players.length);
     }
+  }
+
+  get majorDlc() {
+    return _.filter(CIV6_DLCS, dlc => {
+      return dlc.major;
+    });
+  }
+
+  get minorDlc() {
+    return _.filter(CIV6_DLCS, dlc => {
+      return !dlc.major;
+    });
   }
 
   validateDlc(dlc: DLC) {
