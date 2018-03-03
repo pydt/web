@@ -13,5 +13,6 @@ export * from './SetNotificationEmailBody';
 export * from './StartTurnSubmitResponse';
 export * from './SteamProfile';
 export * from './SurrenderBody';
+export * from './UpdateTurnOrderRequestBody';
 export * from './User';
 export * from './ValidateResponse';

@@ -285,6 +285,22 @@ export class DefaultApi {
 
     /**
      * 
+     * @param gameId 
+     * @param body 
+     */
+    public gameUpdateTurnOrder(gameId: string, body: models.UpdateTurnOrderRequestBody, extraHttpRequestParams?: any): Observable<models.Game> {
+        return this.gameUpdateTurnOrderWithHttpInfo(gameId, body, extraHttpRequestParams)
+            .map((response: Response) => {
+                if (response.status === 204) {
+                    return undefined;
+                } else {
+                    return response.json() || {};
+                }
+            });
+    }
+
+    /**
+     * 
      */
     public userAll(extraHttpRequestParams?: any): Observable<Array<models.User>> {
         return this.userAllWithHttpInfo(extraHttpRequestParams)
@@ -1071,6 +1087,58 @@ export class DefaultApi {
         // verify required parameter 'body' is not null or undefined
         if (body === null || body === undefined) {
             throw new Error('Required parameter body was null or undefined when calling gameSurrender.');
+        }
+        // to determine the Content-Type header
+        let consumes: string[] = [
+            'application/json'
+        ];
+
+        // to determine the Accept header
+        let produces: string[] = [
+            'application/json'
+        ];
+
+        // authentication (api_key) required
+        if (this.configuration.apiKey) {
+            headers.set('Authorization', this.configuration.apiKey);
+        }
+
+        headers.set('Content-Type', 'application/json');
+
+        let requestOptions: RequestOptionsArgs = new RequestOptions({
+            method: RequestMethod.Post,
+            headers: headers,
+            body: body == null ? '' : JSON.stringify(body), // https://github.com/angular/angular/issues/10612
+            search: queryParameters,
+            withCredentials:this.configuration.withCredentials
+        });
+        // https://github.com/swagger-api/swagger-codegen/issues/4037
+        if (extraHttpRequestParams) {
+            requestOptions = (<any>Object).assign(requestOptions, extraHttpRequestParams);
+        }
+
+        return this.http.request(path, requestOptions);
+    }
+
+    /**
+     * 
+     * 
+     * @param gameId 
+     * @param body 
+     */
+    public gameUpdateTurnOrderWithHttpInfo(gameId: string, body: models.UpdateTurnOrderRequestBody, extraHttpRequestParams?: any): Observable<Response> {
+        const path = this.basePath + '/game/${gameId}/updateTurnOrder'
+                    .replace('${' + 'gameId' + '}', String(gameId));
+
+        let queryParameters = new URLSearchParams();
+        let headers = new Headers(this.defaultHeaders.toJSON()); // https://github.com/angular/angular/issues/6845
+        // verify required parameter 'gameId' is not null or undefined
+        if (gameId === null || gameId === undefined) {
+            throw new Error('Required parameter gameId was null or undefined when calling gameUpdateTurnOrder.');
+        }
+        // verify required parameter 'body' is not null or undefined
+        if (body === null || body === undefined) {
+            throw new Error('Required parameter body was null or undefined when calling gameUpdateTurnOrder.');
         }
         // to determine the Content-Type header
         let consumes: string[] = [
