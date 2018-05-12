@@ -5,7 +5,7 @@ import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { NotificationService, AuthService } from '../shared';
 import * as _ from 'lodash';
-import { DefaultApi, CreateGameRequestBody } from '../swagger/api/index';
+import { CreateGameRequestBody, GameApi, UserApi } from '../swagger/api/index';
 
 @Component({
   selector: 'pydt-create-game',
@@ -18,7 +18,8 @@ export class CreateGameComponent implements OnInit {
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
 
   constructor(
-    private api: DefaultApi,
+    private gameApi: GameApi,
+    private userApi: UserApi,
     private auth: AuthService,
     private router: Router,
     private notificationService: NotificationService
@@ -33,7 +34,7 @@ export class CreateGameComponent implements OnInit {
     const profile = this.auth.getSteamProfile();
     this.model.displayName = profile.personaname + '\'s game!';
 
-    const userGames = await this.api.userGames().toPromise();
+    const userGames = await this.userApi.games().toPromise();
 
     for (const game of userGames.data) {
       if (game.createdBySteamId === profile.steamid && !game.inProgress) {
@@ -42,7 +43,7 @@ export class CreateGameComponent implements OnInit {
       }
     }
 
-    const user = await this.api.userGetCurrent().toPromise();
+    const user = await this.userApi.getCurrent().toPromise();
 
     if (user) {
       if (!user.emailAddress) {
@@ -56,7 +57,7 @@ export class CreateGameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.api.gameCreate(this.model.toJSON())
+    this.gameApi.create(this.model.toJSON())
       .subscribe(game => {
         this.router.navigate(['/game', game.gameId]);
         this.notificationService.showAlert({

@@ -1,9 +1,10 @@
-import { Component, OnChanges, Input, ViewChild } from '@angular/core';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { ProfileCacheService, CivDef, CIV6_LEADERS, PcsProfileMap, PcsSteamProfile } from 'pydt-shared';
-import { Game, GamePlayer, SteamProfile, User, DefaultApi } from '../swagger/api';
-import { AuthService } from '../shared';
+import { Component, Input, OnChanges, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { CIV6_LEADERS, CivDef, PcsProfileMap, PcsSteamProfile, ProfileCacheService } from 'pydt-shared';
+
+import { AuthService } from '../shared';
+import { Game, GamePlayer, SteamProfile, User, UserApi } from '../swagger/api';
 
 @Component({
   selector: 'pydt-game-preview',
@@ -19,7 +20,7 @@ export class GamePreviewComponent implements OnChanges {
   private civDefs: CivDef[];
   private gamePlayerProfiles: PcsProfileMap = {};
 
-  constructor(private api: DefaultApi, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(private userApi: UserApi, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnChanges() {
@@ -79,7 +80,7 @@ export class GamePreviewComponent implements OnChanges {
       this.user = null;
       this.playerDetailModal.show();
 
-      this.api.userById(userId).subscribe(user => {
+      this.userApi.byId(userId).subscribe(user => {
         this.user = user;
       });
     }

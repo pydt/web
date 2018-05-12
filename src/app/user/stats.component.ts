@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Utility } from '../shared/utility';
-import { DefaultApi } from '../swagger/api';
+import { UserApi } from '../swagger/api';
 import * as _ from 'lodash';
 import * as countdown from 'countdown';
 
@@ -30,11 +30,11 @@ export class UserStatsComponent implements OnInit {
   rawData: Array<any> = [];
   visibleData: Array<any> = [];
 
-  constructor(private api: DefaultApi) {
+  constructor(private userApi: UserApi) {
   }
 
   ngOnInit() {
-    this.api.usersAll().subscribe(users => {
+    this.userApi.all().subscribe(users => {
       this.rawData = _.map(users, user => {
         const avgTurnTime = user.timeTaken / (user.turnsPlayed + user.turnsSkipped);
         const activeGames = (user.activeGameIds || []).length;

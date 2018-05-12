@@ -13,28 +13,6 @@
 import * as models from './models';
 
 export interface Game {
-    gameId: string;
-
-    createdBySteamId: string;
-
-    inProgress?: boolean;
-
-    hashedPassword?: string;
-
-    players: Array<models.GamePlayer>;
-
-    discourseTopicId?: number;
-
-    currentPlayerSteamId: string;
-
-    turnTimerMinutes?: number;
-
-    round?: number;
-
-    gameTurnRangeKey?: number;
-
-    completed?: boolean;
-
     createdAt?: Date;
 
     updatedAt?: Date;
@@ -58,5 +36,31 @@ export interface Game {
     mapSize: string;
 
     allowJoinAfterStart?: boolean;
+
+    gameId: string;
+
+    createdBySteamId: string;
+
+    inProgress?: boolean;
+
+    hashedPassword?: string;
+
+    players: Array<models.GamePlayer>;
+
+    discourseTopicId?: number;
+
+    currentPlayerSteamId: string;
+
+    turnTimerMinutes?: number;
+
+    round?: number;
+
+    gameTurnRangeKey?: number;
+
+    completed?: boolean;
+
+    latestDiscoursePostNumber?: number;
+
+    lastTurnEndDate?: Date;
 
 }

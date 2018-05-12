@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileCacheService } from 'pydt-shared';
-import { Game, DefaultApi } from '../swagger/api';
+import { Game, UserApi } from '../swagger/api';
 import { AuthService } from '../shared';
 
 @Component({
@@ -11,7 +11,7 @@ export class UserGamesComponent implements OnInit {
   games: Game[];
   canCreateGame: boolean;
 
-  constructor(private api: DefaultApi, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(private userApi: UserApi, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
@@ -19,7 +19,7 @@ export class UserGamesComponent implements OnInit {
   }
 
   getGames() {
-    this.api.userGames().subscribe(resp => {
+    this.userApi.games().subscribe(resp => {
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(resp.data);
 

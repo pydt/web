@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
 import { NotificationService, AuthService } from '../shared';
-import { DefaultApi, User } from '../swagger/api';
+import { UserApi, User } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -15,14 +15,14 @@ export class UserProfileComponent implements OnInit {
   noDiscourseUser: boolean;
   private steamName: string;
 
-  constructor(private api: DefaultApi, private auth: AuthService, private http: Http, private notificationService: NotificationService) {
+  constructor(private userApi: UserApi, private auth: AuthService, private http: Http, private notificationService: NotificationService) {
   }
 
   ngOnInit() {
     this.token = this.auth.getToken();
     const profile = this.auth.getSteamProfile();
 
-    this.api.userGetCurrent().subscribe(user => {
+    this.userApi.getCurrent().subscribe(user => {
       this.user = user;
       this.emailModel.emailAddress = user.emailAddress;
       this.loaded = true;
@@ -39,7 +39,7 @@ export class UserProfileComponent implements OnInit {
 
   onSubmit() {
     this.loaded = false;
-    this.api.userSetNotificationEmail({ emailAddress: this.emailModel.emailAddress }).subscribe(() => {
+    this.userApi.setNotificationEmail({ emailAddress: this.emailModel.emailAddress }).subscribe(() => {
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',

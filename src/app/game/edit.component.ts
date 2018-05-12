@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigureGameModel } from './config.component';
 import { NotificationService } from '../shared';
-import { Game, DefaultApi, GameRequestBody } from '../swagger/api';
+import { Game, GameApi, GameRequestBody } from '../swagger/api';
 import * as _ from 'lodash';
 
 @Component({
@@ -15,7 +15,7 @@ export class EditGameComponent implements OnInit {
   selectedCivs: string[];
 
   constructor(
-    private api: DefaultApi,
+    private gameApi: GameApi,
     private route: ActivatedRoute,
     private router: Router,
     private notificationService: NotificationService
@@ -24,7 +24,7 @@ export class EditGameComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.forEach(params => {
-      this.api.gameGet(params['id']).subscribe(game => {
+      this.gameApi.get(params['id']).subscribe(game => {
         this.game = game;
 
         this.model.displayName = game.displayName;
@@ -48,7 +48,7 @@ export class EditGameComponent implements OnInit {
   }
 
   onSubmit() {
-    this.api.gameEdit(this.model.gameId, this.model.toJSON())
+    this.gameApi.edit(this.model.gameId, this.model.toJSON())
       .subscribe(game => {
         this.notificationService.showAlert({
           type: 'success',

@@ -13,8 +13,6 @@
 import * as models from './models';
 
 export interface GameRequestBody {
-    password?: string;
-
     displayName: string;
 
     description?: string;
@@ -32,5 +30,7 @@ export interface GameRequestBody {
     mapSize: string;
 
     allowJoinAfterStart?: boolean;
+
+    password?: string;
 
 }

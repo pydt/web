@@ -71,6 +71,7 @@ export class GameDetailStatsComponent implements OnInit {
   }
 
   lastTurn() {
-    return countdown(Date.parse(this.game.updatedAt as any), null, Utility.COUNTDOWN_FORMAT);
+    const lastTurnTime: any = this.game.lastTurnEndDate || this.game.updatedAt;
+    return countdown(Date.parse(lastTurnTime), null, Utility.COUNTDOWN_FORMAT);
   }
 }

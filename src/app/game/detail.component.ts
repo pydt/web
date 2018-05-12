@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CivDef, CIV6_DLCS, CIV6_LEADERS, RANDOM_CIV, filterCivsByDlc, BusyService } from 'pydt-shared';
 import { NotificationService, AuthService } from '../shared';
-import { Game, SteamProfile, DefaultApi } from '../swagger/api';
+import { Game, SteamProfile, GameApi, UserApi } from '../swagger/api';
 import * as _ from 'lodash';
 import * as pako from 'pako';
 
@@ -36,7 +36,8 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmStartGameModal') confirmStartGameModal: ModalDirective;
 
   constructor(
-    private api: DefaultApi,
+    private gameApi: GameApi,
+    private userApi: UserApi,
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
@@ -70,7 +71,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   startGame() {
-    this.api.gameStart(this.game.gameId).subscribe(game => {
+    this.gameApi.start(this.game.gameId).subscribe(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'success',
@@ -81,7 +82,7 @@ export class GameDetailComponent implements OnInit {
 
   getGame() {
     this.route.params.forEach(params => {
-      this.api.gameGet(params['id']).subscribe(game => {
+      this.gameApi.get(params['id']).subscribe(game => {
         this.setGame(game);
       });
     });
@@ -96,12 +97,12 @@ export class GameDetailComponent implements OnInit {
   }
 
   async finishJoinGame() {
-    const user = await this.api.userGetCurrent().toPromise();
+    const user = await this.userApi.getCurrent().toPromise();
 
     if (!user.emailAddress) {
       this.mustHaveEmailSetToJoinModal.show();
     } else {
-      const game = await this.api.gameJoin(this.game.gameId, {
+      const game = await this.gameApi.join(this.game.gameId, {
         playerCiv: this.playerCiv.leaderKey,
         password: this.joinGamePassword
       }).toPromise();
@@ -116,7 +117,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   changeCiv() {
-    this.api.gameChangeCiv(this.game.gameId, {
+    this.gameApi.changeCiv(this.game.gameId, {
       playerCiv: this.newCiv.leaderKey
     }).subscribe(game => {
       this.newCiv = null;
@@ -206,7 +207,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   downloadTurn(gameId) {
-    this.api.gameGetTurn(gameId)
+    this.gameApi.getTurn(gameId)
       .subscribe(resp => {
         window.open(resp.downloadUrl);
       });
@@ -217,7 +218,7 @@ export class GameDetailComponent implements OnInit {
       this.busyService.incrementBusy(true);
 
       try {
-        const gameResp = await this.api.gameStartSubmit(gameId).toPromise();
+        const gameResp = await this.gameApi.startSubmit(gameId).toPromise();
         await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
           xhr.open('PUT', gameResp.putUrl, true);
@@ -244,7 +245,7 @@ export class GameDetailComponent implements OnInit {
           reader.readAsArrayBuffer(event.target.files[0]);
         });
 
-        await this.api.gameFinishSubmit(gameId).toPromise();
+        await this.gameApi.finishSubmit(gameId).toPromise();
 
         this.getGame();
         this.notificationService.showAlert({
@@ -263,7 +264,7 @@ export class GameDetailComponent implements OnInit {
   revert() {
     this.confirmRevertModal.hide();
 
-    this.api.gameRevert(this.game.gameId).subscribe(game => {
+    this.gameApi.revert(this.game.gameId).subscribe(game => {
       this.setGame(game);
       this.notificationService.showAlert({
         type: 'warning',
@@ -275,7 +276,7 @@ export class GameDetailComponent implements OnInit {
   leave() {
     this.confirmLeaveModal.hide();
 
-    this.api.gameLeave(this.game.gameId).subscribe(() => {
+    this.gameApi.leave(this.game.gameId).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Left Game :('
@@ -287,7 +288,7 @@ export class GameDetailComponent implements OnInit {
   surrender() {
     this.confirmSurrenderModal.hide();
 
-    this.api.gameSurrender(this.game.gameId, {}).subscribe(() => {
+    this.gameApi.surrender(this.game.gameId, {}).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Surrendered :('
@@ -299,7 +300,7 @@ export class GameDetailComponent implements OnInit {
   kickPlayer() {
     this.confirmKickUserModal.hide();
 
-    this.api.gameSurrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
+    this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Successfully kicked user :('
@@ -311,7 +312,7 @@ export class GameDetailComponent implements OnInit {
   delete() {
     this.confirmDeleteModal.hide();
 
-    this.api.gameDelete(this.game.gameId).subscribe(() => {
+    this.gameApi._delete(this.game.gameId).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
         msg: 'Game Deleted :('

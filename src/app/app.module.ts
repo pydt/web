@@ -42,7 +42,7 @@ import { SelectCivComponent } from './game/selectCiv.component';
 import { AuthService, ErrorHandlerService, NotificationService } from './shared';
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
-import { BASE_PATH, DefaultApi } from './swagger/api';
+import { BASE_PATH, AuthApi, GameApi, UserApi } from './swagger/api';
 import * as _ from 'lodash';
 import * as envVars from '../envVars';
 
@@ -50,8 +50,12 @@ export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, bu
   return new PydtHttp(backend, options, busy, auth);
 }
 
-export function pcsFactory(api: DefaultApi) {
-  return new ProfileCacheService(api);
+export function pcsFactory(api: UserApi) {
+  return new ProfileCacheService({
+    userSteamProfiles: (steamIds: string) => {
+      return api.steamProfiles(steamIds);
+    }
+  });
 }
 
 export function metaFactory(): MetaLoader {
@@ -121,7 +125,7 @@ if (environment.name === 'dev') {
     {
       provide: ProfileCacheService,
       useFactory: pcsFactory,
-      deps: [DefaultApi]
+      deps: [UserApi]
     },
     { provide: BASE_PATH, useValue: envVars.apiUrl },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
@@ -131,7 +135,7 @@ if (environment.name === 'dev') {
       useFactory: pydtHttpFactory,
       deps: [XHRBackend, RequestOptions, BusyService, AuthService]
     },
-    DefaultApi
+    AuthApi, GameApi, UserApi
   ],
   bootstrap: [AppComponent]
 })

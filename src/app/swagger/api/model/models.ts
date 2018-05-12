@@ -8,6 +8,7 @@ export * from './GameRequestBody';
 export * from './GameTurnResponse';
 export * from './GamesByUserResponse';
 export * from './JoinGameRequestBody';
+export * from './NewDiscordPostBody';
 export * from './OpenGamesResponse';
 export * from './SetNotificationEmailBody';
 export * from './StartTurnSubmitResponse';

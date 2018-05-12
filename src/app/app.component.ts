@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AlertConfig, ErrorHandlerService, NotificationService, AuthService } from './shared';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { DefaultApi } from './swagger/api/index';
+import { AuthApi } from './swagger/api/index';
 
 @Component({
   selector: 'pydt-app',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
   @ViewChild('updateModal') updateModal: ModalDirective;
 
   constructor(
-    private api: DefaultApi,
+    private authApi: AuthApi,
     private auth: AuthService,
     private http: Http,
     private errorService: ErrorHandler,
@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
   }
 
   redirectToLogin() {
-    this.api.authAuthenticate().subscribe(resp => {
+    this.authApi.authenticate().subscribe(resp => {
       const path = window.location.pathname;
 
       if (path.toLowerCase().indexOf('/game') === 0) {

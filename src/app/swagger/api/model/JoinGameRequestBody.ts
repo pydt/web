@@ -13,8 +13,8 @@
 import * as models from './models';
 
 export interface JoinGameRequestBody {
-    password?: string;
-
     playerCiv: string;
+
+    password?: string;
 
 }
