@@ -56,7 +56,15 @@ export class CreateGameComponent implements OnInit {
     this.model.player1Civ = civ;
   }
 
+  get curCiv() {
+    return this.model.randomOnly ? RANDOM_CIV : this.model.player1Civ;
+  }
+
   onSubmit() {
+    if (this.model.randomOnly) {
+      this.model.player1Civ = RANDOM_CIV;
+    }
+    
     this.gameApi.create(this.model.toJSON())
       .subscribe(game => {
         this.router.navigate(['/game', game.gameId]);

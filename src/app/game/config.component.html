@@ -84,9 +84,19 @@
     </div>
     <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
   </div>
+  <div class="form-group">
+    <label for="displayName" class="col-sm-3 control-label">Only allow random Civ selection:</label>
+    <div class="col-sm-9">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" [(ngModel)]="model.randomOnly">
+        </label>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Allow Users To Join After Start:</label>
+  <label for="displayName" class="col-sm-3 control-label">Allow users to join after start:</label>
   <div class="col-sm-9">
     <div class="checkbox">
       <label>

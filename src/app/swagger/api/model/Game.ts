@@ -35,6 +35,8 @@ export interface Game {
 
     mapSize: string;
 
+    randomOnly: boolean;
+
     allowJoinAfterStart?: boolean;
 
     gameId: string;

@@ -29,6 +29,8 @@ export interface GameRequestBody {
 
     mapSize: string;
 
+    randomOnly: boolean;
+
     allowJoinAfterStart?: boolean;
 
     password?: string;

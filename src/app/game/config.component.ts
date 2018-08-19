@@ -72,6 +72,7 @@ export class ConfigureGameModel {
   public mapFile = CIV6_MAPS[0].file;
   public mapSize = CIV6_MAP_SIZES[2].key;
   public allowJoinAfterStart = true;
+  public randomOnly = false;
 
   set slots(slots: number) {
     this._slots = Number(slots);
@@ -123,7 +124,8 @@ export class ConfigureGameModel {
       gameSpeed: this.gameSpeed,
       mapFile: this.mapFile,
       mapSize: this.mapSize,
-      allowJoinAfterStart: this.allowJoinAfterStart
+      allowJoinAfterStart: this.allowJoinAfterStart,
+      randomOnly: this.randomOnly
     };
   }
 }
