@@ -21,6 +21,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { DragulaModule } from 'ng2-dragula';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -88,6 +89,7 @@ if (environment.name === 'dev') {
     PaginationModule.forRoot(),
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
+    DragulaModule,
     routing,
     Ng2TableModule,
     MetaModule.forRoot({

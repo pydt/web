@@ -1,5 +1,5 @@
 <div class="container">
-  <pydt-game-preview *ngIf="game" [game]="game"></pydt-game-preview>
+  <pydt-game-preview *ngIf="game" [game]="game" (gameUpdated)="this.setGame($event)" [editMode]="true"></pydt-game-preview>
   <tabset *ngIf="game">
     <tab heading="Game Stats" *ngIf="game.gameTurnRangeKey > 1">
       <div class="well">

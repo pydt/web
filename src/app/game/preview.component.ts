@@ -1,10 +1,10 @@
-import { Component, Input, OnChanges, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
 import * as _ from 'lodash';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CIV6_LEADERS, CivDef, PcsProfileMap, PcsSteamProfile, ProfileCacheService } from 'pydt-shared';
 
-import { AuthService } from '../shared';
-import { Game, GamePlayer, SteamProfile, User, UserApi } from '../swagger/api';
+import { AuthService, NotificationService } from '../shared';
+import { Game, GamePlayer, SteamProfile, User, UserApi, GameApi } from '../swagger/api';
 
 @Component({
   selector: 'pydt-game-preview',
@@ -13,14 +13,24 @@ import { Game, GamePlayer, SteamProfile, User, UserApi } from '../swagger/api';
 })
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
+  @Input() editMode = false;
+  @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
+  reorderablePlayers: GamePlayer[];
   user: User;
+  editingTurnOrder = false;
   private civDefs: CivDef[];
   private gamePlayerProfiles: PcsProfileMap = {};
 
-  constructor(private userApi: UserApi, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(
+    private gameApi: GameApi,
+    private userApi: UserApi,
+    private auth: AuthService,
+    private profileCache: ProfileCacheService,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnChanges() {
@@ -32,6 +42,7 @@ export class GamePreviewComponent implements OnChanges {
 
     this.gamePlayers = [];
     this.civDefs = [];
+    this.reorderablePlayers = [];
 
     for (let i = 0; i < this.game.slots; i++) {
       if (this.game.players.length > i) {
@@ -39,11 +50,40 @@ export class GamePreviewComponent implements OnChanges {
         this.civDefs.push(_.find(CIV6_LEADERS, leader => {
           return leader.leaderKey === this.game.players[i].civType;
         }));
+
+        if (i > 0) {
+          this.reorderablePlayers.push(this.game.players[i]);
+        }
       } else {
         this.gamePlayers.push(null);
         this.civDefs.push(null);
       }
     }
+  }
+
+  get canEditTurnOrder() {
+    return this.editMode && !this.game.inProgress && this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
+  }
+
+  get aiPlayers() {
+    return this.gamePlayers.filter(x => !x);
+  }
+
+  saveTurnOrder() {
+    this.gameApi.updateTurnOrder(this.game.gameId, {
+      steamIds: [
+        this.activeProfile.steamid,
+        ...this.reorderablePlayers.map(x => x.steamId)
+      ]
+    }).subscribe(game => {
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Turn order updated!'
+      });
+
+      this.editingTurnOrder = false;
+      this.gameUpdated.emit(game);
+    });
   }
 
   getTooltip(player: GamePlayer, civDef: CivDef) {

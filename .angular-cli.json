@@ -22,7 +22,8 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles/app.scss"
+        "styles/app.scss",
+        "../node_modules/dragula/dist/dragula.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
