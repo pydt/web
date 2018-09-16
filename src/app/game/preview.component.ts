@@ -62,7 +62,11 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get canEditTurnOrder() {
-    return this.editMode && !this.game.inProgress && this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
+    if (!this.editMode || this.game.inProgress) {
+      return false;
+    }
+
+    return this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
   }
 
   get aiPlayers() {

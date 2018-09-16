@@ -1,6 +1,6 @@
 import { ErrorHandler, Injectable } from '@angular/core';
 import { Response } from '@angular/http';
-import { Subject } from 'rxjs/Subject';
+import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import * as Rollbar from 'rollbar';
 import * as envVars from '../../envVars';

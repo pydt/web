@@ -44,7 +44,6 @@ import { AuthService, ErrorHandlerService, NotificationService } from './shared'
 import { routing } from './app.routing';
 import { PydtHttp } from './pydtHttp.service';
 import { BASE_PATH, AuthApi, GameApi, UserApi } from './swagger/api';
-import * as _ from 'lodash';
 import * as envVars from '../envVars';
 
 export function pydtHttpFactory(backend: XHRBackend, options: RequestOptions, busy: BusyService, auth: AuthService) {

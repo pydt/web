@@ -13,7 +13,6 @@ export class UserProfileComponent implements OnInit {
   loaded: boolean;
   user: User;
   noDiscourseUser: boolean;
-  private steamName: string;
 
   constructor(private userApi: UserApi, private auth: AuthService, private http: Http, private notificationService: NotificationService) {
   }
@@ -27,8 +26,6 @@ export class UserProfileComponent implements OnInit {
       this.emailModel.emailAddress = user.emailAddress;
       this.loaded = true;
     });
-
-    this.steamName = profile.personaname;
 
     const discourseUrl = `https://discourse.playyourdamnturn.com/users/${profile.personaname.toLowerCase()}.json`;
 

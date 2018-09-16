@@ -1,7 +1,6 @@
-import { Component, ChangeDetectorRef, Input, OnInit } from '@angular/core';
-import { CIV6_DLCS, CIV6_LEADERS, CIV6_GAME_SPEEDS, CIV6_MAPS, CIV6_MAP_SIZES, DLC } from 'pydt-shared';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { CIV6_DLCS, CIV6_GAME_SPEEDS, CIV6_LEADERS, CIV6_MAPS, CIV6_MAP_SIZES, DLC } from 'pydt-shared';
 import { Game } from '../swagger/api';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'pydt-configure-game',
@@ -27,20 +26,20 @@ export class ConfigureGameComponent implements OnInit {
   }
 
   get majorDlc() {
-    return _.filter(CIV6_DLCS, dlc => {
+    return CIV6_DLCS.filter(dlc => {
       return dlc.major;
     });
   }
 
   get minorDlc() {
-    return _.filter(CIV6_DLCS, dlc => {
+    return CIV6_DLCS.filter(dlc => {
       return !dlc.major;
     });
   }
 
   validateDlc(dlc: DLC) {
     for (const civ of this.selectedCivs) {
-      const leader = _.find(CIV6_LEADERS, l => {
+      const leader = CIV6_LEADERS.find(l => {
         return l.leaderKey === civ;
       });
 
@@ -88,19 +87,19 @@ export class ConfigureGameModel {
   }
 
   dlcSelected(dlc: DLC) {
-    return _.some(_.keys(this.dlc), key => {
+    return Object.keys(this.dlc).some(key => {
       return key === dlc.id && this.dlc[key];
     });
   }
 
   dlcIdArray() {
-    return _.filter(_.keys(this.dlc), key => {
+    return Object.keys(this.dlc).filter(key => {
       return this.dlc[key];
     });
   }
 
   selectedMap() {
-    return _.find(CIV6_MAPS, map => {
+    return CIV6_MAPS.find(map => {
       return map.file === this.mapFile;
     });
   }

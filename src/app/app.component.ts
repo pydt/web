@@ -61,7 +61,7 @@ export class AppComponent implements OnInit {
   downloadLinux() {
     this.http.get('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
       for (const asset of resp.json().assets) {
-        if ((asset.name as string).endsWith(".AppImage")) {
+        if ((asset.name as string).endsWith('.AppImage')) {
           window.location.href = asset.browser_download_url;
         }
       }

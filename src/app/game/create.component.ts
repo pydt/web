@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { CivDef, CIV6_LEADERS, RANDOM_CIV, filterCivsByDlc } from 'pydt-shared';
-import { ConfigureGameModel } from './config.component';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { NotificationService, AuthService } from '../shared';
-import * as _ from 'lodash';
+import { CIV6_LEADERS, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
+import { AuthService, NotificationService } from '../shared';
 import { CreateGameRequestBody, GameApi, UserApi } from '../swagger/api/index';
+import { ConfigureGameModel } from './config.component';
 
 @Component({
   selector: 'pydt-create-game',
@@ -64,7 +63,7 @@ export class CreateGameComponent implements OnInit {
     if (this.model.randomOnly) {
       this.model.player1Civ = RANDOM_CIV;
     }
-    
+
     this.gameApi.create(this.model.toJSON())
       .subscribe(game => {
         this.router.navigate(['/game', game.gameId]);
@@ -77,7 +76,7 @@ export class CreateGameComponent implements OnInit {
 }
 
 class CreateGameModel extends ConfigureGameModel {
-  public player1Civ = _.find(CIV6_LEADERS, leader => {
+  public player1Civ = CIV6_LEADERS.find(leader => {
     return !leader.dlcId && leader !== RANDOM_CIV;
   });
 
