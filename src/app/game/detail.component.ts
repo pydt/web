@@ -1,11 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CivDef, CIV6_DLCS, CIV6_LEADERS, RANDOM_CIV, filterCivsByDlc, BusyService } from 'pydt-shared';
-import { NotificationService, AuthService } from '../shared';
-import { Game, SteamProfile, GameApi, UserApi } from '../swagger/api';
-import * as _ from 'lodash';
 import * as pako from 'pako';
+import { BusyService, CIV6_DLCS, CIV6_LEADERS, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
+import { AuthService, NotificationService } from '../shared';
+import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-game-detail',
@@ -36,8 +35,8 @@ export class GameDetailComponent implements OnInit {
   @ViewChild('confirmStartGameModal') confirmStartGameModal: ModalDirective;
 
   constructor(
-    private gameApi: GameApi,
-    private userApi: UserApi,
+    private gameApi: GameService,
+    private userApi: UserService,
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
@@ -133,7 +132,7 @@ export class GameDetailComponent implements OnInit {
   setGame(game: Game) {
     this.game = game;
     game.dlc = game.dlc || [];
-    const steamIds = _.compact(_.map(game.players, 'steamId'));
+    const steamIds = game.players.map(x => x.steamId).filter(Boolean);
     this.tooManyHumans = steamIds.length >= game.humans;
     this.userInGame = false;
 
@@ -142,9 +141,9 @@ export class GameDetailComponent implements OnInit {
     this.playerCiv = null;
 
     if (this.profile) {
-      this.userInGame = _.includes(steamIds, this.profile.steamid);
+      this.userInGame = steamIds.includes(this.profile.steamid);
 
-      const userPlayer = _.find(game.players, player => {
+      const userPlayer = game.players.find(player => {
         return player.steamId === this.profile.steamid;
       });
 
@@ -160,25 +159,24 @@ export class GameDetailComponent implements OnInit {
 
     if (game.inProgress) {
       if (!this.playerCiv && game.allowJoinAfterStart) {
-        this.availableCivs = _(game.players)
+        this.availableCivs = game.players
           .filter(player => {
             return !player.steamId;
           })
           .map(player => {
-            return _.find(CIV6_LEADERS, leader => {
+            return CIV6_LEADERS.find(leader => {
               return leader.leaderKey === player.civType;
             });
-          })
-          .value();
+          });
       }
     } else {
-      this.availableCivs =  _.clone(filterCivsByDlc(CIV6_LEADERS, this.game.dlc));
+      this.availableCivs =  filterCivsByDlc(CIV6_LEADERS, this.game.dlc).slice();
 
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
 
         if (curLeader !== RANDOM_CIV) {
-          _.pull(this.availableCivs, curLeader);
+          this.availableCivs = this.availableCivs.filter(x => x !== curLeader);
         }
       }
     }
@@ -187,8 +185,8 @@ export class GameDetailComponent implements OnInit {
       this.playerCiv = this.availableCivs[0];
     }
 
-    this.dlcEnabled = _.map(game.dlc, dlcId => {
-      return _.find(CIV6_DLCS, dlc => {
+    this.dlcEnabled = game.dlc.map(dlcId => {
+      return CIV6_DLCS.find(dlc => {
         return dlc.id === dlcId;
       }).displayName;
     }).join(', ');
@@ -201,7 +199,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   private findLeader(civType: string) {
-    return _.find(CIV6_LEADERS, leader => {
+    return CIV6_LEADERS.find(leader => {
       return leader.leaderKey === civType;
     });
   }
@@ -238,7 +236,7 @@ export class GameDetailComponent implements OnInit {
           xhr.setRequestHeader('Content-Type', 'application/octet-stream');
           const reader = new FileReader();
           reader.onload = function() {
-            const array = new Uint8Array(this.result);
+            const array = new Uint8Array(<any>this.result);
             const toSend = pako.gzip(array);
             xhr.send(toSend);
           };

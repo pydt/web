@@ -1,10 +1,10 @@
-import { Component, ErrorHandler, OnInit, ViewChild, Optional } from '@angular/core';
-import { Http } from '@angular/http';
+import { HttpClient } from '@angular/common/http';
+import { Component, ErrorHandler, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { AlertConfig, ErrorHandlerService, NotificationService, AuthService } from './shared';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { AuthApi } from './swagger/api/index';
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
+import { AuthService as AuthApi } from './swagger/api/index';
 
 @Component({
   selector: 'pydt-app',
@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   constructor(
     private authApi: AuthApi,
     private auth: AuthService,
-    private http: Http,
+    private http: HttpClient,
     private errorService: ErrorHandler,
     private router: Router,
     private notificationService: NotificationService,
@@ -59,9 +59,9 @@ export class AppComponent implements OnInit {
   }
 
   downloadLinux() {
-    this.http.get('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
-      for (const asset of resp.json().assets) {
-        if ((asset.name as string).endsWith(".AppImage")) {
+    this.http.get<any>('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
+      for (const asset of resp.assets) {
+        if ((asset.name as string).endsWith('.AppImage')) {
           window.location.href = asset.browser_download_url;
         }
       }
@@ -69,12 +69,12 @@ export class AppComponent implements OnInit {
   }
 
   checkForAppUpdate() {
-    this.http.get('/index.html').subscribe(resp => {
+    this.http.get<string>('/index.html', { observe: 'response' }).subscribe(resp => {
       if (resp.status === 200) {
         if (!this.lastIndexHash) {
-          this.lastIndexHash = this.hash(resp.text());
+          this.lastIndexHash = this.hash(resp.body);
         } else {
-          const curHash = this.hash(resp.text());
+          const curHash = this.hash(resp.body);
 
           if (this.lastIndexHash !== curHash) {
             clearInterval(this.updateInterval);

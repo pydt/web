@@ -1,7 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Http } from '@angular/http';
-import { NotificationService, AuthService } from '../shared';
-import { UserApi, User } from '../swagger/api';
+import { AuthService, NotificationService } from '../shared';
+import { User, UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -13,9 +13,13 @@ export class UserProfileComponent implements OnInit {
   loaded: boolean;
   user: User;
   noDiscourseUser: boolean;
-  private steamName: string;
 
-  constructor(private userApi: UserApi, private auth: AuthService, private http: Http, private notificationService: NotificationService) {
+  constructor(
+    private userApi: UserService,
+    private auth: AuthService,
+    private http: HttpClient,
+    private notificationService: NotificationService
+  ) {
   }
 
   ngOnInit() {
@@ -27,8 +31,6 @@ export class UserProfileComponent implements OnInit {
       this.emailModel.emailAddress = user.emailAddress;
       this.loaded = true;
     });
-
-    this.steamName = profile.personaname;
 
     const discourseUrl = `https://discourse.playyourdamnturn.com/users/${profile.personaname.toLowerCase()}.json`;
 

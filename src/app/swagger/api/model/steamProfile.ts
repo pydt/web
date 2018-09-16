@@ -10,23 +10,12 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface GamePlayer {
-    steamId: string;
-
-    civType: string;
-
-    hasSurrendered?: boolean;
-
-    turnsPlayed?: number;
-
-    turnsSkipped?: number;
-
-    timeTaken?: number;
-
-    fastTurns?: number;
-
-    slowTurns?: number;
-
+export interface SteamProfile {
+    steamid: string;
+    personaname: string;
+    profileurl: string;
+    avatar: string;
+    avatarmedium: string;
+    avatarfull: string;
 }

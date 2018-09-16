@@ -9,10 +9,10 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { Game } from './game';
 
-import * as models from './models';
 
-export interface StartTurnSubmitResponse {
-    putUrl: string;
-
+export interface OpenGamesResponse {
+    notStarted: Array<Game>;
+    openSlots: Array<Game>;
 }

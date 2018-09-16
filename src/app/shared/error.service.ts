@@ -1,8 +1,7 @@
 import { ErrorHandler, Injectable } from '@angular/core';
-import { Response } from '@angular/http';
-import { Subject } from 'rxjs/Subject';
-import { environment } from '../../environments/environment';
 import * as Rollbar from 'rollbar';
+import { Subject } from 'rxjs';
+import { environment } from '../../environments/environment';
 import * as envVars from '../../envVars';
 
 @Injectable()
@@ -33,7 +32,7 @@ export class ErrorHandlerService implements ErrorHandler {
     this.errorStream.subscribe(fn);
   }
 
-  handleError(error) {
+  async handleError(error) {
     let endUserErrorMessage = null;
     let response: Response;
 
@@ -44,7 +43,7 @@ export class ErrorHandlerService implements ErrorHandler {
     }
 
     if (response) {
-      endUserErrorMessage = response.json().errorMessage;
+      endUserErrorMessage = (await response.json()).errorMessage;
     }
 
     if (!endUserErrorMessage) {

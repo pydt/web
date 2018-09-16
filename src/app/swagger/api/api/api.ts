@@ -1,9 +1,9 @@
-export * from './AuthApi';
-import { AuthApi } from './AuthApi';
-export * from './GameApi';
-import { GameApi } from './GameApi';
-export * from './UserApi';
-import { UserApi } from './UserApi';
-export * from './WebhookApi';
-import { WebhookApi } from './WebhookApi';
-export const APIS = [AuthApi, GameApi, UserApi, WebhookApi];
+export * from './auth.service';
+import { AuthService } from './auth.service';
+export * from './game.service';
+import { GameService } from './game.service';
+export * from './user.service';
+import { UserService } from './user.service';
+export * from './webhook.service';
+import { WebhookService } from './webhook.service';
+export const APIS = [AuthService, GameService, UserService, WebhookService];

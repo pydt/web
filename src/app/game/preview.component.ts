@@ -1,10 +1,9 @@
-import { Component, Input, OnChanges, ViewChild, Output, EventEmitter } from '@angular/core';
-import * as _ from 'lodash';
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CIV6_LEADERS, CivDef, PcsProfileMap, PcsSteamProfile, ProfileCacheService } from 'pydt-shared';
-
 import { AuthService, NotificationService } from '../shared';
-import { Game, GamePlayer, SteamProfile, User, UserApi, GameApi } from '../swagger/api';
+import { Game, GameService, GamePlayer, SteamProfile, User, UserService } from '../swagger/api';
+
 
 @Component({
   selector: 'pydt-game-preview',
@@ -25,8 +24,8 @@ export class GamePreviewComponent implements OnChanges {
   private gamePlayerProfiles: PcsProfileMap = {};
 
   constructor(
-    private gameApi: GameApi,
-    private userApi: UserApi,
+    private gameApi: GameService,
+    private userApi: UserService,
     private auth: AuthService,
     private profileCache: ProfileCacheService,
     private notificationService: NotificationService
@@ -47,7 +46,7 @@ export class GamePreviewComponent implements OnChanges {
     for (let i = 0; i < this.game.slots; i++) {
       if (this.game.players.length > i) {
         this.gamePlayers.push(this.game.players[i]);
-        this.civDefs.push(_.find(CIV6_LEADERS, leader => {
+        this.civDefs.push(CIV6_LEADERS.find(leader => {
           return leader.leaderKey === this.game.players[i].civType;
         }));
 
@@ -62,7 +61,11 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get canEditTurnOrder() {
-    return this.editMode && !this.game.inProgress && this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
+    if (!this.editMode || this.game.inProgress) {
+      return false;
+    }
+
+    return this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
   }
 
   get aiPlayers() {

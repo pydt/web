@@ -10,31 +10,18 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
 export interface CreateGameRequestBody {
     displayName: string;
-
     description?: string;
-
     dlc: Array<string>;
-
     slots: number;
-
     humans: number;
-
     gameSpeed: string;
-
     mapFile?: string;
-
     mapSize: string;
-
-    randomOnly: boolean;
-
+    randomOnly?: boolean;
     allowJoinAfterStart?: boolean;
-
     password?: string;
-
     player1Civ: string;
-
 }

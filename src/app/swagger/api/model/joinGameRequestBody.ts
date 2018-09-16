@@ -10,9 +10,8 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface NewDiscordPostBody {
-    post: any;
-
+export interface JoinGameRequestBody {
+    playerCiv: string;
+    password?: string;
 }

@@ -10,9 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface UpdateTurnOrderRequestBody {
-    steamIds: Array<string>;
-
+export interface SurrenderBody {
+    kickUserId?: string;
 }

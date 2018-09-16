@@ -24,14 +24,14 @@
     <div class="col-sm-9">
       <div class="checkbox" *ngFor="let dlc of majorDlc">
         <label>
-          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc(dlc)">
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
           {{dlc.displayName}}
         </label>
       </div>
       <hr />
       <div class="checkbox" *ngFor="let dlc of minorDlc">
         <label>
-          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc(dlc)">
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
           {{dlc.displayName}}
         </label>
       </div>

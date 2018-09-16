@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileCacheService } from 'pydt-shared';
-import { Game, UserApi } from '../swagger/api';
+import { Game, UserService } from '../swagger/api';
 import { AuthService } from '../shared';
 
 @Component({
@@ -11,7 +11,7 @@ export class UserGamesComponent implements OnInit {
   games: Game[];
   canCreateGame: boolean;
 
-  constructor(private userApi: UserApi, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(private userApi: UserService, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {

@@ -10,11 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface GamesByUserResponse {
-    data: Array<models.Game>;
-
-    pollUrl: string;
-
+export interface NewDiscordPostBody {
+    post: any;
 }

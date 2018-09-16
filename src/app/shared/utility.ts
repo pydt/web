@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import * as countdown from 'countdown';
-import * as _ from 'lodash';
 
 @Injectable()
 export class Utility {
@@ -48,8 +47,8 @@ export class Utility {
 
     if (tableConfig.filtering) {
       if (tableConfig.filtering.filterString.length) {
-        filteredData = _.filter(rawData, row => {
-          return _.some(tableConfig.columns, (column: any) => {
+        filteredData = rawData.filter(row => {
+          return tableConfig.columns.some((column: any) => {
             if (column.filter && row[column.name].toLowerCase().indexOf(tableConfig.filtering.filterString.toLowerCase()) >= 0) {
               return true;
             }

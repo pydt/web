@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Utility } from '../shared/utility';
-import { UserApi } from '../swagger/api';
-import * as _ from 'lodash';
 import * as countdown from 'countdown';
+import { Utility } from '../shared/utility';
+import { UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-stats',
@@ -30,12 +29,12 @@ export class UserStatsComponent implements OnInit {
   rawData: Array<any> = [];
   visibleData: Array<any> = [];
 
-  constructor(private userApi: UserApi) {
+  constructor(private userApi: UserService) {
   }
 
   ngOnInit() {
     this.userApi.all().subscribe(users => {
-      this.rawData = _.map(users, user => {
+      this.rawData = users.map(user => {
         const avgTurnTime = user.timeTaken / (user.turnsPlayed + user.turnsSkipped);
         const activeGames = (user.activeGameIds || []).length;
 

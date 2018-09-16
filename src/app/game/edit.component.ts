@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfigureGameModel } from './config.component';
 import { NotificationService } from '../shared';
-import { Game, GameApi, GameRequestBody } from '../swagger/api';
-import * as _ from 'lodash';
+import { Game, GameRequestBody, GameService } from '../swagger/api';
+import { ConfigureGameModel } from './config.component';
 
 @Component({
   selector: 'pydt-edit-game',
@@ -15,7 +14,7 @@ export class EditGameComponent implements OnInit {
   selectedCivs: string[];
 
   constructor(
-    private gameApi: GameApi,
+    private gameApi: GameService,
     private route: ActivatedRoute,
     private router: Router,
     private notificationService: NotificationService
@@ -43,7 +42,7 @@ export class EditGameComponent implements OnInit {
           this.model.dlc[dlcId] = true;
         }
 
-        this.selectedCivs = _.map(game.players, 'civType') as string[];
+        this.selectedCivs = game.players.map(x => x.civType);
       });
     });
   }

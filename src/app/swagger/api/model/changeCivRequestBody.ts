@@ -10,19 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface SteamProfile {
-    steamid: string;
-
-    personaname: string;
-
-    profileurl: string;
-
-    avatar: string;
-
-    avatarmedium: string;
-
-    avatarfull: string;
-
+export interface ChangeCivRequestBody {
+    playerCiv: string;
 }

@@ -10,9 +10,17 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface AuthenticateResponse {
-    redirectURL: string;
-
+export interface GameRequestBody {
+    displayName: string;
+    description?: string;
+    dlc: Array<string>;
+    slots: number;
+    humans: number;
+    gameSpeed: string;
+    mapFile?: string;
+    mapSize: string;
+    randomOnly?: boolean;
+    allowJoinAfterStart?: boolean;
+    password?: string;
 }

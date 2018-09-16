@@ -1,9 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import * as countdown from 'countdown';
 import { ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
 import { Game } from '../../swagger/api';
-import * as _ from 'lodash';
-import * as countdown from 'countdown';
 
 @Component({
   selector: 'pydt-game-detail-stats',
@@ -28,8 +27,8 @@ export class GameDetailStatsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.profileCache.getProfiles(_.map(this.humanPlayers(), 'steamId') as string[]).then(profiles => {
-      this.tableData = _.map(this.humanPlayers(), player => {
+    this.profileCache.getProfiles(this.humanPlayers().map(x => x.steamId)).then(profiles => {
+      this.tableData = this.humanPlayers().map(player => {
         let avgTurnTimeSort = 999999999999999;
         let avgTurnTime: any = 'N/A';
 
@@ -53,19 +52,19 @@ export class GameDetailStatsComponent implements OnInit {
   }
 
   humanPlayers() {
-    return _.filter(this.game.players, player => {
+    return this.game.players.filter(player => {
       return !!player.steamId;
     });
   }
 
   averageTurnTime() {
-    const totalTimeTaken = _.sum(_.map(this.humanPlayers(), player => {
-      return player.timeTaken || 0;
-    }));
+    const totalTimeTaken = this.humanPlayers()
+      .map(player => player.timeTaken || 0)
+      .reduce((a, b) => a + b);
 
-    const totalTurns = _.sum(_.map(this.game.players, player => {
-      return player.turnsPlayed || 0 + player.turnsSkipped || 0;
-    }));
+    const totalTurns = this.game.players
+      .map(player => player.turnsPlayed || 0 + player.turnsSkipped || 0)
+      .reduce((a, b) => a + b);
 
     return countdown(0, totalTimeTaken / totalTurns, Utility.COUNTDOWN_FORMAT);
   }

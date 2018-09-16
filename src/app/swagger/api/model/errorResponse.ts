@@ -10,11 +10,7 @@
  * Do not edit the class manually.
  */
 
-import * as models from './models';
 
-export interface ValidateResponse {
-    token: string;
-
-    steamProfile: models.SteamProfile;
-
+export interface ErrorResponse {
+    errorMessage: string;
 }

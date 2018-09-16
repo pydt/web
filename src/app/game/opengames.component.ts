@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileCacheService } from 'pydt-shared';
-import { GameApi, OpenGamesResponse, SteamProfile } from '../swagger/api';
+import { GameService, OpenGamesResponse, SteamProfile } from '../swagger/api';
 import { AuthService } from '../shared';
 
 @Component({
@@ -11,7 +11,7 @@ export class OpenGamesComponent implements OnInit {
   openGames: OpenGamesResponse;
   profile: SteamProfile;
 
-  constructor(private gameApi: GameApi, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(private gameApi: GameService, private auth: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
