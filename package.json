@@ -34,7 +34,7 @@
     "ngx-bootstrap": "^3.0.1",
     "ngx-clipboard": "^11.1.7",
     "pako": "^1.0.6",
-    "pydt-shared": "^1.1.0",
+    "pydt-shared": "^1.2.0-beta20181020-6",
     "rollbar": "2.4.6",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.0.0-rc.0",

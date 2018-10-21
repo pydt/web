@@ -16,7 +16,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { ProfileCacheService, PydtSharedModule } from 'pydt-shared';
+import { GameSpeedPipe, MapPipe, MapSizePipe, PydtSharedModule, ProfileCacheService } from 'pydt-shared';
 import { environment } from '../environments/environment';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -113,7 +113,7 @@ if (environment.name === 'dev') {
     UserProfileComponent,
     UserInfoComponent,
     UserGamesComponent,
-    UserStatsComponent,
+    UserStatsComponent
   ],
   providers: [
     AuthService,

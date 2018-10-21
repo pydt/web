@@ -10,7 +10,7 @@ import { ConfigureGameModel } from './config.component';
 })
 export class EditGameComponent implements OnInit {
   game: Game;
-  model = new EditGameModel();
+  model: EditGameModel;
   selectedCivs: string[];
 
   constructor(
@@ -26,6 +26,7 @@ export class EditGameComponent implements OnInit {
       this.gameApi.get(params['id']).subscribe(game => {
         this.game = game;
 
+        this.model = new EditGameModel(game.gameType);
         this.model.displayName = game.displayName;
         this.model.description = game.description;
         this.model.slots = game.slots;

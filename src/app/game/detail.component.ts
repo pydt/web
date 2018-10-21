@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
-import { BusyService, CIV6_DLCS, CIV6_LEADERS, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
+import { BusyService, CivDef, filterCivsByDlc, RANDOM_CIV, GAMES } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
 import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
 
@@ -49,6 +49,10 @@ export class GameDetailComponent implements OnInit {
   ngOnInit() {
     this.profile = this.auth.getSteamProfile();
     this.getGame();
+  }
+
+  get civGame() {
+    return GAMES.find(x => x.id === this.game.gameType);
   }
 
   discourseEmbed() {
@@ -164,13 +168,13 @@ export class GameDetailComponent implements OnInit {
             return !player.steamId;
           })
           .map(player => {
-            return CIV6_LEADERS.find(leader => {
+            return this.civGame.leaders.find(leader => {
               return leader.leaderKey === player.civType;
             });
           });
       }
     } else {
-      this.availableCivs =  filterCivsByDlc(CIV6_LEADERS, this.game.dlc).slice();
+      this.availableCivs =  filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
 
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
@@ -186,7 +190,7 @@ export class GameDetailComponent implements OnInit {
     }
 
     this.dlcEnabled = game.dlc.map(dlcId => {
-      return CIV6_DLCS.find(dlc => {
+      return this.civGame.dlcs.find(dlc => {
         return dlc.id === dlcId;
       }).displayName;
     }).join(', ');
@@ -199,7 +203,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   private findLeader(civType: string) {
-    return CIV6_LEADERS.find(leader => {
+    return this.civGame.leaders.find(leader => {
       return leader.leaderKey === civType;
     });
   }
@@ -207,7 +211,8 @@ export class GameDetailComponent implements OnInit {
   downloadTurn(gameId) {
     this.gameApi.getTurn(gameId)
       .subscribe(resp => {
-        window.open(resp.downloadUrl);
+        console.log(resp.downloadUrl);
+        window.location.href = resp.downloadUrl;
       });
   }
 

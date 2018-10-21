@@ -21,6 +21,8 @@ export class OpenGamesComponent implements OnInit {
 
   getGames() {
     this.gameApi.listOpen().subscribe(games => {
+      games.notStarted = games.notStarted.filter(x => x.gameType === 'CIV6');
+      games.openSlots = games.openSlots.filter(x => x.gameType === 'CIV6');
       // Go ahead and get all profiles for all the games in one request
       this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
       this.openGames = games;

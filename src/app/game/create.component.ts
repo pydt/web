@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CIV6_LEADERS, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
+import { CIV6_GAME, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
 import { CreateGameRequestBody, GameService, UserService } from '../swagger/api/index';
 import { ConfigureGameModel } from './config.component';
@@ -11,7 +11,7 @@ import { ConfigureGameModel } from './config.component';
   templateUrl: './create.component.html'
 })
 export class CreateGameComponent implements OnInit {
-  model = new CreateGameModel();
+  model: CreateGameModel;
 
   @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
@@ -21,15 +21,17 @@ export class CreateGameComponent implements OnInit {
     private userApi: UserService,
     private auth: AuthService,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private route: ActivatedRoute
   ) {
   }
 
   filteredLeaders() {
-    return filterCivsByDlc(CIV6_LEADERS, this.model.dlcIdArray());
+    return filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray());
   }
 
   async ngOnInit() {
+    this.model = new CreateGameModel(this.route.snapshot.queryParams['gameType'] || CIV6_GAME.id);
     const profile = this.auth.getSteamProfile();
     this.model.displayName = profile.personaname + '\'s game!';
 
@@ -76,7 +78,7 @@ export class CreateGameComponent implements OnInit {
 }
 
 class CreateGameModel extends ConfigureGameModel {
-  public player1Civ = CIV6_LEADERS.find(leader => {
+  public player1Civ = this.civGame.leaders.find(leader => {
     return !leader.dlcId && leader !== RANDOM_CIV;
   });
 

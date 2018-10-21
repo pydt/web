@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { CIV6_DLCS, CIV6_GAME_SPEEDS, CIV6_LEADERS, CIV6_MAPS, CIV6_MAP_SIZES, DLC } from 'pydt-shared';
+import { DLC, GAMES, CivGame, GameSpeed, Map, MapSize } from 'pydt-shared';
 import { Game } from '../swagger/api';
 
 @Component({
@@ -12,9 +12,6 @@ export class ConfigureGameComponent implements OnInit {
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   minHumans = 2;
-  gameSpeeds = CIV6_GAME_SPEEDS;
-  maps = CIV6_MAPS;
-  mapSizes = CIV6_MAP_SIZES;
 
   constructor(private cdRef: ChangeDetectorRef) {
   }
@@ -26,20 +23,20 @@ export class ConfigureGameComponent implements OnInit {
   }
 
   get majorDlc() {
-    return CIV6_DLCS.filter(dlc => {
+    return this.model.civGame.dlcs.filter(dlc => {
       return dlc.major;
     });
   }
 
   get minorDlc() {
-    return CIV6_DLCS.filter(dlc => {
+    return this.model.civGame.dlcs.filter(dlc => {
       return !dlc.major;
     });
   }
 
   validateDlc() {
     for (const civ of this.selectedCivs) {
-      const leader = CIV6_LEADERS.find(l => {
+      const leader = this.model.civGame.leaders.find(l => {
         return l.leaderKey === civ;
       });
 
@@ -67,11 +64,18 @@ export class ConfigureGameModel {
   public humans = 6;
   public dlc: { [index: string]: boolean; } = {};
   public password: string;
-  public gameSpeed = CIV6_GAME_SPEEDS[0].key;
-  public mapFile = CIV6_MAPS[0].file;
-  public mapSize = CIV6_MAP_SIZES[2].key;
+  public gameSpeed = this.civGame.gameSpeeds[0].key;
+  public mapFile = this.civGame.maps[0].file;
+  public mapSize = this.civGame.mapSizes[2].key;
   public allowJoinAfterStart = true;
   public randomOnly = false;
+
+  constructor(public gameType: string) {
+  }
+
+  get civGame() {
+    return GAMES.find(x => x.id === this.gameType);
+  }
 
   set slots(slots: number) {
     this._slots = Number(slots);
@@ -99,7 +103,7 @@ export class ConfigureGameModel {
   }
 
   selectedMap() {
-    return CIV6_MAPS.find(map => {
+    return this.civGame.maps.find(map => {
       return map.file === this.mapFile;
     });
   }
@@ -121,6 +125,7 @@ export class ConfigureGameModel {
       password: this.password,
       dlc: this.dlcIdArray(),
       gameSpeed: this.gameSpeed,
+      gameType: this.gameType,
       mapFile: this.mapFile,
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,

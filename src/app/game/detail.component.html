@@ -23,16 +23,16 @@
             <p><b>Max Human Players:</b> {{game.humans}}</p>
           </div>
           <div class="col-md-6" *ngIf="game.gameSpeed">
-            <p><b>Game Speed:</b> {{game.gameSpeed | civ6gamespeed}}</p>
+            <p><b>Game Speed:</b> {{game | gamespeed}}</p>
           </div>
           <div class="col-md-6">
-            <p><b>Map Type:</b> {{game.mapFile | civ6map}}</p>
+            <p><b>Map Type:</b> {{game | map}}</p>
           </div>
           <div class="col-md-6">
             <p><b>Allow Users to Join After Start:</b> {{game.allowJoinAfterStart ? 'Yes': 'No'}}</p>
           </div>
           <div class="col-md-6" *ngIf="game.mapSize">
-            <p><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</p>
+            <p><b>Map Size:</b> {{game | mapsize}}</p>
           </div>
           <div class="col-md-6">
             <p><b>Random Civs Only:</b> {{ game.randomOnly ? 'Yes' : 'No' }}</p>
@@ -402,9 +402,9 @@
           <span *ngIf="game?.gameSpeed">
             Set the following settings:
             <ul>
-              <li><b>Game Speed:</b> {{game.gameSpeed | civ6gamespeed}}</li>
-              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game.mapFile | civ6map}}</li>
-              <li><b>Map Size:</b> {{game.mapSize | civ6mapsize}}</li>
+              <li><b>Game Speed:</b> {{game | gamespeed}}</li>
+              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game | map}}</li>
+              <li><b>Map Size:</b> {{game | mapsize}}</li>
             </ul>
           </span>
           When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>

@@ -2,6 +2,7 @@
 <button class="btn btn-sm btn-default pull-right" *ngIf="canEditTurnOrder && !editingTurnOrder" type="button" (click)="editingTurnOrder = true">Edit Turn Order</button>
 <button class="btn btn-sm btn-primary pull-right" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">Save Turn Order</button>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
+  <img src="/img/game_{{ game.gameType }}.png" style="height:25px;padding-right: 10px;position:relative;top:-3px;" />
   {{game.displayName}}
   <span *ngIf="!game.inProgress">(Not Started)</span>
   <span *ngIf="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">(Your Turn)</span> 
