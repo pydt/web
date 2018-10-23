@@ -52,7 +52,35 @@ export class GameDetailComponent implements OnInit {
   }
 
   get civGame() {
+    if (!this.game) {
+      return null;
+    }
+
     return GAMES.find(x => x.id === this.game.gameType);
+  }
+
+  get winDir() {
+    if (!this.civGame) {
+      return null;
+    }
+
+    return `Documents\\My Games${this.civGame.saveDirectory.replace('/', '\\')}`;
+  }
+
+  get linuxDir() {
+    if (!this.civGame) {
+      return null;
+    }
+
+    return `~/Library/Application Support${this.civGame.saveDirectory}`;
+  }
+
+  get saveExtension() {
+    if (!this.civGame) {
+      return null;
+    }
+
+    return '.' + this.civGame.saveExtension;
   }
 
   discourseEmbed() {

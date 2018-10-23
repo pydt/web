@@ -67,7 +67,7 @@
             <div class="row">
               <div class="col-xs-12 text-center">
                 <label class="btn btn-primary btn-file">
-                  Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId)" accept=".Civ6Save" style="display:none;">            
+                  Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId)" [accept]="saveExtension" style="display:none;">            
                 </label>
               </div>
             </div>
@@ -398,7 +398,7 @@
           <span *ngIf="!game?.dlc.length">Ensure that <b>NO DLC</b> is enabled!</span>
         </p>
         <p>
-          Now start Civ 6, go to Multiplayer / Hotseat, and configure the game.
+          Now start {{ civGame?.displayName }}, go to Multiplayer / Hotseat, and configure the game.
           <span *ngIf="game?.gameSpeed">
             Set the following settings:
             <ul>
@@ -414,14 +414,14 @@
         <p class="text-danger"><b>If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</b></p>
         <p>
           Once you've created the game and played your first turn, save it and use the button below to upload it and begin the game!
-          By default, the save file will be located at <b>Documents\My Games\Sid Meier's Civilization VI\Saves\Hotseat</b> on Windows,
-          and <b>~/Library/Application Support/Sid Meier's Civilization VI/Saves/Hotseat</b> on OSX.  Happy Civving!
+          By default, the save file will be located at <b>{{ winDir }}</b> on Windows,
+          and <b>{{ linuxDir }}</b> on OSX.  Happy Civving!
         </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="uploadFirstTurnModal.hide()">Cancel</button>
         <label class="btn btn-primary btn-file">
-          Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId); uploadFirstTurnModal.hide();" accept=".Civ6Save" style="display:none;">            
+          Select File To Upload...<input type="file" (change)="fileSelected($event, game.gameId); uploadFirstTurnModal.hide();"  [accept]="saveExtension" style="display:none;">            
         </label>
       </div>
     </div>
