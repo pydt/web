@@ -135,10 +135,10 @@
             </span>
           </div>
         </div>
-        <p *ngIf="!profile">
+        <p *ngIf="!profile.steamid">
           Please use the "Sign in through STEAM" button above to login, and then you can join this game!
         </p>
-        <div *ngIf="!userInGame && profile">
+        <div *ngIf="!userInGame && profile.steamid">
           <div *ngIf="!tooManyHumans">
             <p>If you want to join this game, select a civ and then press the button below!</p>
             <pydt-select-civ [leaders]="availableCivs" [randomOnly]="game.randomOnly" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
