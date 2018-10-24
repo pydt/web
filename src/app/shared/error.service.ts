@@ -3,6 +3,7 @@ import * as Rollbar from 'rollbar';
 import { Subject } from 'rxjs';
 import { environment } from '../../environments/environment';
 import * as envVars from '../../envVars';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class ErrorHandlerService implements ErrorHandler {
@@ -36,14 +37,8 @@ export class ErrorHandlerService implements ErrorHandler {
     let endUserErrorMessage = null;
     let response: Response;
 
-    if (error instanceof Response) {
-      response = error as Response;
-    } else if (error.rejection instanceof Response) {
-      response = error.rejection as Response;
-    }
-
-    if (response) {
-      endUserErrorMessage = (await response.json()).errorMessage;
+    if (error.rejection instanceof HttpErrorResponse) {
+      endUserErrorMessage = error.rejection.error.errorMessage;
     }
 
     if (!endUserErrorMessage) {
