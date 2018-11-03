@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ErrorHandler, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, ErrorHandler, NgZone, OnInit, Optional, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
     private errorService: ErrorHandler,
     private router: Router,
     private notificationService: NotificationService,
+    private zone: NgZone,
     @Optional() angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     this.updateInterval = setInterval(() => {
@@ -53,8 +54,10 @@ export class AppComponent implements OnInit {
     });
 
     (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
-      this.errorModalMessage = endUserErrorMessage;
-      this.errorModal.show();
+      this.zone.run(() => {
+        this.errorModalMessage = endUserErrorMessage;
+        this.errorModal.show();
+      });
     });
   }
 

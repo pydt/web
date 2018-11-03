@@ -2,8 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
-import { BusyService, CivDef, filterCivsByDlc, RANDOM_CIV, GAMES } from 'pydt-shared';
-import { AuthService, NotificationService } from '../shared';
+import { BusyService, CivDef, filterCivsByDlc, GAMES, RANDOM_CIV } from 'pydt-shared';
+import { AuthService, EndUserError, NotificationService } from '../shared';
 import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
 
 @Component({
@@ -22,6 +22,7 @@ export class GameDetailComponent implements OnInit {
   newCiv: CivDef;
   pageUrl: string;
   dlcEnabled: string;
+  historyTabOpened = false;
   private discourse: HTMLScriptElement;
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
@@ -162,6 +163,9 @@ export class GameDetailComponent implements OnInit {
   }
 
   setGame(game: Game) {
+    if (!game) {
+      throw new EndUserError('Game not found.')
+    }
     this.game = game;
     game.dlc = game.dlc || [];
     const steamIds = game.players.map(x => x.steamId).filter(Boolean);

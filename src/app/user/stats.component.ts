@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as countdown from 'countdown';
 import { Utility } from '../shared/utility';
 import { UserService } from '../swagger/api';
 
@@ -46,7 +45,7 @@ export class UserStatsComponent implements OnInit {
           activeGames: activeGames,
           totalGames: activeGames + (user.inactiveGameIds || []).length,
           turnsPlayed: user.turnsPlayed,
-          avgTurnTime: countdown(0, avgTurnTime, Utility.COUNTDOWN_FORMAT),
+          avgTurnTime: Utility.countdown(0, avgTurnTime),
           avgTurnTime_sort: avgTurnTime,
           fastTurns: user.fastTurns,
           slowTurns: user.slowTurns

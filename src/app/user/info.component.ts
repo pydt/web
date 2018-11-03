@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../shared/utility';
-import { User, SteamProfile } from '../swagger/api';
-import * as countdown from 'countdown';
+import { SteamProfile, User } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-info',
@@ -23,6 +22,6 @@ export class UserInfoComponent implements OnInit {
 
   averageTurnTime() {
     const avgTurnTime = this.user.timeTaken / (this.user.turnsPlayed + this.user.turnsSkipped);
-    return countdown(0, avgTurnTime, Utility.COUNTDOWN_FORMAT);
+    return Utility.countdown(0, avgTurnTime);
   }
 }

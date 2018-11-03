@@ -16,7 +16,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { GameSpeedPipe, MapPipe, MapSizePipe, PydtSharedModule, ProfileCacheService } from 'pydt-shared';
+import { ProfileCacheService, PydtSharedModule } from 'pydt-shared';
 import { environment } from '../environments/environment';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -26,6 +26,7 @@ import { ConfigureGameComponent } from './game/config.component';
 import { CreateGameComponent } from './game/create.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GameDetailStatsComponent } from './game/detail/stats.component';
+import { GameDetailTurnsComponent } from './game/detail/turns.component';
 import { DisplayCivComponent } from './game/displayCiv.component';
 import { EditGameComponent } from './game/edit.component';
 import { OpenGamesComponent } from './game/opengames.component';
@@ -104,6 +105,7 @@ if (environment.name === 'dev') {
     EditGameComponent,
     GameDetailComponent,
     GameDetailStatsComponent,
+    GameDetailTurnsComponent,
     GamePreviewComponent,
     CreateGameComponent,
     OpenGamesComponent,

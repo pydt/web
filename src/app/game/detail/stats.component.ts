@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import * as countdown from 'countdown';
-import { ProfileCacheService } from 'pydt-shared';
+import { GAMES, ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
 import { Game } from '../../swagger/api';
 
@@ -26,7 +25,19 @@ export class GameDetailStatsComponent implements OnInit {
   constructor(private profileCache: ProfileCacheService) {
   }
 
+  get civGame() {
+    return GAMES.find(x => x.id === this.game.gameType);
+  }
+
   ngOnInit() {
+    if (this.civGame.turnTimerSupported) {
+      this.tableColumns.push({
+        title: 'Skipped',
+        name: 'turnsSkipped',
+        className: 'cursor-pointer'
+      });
+    }
+
     this.profileCache.getProfiles(this.humanPlayers().map(x => x.steamId)).then(profiles => {
       this.tableData = this.humanPlayers().map(player => {
         let avgTurnTimeSort = 999999999999999;
@@ -34,7 +45,7 @@ export class GameDetailStatsComponent implements OnInit {
 
         if (player.timeTaken) {
           avgTurnTimeSort = player.timeTaken / (player.turnsPlayed || 0 + player.turnsSkipped || 0);
-          avgTurnTime = countdown(0, avgTurnTimeSort, Utility.COUNTDOWN_FORMAT);
+          avgTurnTime = Utility.countdown(0, avgTurnTimeSort);
         }
 
         return {
@@ -42,6 +53,7 @@ export class GameDetailStatsComponent implements OnInit {
           player_sort: profiles[player.steamId].personaname.toLowerCase(),
           avgTurnTime: avgTurnTime,
           avgTurnTime_sort: avgTurnTimeSort,
+          turnsSkipped: player.turnsSkipped || 0,
           fastTurns: player.fastTurns || 0,
           slowTurns: player.slowTurns || 0
         };
@@ -66,11 +78,11 @@ export class GameDetailStatsComponent implements OnInit {
       .map(player => player.turnsPlayed || 0 + player.turnsSkipped || 0)
       .reduce((a, b) => a + b);
 
-    return countdown(0, totalTimeTaken / totalTurns, Utility.COUNTDOWN_FORMAT);
+    return Utility.countdown(0, totalTimeTaken / totalTurns);
   }
 
   lastTurn() {
     const lastTurnTime: any = this.game.lastTurnEndDate || this.game.updatedAt;
-    return countdown(Date.parse(lastTurnTime), null, Utility.COUNTDOWN_FORMAT);
+    return Utility.countdown(Date.parse(lastTurnTime), null);
   }
 }

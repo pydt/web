@@ -39,12 +39,24 @@ export class ErrorHandlerService implements ErrorHandler {
 
     if (error.rejection instanceof HttpErrorResponse) {
       endUserErrorMessage = error.rejection.error.errorMessage;
+    } else if (error instanceof EndUserError) {
+      endUserErrorMessage = error.message;
     }
 
     if (!endUserErrorMessage) {
+      console.error(error);
       this.rollbar.error(error);
     }
 
     this.errorStream.next(endUserErrorMessage);
+  }
+}
+
+export class EndUserError extends Error {
+  constructor(m: string) {
+    super(m);
+
+    // Set the prototype explicitly.
+    Object.setPrototypeOf(this, EndUserError.prototype);
   }
 }

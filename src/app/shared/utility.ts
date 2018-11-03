@@ -3,8 +3,10 @@ import * as countdown from 'countdown';
 
 @Injectable()
 export class Utility {
-  // tslint:disable-next-line:no-bitwise
-  public static COUNTDOWN_FORMAT = countdown.DAYS | countdown.HOURS | countdown.MINUTES;
+  public static countdown(start: countdown.DateTime, end: countdown.DateTime) {
+    // tslint:disable-next-line:no-bitwise
+    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, 2);
+  }
 
   public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
     visibleData = visibleData || rawData.slice();

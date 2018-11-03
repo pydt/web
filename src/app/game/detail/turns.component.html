@@ -1,0 +1,6 @@
+<ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="updateTable($event.page)"></ng-table>
+<div class="row">
+  <div class="col-xs-12">
+    <pagination class="pull-right" [(ngModel)]="currentPage" [totalItems]="game.gameTurnRangeKey" [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [maxSize]="5" [rotate]="false" (pageChanged)="updateTable($event.page)"></pagination>
+  </div>
+</div>
