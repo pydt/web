@@ -26,7 +26,7 @@ export class EditGameComponent implements OnInit {
       this.gameApi.get(params['id']).subscribe(game => {
         this.game = game;
 
-        this.model = new EditGameModel(game.gameType);
+        this.model = new EditGameModel(game.gameType, game.turnTimerMinutes);
         this.model.displayName = game.displayName;
         this.model.description = game.description;
         this.model.slots = game.slots;

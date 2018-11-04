@@ -43,3 +43,11 @@ $fa-font-path : '../../node_modules/font-awesome/fonts';
       overflow: hidden!important;
   }
 }
+
+input[type='checkbox'] {
+  position: relative;
+  top: 5px;
+  height: 24px;
+  width: 24px;
+  box-shadow: none;
+}

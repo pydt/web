@@ -3,9 +3,9 @@ import * as countdown from 'countdown';
 
 @Injectable()
 export class Utility {
-  public static countdown(start: countdown.DateTime, end: countdown.DateTime) {
+  public static countdown(start: countdown.DateTime, end: countdown.DateTime, max = 2) {
     // tslint:disable-next-line:no-bitwise
-    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, 2);
+    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max);
   }
 
   public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {

@@ -59,7 +59,7 @@
   <div class="form-group">
     <label for="description" class="col-sm-3 control-label">Map Size:</label>
     <div class="col-sm-9">
-      <select class="form-control" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap()?.mapSize">
+      <select class="form-control" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap?.mapSize">
         <option *ngFor="let size of model.civGame.mapSizes" [ngValue]="size.key">{{size.displayName}} (suggested {{size.players}} players)</option>
       </select>
     </div>
@@ -111,4 +111,32 @@
     <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password">
   </div>
   <span id="passwordHelp" class="help-block col-sm-offset-3">If you wish for your game to be protected so that only people who know the password can join, set a password in the field above.</span>
+</div>
+<div class="form-group">
+  <label for="displayName" class="col-sm-3 control-label">Turn Timer:</label>
+  <ng-container *ngIf="model.civGame.turnTimerSupported">
+    <div class="col-sm-1">
+      <div class="checkbox">
+        <label>
+          <input type="checkbox" [(ngModel)]="model.turnTimerEnabled">
+        </label>
+      </div>
+    </div>
+    <ng-container *ngIf="model.turnTimerEnabled">
+      <div class="col-sm-5">
+        <input type="range" id="turnTimerMinutesRange" min="60" max="4320" step="15" [(ngModel)]="model.turnTimerMinutes" name="turnTimerMinutes">
+      </div>
+      <div class="col-sm-3">
+        <p class='form-control-static'>
+          {{ model.turnTimerMinutesString }}
+        </p>
+      </div>  
+    </ng-container>
+  </ng-container>
+  <div class="col-sm-9" *ngIf="!model.civGame.turnTimerSupported">
+    <p class='form-control-static'>
+      A turn timer is not supported for Civ 6 because of a bug in the game.  See this thread for more details, and if you've got any contacts at Firaxis please bring this to their attention!
+      <a href="https://discourse.playyourdamnturn.com/t/turn-timer/63" target="_blank">https://discourse.playyourdamnturn.com/t/turn-timer/63</a>
+    </p>
+  </div>
 </div>

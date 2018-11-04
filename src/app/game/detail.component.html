@@ -42,6 +42,9 @@
           <div class="col-md-6">
             <p><b>Random Civs Only:</b> {{ game.randomOnly ? 'Yes' : 'No' }}</p>
           </div>
+          <div class="col-md-6" *ngIf="game.turnTimerMinutes">
+            <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
+          </div>
         </div>
         <div class="row" *ngIf="game.createdBySteamId === profile?.steamid">
           <div class="col-xs-12 text-center">

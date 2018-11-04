@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { DLC, GAMES, CivGame, GameSpeed, Map, MapSize } from 'pydt-shared';
 import { Game } from '../swagger/api';
+import { Utility } from '../shared/utility';
 
 @Component({
   selector: 'pydt-configure-game',
@@ -69,8 +70,11 @@ export class ConfigureGameModel {
   public mapSize = this.civGame.mapSizes[2].key;
   public allowJoinAfterStart = true;
   public randomOnly = false;
+  public turnTimerEnabled;
 
-  constructor(public gameType: string) {
+  constructor(public gameType: string, public turnTimerMinutes?) {
+    this.turnTimerEnabled = !!turnTimerMinutes;
+    this.turnTimerMinutes = this.turnTimerMinutes || 600;
   }
 
   get civGame() {
@@ -96,24 +100,32 @@ export class ConfigureGameModel {
     });
   }
 
-  dlcIdArray() {
+  get dlcIdArray() {
     return Object.keys(this.dlc).filter(key => {
       return this.dlc[key];
     });
   }
 
-  selectedMap() {
+  get selectedMap() {
     return this.civGame.maps.find(map => {
       return map.file === this.mapFile;
     });
   }
 
   possiblyUpdateMapSize() {
-    const selectedMap = this.selectedMap();
+    const selectedMap = this.selectedMap;
 
     if (selectedMap && selectedMap.mapSize) {
       this.mapSize = selectedMap.mapSize.key;
     }
+  }
+
+  get turnTimerMinutesString() {
+    if (!this.turnTimerEnabled) {
+      return '';
+    }
+
+    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3);
   }
 
   toJSON(): any {
@@ -123,13 +135,14 @@ export class ConfigureGameModel {
       slots: this.slots,
       humans: this.humans,
       password: this.password,
-      dlc: this.dlcIdArray(),
+      dlc: this.dlcIdArray,
       gameSpeed: this.gameSpeed,
       gameType: this.gameType,
       mapFile: this.mapFile,
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
-      randomOnly: this.randomOnly
+      randomOnly: this.randomOnly,
+      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : null
     };
   }
 }

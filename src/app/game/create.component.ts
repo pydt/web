@@ -27,7 +27,7 @@ export class CreateGameComponent implements OnInit {
   }
 
   filteredLeaders() {
-    return filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray());
+    return filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray);
   }
 
   async ngOnInit() {

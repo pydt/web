@@ -5,6 +5,7 @@ import * as pako from 'pako';
 import { BusyService, CivDef, filterCivsByDlc, GAMES, RANDOM_CIV } from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../shared';
 import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
+import { Utility } from '../shared/utility';
 
 @Component({
   selector: 'pydt-game-detail',
@@ -126,6 +127,14 @@ export class GameDetailComponent implements OnInit {
     } else {
       this.finishJoinGame();
     }
+  }
+
+  get turnTimerString() {
+    if (!this.game.turnTimerMinutes) {
+      return '';
+    }
+
+    return Utility.countdown(0, this.game.turnTimerMinutes * 60 * 1000);
   }
 
   async finishJoinGame() {
