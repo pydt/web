@@ -44,10 +44,14 @@ $fa-font-path : '../../node_modules/font-awesome/fonts';
   }
 }
 
+.checkbox label {
+  padding-left: 30px;
+}
+
 input[type='checkbox'] {
-  position: relative;
   top: 5px;
   height: 24px;
   width: 24px;
   box-shadow: none;
+  margin-left: -30px !important;
 }

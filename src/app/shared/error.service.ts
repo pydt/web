@@ -35,7 +35,6 @@ export class ErrorHandlerService implements ErrorHandler {
 
   async handleError(error) {
     let endUserErrorMessage = null;
-    let response: Response;
 
     if (error.rejection instanceof HttpErrorResponse) {
       endUserErrorMessage = error.rejection.error.errorMessage;
