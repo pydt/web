@@ -1,3 +1,9 @@
+<div class="form-group">
+  <label for="displayName" class="col-sm-3 control-label">Game Type:</label>
+  <div class="col-sm-9">
+    <p class='form-control-static'>{{model.civGame.displayName}}</p>
+  </div>
+</div>
 <div *ngIf="game && game.inProgress">
   <div class="form-group">
     <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
@@ -43,6 +49,7 @@
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.gameSpeed">
         <option *ngFor="let speed of model.civGame.gameSpeeds" [ngValue]="speed.key">{{speed.displayName}}</option>
+        <option value="">{{ model.emptyGame | gamespeed }}</option>
       </select>
     </div>
     <span id="dlcHelp" class="help-block col-sm-offset-3">Please select Online unless you know what you're doing!  Asynchonous games can take a long time to complete!</span>
@@ -51,8 +58,8 @@
     <label for="description" class="col-sm-3 control-label">Map Type:</label>
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.mapFile" (ngModelChange)="model.possiblyUpdateMapSize()">
-        <option value="">Other / Unknown / Custom Map</option>
         <option *ngFor="let map of model.civGame.maps" [ngValue]="map.file">{{map.displayName}}</option>
+        <option value="">{{ model.emptyGame | map }}</option>
       </select>
     </div>
   </div>
@@ -61,6 +68,7 @@
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap?.mapSize">
         <option *ngFor="let size of model.civGame.mapSizes" [ngValue]="size.key">{{size.displayName}} (suggested {{size.players}} players)</option>
+        <option value="">{{ model.emptyGame | mapsize }}</option>
       </select>
     </div>
   </div>

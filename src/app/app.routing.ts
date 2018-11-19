@@ -15,10 +15,10 @@ import { MetaGuard } from '@ngx-meta/core';
 
 /*tslint:disable:max-line-length */
 const routes: Routes = [
-  { path: '', canActivate: [MetaGuard], component: HomeComponent, data: { meta: { title: 'Civ 6 Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 6 game easy.' } } },
+  { path: '', canActivate: [MetaGuard], component: HomeComponent, data: { meta: { title: 'Civ 5 & 6 Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5 or 6 game easy.' } } },
   { path: 'forum', canActivate: [MetaGuard], component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
   { path: 'steamreturn', canActivate: [MetaGuard], component: SteamReturnComponent, data: { meta: { title: 'Finishing Steam Auth...' } } },
-  { path: 'game/create', canActivate: [AuthService, MetaGuard], component: CreateGameComponent, data: { meta: { title: 'Create a New Game!' } } },
+  { path: 'game/create/:gameType', canActivate: [AuthService, MetaGuard], component: CreateGameComponent, data: { meta: { title: 'Create a New Game!' } } },
   { path: 'game/listOpen', canActivate: [MetaGuard], component: OpenGamesComponent, data: { meta: { title: 'Open Games List', description: 'Games that are currently forming and available to join.' } } },
   { path: 'game/:id', canActivate: [MetaGuard], component: GameDetailComponent, data: { meta: { title: 'Game Info' } } },
   { path: 'game/:id/edit', canActivate: [MetaGuard], component: EditGameComponent, data: { meta: { title: 'Edit Game' } } },

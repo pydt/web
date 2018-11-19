@@ -77,6 +77,12 @@ export class ConfigureGameModel {
     this.turnTimerMinutes = this.turnTimerMinutes || 600;
   }
 
+  get emptyGame() {
+    return <Game> {
+      gameType: this.gameType
+    };
+  }
+
   get civGame() {
     return GAMES.find(x => x.id === this.gameType);
   }

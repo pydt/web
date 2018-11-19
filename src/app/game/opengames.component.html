@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="openGames">
+  <div *ngIf="allGames">
     <h1>Open Games</h1>
     <p>
       This is a list of all games that are currently forming and available to join.  <span *ngIf="profile">If you don't see one that you want
@@ -7,14 +7,30 @@
     </p>
     <div class="row" *ngIf="profile">
       <div class="col-xs-12 text-center">
-        <button class="btn btn-primary" [routerLink]="['/game/create']">Create a New Game!</button> 
+        <div class="btn-group" dropdown>
+          <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+            Create a New Game! <span class="caret"></span>
+          </button>
+          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+            <li role="menuitem" *ngFor="let game of GAMES"><a class="dropdown-item" [routerLink]="['/game/create/' + game.id]">{{ game.displayName }}</a></li>
+          </ul>
+        </div>
       </div>
     </div>
     <hr />
+    <div class="pull-right form-inline">
+      <div class="form-group">  
+        <label>Filter Games: </label>
+        <select class="form-control" [(ngModel)]="gameTypeFilter">
+          <option value="">All Game Types</option>
+          <option *ngFor="let game of GAMES" [value]="game.id">{{ game.displayName }}</option>
+        </select>
+      </div>
+    </div>
     <tabset>
       <tab heading="New Games">
-        <h1 *ngIf="openGames.notStarted.length == 0">No games found.</h1>
-        <div *ngFor="let game of openGames.notStarted">
+        <h1 *ngIf="filteredGames.notStarted.length == 0">No games found.</h1>
+        <div *ngFor="let game of filteredGames.notStarted">
           <div class="well"> 
             <pydt-game-preview [game]="game"></pydt-game-preview>
             <div class="row">
@@ -26,8 +42,8 @@
         </div>
       </tab>
       <tab heading="In-Progress Games with Open Slots">
-        <h1 *ngIf="openGames.openSlots.length == 0">No games found.</h1>
-        <div *ngFor="let game of openGames.openSlots">
+        <h1 *ngIf="filteredGames.openSlots.length == 0">No games found.</h1>
+        <div *ngFor="let game of filteredGames.openSlots">
           <div class="well"> 
             <pydt-game-preview [game]="game"></pydt-game-preview>
             <div class="row">

@@ -114,10 +114,8 @@ export class GameDetailComponent implements OnInit {
   }
 
   getGame() {
-    this.route.params.forEach(params => {
-      this.gameApi.get(params['id']).subscribe(game => {
-        this.setGame(game);
-      });
+    this.gameApi.get(this.route.snapshot.params['id']).subscribe(game => {
+      this.setGame(game);
     });
   }
 

@@ -31,7 +31,7 @@ export class CreateGameComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.model = new CreateGameModel(this.route.snapshot.queryParams['gameType'] || CIV6_GAME.id);
+    this.model = new CreateGameModel(this.route.snapshot.params['gameType'] || CIV6_GAME.id);
     const profile = this.auth.getSteamProfile();
     this.model.displayName = profile.personaname + '\'s game!';
 
