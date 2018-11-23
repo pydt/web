@@ -7,14 +7,7 @@
     </p>
     <div class="row" *ngIf="profile">
       <div class="col-xs-12 text-center">
-        <div class="btn-group" dropdown>
-          <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
-            Create a New Game! <span class="caret"></span>
-          </button>
-          <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-            <li role="menuitem" *ngFor="let game of GAMES"><a class="dropdown-item" [routerLink]="['/game/create/' + game.id]">{{ game.displayName }}</a></li>
-          </ul>
-        </div>
+        <pydt-game-create-button></pydt-game-create-button>
       </div>
     </div>
     <hr />

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
-import { BusyService, CivDef, filterCivsByDlc, GAMES, RANDOM_CIV } from 'pydt-shared';
+import { BusyService, CivDef, filterCivsByDlc, GAMES, RANDOM_CIV, Platform, BasePath } from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../shared';
 import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
 import { Utility } from '../shared/utility';
@@ -61,20 +61,33 @@ export class GameDetailComponent implements OnInit {
     return GAMES.find(x => x.id === this.game.gameType);
   }
 
+  translateLocation(platform: Platform) {
+    let location = platform === Platform.Windows ? '' : '~';
+    const locData = this.civGame.saveLocations[platform];
+
+    if (locData.basePath === BasePath.APP_DATA) {
+      location = '~/Library/Application Support';
+    } else if (locData.basePath === BasePath.DOCUMENTS) {
+      location += 'Documents';
+    }
+
+    return location + locData.prefix;
+  }
+
   get winDir() {
     if (!this.civGame) {
       return null;
     }
 
-    return `Documents\\My Games${this.civGame.saveDirectory.replace('/', '\\')}`;
+    return `${this.translateLocation(Platform.Windows)}${this.civGame.saveDirectory}`.replace(/\//g, '\\');
   }
 
-  get linuxDir() {
+  get osxDir() {
     if (!this.civGame) {
       return null;
     }
 
-    return `~/Library/Application Support${this.civGame.saveDirectory}`;
+    return `${this.translateLocation(Platform.OSX)}${this.civGame.saveDirectory}`;
   }
 
   get saveExtension() {
@@ -171,8 +184,9 @@ export class GameDetailComponent implements OnInit {
 
   setGame(game: Game) {
     if (!game) {
-      throw new EndUserError('Game not found.')
+      throw new EndUserError('Game not found.');
     }
+
     this.game = game;
     game.dlc = game.dlc || [];
     const steamIds = game.players.map(x => x.steamId).filter(Boolean);

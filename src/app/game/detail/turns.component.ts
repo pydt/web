@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { GAMES, PcsProfileMap, ProfileCacheService } from "pydt-shared";
-import { Utility } from "../../shared/utility";
-import { Game, GameService } from "../../swagger/api";
+import { GAMES, PcsProfileMap, ProfileCacheService } from 'pydt-shared';
+import { Utility } from '../../shared/utility';
+import { Game, GameService } from '../../swagger/api';
 
 @Component({
   selector: 'pydt-game-detail-turns',
@@ -10,7 +10,7 @@ import { Game, GameService } from "../../swagger/api";
 })
 export class GameDetailTurnsComponent implements OnInit {
   @Input() game: Game;
-  
+
   tableColumns: Array<any> = [
     { title: 'Turn #', name: 'turn', sort: false },
     { title: 'Round #', name: 'round', sort: false },
@@ -42,7 +42,7 @@ export class GameDetailTurnsComponent implements OnInit {
       return !!player.steamId;
     });
   }
-  
+
   async ngOnInit() {
     if (this.civGame.turnTimerSupported) {
       this.tableColumns.push({

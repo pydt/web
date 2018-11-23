@@ -5,6 +5,7 @@ import { CIV6_GAME, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
 import { CreateGameRequestBody, GameService, UserService } from '../swagger/api/index';
 import { ConfigureGameModel } from './config.component';
+import { GameCreateButtonComponent } from './createButton.component';
 
 @Component({
   selector: 'pydt-create-game',
@@ -13,7 +14,6 @@ import { ConfigureGameModel } from './config.component';
 export class CreateGameComponent implements OnInit {
   model: CreateGameModel;
 
-  @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
   @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
 
   constructor(
@@ -35,13 +35,9 @@ export class CreateGameComponent implements OnInit {
     const profile = this.auth.getSteamProfile();
     this.model.displayName = profile.personaname + '\'s game!';
 
-    const userGames = await this.userApi.games().toPromise();
-
-    for (const game of userGames.data) {
-      if (game.createdBySteamId === profile.steamid && !game.inProgress) {
-        this.cannotCreateGameModal.show();
-        return;
-      }
+    if (!GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame)) {
+      this.router.navigate(['/user/games']);
+      return;
     }
 
     const user = await this.userApi.getCurrent().toPromise();
@@ -79,7 +75,7 @@ export class CreateGameComponent implements OnInit {
 
 class CreateGameModel extends ConfigureGameModel {
   public player1Civ = this.civGame.leaders.find(leader => {
-    return !leader.dlcId && leader !== RANDOM_CIV;
+    return !leader.options.dlcId && leader !== RANDOM_CIV;
   });
 
   toJSON(): CreateGameRequestBody {

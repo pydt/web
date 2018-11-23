@@ -24,6 +24,7 @@ import { routing } from './app.routing';
 import { ForumComponent } from './forum/forum.component';
 import { ConfigureGameComponent } from './game/config.component';
 import { CreateGameComponent } from './game/create.component';
+import { GameCreateButtonComponent } from './game/createButton.component';
 import { GameDetailComponent } from './game/detail.component';
 import { GameDetailStatsComponent } from './game/detail/stats.component';
 import { GameDetailTurnsComponent } from './game/detail/turns.component';
@@ -102,6 +103,7 @@ if (environment.name === 'dev') {
     HomeComponent,
     ForumComponent,
     ConfigureGameComponent,
+    GameCreateButtonComponent,
     EditGameComponent,
     GameDetailComponent,
     GameDetailStatsComponent,

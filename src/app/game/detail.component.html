@@ -16,6 +16,9 @@
         <p *ngIf="game.description"><b>Description:</b> {{game.description}}</p>
         <div class="row">
           <div class="col-md-6">
+            <p><b>Game Type:</b> {{civGame.displayName}}</p>
+          </div>
+          <div class="col-md-6">
             <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
           </div>
           <div class="col-md-6">
@@ -63,7 +66,7 @@
             <p>
               Press the button below to download the save file and play your turn.  You'll need to put the file in the correct location for the game to find it, if you
               want a simpler experience try using our desktop client that you can download from the dropdown in the header bar.  On Windows, the default location for hotseat save files is
-              <b>{{ winDir }}</b>, and on OSX it's <b>{{ linuxDir }}</b>.
+              <b>{{ winDir }}</b>, and on OSX it's <b>{{ osxDir }}</b>.
             </p>
             <div class="row">
               <div class="col-xs-12 text-center">
@@ -423,7 +426,7 @@
         <p>
           Once you've created the game and played your first turn, save it and use the button below to upload it and begin the game!
           By default, the save file will be located at <b>{{ winDir }}</b> on Windows,
-          and <b>{{ linuxDir }}</b> on OSX.  Happy Civving!
+          and <b>{{ osxDir }}</b> on OSX.  Happy Civving!
         </p>
       </div>
       <div class="modal-footer">

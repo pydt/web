@@ -14,18 +14,10 @@
     </div>
     <hr />
     <h1>Create a New Game</h1>
-    <div *ngIf="canCreateGame">
-      <p>
-        Press the button below to start the new game creation process.
-      </p>
-      <div class="row">
-        <div class="col-xs-12 text-center">
-          <button class="btn btn-primary" [routerLink]="['/game/create']">Create a New Game!</button> 
-        </div>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <pydt-game-create-button></pydt-game-create-button>
       </div>
     </div>
-    <p *ngIf="!canCreateGame">
-      You cannot create a new game at the moment because you already have one game that hasn't been started yet!
-    </p>
   </div>
 </div>

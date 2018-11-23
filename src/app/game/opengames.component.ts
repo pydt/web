@@ -31,7 +31,9 @@ export class OpenGamesComponent implements OnInit {
   }
 
   get filteredGames(): OpenGamesResponse {
-    if (!this.gameTypeFilter) return this.allGames;
+    if (!this.gameTypeFilter) {
+      return this.allGames;
+    }
 
     return {
       notStarted: this.allGames.notStarted.filter(x => x.gameType === this.gameTypeFilter),

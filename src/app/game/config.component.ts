@@ -23,6 +23,22 @@ export class ConfigureGameComponent implements OnInit {
     }
   }
 
+  get allDlcSelected() {
+    for (const dlc of this.model.civGame.dlcs) {
+      if (!this.model.dlc[dlc.id]) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  selectAllDlc(selectAll: boolean) {
+    for (const dlc of this.model.civGame.dlcs) {
+      this.model.dlc[dlc.id] = selectAll;
+    }
+  }
+
   get majorDlc() {
     return this.model.civGame.dlcs.filter(dlc => {
       return dlc.major;
@@ -41,12 +57,12 @@ export class ConfigureGameComponent implements OnInit {
         return l.leaderKey === civ;
       });
 
-      if (leader.dlcId) {
-        if (!this.model.dlc[leader.dlcId]) {
+      if (leader.options.dlcId) {
+        if (!this.model.dlc[leader.options.dlcId]) {
           alert(`Can't deselect DLC because there's a player in the game using that DLC.`);
 
           setTimeout(() => {
-            this.model.dlc[leader.dlcId] = true;
+            this.model.dlc[leader.options.dlcId] = true;
             this.cdRef.detectChanges();
           }, 10);
 
