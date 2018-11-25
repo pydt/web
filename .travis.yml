@@ -2,13 +2,22 @@ language: node_js
 node_js:
   - "8"
 before_install:
-  - sudo apt-get update
-  - sudo apt-get install -y lftp
-script:
+  - sudo pip install awscli
   - npm install -g @angular/cli
+script:
   - npm run lint
   - npm run build
-  - lftp -u ${AZURE_DEPLOYMENT_USER},${AZURE_DEPLOYMENT_PASSWORD} -e 'mirror -Rp dist /site/wwwroot; quit' ftps://waws-prod-ch1-013.ftp.azurewebsites.windows.net
+deploy:
+  provider: s3
+  access_key_id: "${AWS_ACCESS_KEY_ID}"
+  secret_access_key: "${AWS_SECRET_ACCESS_KEY}"
+  bucket: "www.playyourdamnturn.com"
+  skip_cleanup: true
+  local_dir: dist
+  acl: public_read
+  cache_control: "max-age=31536000"
+after_deploy:
+  - aws s3api copy-object --copy-source www.playyourdamnturn.com/index.html --bucket www.playyourdamnturn.com --key index.html --metadata-directive REPLACE --cache-control "max-age=0" --content-type "text/html" --acl public-read
 branches:
   only:
   - master
