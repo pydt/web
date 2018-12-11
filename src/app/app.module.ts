@@ -16,7 +16,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { ApiModule, PydtSharedModule, ProfileCacheService, Configuration } from 'pydt-shared';
+import { ApiModule, Configuration, PydtSharedModule, ProfileCacheService, UserService } from 'pydt-shared';
 import { environment } from '../environments/environment';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -55,6 +55,10 @@ export function metaFactory(): MetaLoader {
     pageTitleSeparator: ' | ',
     applicationName: 'Play Your Damn Turn'
   });
+}
+
+export function profileCacheFactory(userService: UserService) {
+  return new ProfileCacheService(userService, null);
 }
 
 let prodImports = [
@@ -112,7 +116,7 @@ if (environment.name === 'dev') {
   ],
   providers: [
     AuthService,
-    ProfileCacheService,
+    { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useClass: PydtHttpInterceptor, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService
