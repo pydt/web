@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'pydt-shared';
 import { Utility } from '../shared/utility';
-import { UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-stats',

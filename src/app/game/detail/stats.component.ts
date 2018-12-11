@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { GAMES, ProfileCacheService } from 'pydt-shared';
+import { Game, GAMES, ProfileCacheService } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
-import { Game } from '../../swagger/api';
 
 @Component({
   selector: 'pydt-game-detail-stats',

@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ProfileCacheService } from 'pydt-shared';
+import { ProfileCacheService, SteamProfile, User } from 'pydt-shared';
 import { Utility } from '../shared/utility';
-import { SteamProfile, User } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-info',

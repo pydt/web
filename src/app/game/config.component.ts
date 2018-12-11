@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { DLC, GAMES, CivGame, GameSpeed, Map, MapSize } from 'pydt-shared';
-import { Game } from '../swagger/api';
+import { DLC, Game, GAMES } from 'pydt-shared';
 import { Utility } from '../shared/utility';
 
 @Component({

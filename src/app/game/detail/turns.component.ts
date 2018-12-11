@@ -1,8 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { GAMES, PcsProfileMap, ProfileCacheService } from 'pydt-shared';
+import { Game, GAMES, GameService, ProfileCacheService, SteamProfileMap } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
-import { Game, GameService } from '../../swagger/api';
 
 @Component({
   selector: 'pydt-game-detail-turns',
@@ -23,7 +22,7 @@ export class GameDetailTurnsComponent implements OnInit {
     className: ['table', 'table-condensed', 'table-striped'],
   };
   tableData: Array<any>;
-  profiles: PcsProfileMap;
+  profiles: SteamProfileMap;
   currentPage = 1;
   itemsPerPage = 15;
 

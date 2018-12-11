@@ -8,8 +8,7 @@
     "build": "npm run env-vars && ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "swagger-codegen": "bash -c \"mkdir -p .tmp && cp ../api/api/_gen/swagger/swagger.json .tmp/swagger.json && MSYS_NO_PATHCONV=1 docker run --rm -v ${PWD}:/local jimschubert/swagger-codegen-cli:2.3.1 generate -i /local/.tmp/swagger.json -l typescript-angular --additional-properties ngVersion=6.1.7 -o /local/src/app/swagger/api -DmodelPropertyNaming=original\""
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -35,7 +34,7 @@
     "ngx-bootstrap": "^3.0.1",
     "ngx-clipboard": "^11.1.7",
     "pako": "^1.0.6",
-    "pydt-shared": "^1.2.2",
+    "pydt-shared": "^1.2.3-beta20181211-4",
     "rollbar": "2.4.6",
     "rxjs": "^6.3.2",
     "rxjs-compat": "^6.0.0-rc.0",

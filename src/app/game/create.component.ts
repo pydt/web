@@ -1,9 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CIV6_GAME, CivDef, filterCivsByDlc, RANDOM_CIV } from 'pydt-shared';
+import { CIV6_GAME, CivDef, CreateGameRequestBody, filterCivsByDlc, GameService, RANDOM_CIV, UserService } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
-import { CreateGameRequestBody, GameService, UserService } from '../swagger/api/index';
 import { ConfigureGameModel } from './config.component';
 import { GameCreateButtonComponent } from './createButton.component';
 

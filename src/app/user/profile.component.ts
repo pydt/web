@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ProfileCacheService, User, UserService } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
-import { User, UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -18,7 +18,8 @@ export class UserProfileComponent implements OnInit {
     private userApi: UserService,
     private auth: AuthService,
     private http: HttpClient,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private profileCache: ProfileCacheService
   ) {
   }
 
@@ -46,6 +47,22 @@ export class UserProfileComponent implements OnInit {
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Email address updated!'
+      });
+    });
+  }
+
+  onUserInfoSubmit() {
+    this.loaded = false;
+    this.userApi.setUserInformation({
+      comments: this.user.comments,
+      timezone: this.user.timezone,
+      vacationMode: this.user.vacationMode
+    }).subscribe(() => {
+      this.loaded = true;
+      this.profileCache.clearProfile(this.user.steamId);
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'User Information updated!'
       });
     });
   }

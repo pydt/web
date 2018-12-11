@@ -1,9 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ValidateResponse } from '../swagger/api';
-import { AuthService } from '../shared';
+import { ValidateResponse } from 'pydt-shared';
 import * as envVars from '../../envVars';
-import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../shared';
 
 @Component({
   selector: 'pydt-steam-return',

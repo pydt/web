@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileCacheService } from 'pydt-shared';
-import { Game, UserService } from '../swagger/api';
+import { Game, ProfileCacheService, UserService } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-user-games',

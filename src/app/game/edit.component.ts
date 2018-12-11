@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Game, GameRequestBody, GameService } from 'pydt-shared';
 import { NotificationService } from '../shared';
-import { Game, GameRequestBody, GameService } from '../swagger/api';
 import { ConfigureGameModel } from './config.component';
 
 @Component({

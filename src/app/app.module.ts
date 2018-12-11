@@ -16,7 +16,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { ProfileCacheService, PydtSharedModule } from 'pydt-shared';
+import { ApiModule, PydtSharedModule, ProfileCacheService, Configuration } from 'pydt-shared';
 import { environment } from '../environments/environment';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -37,7 +37,6 @@ import { HomeComponent } from './home/home.component';
 import { PydtHttpInterceptor } from './pydtHttpInterceptor.service';
 import { AuthService, ErrorHandlerService, NotificationService } from './shared';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
-import { ApiModule, Configuration, UserService } from './swagger/api';
 import { UserGamesComponent } from './user/games.component';
 import { UserInfoComponent } from './user/info.component';
 import { UserProfileComponent } from './user/profile.component';
@@ -47,14 +46,6 @@ export function configFactory() {
   return new Configuration({
     apiKeys: {},
     basePath: envVars.apiUrl
-  });
-}
-
-export function pcsFactory(api: UserService) {
-  return new ProfileCacheService({
-    userSteamProfiles: (steamIds: string) => {
-      return api.steamProfiles(steamIds);
-    }
   });
 }
 
@@ -121,11 +112,7 @@ if (environment.name === 'dev') {
   ],
   providers: [
     AuthService,
-    {
-      provide: ProfileCacheService,
-      useFactory: pcsFactory,
-      deps: [UserService]
-    },
+    ProfileCacheService,
     { provide: HTTP_INTERCEPTORS, useClass: PydtHttpInterceptor, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService

@@ -3,8 +3,8 @@ import { Component, ErrorHandler, NgZone, OnInit, Optional, ViewChild } from '@a
 import { Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { AuthService as AuthApi } from 'pydt-shared';
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
-import { AuthService as AuthApi } from './swagger/api/index';
 
 @Component({
   selector: 'pydt-app',

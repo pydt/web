@@ -29,13 +29,7 @@
   </ng-container>
   <ng-container *ngIf="!editingTurnOrder">
     <div *ngFor="let player of gamePlayers; let i = index;" class="col-{{game.slots}}-slots">
-      <ng-template #tooltipTemplate><span [innerHtml]="getTooltip(player, civDefs[i])"></span></ng-template>
-      <a href="javascript:void(0)" (click)="showUserDetail(player.steamId)" *ngIf="player" class="thumbnail" [class.currentTurn]="game.currentPlayerSteamId === player.steamId" [tooltip]="tooltipTemplate">
-          <img #profileImg [src]="getProfileImg(player)" style="height:64px;" on-mouseover="profileImg.src = '/img/civs/' + (civDefs[i]?.getImageFileName() || 'RANDOM_RANDOM.png');" on-mouseleave="profileImg.src = getProfileImg(player);">
-      </a>
-      <a href="javascript:void(0)" *ngIf="!player" class="thumbnail" tooltip="AI">
-        <img [src]="getProfileImg()" style="height: 64px;">
-      </a>
+      <pydt-player-avatar [game]="game" [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i]" avatarSize="64px" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
     </div>
   </ng-container>
 </div>

@@ -1,48 +1,124 @@
 <div class="container">
   <div *ngIf="loaded">
-    <div class="well">
-      <pydt-user-info [user]="user"></pydt-user-info>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading">Client Token</div>
-      <div class="panel-body">
-        <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
-        <div class="input-group">
-          <input type="text" class="form-control" [value]="token" readonly>
-          <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">Copy Token to Clipboard</button>
-          </span>
+    <div class="row">
+      <div class="col-sm-6">
+        <div class="well">
+          <pydt-user-info [user]="user"></pydt-user-info>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading">User Information</div>
+          <div class="panel-body">
+            <form (ngSubmit)="onUserInfoSubmit()" class="form-horizontal" #userInfoForm="ngForm">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Vacation Mode</label>
+                <div class="col-sm-9">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode"> For games that support turn timers, will automatically skip your turn. 
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Time Zone</label>
+                <div class="col-sm-9">
+                  <select class="form-control" name="timezone" [(ngModel)]="user.timezone">
+                    <option [ngValue]="null">-- Select a Time Zone --</option>
+                    <option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
+                    <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
+                    <option value="GMT -10:00">(GMT -10:00) Hawaii</option>
+                    <option value="GMT -9:00">(GMT -9:00) Alaska</option>
+                    <option value="GMT -8:00">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
+                    <option value="GMT -7:00">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
+                    <option value="GMT -6:00">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
+                    <option value="GMT -5:00">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+                    <option value="GMT -4:00">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                    <option value="GMT -3:30">(GMT -3:30) Newfoundland</option>
+                    <option value="GMT -3:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
+                    <option value="GMT -2:00">(GMT -2:00) Mid-Atlantic</option>
+                    <option value="GMT -1:00">(GMT -1:00) Azores, Cape Verde Islands</option>
+                    <option value="GMT +0:00">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                    <option value="GMT +1:00">(GMT +1:00) Brussels, Copenhagen, Madrid, Paris</option>
+                    <option value="GMT +2:00">(GMT +2:00) Kaliningrad, South Africa</option>
+                    <option value="GMT +3:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                    <option value="GMT +3:30">(GMT +3:30) Tehran</option>
+                    <option value="GMT +4:00">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                    <option value="GMT +4:30">(GMT +4:30) Kabul</option>
+                    <option value="GMT +5:00">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                    <option value="GMT +5:30">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
+                    <option value="GMT +6:00">(GMT +6:00) Almaty, Dhaka, Colombo</option>
+                    <option value="GMT +7:00">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
+                    <option value="GMT +8:00">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
+                    <option value="GMT +9:00">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                    <option value="GMT +9:30">(GMT +9:30) Adelaide, Darwin</option>
+                    <option value="GMT +10:00">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
+                    <option value="GMT +11:00">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
+                    <option value="GMT +12:00">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Comments</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="comments" [(ngModel)]="user.comments" placeholder="A status message to show over your avatar." maxlength="50">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-9">
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </div>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="panel" [class.panel-default]="emailModel.emailAddress" [class.panel-danger]="!emailModel.emailAddress">
-      <div class="panel-heading">Email Turn Notifications</div>
-      <div class="panel-body">
-        <p>
-          Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
-          will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
-        </p>
-        <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
-          <div class="form-group">
-            <label for="emailAddress">Email Address</label>
-            <input type="text" class="form-control" id="emailAddress" [(ngModel)]="emailModel.emailAddress" name="emailAddress">
+    <div class="row">
+      <div class="panel panel-default">
+        <div class="panel-heading">Client Token</div>
+        <div class="panel-body">
+          <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
+          <div class="input-group">
+            <input type="text" class="form-control" [value]="token" readonly>
+            <span class="input-group-btn">
+              <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">Copy Token to Clipboard</button>
+            </span>
           </div>
-          <button type="submit" class="btn btn-default">Submit</button>
-        </form>
+        </div>
       </div>
     </div>
-
-    <div *ngIf="noDiscourseUser" class="panel panel-danger">
-      <div class="panel-heading">You haven't joined the forum!</div>
-      <div class="panel-body">
-        <p>
-          Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
-          communicate with other users during matchups.
-        </p>
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+    <div class="row">
+      <div class="panel" [class.panel-default]="emailModel.emailAddress" [class.panel-danger]="!emailModel.emailAddress">
+        <div class="panel-heading">Email Turn Notifications</div>
+        <div class="panel-body">
+          <p>
+            Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
+            will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
+          </p>
+          <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
+            <div class="form-group">
+              <label for="emailAddress">Email Address</label>
+              <input type="text" class="form-control" id="emailAddress" [(ngModel)]="emailModel.emailAddress" name="emailAddress">
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div *ngIf="noDiscourseUser" class="panel panel-danger">
+        <div class="panel-heading">You haven't joined the forum!</div>
+        <div class="panel-body">
+          <p>
+            Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
+            communicate with other users during matchups.
+          </p>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+            </div>
           </div>
         </div>
       </div>

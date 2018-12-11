@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Router, CanActivate } from '@angular/router';
-import { SteamProfile, Configuration } from '../swagger/api';
+import { CanActivate, Router } from '@angular/router';
+import { Configuration, SteamProfile } from 'pydt-shared';
 
 @Injectable()
 export class AuthService implements CanActivate {

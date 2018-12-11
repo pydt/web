@@ -1,9 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CivGame, GAMES } from 'pydt-shared';
+import { CivGame, GAMES, UserService } from 'pydt-shared';
 import { AuthService } from '../shared';
-import { UserService } from '../swagger/api';
 
 @Component({
   selector: 'pydt-game-create-button',

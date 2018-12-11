@@ -2,9 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
-import { BusyService, CivDef, filterCivsByDlc, GAMES, RANDOM_CIV, Platform, BasePath } from 'pydt-shared';
+import {
+  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService
+} from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../shared';
-import { Game, GameService, SteamProfile, UserService } from '../swagger/api';
 import { Utility } from '../shared/utility';
 
 @Component({

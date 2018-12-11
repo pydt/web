@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CivDef, PcsProfileMap, PcsSteamProfile, ProfileCacheService, GAMES } from 'pydt-shared';
+import {
+  CivDef, Game, GamePlayer, GAMES, GameService, ProfileCacheService, SteamProfile, SteamProfileMap, User, UserService
+} from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
-import { Game, GameService, GamePlayer, SteamProfile, User, UserService } from '../swagger/api';
 
 
 @Component({
@@ -20,8 +21,8 @@ export class GamePreviewComponent implements OnChanges {
   reorderablePlayers: GamePlayer[];
   user: User;
   editingTurnOrder = false;
+  gamePlayerProfiles: SteamProfileMap = {};
   private civDefs: CivDef[];
-  private gamePlayerProfiles: PcsProfileMap = {};
 
   constructor(
     private gameApi: GameService,
@@ -91,35 +92,6 @@ export class GamePreviewComponent implements OnChanges {
       this.editingTurnOrder = false;
       this.gameUpdated.emit(game);
     });
-  }
-
-  getTooltip(player: GamePlayer, civDef: CivDef) {
-    if (player) {
-      const profile = this.gamePlayerProfiles[player.steamId];
-      let playerName = 'AI';
-
-      if (profile && !player.hasSurrendered) {
-        playerName = profile.personaname;
-      }
-
-      let civDesc = 'Unknown Civ';
-
-      if (civDef) {
-        civDesc = civDef.getFullDisplayName();
-      }
-
-      return `${playerName} /<br />${civDesc}`;
-    } else {
-      return 'AI';
-    }
-  }
-
-  getProfileImg(player: GamePlayer) {
-    if (player && player.steamId && !player.hasSurrendered) {
-      return (this.gamePlayerProfiles[player.steamId] || {} as PcsSteamProfile).avatarmedium;
-    }
-
-    return '/img/android.png';
   }
 
   showUserDetail(userId) {

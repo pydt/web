@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileCacheService, GAMES } from 'pydt-shared';
+import { GAMES, GameService, OpenGamesResponse, ProfileCacheService, SteamProfile } from 'pydt-shared';
 import { AuthService } from '../shared';
-import { Game, GameService, OpenGamesResponse, SteamProfile } from '../swagger/api';
 
 @Component({
   selector: 'pydt-open-games',
