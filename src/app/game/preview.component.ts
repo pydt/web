@@ -77,6 +77,14 @@ export class GamePreviewComponent implements OnChanges {
     return this.gamePlayers.filter(x => !x);
   }
 
+  getProfileImg(player: GamePlayer) {
+    if (player && player.steamId && !player.hasSurrendered) {
+      return (this.gamePlayerProfiles[player.steamId] || {} as SteamProfile).avatarmedium;
+    }
+
+    return '/img/android.png';
+  }
+
   saveTurnOrder() {
     this.gameApi.updateTurnOrder(this.game.gameId, {
       steamIds: [
