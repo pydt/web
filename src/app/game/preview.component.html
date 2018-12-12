@@ -10,26 +10,20 @@
 <div class="row" style="padding-left:13px;padding-right:13px;">
   <ng-container *ngIf="editingTurnOrder">
     <div class="col-{{game.slots}}-slots">
-      <div class="thumbnail">
-        <img #profileImg [src]="getProfileImg(gamePlayers[0])" style="height:64px;">
-      </div>
+      <pydt-player-avatar [player]="gamePlayers[0]" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[0]" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
     </div>
     <div dragula="players" [(dragulaModel)]="reorderablePlayers">
       <div *ngFor="let player of reorderablePlayers" class="col-{{game.slots}}-slots">
-        <div class="thumbnail">
-          <img #profileImg [src]="getProfileImg(player)" style="height:64px;">
-        </div>
+        <pydt-player-avatar [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i + 1]" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
       </div>
     </div>
     <div *ngFor="let player of aiPlayers" class="col-{{game.slots}}-slots">
-      <div class="thumbnail">
-        <img [src]="getProfileImg()" style="height: 64px;">
-      </div>
+      <pydt-player-avatar [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
     </div>
   </ng-container>
   <ng-container *ngIf="!editingTurnOrder">
     <div *ngFor="let player of gamePlayers; let i = index;" class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [game]="game" [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i]" avatarSize="64px" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
+      <pydt-player-avatar [game]="game" [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i]" size="BIG" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
     </div>
   </ng-container>
 </div>
