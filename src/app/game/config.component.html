@@ -4,27 +4,19 @@
     <p class='form-control-static'>{{model.civGame.displayName}}</p>
   </div>
 </div>
-<div *ngIf="game && game.inProgress">
-  <div class="form-group">
-    <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
-    <div class="col-sm-9">
-      <p class='form-control-static'>{{model.displayName}}</p>
-    </div>
+<div class="form-group" [class.has-error]="!displayName.valid">
+  <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
+  <div class="col-sm-9">
+    <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
+  </div>
+</div>
+<div class="form-group">
+  <label for="description" class="col-sm-3 control-label">Description:</label>
+  <div class="col-sm-9">
+    <textarea rows="3" class="form-control" id="description" [(ngModel)]="model.description" name="description" placeholder="A short description of game parameters, house rules, etc."></textarea>
   </div>
 </div>
 <div *ngIf="!game || !game.inProgress"> 
-  <div class="form-group" [class.has-error]="!displayName.valid">
-    <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
-    <div class="col-sm-9">
-      <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
-    </div>
-  </div>
-  <div class="form-group">
-    <label for="description" class="col-sm-3 control-label">Description:</label>
-    <div class="col-sm-9">
-      <textarea rows="3" class="form-control" id="description" [(ngModel)]="model.description" name="description" placeholder="A short description of game parameters, house rules, etc."></textarea>
-    </div>
-  </div>
   <div class="form-group">
     <label class="col-sm-3 control-label">DLC Support:</label>
     <div class="col-sm-9">
@@ -90,16 +82,6 @@
     <span id="slotsHelp" class="help-block col-sm-offset-3">The total number of civilizations in the game (human or ai).</span>
   </div>
   <div class="form-group">
-    <label for="humansRange" class="col-sm-3 control-label">Maximum Number of Humans:</label>
-    <div class="col-sm-1">
-      <p class="form-control-static"><b>{{model.humans}}</b></p>
-    </div>
-    <div class="col-sm-8">
-      <input type="range" id="humansRange" min="{{minHumans}}" max="{{model.slots}}" step="1" [(ngModel)]="model.humans" name="humans" aria-describedby="humansHelp">
-    </div>
-    <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
-  </div>
-  <div class="form-group">
     <label for="displayName" class="col-sm-3 control-label">Only allow random Civ selection:</label>
     <div class="col-sm-9">
       <div class="checkbox">
@@ -109,6 +91,16 @@
       </div>
     </div>
   </div>
+</div>
+<div class="form-group">
+  <label for="humansRange" class="col-sm-3 control-label">Maximum Number of Humans:</label>
+  <div class="col-sm-1">
+    <p class="form-control-static"><b>{{model.humans}}</b></p>
+  </div>
+  <div class="col-sm-8">
+    <input type="range" id="humansRange" min="{{minHumans}}" max="{{model.slots}}" step="1" [(ngModel)]="model.humans" name="humans" aria-describedby="humansHelp">
+  </div>
+  <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
 </div>
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Allow users to join after start:</label>
