@@ -40,7 +40,9 @@ export class UserStatsComponent implements OnInit {
         return {
           rank: '',
           steamId: user.steamId,
-          player: `<img src="${user.avatarSmall}"> ${user.displayName}`,
+          player: `<a href="https://steamcommunity.com/profiles/${user.steamId}" target="_steamprofile">
+            <img src="${user.avatarSmall}">
+          </a> ${user.displayName}`,
           player_sort: user.displayName.toLowerCase(),
           activeGames: activeGames,
           totalGames: activeGames + (user.inactiveGameIds || []).length,
