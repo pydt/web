@@ -1,7 +1,11 @@
-pagination, /deep/ ul.pagination {
+pagination, ::ng-deep ul.pagination {
   margin: 0;
 }
 
 hr {
   margin: 5px 0;
+}
+
+::ng-deep .nav-tabs {
+  border-bottom: 0;
 }

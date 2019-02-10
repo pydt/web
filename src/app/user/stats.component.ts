@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from 'pydt-shared';
+import { UserService, GAMES, User, CivGame } from 'pydt-shared';
 import { Utility } from '../shared/utility';
+import { GameTypeTurnData } from 'pydt-shared/lib/_gen/swagger/api/model/gameTypeTurnData';
 
 @Component({
   selector: 'pydt-user-stats',
@@ -25,37 +26,70 @@ export class UserStatsComponent implements OnInit {
     className: ['table', 'table-condensed', 'table-striped'],
     paging: { page: 1, itemsPerPage: 25 }
   };
-  rawData: Array<any> = [];
+  rawData: {[gameType: string]: any[]} = {};
   visibleData: Array<any> = [];
+  allGame = <CivGame>{
+    id: 'ALL',
+    displayName: 'All Game Types'
+  };
+  allCivGames = [
+    this.allGame,
+    ...GAMES
+  ];
+  currentGame = this.allGame;
 
   constructor(private userApi: UserService) {
   }
 
   ngOnInit() {
     this.userApi.all().subscribe(users => {
-      this.rawData = users.map(user => {
-        const avgTurnTime = user.timeTaken / (user.turnsPlayed + user.turnsSkipped);
-        const activeGames = (user.activeGameIds || []).length;
+      for (const game of GAMES) {
+        this.rawData[game.id] = users.map(user => {
+          const gameStats = user.statsByGameType.find(x => x.gameType === game.id);
+          return gameStats ? this.createRawData(gameStats, user) : null;
+        }).filter(Boolean);
+      }
 
-        return {
-          rank: '',
-          steamId: user.steamId,
-          player: `<a href="https://steamcommunity.com/profiles/${user.steamId}" target="_steamprofile">
-            <img src="${user.avatarSmall}">
-          </a> ${user.displayName}`,
-          player_sort: user.displayName.toLowerCase(),
-          activeGames: activeGames,
-          totalGames: activeGames + (user.inactiveGameIds || []).length,
-          turnsPlayed: user.turnsPlayed,
-          avgTurnTime: Utility.countdown(0, avgTurnTime),
-          avgTurnTime_sort: avgTurnTime,
-          fastTurns: user.fastTurns,
-          slowTurns: user.slowTurns
-        };
+      this.rawData[this.allGame.id] = users.map(user => {
+        const activeGames = (user.activeGameIds || []).length;
+        const totalGames = activeGames + (user.inactiveGameIds || []).length;
+
+        return this.createRawData(<GameTypeTurnData>{
+          ...user,
+          activeGames,
+          totalGames,
+          gameType: this.allGame.id
+        }, user);
       });
 
-      this.onChangeTable(this.tableConfig, this.rawData, this.visibleData);
+      this.onChangeTable(this.tableConfig, this.rawData[this.currentGame.id], this.visibleData);
     });
+  }
+
+  createRawData(turnData: GameTypeTurnData, user: User) {
+    const avgTurnTime = turnData.timeTaken / (turnData.turnsPlayed + turnData.turnsSkipped);
+
+    return {
+      rank: '',
+      steamId: user.steamId,
+      player: `<a href="https://steamcommunity.com/profiles/${user.steamId}" target="_steamprofile">
+        <img src="${user.avatarSmall}">
+      </a> ${user.displayName}`,
+      player_sort: user.displayName.toLowerCase(),
+      activeGames: turnData.activeGames,
+      totalGames: turnData.totalGames,
+      turnsPlayed: turnData.turnsPlayed,
+      avgTurnTime: Utility.countdown(0, avgTurnTime),
+      avgTurnTime_sort: avgTurnTime,
+      fastTurns: turnData.fastTurns,
+      slowTurns: turnData.slowTurns
+    };
+  }
+
+  setCurrentGame(game: CivGame) {
+    this.currentGame = game;
+    this.visibleData = [];
+    this.onChangeTable(this.tableConfig, this.rawData[game.id], this.visibleData);
   }
 
   onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
