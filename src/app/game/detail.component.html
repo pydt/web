@@ -48,6 +48,9 @@
           <div class="col-md-6" *ngIf="game.turnTimerMinutes">
             <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
           </div>
+          <div class="col-md-6" *ngIf="game.webhookUrl">
+            <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"><b>Webhook URL:</b> {{ game.webhookUrl }}</p>
+          </div>
         </div>
         <div class="row" *ngIf="game.createdBySteamId === profile?.steamid">
           <div class="col-xs-12 text-center">

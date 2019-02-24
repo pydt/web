@@ -80,6 +80,7 @@ export class ConfigureGameModel {
   public humans = 6;
   public dlc: { [index: string]: boolean; } = {};
   public password: string;
+  public webhookUrl: string;
   public gameSpeed = this.civGame.gameSpeeds[0].key;
   public mapFile = this.civGame.maps[0].file;
   public mapSize = this.civGame.mapSizes[2].key;
@@ -163,7 +164,8 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
-      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : null
+      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : null,
+      webhookUrl: this.webhookUrl
     };
   }
 }

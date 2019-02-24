@@ -1,0 +1,8 @@
+::ng-deep tabset ul li.noEmail a {
+  background-color: #B00 !important;
+  color: white !important;
+
+  &.active {
+    background-color: #D00 !important;
+  }
+}

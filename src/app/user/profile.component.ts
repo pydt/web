@@ -5,11 +5,13 @@ import { AuthService, NotificationService } from '../shared';
 
 @Component({
   selector: 'pydt-user-profile',
-  templateUrl: './profile.component.html'
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss']
 })
 export class UserProfileComponent implements OnInit {
   token: string;
   emailModel = new EmailModel('');
+  webhookModel = new WebhookModel('');
   loaded: boolean;
   user: User;
   noDiscourseUser: boolean;
@@ -30,6 +32,7 @@ export class UserProfileComponent implements OnInit {
     this.userApi.getCurrent().subscribe(user => {
       this.user = user;
       this.emailModel.emailAddress = user.emailAddress;
+      this.webhookModel.webhookUrl = user.webhookUrl;
       this.loaded = true;
     });
 
@@ -40,13 +43,24 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  onSubmit() {
+  onEmailSubmit() {
     this.loaded = false;
     this.userApi.setNotificationEmail({ emailAddress: this.emailModel.emailAddress }).subscribe(() => {
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Email address updated!'
+      });
+    });
+  }
+
+  onWebhookSubmit() {
+    this.loaded = false;
+    this.userApi.setWebhookUrl({ webhookUrl: this.webhookModel.webhookUrl }).subscribe(() => {
+      this.loaded = true;
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Webhook updated!'
       });
     });
   }
@@ -70,4 +84,8 @@ export class UserProfileComponent implements OnInit {
 
 class EmailModel {
   constructor(public emailAddress: string) {}
+}
+
+class WebhookModel {
+  constructor(public webhookUrl: string) {}
 }

@@ -38,6 +38,7 @@ export class EditGameComponent implements OnInit {
         this.model.mapSize = game.mapSize;
         this.model.allowJoinAfterStart = game.allowJoinAfterStart;
         this.model.randomOnly = game.randomOnly;
+        this.model.webhookUrl = game.webhookUrl;
 
         for (const dlcId of game.dlc || []) {
           this.model.dlc[dlcId] = true;

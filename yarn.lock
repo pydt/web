@@ -5046,9 +5046,10 @@ punycode@^2.1.0:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
 
-pydt-shared@^1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/pydt-shared/-/pydt-shared-1.2.8.tgz#fe6ab4cbd394deb98dfcc665d3a489255a6a86b0"
+pydt-shared@^1.2.9:
+  version "1.2.9"
+  resolved "https://registry.yarnpkg.com/pydt-shared/-/pydt-shared-1.2.9.tgz#c54dd9b55f52c9807b821df1bde3234b0e734c58"
+  integrity sha512-YkrGZ28N5lKrlwKdXBZTYrG8nRjyacSbxzKksMHEaGTmApX+eQCiCxIRYO4LsP6Pan6J7sA8DL/YNXQPiEC68A==
   dependencies:
     tslib "^1.9.0"
 

@@ -76,48 +76,65 @@
       </div>
     </div>
     <div class="row">
-      <div class="panel panel-default">
-        <div class="panel-heading">Client Token</div>
-        <div class="panel-body">
-          <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
-          <div class="input-group">
-            <input type="text" class="form-control" [value]="token" readonly>
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">Copy Token to Clipboard</button>
-            </span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="panel" [class.panel-default]="emailModel.emailAddress" [class.panel-danger]="!emailModel.emailAddress">
-        <div class="panel-heading">Email Turn Notifications</div>
-        <div class="panel-body">
-          <p>
-            Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
-            will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
-          </p>
-          <form (ngSubmit)="onSubmit()" #emailForm="ngForm">
-            <div class="form-group">
-              <label for="emailAddress">Email Address</label>
-              <input type="text" class="form-control" id="emailAddress" [(ngModel)]="emailModel.emailAddress" name="emailAddress">
+      <div class="col-sm-12">
+        <tabset>
+          <tab heading="Client Token">
+            <div class="well">
+              <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
+              <div class="input-group">
+                <input type="text" class="form-control" [value]="token" readonly>
+                <span class="input-group-btn">
+                  <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">Copy Token to Clipboard</button>
+                </span>
+              </div>
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-          </form>
-        </div>
+          </tab>
+          <tab heading="Email Turn Notifications" [customClass]="!emailModel.emailAddress ? 'noEmail': ''">
+            <div class="well">
+              <p>
+                Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
+                will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
+              </p>
+              <form (ngSubmit)="onEmailSubmit()" #emailForm="ngForm">
+                <div class="form-group">
+                  <label for="emailAddress">Email Address</label>
+                  <input type="text" class="form-control" id="emailAddress" [(ngModel)]="emailModel.emailAddress" name="emailAddress">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+          </tab>
+          <tab heading="Webhook Notifications">
+            <div class="well">
+              <p>
+                A URL to send turn notifications to when you have a new turn available for any of your games.  The HTTP request will be a POST with the following parameters:
+                gameName, userName, round.  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.
+              </p>
+              <form (ngSubmit)="onWebhookSubmit()" #webhookForm="ngForm">
+                <div class="form-group">
+                  <label for="webhookUrl">Webhook URL</label>
+                  <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="webhookModel.webhookUrl" name="webhookUrl">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+          </tab>
+        </tabset>
       </div>
     </div>
     <div class="row">
-      <div *ngIf="noDiscourseUser" class="panel panel-danger">
-        <div class="panel-heading">You haven't joined the forum!</div>
-        <div class="panel-body">
-          <p>
-            Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
-            communicate with other users during matchups.
-          </p>
-          <div class="row">
-            <div class="col-xs-12 text-center">
-              <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+      <div class="col-sm-12">
+        <div *ngIf="noDiscourseUser" class="panel panel-danger">
+          <div class="panel-heading">You haven't joined the forum!</div>
+          <div class="panel-body">
+            <p>
+              Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
+              communicate with other users during matchups.
+            </p>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+              </div>
             </div>
           </div>
         </div>
