@@ -20,10 +20,23 @@
     </div>
   </div>
   <div class="form-group">
-    <label for="description" class="col-sm-3 control-label">Description:</label>
-    <div class="col-sm-9">
+    <div class="col-sm-3 hidden-xs">
+      <div class="clearfix"> 
+        <label for="description" class="control-label pull-right">Description:</label>
+      </div>
+      <button type="button" class="btn btn-default btn-xs pull-right" (click)="showMarkdown = !showMarkdown">{{markdownButtonText}}</button>
+    </div>
+    <div class="visible-xs">
+      <label for="description" class="control-label" style="padding-left: 15px; padding-right:10px;">Description:</label>
+      <button type="button" class="btn btn-default btn-xs"(click)="showMarkdown = !showMarkdown">{{markdownButtonText}}</button>
+    </div>
+    <div *ngIf="showMarkdown" class="col-sm-9" style="border: 1px solid #888;">
+      <markdown [data]="model.description"></markdown>
+    </div>
+    <div *ngIf="!showMarkdown" class="col-sm-9">
       <textarea rows="3" class="form-control" id="description" [(ngModel)]="model.description" name="description" placeholder="A short description of game parameters, house rules, etc."></textarea>
     </div>
+    <span id="dlcHelp" class="help-block col-sm-offset-3">You can use markdown to format your description.  <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Click here to see a markdown cheatsheet.</a></span>
   </div>
   <div class="form-group">
     <label class="col-sm-3 control-label">DLC Support:</label>

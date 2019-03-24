@@ -12,6 +12,7 @@ export class ConfigureGameComponent implements OnInit {
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
   minHumans = 2;
+  showMarkdown = false;
 
   constructor(private cdRef: ChangeDetectorRef) {
   }
@@ -20,6 +21,10 @@ export class ConfigureGameComponent implements OnInit {
     if (this.game) {
       this.minHumans = Math.max(2, this.game.players.length);
     }
+  }
+
+  get markdownButtonText() {
+    return this.showMarkdown ? 'Edit Text' : 'Preview Markdown';
   }
 
   get allDlcSelected() {

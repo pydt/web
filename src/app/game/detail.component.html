@@ -13,7 +13,7 @@
     </tab>
     <tab heading="Game Details" *ngIf="game">
       <div class="well">
-        <p *ngIf="game.description"><b>Description:</b> {{game.description}}</p>
+        <markdown *ngIf="game.description" [data]="game.description"></markdown>
         <div class="row">
           <div class="col-md-6">
             <p><b>Game Type:</b> {{civGame.displayName}}</p>

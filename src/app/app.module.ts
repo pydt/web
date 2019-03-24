@@ -16,7 +16,8 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { ApiModule, Configuration, PydtSharedModule, ProfileCacheService, UserService } from 'pydt-shared';
+import { MarkdownModule } from 'ngx-markdown';
+import { ApiModule, Configuration, ProfileCacheService, PydtSharedModule, UserService } from 'pydt-shared';
 import { environment } from '../environments/environment';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -84,6 +85,7 @@ if (environment.name === 'dev') {
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     DragulaModule.forRoot(),
+    MarkdownModule.forRoot(),
     PydtSharedModule,
     routing,
     Ng2TableModule,
