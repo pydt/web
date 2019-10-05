@@ -108,7 +108,7 @@
             <div class="well">
               <p>
                 A URL to send turn notifications to when you have a new turn available for any of your games.  The HTTP request will be a POST with the following parameters:
-                gameName, userName, round.  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.
+                gameName, userName, round, civName, leaderName.  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.
               </p>
               <form (ngSubmit)="onWebhookSubmit()" #webhookForm="ngForm">
                 <div class="form-group">
