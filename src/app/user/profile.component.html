@@ -119,6 +119,24 @@
               </form>
             </div>
           </tab>
+          <tab heading="Substitution Availability">
+            <div class="well">
+              <p>
+                Players that have played more than 500 turns on the site can register themselves to be available to substitute for players that are surrendering or getting kicked from games.
+                <span *ngIf="user.turnsPlayed >= 500"  style="font-weight:bold;">Please select the games you'd like to substitute for below.</span>
+              </p>
+              <form *ngIf="user.turnsPlayed >= 500" (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
+                <div class="form-group" *ngFor="let game of GAMES">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" [name]="game.id" style="top: -5px;" [(ngModel)]="substitutionModel[game.id]"> {{ game.displayName }} 
+                    </label>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+          </tab>
         </tabset>
       </div>
     </div>

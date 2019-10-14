@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
 import {
-  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService
+  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService, User
 } from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../shared';
 import { Utility } from '../shared/utility';
@@ -25,6 +25,8 @@ export class GameDetailComponent implements OnInit {
   pageUrl: string;
   dlcEnabled: string;
   historyTabOpened = false;
+  substituteUsers: User[];
+  userToSubstitute: User;
   private discourse: HTMLScriptElement;
 
   @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
@@ -183,9 +185,22 @@ export class GameDetailComponent implements OnInit {
     });
   }
 
+  randomizeUserToSubstitute() {
+    const su = this.substituteUsers;
+    return this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
+  }
+
   setGame(game: Game) {
     if (!game) {
       throw new EndUserError('Game not found.');
+    }
+
+    // TODO: Only load this when the tab is visible?
+    if (!this.substituteUsers) {
+      this.userApi.getSubstituteUsers(game.gameType).subscribe(x => {
+        this.substituteUsers = x;
+        this.randomizeUserToSubstitute();
+      });
     }
 
     this.game = game;
@@ -345,6 +360,7 @@ export class GameDetailComponent implements OnInit {
   surrender() {
     this.confirmSurrenderModal.hide();
 
+    // TODO: Support replace on surrender?
     this.gameApi.surrender(this.game.gameId, {}).subscribe(() => {
       this.notificationService.showAlert({
         type: 'warning',
@@ -357,13 +373,26 @@ export class GameDetailComponent implements OnInit {
   kickPlayer() {
     this.confirmKickUserModal.hide();
 
-    this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
-      this.notificationService.showAlert({
-        type: 'warning',
-        msg: 'Successfully kicked user :('
+    if (this.userToSubstitute) {
+      this.gameApi.replacePlayer(this.game.gameId, {
+        newSteamId: this.userToSubstitute.steamId,
+        oldSteamId: this.game.currentPlayerSteamId
+      }).subscribe(game => {
+        this.notificationService.showAlert({
+          type: 'warning',
+          msg: `Successfully kicked user and replaced with ${this.userToSubstitute.displayName}`
+        });
+        this.setGame(game);
       });
-      this.setGame(game);
-    });
+    } else {
+      this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
+        this.notificationService.showAlert({
+          type: 'warning',
+          msg: 'Successfully kicked user :('
+        });
+        this.setGame(game);
+      });
+    }
   }
 
   delete() {

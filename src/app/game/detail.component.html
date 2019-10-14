@@ -110,7 +110,36 @@
     </tab>
     <tab heading="Surrender">
       <div class="well">
-        <p>If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.</p>
+        <div class="row">
+          <div class="col-sm-12">
+            <p>If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.</p>
+          </div>
+          <!--ng-container *ngIf="substituteUsers?.length">
+            <div class="col-sm-12">
+              <p>
+                Users with more than 500 turns played can register to be substituted in to games when players leave.  If your civ is still competitive, it would be appreciated if you substituted in one of these players
+                to take control of your civ instead of having an AI take over.
+              </p>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" style="top: -5px;" [checked]="!!userToSubstitute" (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"> Do you want to substitute another user into this slot?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="userToSubstitute">
+              <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="userToSubstitute">
+                  <option *ngFor="let user of substituteUsers" [ngValue]="user">{{user.displayName}}</option>
+                </select>
+              </div>
+            </div>
+          </ng-container-->
+        </div>
         <div class="row">
           <div class="col-xs-12 text-center">
             <button type="button" *ngIf="game.gameTurnRangeKey > 1" class="btn btn-danger" (click)="confirmSurrenderModal.show()">Surrender</button>
@@ -121,12 +150,40 @@
     </tab>
     <tab heading="Kick User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId">
       <div class="well">
-        <p>
-          Since you created the game, you can kick users from the game.  You can only kick a user if they have had 24 hours to play their turn
-          and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
-          inappropriately you may be banned from the site!
-        </p>
         <div class="row">
+          <div class="col-sm-12">
+            <p>
+              Since you created the game, you can kick users from the game.  You can only kick a user if they have had 24 hours to play their turn
+              and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
+              inappropriately you may be banned from the site!
+            </p>
+          </div>
+          <ng-container *ngIf="substituteUsers?.length">
+            <div class="col-sm-12">
+              <p>
+                Users with more than 500 turns played can register to be substituted in to games when players leave.  If this game is still competitive, you can substitute in another player to take over for the player you're removing.
+              </p>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-12">
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" style="top: -5px;" [checked]="!!userToSubstitute" (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"> Do you want to substitute another user into this slot?
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group" *ngIf="userToSubstitute">
+              <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
+              <div class="col-sm-9">
+                <select class="form-control" [(ngModel)]="userToSubstitute">
+                  <option *ngFor="let user of substituteUsers" [ngValue]="user">{{user.displayName}}</option>
+                </select>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="row" style="margin-top:20px;">
           <div class="col-xs-12 text-center">
             <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
           </div>
