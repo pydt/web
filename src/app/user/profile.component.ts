@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProfileCacheService, User, UserService } from 'pydt-shared';
+import { ProfileCacheService, User, UserService, GAMES } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
 
 @Component({
@@ -12,9 +12,12 @@ export class UserProfileComponent implements OnInit {
   token: string;
   emailModel = new EmailModel('');
   webhookModel = new WebhookModel('');
+  substitutionModel: {[index: string]: boolean;} = {};
   loaded: boolean;
   user: User;
   noDiscourseUser: boolean;
+  
+  GAMES = GAMES;
 
   constructor(
     private userApi: UserService,
@@ -33,6 +36,11 @@ export class UserProfileComponent implements OnInit {
       this.user = user;
       this.emailModel.emailAddress = user.emailAddress;
       this.webhookModel.webhookUrl = user.webhookUrl;
+
+      for (const game of GAMES) {
+        this.substitutionModel[game.id] = (user.willSubstituteForGameTypes || []).indexOf(game.id) >= 0;
+      }
+
       this.loaded = true;
     });
 
@@ -61,6 +69,25 @@ export class UserProfileComponent implements OnInit {
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Webhook updated!'
+      });
+    });
+  }
+
+  onSubstitutionSubmit() {
+    this.loaded = false;
+    const willSubstituteForGameTypes: string[] = [];
+
+    for (const game of GAMES) {
+      if (this.substitutionModel[game.id]) {
+        willSubstituteForGameTypes.push(game.id);
+      }
+    }
+
+    this.userApi.setSubstitutionPrefs({ willSubstituteForGameTypes }).subscribe(() => {
+      this.loaded = true;
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Substitution Preferences updated!'
       });
     });
   }
