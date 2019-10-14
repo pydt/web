@@ -12,11 +12,11 @@ export class UserProfileComponent implements OnInit {
   token: string;
   emailModel = new EmailModel('');
   webhookModel = new WebhookModel('');
-  substitutionModel: {[index: string]: boolean;} = {};
+  substitutionModel: { [index: string]: boolean; } = {};
   loaded: boolean;
   user: User;
   noDiscourseUser: boolean;
-  
+
   GAMES = GAMES;
 
   constructor(
