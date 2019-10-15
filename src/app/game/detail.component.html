@@ -148,7 +148,7 @@
         </div>
       </div>
     </tab>
-    <tab heading="Kick User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId">
+    <tab heading="Kick Current User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId">
       <div class="well">
         <div class="row">
           <div class="col-sm-12">
