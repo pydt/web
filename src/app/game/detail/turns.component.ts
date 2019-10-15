@@ -59,6 +59,7 @@ export class GameDetailTurnsComponent implements OnInit {
     const endTurn = this.game.gameTurnRangeKey - this.itemsPerPage * (page - 1);
     const startTurn = endTurn - this.itemsPerPage + 1;
     const turns = (await this.gameService.getTurns(this.game.gameId, startTurn, endTurn).toPromise()).reverse();
+    this.profiles = await this.profileCache.getProfiles([...new Set(turns.map(x => x.playerSteamId))]);
 
     this.tableData = turns.map(turn => {
       let timeTaken: any = '';
