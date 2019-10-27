@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AuthService as AuthApi } from 'pydt-shared';
-import { environment } from 'src/environments/environment';
+import { environment } from '../environments/environment';
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
 
 @Component({

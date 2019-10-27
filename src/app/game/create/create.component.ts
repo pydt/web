@@ -2,9 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CIV6_GAME, CivDef, CreateGameRequestBody, filterCivsByDlc, GameService, RANDOM_CIV, UserService } from 'pydt-shared';
-import { AuthService, NotificationService } from '../shared';
-import { GameCreateButtonComponent } from './createButton.component';
-import { ConfigureGameModel } from './configure-game.model';
+import { AuthService, NotificationService } from '../../shared';
+import { GameCreateButtonComponent } from '../create-button/create-button.component';
+import { ConfigureGameModel } from '../config/configure-game.model';
 
 @Component({
   selector: 'pydt-create-game',

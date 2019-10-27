@@ -3,7 +3,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
   CivDef, Game, GamePlayer, GAMES, GameService, ProfileCacheService, SteamProfile, SteamProfileMap, User, UserService
 } from 'pydt-shared';
-import { AuthService, NotificationService } from '../shared';
+import { AuthService, NotificationService } from '../../shared';
 
 
 @Component({

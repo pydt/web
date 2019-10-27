@@ -5,8 +5,8 @@ import * as pako from 'pako';
 import {
   BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService, User
 } from 'pydt-shared';
-import { AuthService, EndUserError, NotificationService } from '../shared';
-import { Utility } from '../shared/utility';
+import { AuthService, EndUserError, NotificationService } from '../../shared';
+import { Utility } from '../../shared/utility';
 
 @Component({
   selector: 'pydt-game-detail',

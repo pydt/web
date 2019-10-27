@@ -1,5 +1,5 @@
 import { Game, GAMES, DLC } from 'pydt-shared';
-import { Utility } from '../shared/utility';
+import { Utility } from '../../shared/utility';
 
 export class ConfigureGameModel {
   private _slots = 6;

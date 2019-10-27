@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService, GAMES, User, CivGame } from 'pydt-shared';
-import { Utility } from '../shared/utility';
+import { Utility } from '../../shared/utility';
 import { GameTypeTurnData } from 'pydt-shared/lib/_gen/swagger/api/model/gameTypeTurnData';
 
 @Component({

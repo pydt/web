@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Game, GameRequestBody, GameService } from 'pydt-shared';
-import { NotificationService } from '../shared';
-import { ConfigureGameModel } from './configure-game.model';
+import { NotificationService } from '../../shared';
+import { ConfigureGameModel } from '../config/configure-game.model';
 
 @Component({
   selector: 'pydt-edit-game',

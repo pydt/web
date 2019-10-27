@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ProfileCacheService, SteamProfile, User } from 'pydt-shared';
-import { Utility } from '../shared/utility';
+import { Utility } from '../../shared/utility';
 
 @Component({
   selector: 'pydt-user-info',

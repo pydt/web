@@ -2,11 +2,11 @@ import { Component, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CivGame, GAMES, UserService } from 'pydt-shared';
-import { AuthService } from '../shared';
+import { AuthService } from '../../shared';
 
 @Component({
   selector: 'pydt-game-create-button',
-  templateUrl: './createButton.component.html'
+  templateUrl: './create-button.component.html'
 })
 export class GameCreateButtonComponent {
   @ViewChild('cannotCreateGameModal', { static: true }) cannotCreateGameModal: ModalDirective;

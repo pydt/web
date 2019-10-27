@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { GAMES, GameService, OpenGamesResponse, ProfileCacheService, SteamProfile } from 'pydt-shared';
-import { AuthService } from '../shared';
+import { AuthService } from '../../shared';
 
 @Component({
   selector: 'pydt-open-games',
-  templateUrl: './opengames.component.html'
+  templateUrl: './open-games.component.html'
 })
 export class OpenGamesComponent implements OnInit {
   profile: SteamProfile;

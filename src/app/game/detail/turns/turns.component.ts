@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
 import { Game, GAMES, GameService, ProfileCacheService, SteamProfileMap } from 'pydt-shared';
-import { Utility } from '../../shared/utility';
+import { Utility } from '../../../shared/utility';
 
 @Component({
   selector: 'pydt-game-detail-turns',

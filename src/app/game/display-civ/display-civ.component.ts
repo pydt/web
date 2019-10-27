@@ -3,7 +3,7 @@ import { CivDef } from 'pydt-shared';
 
 @Component({
   selector: 'pydt-display-civ',
-  templateUrl: './displayCiv.component.html'
+  templateUrl: './display-civ.component.html'
 })
 export class DisplayCivComponent {
   @Input() civ: CivDef;

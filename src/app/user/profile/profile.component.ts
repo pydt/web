@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProfileCacheService, User, UserService, GAMES } from 'pydt-shared';
-import { AuthService, NotificationService } from '../shared';
+import { AuthService, NotificationService } from '../../shared';
 
 @Component({
   selector: 'pydt-user-profile',

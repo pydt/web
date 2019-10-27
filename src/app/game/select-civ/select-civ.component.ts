@@ -4,8 +4,8 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'pydt-select-civ',
-  templateUrl: './selectCiv.component.html',
-  styleUrls: ['./selectCiv.component.scss']
+  templateUrl: './select-civ.component.html',
+  styleUrls: ['./select-civ.component.scss']
 })
 export class SelectCivComponent implements OnInit {
   @Input() curCiv: CivDef;
