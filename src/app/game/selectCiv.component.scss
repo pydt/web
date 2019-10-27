@@ -2,7 +2,7 @@
   background-color:#66aa66;
 }
 
-:host /deep/ .media:hover {
+:host ::ng-deep .media:hover {
   background-color: #66ff66;
   cursor: pointer;
 }

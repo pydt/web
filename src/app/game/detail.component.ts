@@ -29,15 +29,15 @@ export class GameDetailComponent implements OnInit {
   userToSubstitute: User;
   private discourse: HTMLScriptElement;
 
-  @ViewChild('confirmRevertModal') confirmRevertModal: ModalDirective;
-  @ViewChild('confirmSurrenderModal') confirmSurrenderModal: ModalDirective;
-  @ViewChild('confirmKickUserModal') confirmKickUserModal: ModalDirective;
-  @ViewChild('confirmLeaveModal') confirmLeaveModal: ModalDirective;
-  @ViewChild('confirmDeleteModal') confirmDeleteModal: ModalDirective;
-  @ViewChild('confirmDlcModal') confirmDlcModal: ModalDirective;
-  @ViewChild('mustHaveEmailSetToJoinModal') mustHaveEmailSetToJoinModal: ModalDirective;
-  @ViewChild('uploadFirstTurnModal') uploadFirstTurnModal: ModalDirective;
-  @ViewChild('confirmStartGameModal') confirmStartGameModal: ModalDirective;
+  @ViewChild('confirmRevertModal', { static: true }) confirmRevertModal: ModalDirective;
+  @ViewChild('confirmSurrenderModal', { static: true }) confirmSurrenderModal: ModalDirective;
+  @ViewChild('confirmKickUserModal', { static: true }) confirmKickUserModal: ModalDirective;
+  @ViewChild('confirmLeaveModal', { static: true }) confirmLeaveModal: ModalDirective;
+  @ViewChild('confirmDeleteModal', { static: true }) confirmDeleteModal: ModalDirective;
+  @ViewChild('confirmDlcModal', { static: true }) confirmDlcModal: ModalDirective;
+  @ViewChild('mustHaveEmailSetToJoinModal', { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
+  @ViewChild('uploadFirstTurnModal', { static: true }) uploadFirstTurnModal: ModalDirective;
+  @ViewChild('confirmStartGameModal', { static: true }) confirmStartGameModal: ModalDirective;
 
   constructor(
     private gameApi: GameService,

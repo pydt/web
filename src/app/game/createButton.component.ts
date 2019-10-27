@@ -9,7 +9,7 @@ import { AuthService } from '../shared';
   templateUrl: './createButton.component.html'
 })
 export class GameCreateButtonComponent {
-  @ViewChild('cannotCreateGameModal') cannotCreateGameModal: ModalDirective;
+  @ViewChild('cannotCreateGameModal', { static: true }) cannotCreateGameModal: ModalDirective;
   GAMES = GAMES;
   selectedGame: CivGame;
 

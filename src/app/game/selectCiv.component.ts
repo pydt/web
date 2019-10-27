@@ -12,7 +12,7 @@ export class SelectCivComponent implements OnInit {
   @Input() leaders: CivDef[];
   @Input() randomOnly = false;
   @Output() selectedCiv = new EventEmitter<CivDef>();
-  @ViewChild('selectCivModal') selectCivModal: ModalDirective;
+  @ViewChild('selectCivModal', { static: true }) selectCivModal: ModalDirective;
 
   RANDOM_CIV = RANDOM_CIV;
 

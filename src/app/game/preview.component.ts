@@ -15,7 +15,7 @@ export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
   @Input() editMode = false;
   @Output() gameUpdated = new EventEmitter<Game>();
-  @ViewChild('playerDetailModal') playerDetailModal: ModalDirective;
+  @ViewChild('playerDetailModal', {static: true }) playerDetailModal: ModalDirective;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
   reorderablePlayers: GamePlayer[];

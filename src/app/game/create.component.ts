@@ -3,8 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CIV6_GAME, CivDef, CreateGameRequestBody, filterCivsByDlc, GameService, RANDOM_CIV, UserService } from 'pydt-shared';
 import { AuthService, NotificationService } from '../shared';
-import { ConfigureGameModel } from './config.component';
 import { GameCreateButtonComponent } from './createButton.component';
+import { ConfigureGameModel } from './configure-game.model';
 
 @Component({
   selector: 'pydt-create-game',
@@ -13,7 +13,7 @@ import { GameCreateButtonComponent } from './createButton.component';
 export class CreateGameComponent implements OnInit {
   model: CreateGameModel;
 
-  @ViewChild('mustSetEmailModal') mustSetEmailModal: ModalDirective;
+  @ViewChild('mustSetEmailModal', { static: true }) mustSetEmailModal: ModalDirective;
 
   constructor(
     private gameApi: GameService,

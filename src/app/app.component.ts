@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ErrorHandler, NgZone, OnInit, Optional, ViewChild } from '@angular/core';
+import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AuthService as AuthApi } from 'pydt-shared';
+import { environment } from 'src/environments/environment';
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
 
 @Component({
@@ -19,8 +20,8 @@ export class AppComponent implements OnInit {
   private updateInterval: any;
   private lastIndexHash?: number;
 
-  @ViewChild('errorModal') errorModal: ModalDirective;
-  @ViewChild('updateModal') updateModal: ModalDirective;
+  @ViewChild('errorModal', { static: true }) errorModal: ModalDirective;
+  @ViewChild('updateModal', { static: true }) updateModal: ModalDirective;
 
   constructor(
     private authApi: AuthApi,
@@ -30,8 +31,12 @@ export class AppComponent implements OnInit {
     private router: Router,
     private notificationService: NotificationService,
     private zone: NgZone,
-    @Optional() angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
+    if (environment.name === 'prod') {
+      angulartics2GoogleAnalytics.startTracking();
+    }
+
     this.updateInterval = setInterval(() => {
       // Check for app update every 5 minutes
       this.checkForAppUpdate();

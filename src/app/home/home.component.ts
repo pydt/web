@@ -7,7 +7,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  @ViewChild('step1ImageModal') step1ImageModal: ModalDirective;
-  @ViewChild('step2ImageModal') step2ImageModal: ModalDirective;
-  @ViewChild('step3ImageModal') step3ImageModal: ModalDirective;
+  @ViewChild('step1ImageModal', { static: true }) step1ImageModal: ModalDirective;
+  @ViewChild('step2ImageModal', { static: true }) step2ImageModal: ModalDirective;
+  @ViewChild('step3ImageModal', { static: true }) step3ImageModal: ModalDirective;
 }

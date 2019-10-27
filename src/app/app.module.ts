@@ -1,11 +1,10 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MetaLoader, MetaModule, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 import { Angulartics2Module } from 'angulartics2';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { DragulaModule } from 'ng2-dragula';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -62,18 +61,11 @@ export function profileCacheFactory(userService: UserService) {
   return new ProfileCacheService(userService, null);
 }
 
-let prodImports = [
-  Angulartics2Module.forRoot([Angulartics2GoogleAnalytics])
-];
-
-if (environment.name === 'dev') {
-  prodImports = [];
-}
-
 @NgModule({
   imports: [
     AlertModule.forRoot(),
     BrowserAnimationsModule,
+    HttpClientModule,
     BrowserModule,
     FormsModule,
     ApiModule.forRoot(configFactory),
@@ -93,7 +85,7 @@ if (environment.name === 'dev') {
       provide: MetaLoader,
       useFactory: metaFactory
     }),
-    ...prodImports
+    Angulartics2Module.forRoot()
   ],
   declarations: [
     AppComponent,
