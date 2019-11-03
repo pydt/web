@@ -190,17 +190,19 @@ export class GameDetailComponent implements OnInit {
     return this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
   }
 
+  loadSubstituteUsers() {
+    if (!this.substituteUsers) {
+      this.userApi.getSubstituteUsers(this.game.gameType).subscribe(su => {
+        const gameSteamIds = this.game.players.map(x => x.steamId);
+        this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
+        this.randomizeUserToSubstitute();
+      });
+    }
+  }
+
   setGame(game: Game) {
     if (!game) {
       throw new EndUserError('Game not found.');
-    }
-
-    // TODO: Only load this when the tab is visible?
-    if (!this.substituteUsers) {
-      this.userApi.getSubstituteUsers(game.gameType).subscribe(x => {
-        this.substituteUsers = x;
-        this.randomizeUserToSubstitute();
-      });
     }
 
     this.game = game;
