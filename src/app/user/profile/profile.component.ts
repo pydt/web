@@ -12,6 +12,7 @@ export class UserProfileComponent implements OnInit {
   token: string;
   emailModel = new EmailModel('');
   webhookModel = new WebhookModel('');
+  forumUsernameModel = new ForumUsernameModel('');
   substitutionModel: { [index: string]: boolean; } = {};
   loaded: boolean;
   user: User;
@@ -28,27 +29,37 @@ export class UserProfileComponent implements OnInit {
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.token = this.auth.getToken();
     const profile = this.auth.getSteamProfile();
 
-    this.userApi.getCurrent().subscribe(user => {
-      this.user = user;
-      this.emailModel.emailAddress = user.emailAddress;
-      this.webhookModel.webhookUrl = user.webhookUrl;
+    this.user = await this.userApi.getCurrent().toPromise();
+    this.emailModel.emailAddress = this.user.emailAddress;
+    this.webhookModel.webhookUrl = this.user.webhookUrl;
+    this.forumUsernameModel.forumUsername = this.forumUsername;
 
-      for (const game of GAMES) {
-        this.substitutionModel[game.id] = (user.willSubstituteForGameTypes || []).indexOf(game.id) >= 0;
-      }
+    for (const game of GAMES) {
+      this.substitutionModel[game.id] = (this.user.willSubstituteForGameTypes || []).indexOf(game.id) >= 0;
+    }
 
-      this.loaded = true;
-    });
+    this.loaded = true;
 
-    const discourseUrl = `https://discourse.playyourdamnturn.com/users/${profile.personaname.toLowerCase()}.json`;
+    await this.testForumUsername();
+  }
 
-    this.http.get(discourseUrl).toPromise().catch(() => {
+  get forumUsername() {
+    return this.user.forumUsername || this.user.displayName;
+  }
+
+  async testForumUsername() {
+    const discourseUrl = `https://discourse.playyourdamnturn.com/users/${this.forumUsername.toLowerCase()}.json`;
+
+    try {
+      await this.http.get(discourseUrl).toPromise();
+      this.noDiscourseUser = false;
+    } catch {
       this.noDiscourseUser = true;
-    });
+    }
   }
 
   onEmailSubmit() {
@@ -70,6 +81,21 @@ export class UserProfileComponent implements OnInit {
         type: 'success',
         msg: 'Webhook updated!'
       });
+    });
+  }
+
+  onForumUsernameSubmit() {
+    this.loaded = false;
+    this.userApi.setForumUsername({ forumUsername: this.forumUsernameModel.forumUsername }).subscribe(async user => {
+      this.user = user;
+      this.forumUsernameModel.forumUsername = this.forumUsername;
+      this.loaded = true;
+      this.notificationService.showAlert({
+        type: 'success',
+        msg: 'Forum Username updated!'
+      });
+
+      await this.testForumUsername();
     });
   }
 
@@ -115,4 +141,8 @@ class EmailModel {
 
 class WebhookModel {
   constructor(public webhookUrl: string) {}
+}
+
+class ForumUsernameModel {
+  constructor(public forumUsername: string) {}
 }

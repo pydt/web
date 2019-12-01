@@ -119,6 +119,20 @@
               </form>
             </div>
           </tab>
+          <tab heading="Forum Username">
+            <div class="well">
+              <p>
+                If your forum username is different than your Steam ID, you can set it here.  Having the correct forum username set will help notify you of smack talk messages appropriately.
+              </p>
+              <form (ngSubmit)="onForumUsernameSubmit()" #webhookForm="ngForm">
+                <div class="form-group">
+                  <label for="webhookUrl">Forum Username</label>
+                  <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="forumUsernameModel.forumUsername" name="forumUsername">
+                </div>
+                <button type="submit" class="btn btn-default">Submit</button>
+              </form>
+            </div>
+          </tab>
           <tab heading="Substitution Availability">
             <div class="well">
               <p>
