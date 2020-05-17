@@ -5,7 +5,7 @@
       <tab *ngFor="let game of allCivGames"
            [heading]="game.displayName"
            [active]="game === currentGame"
-           (select)="setCurrentGame(game)">
+           (selectTab)="setCurrentGame(game)">
       </tab>
     </tabset>
     <hr style="margin-top: 1px;" />

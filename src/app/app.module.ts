@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MetaLoader, MetaModule, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 import { Angulartics2Module } from 'angulartics2';
 import { DragulaModule } from 'ng2-dragula';
-import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { AlertModule } from 'ngx-bootstrap/alert';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
@@ -17,14 +16,14 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
 import { ApiModule, Configuration, ProfileCacheService, PydtSharedModule, UserService } from 'pydt-shared';
-import { environment } from '../environments/environment';
+import { Ng2TableModule } from '../ng2-table/ng-table-module';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { ForumComponent } from './forum/forum.component';
 import { ConfigureGameComponent } from './game/config/config.component';
-import { CreateGameComponent } from './game/create/create.component';
 import { GameCreateButtonComponent } from './game/create-button/create-button.component';
+import { CreateGameComponent } from './game/create/create.component';
 import { GameDetailComponent } from './game/detail/detail.component';
 import { GameDetailStatsComponent } from './game/detail/stats/stats.component';
 import { GameDetailTurnsComponent } from './game/detail/turns/turns.component';
@@ -79,8 +78,8 @@ export function profileCacheFactory(userService: UserService) {
     DragulaModule.forRoot(),
     MarkdownModule.forRoot(),
     PydtSharedModule,
-    routing,
     Ng2TableModule,
+    routing,
     MetaModule.forRoot({
       provide: MetaLoader,
       useFactory: metaFactory

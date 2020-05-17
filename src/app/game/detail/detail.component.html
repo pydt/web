@@ -6,7 +6,7 @@
         <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
       </div>
     </tab>
-    <tab heading="Turn History" *ngIf="game.gameTurnRangeKey > 1" (select)="historyTabOpened = true">
+    <tab heading="Turn History" *ngIf="game.gameTurnRangeKey > 1" (selectTab)="historyTabOpened = true">
       <div class="well" *ngIf="historyTabOpened">
         <pydt-game-detail-turns [game]="game"></pydt-game-detail-turns>
       </div>
@@ -148,7 +148,7 @@
         </div>
       </div>
     </tab>
-    <tab heading="Kick Current User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId" (select)="loadSubstituteUsers()">
+    <tab heading="Kick Current User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId" (selectTab)="loadSubstituteUsers()">
       <div class="well">
         <div class="row">
           <div class="col-sm-12">
