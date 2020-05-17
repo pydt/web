@@ -93,7 +93,7 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
-      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : null,
+      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : undefined,
       webhookUrl: this.webhookUrl
     };
   }
