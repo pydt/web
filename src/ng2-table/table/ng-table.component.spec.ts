@@ -6,10 +6,10 @@ import { Ng2TableModule } from '../ng-table-module';
 const html = ``;
 
 describe('Component: ng2-table', () => {
-  let fixture:ComponentFixture<any>;
-  let context:TestTableComponent;
-  let element:any;
-  let clean:any;
+  let fixture: ComponentFixture<any>;
+  let context: TestTableComponent;
+  let element: any;
+  let clean: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,6 +30,7 @@ describe('Component: ng2-table', () => {
 });
 
 @Component({
+  // tslint:disable-next-line
   selector: 'table-test',
   template: ''
 })
