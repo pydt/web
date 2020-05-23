@@ -1,19 +1,19 @@
 <div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Game Type:</label>
+  <label class="col-sm-3 control-label">Game Type:</label>
   <div class="col-sm-9">
     <p class='form-control-static'>{{model.civGame.displayName}}</p>
   </div>
 </div>
 <div *ngIf="game && game.inProgress">
   <div class="form-group">
-    <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
+    <label class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
       <p class='form-control-static'>{{model.displayName}}</p>
     </div>
   </div>
 </div>
 <div *ngIf="!game || !game.inProgress"> 
-  <div class="form-group" [class.has-error]="!displayName.valid">
+  <div class="form-group" [class.has-error]="(displayName.statusChanges | async) !== 'VALID'">
     <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
       <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
