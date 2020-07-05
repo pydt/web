@@ -39,12 +39,10 @@ export class CreateGameComponent implements OnInit {
       return;
     }
 
-    const user = await this.userApi.getCurrent().toPromise();
+    const current = await this.userApi.getCurrentWithPud().toPromise();
 
-    if (user) {
-      if (!user.emailAddress) {
-        this.mustSetEmailModal.show();
-      }
+    if (current && !current.pud.emailAddress) {
+      this.mustSetEmailModal.show();
     }
   }
 

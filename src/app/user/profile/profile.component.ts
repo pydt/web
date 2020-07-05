@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ProfileCacheService, User, UserService, GAMES } from 'pydt-shared';
 import { AuthService, NotificationService } from '../../shared';
+import { CurrentUserDataWithPud } from 'pydt-shared/lib/_gen/swagger/api/model/currentUserDataWithPud';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -15,7 +16,7 @@ export class UserProfileComponent implements OnInit {
   forumUsernameModel = new ForumUsernameModel('');
   substitutionModel: { [index: string]: boolean; } = {};
   loaded: boolean;
-  user: User;
+  currentUser: CurrentUserDataWithPud;
   noDiscourseUser: boolean;
 
   GAMES = GAMES;
@@ -31,11 +32,10 @@ export class UserProfileComponent implements OnInit {
 
   async ngOnInit() {
     this.token = this.auth.getToken();
-    const profile = this.auth.getSteamProfile();
 
-    this.user = await this.userApi.getCurrent().toPromise();
-    this.emailModel.emailAddress = this.user.emailAddress;
-    this.webhookModel.webhookUrl = this.user.webhookUrl;
+    this.currentUser = await this.userApi.getCurrentWithPud().toPromise();
+    this.emailModel.emailAddress = this.currentUser.pud.emailAddress;
+    this.webhookModel.webhookUrl = this.currentUser.pud.webhookUrl;
     this.forumUsernameModel.forumUsername = this.forumUsername;
 
     for (const game of GAMES) {
@@ -45,6 +45,10 @@ export class UserProfileComponent implements OnInit {
     this.loaded = true;
 
     await this.testForumUsername();
+  }
+
+  get user() {
+    return this.currentUser?.user;
   }
 
   get forumUsername() {
@@ -87,7 +91,7 @@ export class UserProfileComponent implements OnInit {
   onForumUsernameSubmit() {
     this.loaded = false;
     this.userApi.setForumUsername({ forumUsername: this.forumUsernameModel.forumUsername }).subscribe(async user => {
-      this.user = user;
+      this.currentUser.user = user;
       this.forumUsernameModel.forumUsername = this.forumUsername;
       this.loaded = true;
       this.notificationService.showAlert({

@@ -4,8 +4,8 @@
 
 ## Dev Setup
 
-* install yarn and angular-cli
-* `yarn`
+* install angular-cli: `npm install -g @angular/cli`
+* `npm install`
 * `npm run start`
 
 # License

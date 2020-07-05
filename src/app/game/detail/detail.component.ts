@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
 import {
-  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService, User
+  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService, User, GameStore
 } from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../../shared';
 import { Utility } from '../../shared/utility';
@@ -82,7 +82,7 @@ export class GameDetailComponent implements OnInit {
       return null;
     }
 
-    return `${this.translateLocation(Platform.Windows)}${this.civGame.saveDirectory}`.replace(/\//g, '\\');
+    return `${this.translateLocation(Platform.Windows)}${this.civGame.dataPaths[GameStore.Steam]}`.replace(/\//g, '\\');
   }
 
   get osxDir() {
@@ -90,7 +90,7 @@ export class GameDetailComponent implements OnInit {
       return null;
     }
 
-    return `${this.translateLocation(Platform.OSX)}${this.civGame.saveDirectory}`;
+    return `${this.translateLocation(Platform.OSX)}${this.civGame.dataPaths[GameStore.Steam]}`;
   }
 
   get saveExtension() {
@@ -152,9 +152,9 @@ export class GameDetailComponent implements OnInit {
   }
 
   async finishJoinGame() {
-    const user = await this.userApi.getCurrent().toPromise();
+    const current = await this.userApi.getCurrentWithPud().toPromise();
 
-    if (!user.emailAddress) {
+    if (!current.pud.emailAddress) {
       this.mustHaveEmailSetToJoinModal.show();
     } else {
       const game = await this.gameApi.join(this.game.gameId, {
