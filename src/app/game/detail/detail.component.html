@@ -16,7 +16,7 @@
         <markdown *ngIf="game.description" [data]="game.description"></markdown>
         <div class="row">
           <div class="col-md-6">
-            <p><b>Game Type:</b> {{civGame.displayName}}</p>
+            <p><b>Game Type:</b> {{civGame?.displayName}}</p>
           </div>
           <div class="col-md-6">
             <p><b>DLC Enabled:</b> {{dlcEnabled}}</p>
@@ -31,16 +31,16 @@
             <p><b>Max Human Players:</b> {{game.humans}}</p>
           </div>
           <div class="col-md-6" *ngIf="game.gameSpeed">
-            <p><b>Game Speed:</b> {{game | gamespeed}}</p>
+            <p><b>Game Speed:</b> {{game | gamespeed: games}}</p>
           </div>
           <div class="col-md-6">
-            <p><b>Map Type:</b> {{game | map}}</p>
+            <p><b>Map Type:</b> {{game | map: games}}</p>
           </div>
           <div class="col-md-6">
             <p><b>Allow Users to Join After Start:</b> {{game.allowJoinAfterStart ? 'Yes': 'No'}}</p>
           </div>
           <div class="col-md-6" *ngIf="game.mapSize">
-            <p><b>Map Size:</b> {{game | mapsize}}</p>
+            <p><b>Map Size:</b> {{game | mapsize: games}}</p>
           </div>
           <div class="col-md-6">
             <p><b>Random Civs Only:</b> {{ game.randomOnly ? 'Yes' : 'No' }}</p>
@@ -473,9 +473,9 @@
           <span *ngIf="game?.gameSpeed">
             Set the following settings:
             <ul>
-              <li><b>Game Speed:</b> {{game | gamespeed}}</li>
-              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game | map}}</li>
-              <li><b>Map Size:</b> {{game | mapsize}}</li>
+              <li><b>Game Speed:</b> {{game | gamespeed: games}}</li>
+              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game | map: games}}</li>
+              <li><b>Map Size:</b> {{game | mapsize: games}}</li>
             </ul>
           </span>
           When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>

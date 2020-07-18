@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Game, GameRequestBody, GameService } from 'pydt-shared';
+import { Game, GameRequestBody, GameService, MetadataCacheService } from 'pydt-shared';
 import { NotificationService } from '../../shared';
 import { ConfigureGameModel } from '../config/configure-game.model';
 
@@ -17,16 +17,20 @@ export class EditGameComponent implements OnInit {
     private gameApi: GameService,
     private route: ActivatedRoute,
     private router: Router,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private metadataCache: MetadataCacheService
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    const metadata = await this.metadataCache.getCivGameMetadata();
+
     this.route.params.forEach(params => {
       this.gameApi.get(params['id']).subscribe(game => {
         this.game = game;
+        const civGame = metadata.civGames.find(x => x.id === game.gameType);
 
-        this.model = new EditGameModel(game.gameType, game.turnTimerMinutes);
+        this.model = new EditGameModel(civGame, game.turnTimerMinutes);
         this.model.displayName = game.displayName;
         this.model.description = game.description;
         this.model.slots = game.slots;

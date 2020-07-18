@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, GAMES, User, CivGame } from 'pydt-shared';
+import { UserService, User, CivGame, MetadataCacheService } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
 import { GameTypeTurnData } from 'pydt-shared/lib/_gen/swagger/api/model/gameTypeTurnData';
 
@@ -32,18 +32,23 @@ export class UserStatsComponent implements OnInit {
     id: 'ALL',
     displayName: 'All Game Types'
   };
-  allCivGames = [
-    this.allGame,
-    ...GAMES
-  ];
+  games: CivGame[] = [];
   currentGame = this.allGame;
 
-  constructor(private userApi: UserService) {
+  constructor(private userApi: UserService, private metadataCache: MetadataCacheService) {
+  }
+
+  get allCivGames() {
+    return [
+      this.allGame,
+      ...this.games
+    ];
   }
 
   ngOnInit() {
+
     this.userApi.all().subscribe(users => {
-      for (const game of GAMES) {
+      for (const game of this.games) {
         this.rawData[game.id] = users.map(user => {
           const gameStats = user.statsByGameType.find(x => x.gameType === game.id);
           return gameStats ? this.createRawData(gameStats, user) : null;

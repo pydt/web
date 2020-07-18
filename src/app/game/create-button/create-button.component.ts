@@ -1,19 +1,24 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CivGame, GAMES, UserService } from 'pydt-shared';
+import { CivGame, UserService, MetadataCacheService } from 'pydt-shared';
 import { AuthService } from '../../shared';
 
 @Component({
   selector: 'pydt-game-create-button',
   templateUrl: './create-button.component.html'
 })
-export class GameCreateButtonComponent {
+export class GameCreateButtonComponent implements OnInit {
   @ViewChild('cannotCreateGameModal', { static: true }) cannotCreateGameModal: ModalDirective;
-  GAMES = GAMES;
   selectedGame: CivGame;
+  games: CivGame[] = [];
 
-  constructor(private auth: AuthService, private userApi: UserService, private router: Router) {
+  constructor(
+    private auth: AuthService,
+    private userApi: UserService,
+    private metadataCache: MetadataCacheService,
+    private router: Router
+  ) {
   }
 
   static async canCreateGame(auth: AuthService, userApi: UserService, civGame: CivGame) {
@@ -36,5 +41,9 @@ export class GameCreateButtonComponent {
       this.selectedGame = civGame;
       this.cannotCreateGameModal.show();
     }
+  }
+
+  async ngOnInit() {
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
   }
 }

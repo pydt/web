@@ -3,7 +3,7 @@
     Create a New Game! <span class="caret"></span>
   </button>
   <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
-    <li role="menuitem" *ngFor="let game of GAMES"><a class="dropdown-item" style="cursor: pointer;" (click)="tryCreateGame(game)">{{ game.displayName }}</a></li>
+    <li role="menuitem" *ngFor="let game of games"><a class="dropdown-item" style="cursor: pointer;" (click)="tryCreateGame(game)">{{ game.displayName }}</a></li>
   </ul>
 </div>
 

@@ -1,10 +1,10 @@
 <div class="container">
   <h1>Create New Game</h1>
   <form class="form-horizontal" (ngSubmit)="onSubmit()" #newGameForm="ngForm">
-    <pydt-configure-game [model]="model" [selectedCivs]="[model.player1Civ.leaderKey]"></pydt-configure-game>
+    <pydt-configure-game *ngIf="model" [model]="model" [selectedCivs]="[model?.player1Civ.leaderKey]"></pydt-configure-game>
     <div class="form-group">
       <label for="selectCiv" class="col-sm-3 control-label">Select Your Civ:</label>
-      <pydt-select-civ [curCiv]="curCiv" [randomOnly]="model.randomOnly" [leaders]="filteredLeaders()" class="col-sm-9" (selectedCiv)="selectedCivChange($event)"></pydt-select-civ>
+      <pydt-select-civ *ngIf="curCiv" [curCiv]="curCiv" [randomOnly]="model.randomOnly" [leaders]="filteredLeaders()" class="col-sm-9" (selectedCiv)="selectedCivChange($event)"></pydt-select-civ>
     </div>
     <div class="form-group">
       <div class="col-sm-offset-3 col-sm-9">

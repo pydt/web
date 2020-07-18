@@ -16,7 +16,7 @@
         <label>Filter Games: </label>
         <select class="form-control" [(ngModel)]="gameTypeFilter">
           <option value="">All Game Types</option>
-          <option *ngFor="let game of GAMES" [value]="game.id">{{ game.displayName }}</option>
+          <option *ngFor="let game of games" [value]="game.id">{{ game.displayName }}</option>
         </select>
       </div>
     </div>

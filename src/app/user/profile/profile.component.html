@@ -140,7 +140,7 @@
                 <span *ngIf="user.turnsPlayed >= 500"  style="font-weight:bold;">Please select the games you'd like to substitute for below.</span>
               </p>
               <form *ngIf="user.turnsPlayed >= 500" (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
-                <div class="form-group" *ngFor="let game of GAMES">
+                <div class="form-group" *ngFor="let game of games">
                   <div class="checkbox">
                     <label>
                       <input type="checkbox" [name]="game.id" style="top: -5px;" [(ngModel)]="substitutionModel[game.id]"> {{ game.displayName }} 

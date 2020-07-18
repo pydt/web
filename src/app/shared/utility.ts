@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
 import * as countdown from 'countdown';
+import { CivDef } from 'pydt-shared';
 
 @Injectable()
 export class Utility {
   public static countdown(start: countdown.DateTime, end: countdown.DateTime, max = 2) {
     // tslint:disable-next-line:no-bitwise
     return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max);
+  }
+
+  public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]) {
+    const result: CivDef[] = [];
+    dlcIds = dlcIds || [];
+
+    for (const leader of leaders) {
+      if (!leader.options.dlcId || dlcIds.indexOf(leader.options.dlcId) >= 0) {
+        result.push(leader);
+      }
+    }
+
+    return result;
   }
 
   public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { CivDef, RANDOM_CIV } from 'pydt-shared';
+import { CivDef, MetadataCacheService } from 'pydt-shared';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 
 @Component({
@@ -14,12 +14,13 @@ export class SelectCivComponent implements OnInit {
   @Output() selectedCiv = new EventEmitter<CivDef>();
   @ViewChild('selectCivModal', { static: true }) selectCivModal: ModalDirective;
 
-  RANDOM_CIV = RANDOM_CIV;
+  RANDOM_CIV: CivDef;
 
-  constructor() {
+  constructor(private metadataCache: MetadataCacheService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.RANDOM_CIV = (await this.metadataCache.getCivGameMetadata()).randomCiv;
   }
 
   civClicked(civ: CivDef) {

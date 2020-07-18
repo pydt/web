@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
-import { Game, GAMES, GameService, ProfileCacheService, SteamProfileMap } from 'pydt-shared';
+import { Game, GameService, ProfileCacheService, SteamProfileMap, MetadataCacheService, CivGame } from 'pydt-shared';
 import { Utility } from '../../../shared/utility';
 
 @Component({
@@ -25,15 +25,17 @@ export class GameDetailTurnsComponent implements OnInit {
   profiles: SteamProfileMap;
   currentPage = 1;
   itemsPerPage = 15;
+  games: CivGame[] = [];
 
   constructor(
     private profileCache: ProfileCacheService,
-    private gameService: GameService
+    private gameService: GameService,
+    private metadataCache: MetadataCacheService
   ) {
   }
 
   get civGame() {
-    return GAMES.find(x => x.id === this.game.gameType);
+    return this.games.find(x => x.id === this.game.gameType);
   }
 
   get humanPlayers() {
@@ -43,6 +45,7 @@ export class GameDetailTurnsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
       this.tableColumns.push({
         title: 'Skipped?',

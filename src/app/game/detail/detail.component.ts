@@ -3,7 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import * as pako from 'pako';
 import {
-  BasePath, BusyService, CivDef, filterCivsByDlc, Game, GAMES, GameService, Platform, RANDOM_CIV, SteamProfile, UserService, User, GameStore
+  BasePath, BusyService, CivDef, Game, GameService, GameStore, MetadataCacheService,
+  Platform, PydtMetadata, SteamProfile, User, UserService
 } from 'pydt-shared';
 import { AuthService, EndUserError, NotificationService } from '../../shared';
 import { Utility } from '../../shared/utility';
@@ -27,6 +28,7 @@ export class GameDetailComponent implements OnInit {
   historyTabOpened = false;
   substituteUsers: User[];
   userToSubstitute: User;
+  metadata: PydtMetadata;
   private discourse: HTMLScriptElement;
 
   @ViewChild('confirmRevertModal', { static: true }) confirmRevertModal: ModalDirective;
@@ -46,14 +48,24 @@ export class GameDetailComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
-    private busyService: BusyService
+    private busyService: BusyService,
+    private metadataCache: MetadataCacheService
   ) {
     this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.metadata = await this.metadataCache.getCivGameMetadata();
     this.profile = this.auth.getSteamProfile();
     this.getGame();
+  }
+
+  get games() {
+    if (!this.metadata) {
+      return [];
+    }
+
+    return this.metadata.civGames;
   }
 
   get civGame() {
@@ -61,16 +73,16 @@ export class GameDetailComponent implements OnInit {
       return null;
     }
 
-    return GAMES.find(x => x.id === this.game.gameType);
+    return this.games.find(x => x.id === this.game.gameType);
   }
 
   translateLocation(platform: Platform) {
     let location = platform === Platform.Windows ? '' : '~';
     const locData = this.civGame.saveLocations[platform];
 
-    if (locData.basePath === BasePath.APP_DATA) {
+    if (locData.basePath === BasePath.AppData) {
       location = '~/Library/Application Support';
-    } else if (locData.basePath === BasePath.DOCUMENTS) {
+    } else if (locData.basePath === BasePath.Documents) {
       location += 'Documents';
     }
 
@@ -245,12 +257,12 @@ export class GameDetailComponent implements OnInit {
           });
       }
     } else {
-      this.availableCivs =  filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
+      this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
 
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
 
-        if (curLeader !== RANDOM_CIV) {
+        if (curLeader !== this.metadata.randomCiv) {
           this.availableCivs = this.availableCivs.filter(x => x !== curLeader);
         }
       }

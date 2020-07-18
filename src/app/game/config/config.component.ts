@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Game } from 'pydt-shared';
+import { Game, MetadataCacheService, CivGame } from 'pydt-shared';
 import { ConfigureGameModel } from './configure-game.model';
 
 @Component({
@@ -13,11 +13,14 @@ export class ConfigureGameComponent implements OnInit {
   @Input() selectedCivs: string[];
   minHumans = 2;
   showMarkdown = false;
+  games: CivGame[];
 
-  constructor(private cdRef: ChangeDetectorRef) {
+  constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.games = (await this.metadata.getCivGameMetadata()).civGames;
+
     if (this.game) {
       this.minHumans = Math.max(2, this.game.players.length);
     }
@@ -41,6 +44,8 @@ export class ConfigureGameComponent implements OnInit {
     for (const dlc of this.model.civGame.dlcs) {
       this.model.dlc[dlc.id] = selectAll;
     }
+
+    this.validateDlc();
   }
 
   get majorDlc() {
@@ -69,8 +74,6 @@ export class ConfigureGameComponent implements OnInit {
             this.model.dlc[leader.options.dlcId] = true;
             this.cdRef.detectChanges();
           }, 10);
-
-          return;
         }
       }
     }

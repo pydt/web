@@ -15,7 +15,7 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
 import { MarkdownModule } from 'ngx-markdown';
-import { ApiModule, Configuration, ProfileCacheService, PydtSharedModule, UserService } from 'pydt-shared';
+import { ApiModule, Configuration, ProfileCacheService, PydtSharedModule, UserService, BusyService, MetadataCacheService } from 'pydt-shared';
 import { Ng2TableModule } from '../ng2-table/ng-table-module';
 import * as envVars from '../envVars';
 import { AppComponent } from './app.component';
@@ -33,7 +33,6 @@ import { OpenGamesComponent } from './game/open-games/open-games.component';
 import { GamePreviewComponent } from './game/preview/preview.component';
 import { SelectCivComponent } from './game/select-civ/select-civ.component';
 import { HomeComponent } from './home/home.component';
-import { PydtHttpInterceptor } from './pydtHttpInterceptor.service';
 import { AuthService, ErrorHandlerService, NotificationService } from './shared';
 import { SteamReturnComponent } from './steamreturn/steamreturn.component';
 import { UserGamesComponent } from './user/games/games.component';
@@ -109,8 +108,10 @@ export function profileCacheFactory(userService: UserService) {
   ],
   providers: [
     AuthService,
+    MetadataCacheService,
     { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
-    { provide: HTTP_INTERCEPTORS, useClass: PydtHttpInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useExisting: MetadataCacheService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService
   ],

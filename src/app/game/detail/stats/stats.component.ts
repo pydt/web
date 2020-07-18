@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Game, GAMES, ProfileCacheService } from 'pydt-shared';
+import { Game, ProfileCacheService, CivGame, MetadataCacheService } from 'pydt-shared';
 import { Utility } from '../../../shared/utility';
 
 @Component({
@@ -20,15 +20,17 @@ export class GameDetailStatsComponent implements OnInit {
   };
   tableData: Array<any>;
   onChangeTable = Utility.onChangeTable;
+  games: CivGame[] = [];
 
-  constructor(private profileCache: ProfileCacheService) {
+  constructor(private profileCache: ProfileCacheService, private metadataCache: MetadataCacheService) {
   }
 
   get civGame() {
-    return GAMES.find(x => x.id === this.game.gameType);
+    return this.games.find(x => x.id === this.game.gameType);
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
       this.tableColumns.push({
         title: 'Skipped',

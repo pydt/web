@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { GAMES, GameService, OpenGamesResponse, ProfileCacheService, SteamProfile } from 'pydt-shared';
+import { GameService, OpenGamesResponse, ProfileCacheService, SteamProfile, CivGame, MetadataCacheService } from 'pydt-shared';
 import { AuthService } from '../../shared';
 
 @Component({
@@ -10,13 +10,18 @@ export class OpenGamesComponent implements OnInit {
   profile: SteamProfile;
   allGames: OpenGamesResponse;
   gameTypeFilter = '';
+  games: CivGame[] = [];
 
-  GAMES = GAMES;
-
-  constructor(private gameApi: GameService, private auth: AuthService, private profileCache: ProfileCacheService) {
+  constructor(
+    private gameApi: GameService,
+    private auth: AuthService,
+    private profileCache: ProfileCacheService,
+    private metadataCache: MetadataCacheService,
+  ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     this.getGames();
     this.profile = this.auth.getSteamProfile();
   }

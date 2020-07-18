@@ -1,5 +1,6 @@
-import { Game, GAMES, DLC } from 'pydt-shared';
+import { Game, DLC, CivGame } from 'pydt-shared';
 import { Utility } from '../../shared/utility';
+import { runInThisContext } from 'vm';
 
 export class ConfigureGameModel {
   private _slots = 6;
@@ -17,19 +18,15 @@ export class ConfigureGameModel {
   public randomOnly = false;
   public turnTimerEnabled;
 
-  constructor(public gameType: string, public turnTimerMinutes?) {
+  constructor(public civGame: CivGame, public turnTimerMinutes?) {
     this.turnTimerEnabled = !!turnTimerMinutes;
     this.turnTimerMinutes = this.turnTimerMinutes || 600;
   }
 
   get emptyGame() {
     return <Game> {
-      gameType: this.gameType
+      gameType: this.civGame.id
     };
-  }
-
-  get civGame() {
-    return GAMES.find(x => x.id === this.gameType);
   }
 
   set slots(slots: number) {
@@ -88,7 +85,7 @@ export class ConfigureGameModel {
       password: this.password,
       dlc: this.dlcIdArray,
       gameSpeed: this.gameSpeed,
-      gameType: this.gameType,
+      gameType: this.civGame.id,
       mapFile: this.mapFile,
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,

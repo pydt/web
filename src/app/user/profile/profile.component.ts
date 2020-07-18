@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ProfileCacheService, User, UserService, GAMES } from 'pydt-shared';
-import { AuthService, NotificationService } from '../../shared';
+import { CivGame, MetadataCacheService, ProfileCacheService, UserService } from 'pydt-shared';
 import { CurrentUserDataWithPud } from 'pydt-shared/lib/_gen/swagger/api/model/currentUserDataWithPud';
+import { AuthService, NotificationService } from '../../shared';
 
 @Component({
   selector: 'pydt-user-profile',
@@ -18,15 +18,15 @@ export class UserProfileComponent implements OnInit {
   loaded: boolean;
   currentUser: CurrentUserDataWithPud;
   noDiscourseUser: boolean;
-
-  GAMES = GAMES;
+  games: CivGame[];
 
   constructor(
     private userApi: UserService,
     private auth: AuthService,
     private http: HttpClient,
     private notificationService: NotificationService,
-    private profileCache: ProfileCacheService
+    private profileCache: ProfileCacheService,
+    private metadataCache: MetadataCacheService
   ) {
   }
 
@@ -37,8 +37,9 @@ export class UserProfileComponent implements OnInit {
     this.emailModel.emailAddress = this.currentUser.pud.emailAddress;
     this.webhookModel.webhookUrl = this.currentUser.pud.webhookUrl;
     this.forumUsernameModel.forumUsername = this.forumUsername;
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
-    for (const game of GAMES) {
+    for (const game of this.games) {
       this.substitutionModel[game.id] = (this.user.willSubstituteForGameTypes || []).indexOf(game.id) >= 0;
     }
 
@@ -107,7 +108,7 @@ export class UserProfileComponent implements OnInit {
     this.loaded = false;
     const willSubstituteForGameTypes: string[] = [];
 
-    for (const game of GAMES) {
+    for (const game of this.games) {
       if (this.substitutionModel[game.id]) {
         willSubstituteForGameTypes.push(game.id);
       }

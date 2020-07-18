@@ -16,7 +16,7 @@ export class DisplayCivComponent {
     let url = 'RANDOM_RANDOM.png';
 
     if (this.civ) {
-      url = this.civ.getImageFileName();
+      url = this.civ.imageFileName;
     }
 
     return `/img/civs/${url}`;

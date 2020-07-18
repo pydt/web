@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {
-  CivDef, Game, GamePlayer, GAMES, GameService, ProfileCacheService, SteamProfile, SteamProfileMap, User, UserService
+  CivDef, Game, GamePlayer, GameService, ProfileCacheService, SteamProfile,
+  SteamProfileMap, User, UserService, CivGame, MetadataCacheService
 } from 'pydt-shared';
 import { AuthService, NotificationService } from '../../shared';
 
@@ -22,6 +23,7 @@ export class GamePreviewComponent implements OnChanges {
   user: User;
   editingTurnOrder = false;
   gamePlayerProfiles: SteamProfileMap = {};
+  games: CivGame[] = [];
   private civDefs: CivDef[];
 
   constructor(
@@ -29,12 +31,14 @@ export class GamePreviewComponent implements OnChanges {
     private userApi: UserService,
     private auth: AuthService,
     private profileCache: ProfileCacheService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private metadataCache: MetadataCacheService
   ) {
   }
 
-  ngOnChanges() {
+  async ngOnChanges() {
     this.activeProfile = this.auth.getSteamProfile();
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     this.profileCache.getProfilesForGame(this.game).then(profiles => {
       this.gamePlayerProfiles = profiles;
@@ -62,7 +66,7 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get civGame() {
-    return GAMES.find(x => x.id === this.game.gameType);
+    return this.games.find(x => x.id === this.game.gameType);
   }
 
   get canEditTurnOrder() {
