@@ -108,7 +108,6 @@ export function profileCacheFactory(userService: UserService) {
   ],
   providers: [
     AuthService,
-    MetadataCacheService,
     { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },
     { provide: HTTP_INTERCEPTORS, useExisting: MetadataCacheService, multi: true },
