@@ -45,7 +45,8 @@ export class UserStatsComponent implements OnInit {
     ];
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     this.userApi.all().subscribe(users => {
       for (const game of this.games) {
