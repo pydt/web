@@ -262,7 +262,7 @@ export class GameDetailComponent implements OnInit {
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
 
-        if (curLeader !== this.metadata.randomCiv) {
+        if (curLeader.civKey !== this.metadata.randomCiv.civKey) {
           this.availableCivs = this.availableCivs.filter(x => x !== curLeader);
         }
       }
