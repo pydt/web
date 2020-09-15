@@ -14,7 +14,7 @@ import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ClipboardModule } from 'ngx-clipboard';
-import { MarkdownModule } from 'ngx-markdown';
+import { MarkdownModule, MarkedOptions } from 'ngx-markdown';
 import { ApiModule, Configuration, ProfileCacheService, PydtSharedModule, UserService, BusyService, MetadataCacheService } from 'pydt-shared';
 import { Ng2TableModule } from '../ng2-table/ng-table-module';
 import * as envVars from '../envVars';
@@ -75,7 +75,14 @@ export function profileCacheFactory(userService: UserService) {
     TabsModule.forRoot(),
     TooltipModule.forRoot(),
     DragulaModule.forRoot(),
-    MarkdownModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          breaks: true
+        }
+      }
+    }),
     PydtSharedModule,
     Ng2TableModule,
     routing,
