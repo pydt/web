@@ -1,6 +1,9 @@
 <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="updateTable($event.page)"></ng-table>
 <div class="row">
-  <div class="col-xs-12">
+  <div class="col-md-2">
+    <button class="btn btn-primary" style="margin-top:21px;" (click)="downloadCsv()">Download as CSV</button>
+  </div>
+  <div class="col-md-10">
     <pagination class="pull-right" [(ngModel)]="currentPage" [totalItems]="game.gameTurnRangeKey" [boundaryLinks]="true" [itemsPerPage]="itemsPerPage" [maxSize]="5" [rotate]="false" (pageChanged)="updateTable($event.page)"></pagination>
   </div>
 </div>
