@@ -11,7 +11,8 @@ import { Utility } from '../../shared/utility';
 
 @Component({
   selector: 'pydt-game-detail',
-  templateUrl: './detail.component.html'
+  templateUrl: './detail.component.html',
+  styleUrls: ['./detail.component.scss']
 })
 export class GameDetailComponent implements OnInit {
   game: Game;
@@ -24,7 +25,8 @@ export class GameDetailComponent implements OnInit {
   joinGamePassword: string;
   newCiv: CivDef;
   pageUrl: string;
-  dlcEnabled: string;
+  dlcEnabled: string[];
+  dlcDisabled: string[];
   historyTabOpened = false;
   substituteUsers: User[];
   userToSubstitute: User;
@@ -276,11 +278,11 @@ export class GameDetailComponent implements OnInit {
       return this.civGame.dlcs.find(dlc => {
         return dlc.id === dlcId;
       }).displayName;
-    }).join(', ');
+    });
 
-    if (!this.dlcEnabled) {
-      this.dlcEnabled = 'None';
-    }
+    this.dlcDisabled = this.civGame.dlcs
+      .filter(dlc => game.dlc.every(dlcId => dlc.id !== dlcId))
+      .map(x => x.displayName);
 
     this.discourseEmbed();
   }
