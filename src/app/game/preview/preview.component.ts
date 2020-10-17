@@ -19,7 +19,8 @@ export class GamePreviewComponent implements OnChanges {
   @ViewChild('playerDetailModal', {static: true }) playerDetailModal: ModalDirective;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
-  reorderablePlayers: GamePlayer[];
+  reorderableIndexes: number[];
+  emptyIndexes: number[];
   user: User;
   editingTurnOrder = false;
   gamePlayerProfiles: SteamProfileMap = {};
@@ -46,7 +47,8 @@ export class GamePreviewComponent implements OnChanges {
 
     this.gamePlayers = [];
     this.civDefs = [];
-    this.reorderablePlayers = [];
+    this.reorderableIndexes = [];
+    this.emptyIndexes = [];
 
     for (let i = 0; i < this.game.slots; i++) {
       if (this.game.players.length > i) {
@@ -56,9 +58,10 @@ export class GamePreviewComponent implements OnChanges {
         }));
 
         if (i > 0) {
-          this.reorderablePlayers.push(this.game.players[i]);
+          this.reorderableIndexes.push(i);
         }
       } else {
+        this.emptyIndexes.push(i);
         this.gamePlayers.push(null);
         this.civDefs.push(null);
       }
@@ -85,7 +88,7 @@ export class GamePreviewComponent implements OnChanges {
     this.gameApi.updateTurnOrder(this.game.gameId, {
       steamIds: [
         this.activeProfile.steamid,
-        ...this.reorderablePlayers.map(x => x.steamId)
+        ...this.reorderableIndexes.map(x => this.game.players[x].steamId)
       ]
     }).subscribe(game => {
       this.notificationService.showAlert({

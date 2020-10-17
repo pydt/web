@@ -10,20 +10,20 @@
 <div class="row" style="padding-left:13px;padding-right:13px;">
   <ng-container *ngIf="editingTurnOrder">
     <div class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [player]="gamePlayers[0]" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[0]" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
+      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="0" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
     </div>
-    <div dragula="players" [(dragulaModel)]="reorderablePlayers">
-      <div *ngFor="let player of reorderablePlayers" class="col-{{game.slots}}-slots">
-        <pydt-player-avatar [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i + 1]" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
+    <div dragula="players" [(dragulaModel)]="reorderableIndexes">
+      <div *ngFor="let index of reorderableIndexes" class="col-{{game.slots}}-slots">
+        <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="index" [thumbnailOnly]="true" [thumbnailOnlyDragMode]="true" size="BIG"></pydt-player-avatar>
       </div>
     </div>
-    <div *ngFor="let player of aiPlayers" class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
+    <div *ngFor="let index of emptyIndexes" class="col-{{game.slots}}-slots">
+      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="index" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
     </div>
   </ng-container>
   <ng-container *ngIf="!editingTurnOrder">
     <div *ngFor="let player of gamePlayers; let i = index;" class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [game]="game" [player]="player" [gamePlayerProfiles]="gamePlayerProfiles" [civDef]="civDefs[i]" size="BIG" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
+      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="i" size="BIG" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
     </div>
   </ng-container>
 </div>

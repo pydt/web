@@ -36,7 +36,7 @@
     "ngx-clipboard": "^13.0.1",
     "ngx-markdown": "^9.0.0",
     "pako": "^1.0.11",
-    "pydt-shared": "^1.5.3",
+    "pydt-shared": "^1.5.4",
     "rollbar": "2.16.1",
     "rxjs": "^6.5.3",
     "tslib": "^1.10.0",
