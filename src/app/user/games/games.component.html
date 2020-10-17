@@ -1,17 +1,37 @@
 <div class="container">
   <div *ngIf="games">
     <h1>Your Games</h1>
-    <h3 *ngIf="games.length == 0">No games found.</h3>
-    <div *ngFor="let game of games">
-      <div class="well"> 
-        <pydt-game-preview [game]="game"></pydt-game-preview>
-        <div class="row">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+    <tabset>
+      <tab heading="Active Games">
+        <h3 *ngIf="games.length == 0">No games found.</h3>
+        <div *ngFor="let game of games">
+          <div class="well"> 
+            <pydt-game-preview [game]="game"></pydt-game-preview>
+            <div class="row">
+              <div class="col-xs-12 text-center">
+                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </tab>
+      <tab heading="Completed Games" (selectTab)="getCompetedGames()">
+        <h1 *ngIf="!completedGames" style="text-align: center;">Loading...</h1>
+        <ng-container *ngIf="completedGames">
+          <h3 *ngIf="completedGames.length == 0">No completed games found.</h3>
+          <div *ngFor="let game of completedGames">
+            <div class="well"> 
+              <pydt-game-preview [game]="game"></pydt-game-preview>
+              <div class="row">
+                <div class="col-xs-12 text-center">
+                  <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </tab>
+    </tabset>
     <hr />
     <h1>Create a New Game</h1>
     <div class="row">
