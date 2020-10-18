@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CivGame, MetadataCacheService, ProfileCacheService, UserService } from 'pydt-shared';
+import { CivGame, MetadataCacheService, PrivateUserData, ProfileCacheService, UserService } from 'pydt-shared';
 import { CurrentUserDataWithPud } from 'pydt-shared/lib/_gen/swagger/api/model/currentUserDataWithPud';
 import { AuthService, NotificationService } from '../../shared';
 
@@ -11,9 +11,6 @@ import { AuthService, NotificationService } from '../../shared';
 })
 export class UserProfileComponent implements OnInit {
   token: string;
-  emailModel = new EmailModel('');
-  webhookModel = new WebhookModel('');
-  forumUsernameModel = new ForumUsernameModel('');
   substitutionModel: { [index: string]: boolean; } = {};
   loaded: boolean;
   currentUser: CurrentUserDataWithPud;
@@ -34,9 +31,6 @@ export class UserProfileComponent implements OnInit {
     this.token = this.auth.getToken();
 
     this.currentUser = await this.userApi.getCurrentWithPud().toPromise();
-    this.emailModel.emailAddress = this.currentUser.pud.emailAddress;
-    this.webhookModel.webhookUrl = this.currentUser.pud.webhookUrl;
-    this.forumUsernameModel.forumUsername = this.forumUsername;
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     for (const game of this.games) {
@@ -52,12 +46,13 @@ export class UserProfileComponent implements OnInit {
     return this.currentUser?.user;
   }
 
-  get forumUsername() {
-    return this.user.forumUsername || this.user.displayName;
+  get pud() {
+    return this.currentUser?.pud;
   }
 
   async testForumUsername() {
-    const discourseUrl = `https://discourse.playyourdamnturn.com/users/${this.forumUsername.toLowerCase()}.json`;
+    const effectiveUserName = this.user.forumUsername || this.user.displayName;
+    const discourseUrl = `https://discourse.playyourdamnturn.com/users/${effectiveUserName}.json`;
 
     try {
       await this.http.get(discourseUrl).toPromise();
@@ -69,7 +64,11 @@ export class UserProfileComponent implements OnInit {
 
   onEmailSubmit() {
     this.loaded = false;
-    this.userApi.setNotificationEmail({ emailAddress: this.emailModel.emailAddress }).subscribe(() => {
+    this.userApi.setNotificationEmail({
+      emailAddress: this.currentUser.pud.emailAddress,
+      newTurnEmails: this.currentUser.pud.newTurnEmails,
+    }).subscribe(pud => {
+      this.currentUser.pud = pud;
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
@@ -80,7 +79,8 @@ export class UserProfileComponent implements OnInit {
 
   onWebhookSubmit() {
     this.loaded = false;
-    this.userApi.setWebhookUrl({ webhookUrl: this.webhookModel.webhookUrl }).subscribe(() => {
+    this.userApi.setWebhookUrl({ webhookUrl: this.currentUser.pud.webhookUrl }).subscribe(pud => {
+      this.currentUser.pud = pud;
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
@@ -91,9 +91,8 @@ export class UserProfileComponent implements OnInit {
 
   onForumUsernameSubmit() {
     this.loaded = false;
-    this.userApi.setForumUsername({ forumUsername: this.forumUsernameModel.forumUsername }).subscribe(async user => {
+    this.userApi.setForumUsername({ forumUsername: this.currentUser.user.forumUsername }).subscribe(async user => {
       this.currentUser.user = user;
-      this.forumUsernameModel.forumUsername = this.forumUsername;
       this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
@@ -138,16 +137,4 @@ export class UserProfileComponent implements OnInit {
       });
     });
   }
-}
-
-class EmailModel {
-  constructor(public emailAddress: string) {}
-}
-
-class WebhookModel {
-  constructor(public webhookUrl: string) {}
-}
-
-class ForumUsernameModel {
-  constructor(public forumUsername: string) {}
 }
