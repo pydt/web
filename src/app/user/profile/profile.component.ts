@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { CivGame, MetadataCacheService, PrivateUserData, ProfileCacheService, UserService } from 'pydt-shared';
-import { CurrentUserDataWithPud } from 'pydt-shared/lib/_gen/swagger/api/model/currentUserDataWithPud';
+import {
+  CivGame, CurrentUserDataWithPud, MetadataCacheService, PrivateUserData, ProfileCacheService, User, UserService
+} from 'pydt-shared';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService, NotificationService } from '../../shared';
 
 @Component({
@@ -13,15 +16,21 @@ export class UserProfileComponent implements OnInit {
   token: string;
   substitutionModel: { [index: string]: boolean; } = {};
   loaded: boolean;
-  currentUser: CurrentUserDataWithPud;
   noDiscourseUser: boolean;
   games: CivGame[];
+
+  currentUser$ = new BehaviorSubject<CurrentUserDataWithPud>(null);
+  notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushNotificationsEndpoint$]).pipe(map(l => {
+    const wps = l[0].pud.webPushSubscriptions || [];
+    const endpoint = l[1];
+    return !!wps.find(x => x.endpoint === endpoint);
+  }));
 
   constructor(
     private userApi: UserService,
     private auth: AuthService,
     private http: HttpClient,
-    private notificationService: NotificationService,
+    public notificationService: NotificationService,
     private profileCache: ProfileCacheService,
     private metadataCache: MetadataCacheService
   ) {
@@ -30,7 +39,7 @@ export class UserProfileComponent implements OnInit {
   async ngOnInit() {
     this.token = this.auth.getToken();
 
-    this.currentUser = await this.userApi.getCurrentWithPud().toPromise();
+    this.currentUser$.next(await this.userApi.getCurrentWithPud().toPromise());
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     for (const game of this.games) {
@@ -43,11 +52,25 @@ export class UserProfileComponent implements OnInit {
   }
 
   get user() {
-    return this.currentUser?.user;
+    return this.currentUser$.value?.user;
   }
 
   get pud() {
-    return this.currentUser?.pud;
+    return this.currentUser$.value?.pud;
+  }
+
+  private setUser(user: User) {
+    this.currentUser$.next({
+      ...this.currentUser$.value,
+      user
+    });
+  }
+
+  private setPud(pud: PrivateUserData) {
+    this.currentUser$.next({
+      ...this.currentUser$.value,
+      pud
+    });
   }
 
   async testForumUsername() {
@@ -62,14 +85,28 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  async subscribeWebPush() {
+    const pud = await this.notificationService.subscribeToPushNotifications();
+
+    if (pud) {
+      this.setPud(pud);
+    }
+  }
+
+  async unsubscribeWebPush() {
+    const pud = await this.notificationService.unsubscribeToPushNotifications();
+
+    if (pud) {
+      this.setPud(pud);
+    }
+  }
+
   onEmailSubmit() {
-    this.loaded = false;
     this.userApi.setNotificationEmail({
-      emailAddress: this.currentUser.pud.emailAddress,
-      newTurnEmails: this.currentUser.pud.newTurnEmails,
+      emailAddress: this.currentUser$.value.pud.emailAddress,
+      newTurnEmails: this.currentUser$.value.pud.newTurnEmails,
     }).subscribe(pud => {
-      this.currentUser.pud = pud;
-      this.loaded = true;
+      this.setPud(pud);
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Email address updated!'
@@ -78,10 +115,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   onWebhookSubmit() {
-    this.loaded = false;
-    this.userApi.setWebhookUrl({ webhookUrl: this.currentUser.pud.webhookUrl }).subscribe(pud => {
-      this.currentUser.pud = pud;
-      this.loaded = true;
+    this.userApi.setWebhookUrl({ webhookUrl: this.currentUser$.value.pud.webhookUrl }).subscribe(pud => {
+      this.setPud(pud);
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Webhook updated!'
@@ -90,10 +125,8 @@ export class UserProfileComponent implements OnInit {
   }
 
   onForumUsernameSubmit() {
-    this.loaded = false;
-    this.userApi.setForumUsername({ forumUsername: this.currentUser.user.forumUsername }).subscribe(async user => {
-      this.currentUser.user = user;
-      this.loaded = true;
+    this.userApi.setForumUsername({ forumUsername: this.currentUser$.value.user.forumUsername }).subscribe(async user => {
+      this.setUser(user);
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Forum Username updated!'
@@ -104,7 +137,6 @@ export class UserProfileComponent implements OnInit {
   }
 
   onSubstitutionSubmit() {
-    this.loaded = false;
     const willSubstituteForGameTypes: string[] = [];
 
     for (const game of this.games) {
@@ -114,7 +146,6 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.userApi.setSubstitutionPrefs({ willSubstituteForGameTypes }).subscribe(() => {
-      this.loaded = true;
       this.notificationService.showAlert({
         type: 'success',
         msg: 'Substitution Preferences updated!'
@@ -123,13 +154,11 @@ export class UserProfileComponent implements OnInit {
   }
 
   onUserInfoSubmit() {
-    this.loaded = false;
     this.userApi.setUserInformation({
       comments: this.user.comments,
       timezone: this.user.timezone,
       vacationMode: this.user.vacationMode
     }).subscribe(() => {
-      this.loaded = true;
       this.profileCache.clearProfile(this.user.steamId);
       this.notificationService.showAlert({
         type: 'success',
