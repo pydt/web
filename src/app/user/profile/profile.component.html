@@ -110,6 +110,16 @@
               </form>
             </div>
           </tab>
+          <tab heading="Web Push Notifications">
+            <div class="well">
+              <p>You can get browser push notifications when it's your turn!  Use the button below to register/unregister this browser.
+                If you ever press the button to block push notifications from this site you'll need to clear that setting in your browser before registration will work again!
+              </p>
+              <p>Web notifications for this browser are currently <strong>{{ (notificationsEnabled$ | async) ? 'ENABLED' : 'DISABLED' }}</strong></p>
+              <button class="btn btn-primary" *ngIf="!(notificationsEnabled$ | async)" (click)="subscribeWebPush()">Enable Web Push Notifications</button>
+              <button class="btn btn-primary" *ngIf="notificationsEnabled$ | async" (click)="unsubscribeWebPush()">Disable Web Push Notifications</button>
+            </div>
+          </tab>
           <tab heading="Webhook Notifications">
             <div class="well">
               <p>

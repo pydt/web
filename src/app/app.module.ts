@@ -39,6 +39,8 @@ import { UserGamesComponent } from './user/games/games.component';
 import { UserInfoComponent } from './user/info/info.component';
 import { UserProfileComponent } from './user/profile/profile.component';
 import { UserStatsComponent } from './user/stats/stats.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 export function configFactory() {
   return new Configuration({
@@ -90,7 +92,8 @@ export function profileCacheFactory(userService: UserService) {
       provide: MetaLoader,
       useFactory: metaFactory
     }),
-    Angulartics2Module.forRoot()
+    Angulartics2Module.forRoot(),
+    ServiceWorkerModule.register('pydt-service-worker.js', { enabled: true })
   ],
   declarations: [
     AppComponent,

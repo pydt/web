@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AuthService as AuthApi } from 'pydt-shared';
@@ -17,8 +18,6 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   errorModalMessage: string;
   alerts: AlertConfig[] = [];
-  private updateInterval: any;
-  private lastIndexHash?: number;
 
   @ViewChild('errorModal', { static: true }) errorModal: ModalDirective;
   @ViewChild('updateModal', { static: true }) updateModal: ModalDirective;
@@ -31,18 +30,16 @@ export class AppComponent implements OnInit {
     private router: Router,
     private notificationService: NotificationService,
     private zone: NgZone,
+    private updates: SwUpdate,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     if (environment.name === 'prod') {
       angulartics2GoogleAnalytics.startTracking();
     }
 
-    this.updateInterval = setInterval(() => {
-      // Check for app update every 5 minutes
-      this.checkForAppUpdate();
-    }, 5 * 60 * 1000);
-
-    this.checkForAppUpdate();
+    this.updates.available.subscribe(x => {
+      this.updateModal.show();
+    });
   }
 
   ngOnInit() {
@@ -75,30 +72,8 @@ export class AppComponent implements OnInit {
       }
     });
   }
-
-  checkForAppUpdate() {
-    this.http.get<string>('/index.html', { observe: 'response' }).subscribe(resp => {
-      if (resp.status === 200) {
-        if (!this.lastIndexHash) {
-          this.lastIndexHash = this.hash(resp.body);
-        } else {
-          const curHash = this.hash(resp.body);
-
-          if (this.lastIndexHash !== curHash) {
-            clearInterval(this.updateInterval);
-            this.updateModal.show();
-          }
-
-          this.lastIndexHash = curHash;
-        }
-      }
-    }, err => {
-      console.log(`Couldn't check for app update...`);
-    });
-  }
-
   reload() {
-    window.location.reload(true);
+    this.updates.activateUpdate().then(() => document.location.reload());
   }
 
   /**
