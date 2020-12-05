@@ -1,6 +1,7 @@
 <div class="container">
-  <div *ngIf="games">
+  <div *ngIf="games" style="position: relative;">
     <h1>Your Games</h1>
+    <button type="button" class="btn btn-sm btn-default" [disabled]="refreshDisabled" style="position: absolute;top:55px;right:0px;" (click)="refresh()">Refresh</button>
     <tabset>
       <tab heading="Active Games">
         <h3 *ngIf="games.length == 0">No games found.</h3>

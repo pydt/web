@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Game, ProfileCacheService, UserService } from 'pydt-shared';
 import { AuthService } from '../../shared/auth.service';
 
@@ -9,12 +9,23 @@ import { AuthService } from '../../shared/auth.service';
 export class UserGamesComponent implements OnInit {
   games: Game[];
   completedGames: Game[];
+  refreshDisabled = false;
 
   constructor(private userApi: UserService, private authService: AuthService, private profileCache: ProfileCacheService) {
   }
 
   ngOnInit() {
     this.getGames();
+  }
+
+  refresh() {
+    if (!this.refreshDisabled) {
+      this.getGames();
+      this.refreshDisabled = true;
+      setTimeout(() => {
+        this.refreshDisabled = false;
+      }, 30000);
+    }
   }
 
   getGames() {
@@ -33,6 +44,13 @@ export class UserGamesComponent implements OnInit {
         ...resp.data.filter(g => !yourTurnGames.includes(g)),
       ];
     });
+  }
+
+  @HostListener('document:visibilitychange', ['$event'])
+  visibilitychange() {
+    if (!document.hidden) {
+      this.refresh();
+    }
   }
 
   async getCompetedGames() {
