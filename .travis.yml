@@ -18,6 +18,7 @@ deploy:
   cache_control: "max-age=31536000"
 after_deploy:
   - aws s3api copy-object --copy-source www.playyourdamnturn.com/index.html --bucket www.playyourdamnturn.com --key index.html --metadata-directive REPLACE --cache-control "max-age=0" --content-type "text/html" --acl public-read
+  - aws s3api copy-object --copy-source www.playyourdamnturn.com/ngsw.json --bucket www.playyourdamnturn.com --key ngsw.json --metadata-directive REPLACE --cache-control "max-age=0" --content-type "application/json" --acl public-read
 branches:
   only:
   - master
