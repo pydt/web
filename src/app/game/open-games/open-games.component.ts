@@ -21,7 +21,7 @@ export class OpenGamesComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames.filter(x => x.id !== 'OLD_WORLD');
     this.getGames();
     this.profile = this.auth.getSteamProfile();
   }

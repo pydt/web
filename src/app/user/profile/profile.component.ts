@@ -40,7 +40,7 @@ export class UserProfileComponent implements OnInit {
     this.token = this.auth.getToken();
 
     this.currentUser$.next(await this.userApi.getCurrentWithPud().toPromise());
-    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames.filter(x => x.id !== 'OLD_WORLD');
 
     for (const game of this.games) {
       this.substitutionModel[game.id] = (this.user.willSubstituteForGameTypes || []).indexOf(game.id) >= 0;
