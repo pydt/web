@@ -11,9 +11,9 @@ export class ConfigureGameModel {
   public dlc: { [index: string]: boolean; } = {};
   public password: string;
   public webhookUrl: string;
-  public gameSpeed = this.civGame.gameSpeeds[0].key;
-  public mapFile = this.civGame.maps[0].file;
-  public mapSize = this.civGame.mapSizes[2].key;
+  public gameSpeed = this.civGame.gameSpeeds[0]?.key;
+  public mapFile = this.civGame.maps[0]?.file;
+  public mapSize = this.civGame.mapSizes[2]?.key;
   public allowJoinAfterStart = true;
   public randomOnly = false;
   public turnTimerEnabled;
