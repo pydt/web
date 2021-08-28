@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/pydt/web.svg?branch=master)](https://travis-ci.org/pydt/web)
+[![Build Status](https://travis-ci.com/pydt/web.svg?branch=master)](https://travis-ci.com/pydt/web)
 
 # PYDT angular2 web
 
