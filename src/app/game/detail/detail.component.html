@@ -479,19 +479,28 @@
       </div>
       <div class="modal-body">
         <p>
-          Since you're the first player, you need to create the initial game save file!  First, make sure that you have the appropriate DLC
-          enabled for the game.  You can do this through the Mods dialog on the Multiplayer Game Setup screen.
-          <span *ngIf="game?.dlc.length">Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{dlcEnabled}}</b>.</span>
-          <span *ngIf="!game?.dlc.length">Ensure that <b>NO DLC</b> is enabled!</span>
+          Since you're the first player, you need to create the initial game save file!
+          <ng-container *ngIf="game?.gameType === 'OLD_WORLD'">
+            Old World requires the "Play Your Damn Turn Support" mod to be active in the game.  This mod enhances the Old World hotseat code to
+            force a save and exit at the end of your turn, otherwise there's no place to save before the next player's screen appears.  From the main
+            menu, go to Mods, then Install, and search for "Play Your Damn Turn Support".  Download the mod, and make sure when you're creating the hotseat
+            game that "Use Mods" is enabled at the bottom, and "Play Your Damn Turn Support" is enabled.
+          </ng-container>
+          <ng-container *ngIf="game?.gameType !== 'OLD_WORLD'">
+            First, make sure that you have the appropriate DLC
+            enabled for the game.  You can do this through the Mods dialog on the Multiplayer Game Setup screen.
+            <span *ngIf="game?.dlc.length">Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{dlcEnabled}}</b>.</span>
+            <span *ngIf="!game?.dlc.length">Ensure that <b>NO DLC</b> is enabled!</span>
+          </ng-container>
         </p>
         <p>
           Now start {{ civGame?.displayName }}, go to Multiplayer / Hotseat, and configure the game.
-          <span *ngIf="game?.gameSpeed">
+          <span>
             Set the following settings:
             <ul>
-              <li><b>Game Speed:</b> {{game | gamespeed: games}}</li>
-              <li *ngIf="game.mapFile"><b>Map Type:</b> {{game | map: games}}</li>
-              <li><b>Map Size:</b> {{game | mapsize: games}}</li>
+              <li *ngIf="game?.gameSpeed"><b>Game Speed:</b> {{game | gamespeed: games}}</li>
+              <li *ngIf="game?.mapFile"><b>Map Type:</b> {{game | map: games}}</li>
+              <li *ngIf="game?.mapSize"><b>Map Size:</b> {{game | mapsize: games}}</li>
             </ul>
           </span>
           When you're ready, click "Confirm Settings", make sure that you have <b>EXACTLY {{game?.slots}}</b>
@@ -502,7 +511,7 @@
         <p>
           Once you've created the game and played your first turn, save it and use the button below to upload it and begin the game!
           By default, the save file will be located at <b>{{ winDir }}</b> on Windows,
-          and <b>{{ osxDir }}</b> on OSX.  Happy Civving!
+          and <b>{{ osxDir }}</b> on OSX.  Have fun playing your damn turns!
         </p>
       </div>
       <div class="modal-footer">

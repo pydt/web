@@ -91,12 +91,20 @@ export class GameDetailComponent implements OnInit {
     return location + locData.prefix;
   }
 
+  get dataPath() {
+    if (!this.civGame) {
+      return null;
+    }
+
+    return this.civGame.dataPaths[GameStore.Steam] || this.civGame.dataPaths[GameStore.Epic];
+  }
+
   get winDir() {
     if (!this.civGame) {
       return null;
     }
 
-    return `${this.translateLocation(Platform.Windows)}${this.civGame.dataPaths[GameStore.Steam]}`.replace(/\//g, '\\');
+    return `${this.translateLocation(Platform.Windows)}${this.dataPath}${this.civGame.savePath}`.replace(/\//g, '\\');
   }
 
   get osxDir() {
@@ -104,7 +112,7 @@ export class GameDetailComponent implements OnInit {
       return null;
     }
 
-    return `${this.translateLocation(Platform.OSX)}${this.civGame.dataPaths[GameStore.Steam]}`;
+    return `${this.translateLocation(Platform.OSX)}${this.dataPath}${this.civGame.savePath}`;
   }
 
   get saveExtension() {
