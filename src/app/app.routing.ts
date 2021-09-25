@@ -15,7 +15,7 @@ import { MetaGuard } from '@ngx-meta/core';
 
 /*tslint:disable:max-line-length */
 const routes: Routes = [
-  { path: '', canActivate: [MetaGuard], component: HomeComponent, data: { meta: { title: 'Civ 5 / 6 / Beyond Earth Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5 or 6 game easy.' } } },
+  { path: '', canActivate: [MetaGuard], component: HomeComponent, data: { meta: { title: 'Civ 5 / 6 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5 or 6 game easy.' } } },
   { path: 'forum', canActivate: [MetaGuard], component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
   { path: 'steamreturn', canActivate: [MetaGuard], component: SteamReturnComponent, data: { meta: { title: 'Finishing Steam Auth...' } } },
   { path: 'game/create/:gameType', canActivate: [AuthService, MetaGuard], component: CreateGameComponent, data: { meta: { title: 'Create a New Game!' } } },

@@ -46,7 +46,7 @@ export class UserStatsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.games = (await this.metadataCache.getCivGameMetadata()).civGames.filter(x => x.id !== 'OLD_WORLD');
+    this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     this.userApi.all().subscribe(users => {
       for (const game of this.games) {
