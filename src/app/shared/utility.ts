@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import * as countdown from 'countdown';
+import countdown from '../../countdownjs/countdown';
 import { CivDef } from 'pydt-shared';
 
 @Injectable()
 export class Utility {
-  public static countdown(start: countdown.DateTime, end: countdown.DateTime, max = 2) {
+  public static countdown(start: any, end: any, max = 2) {
     // tslint:disable-next-line:no-bitwise
     return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max);
   }

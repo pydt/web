@@ -1,3 +1,4 @@
+@use "sass:math";
 @import './bootstrap/bootstrap.scss';
 
 // Flatly 3.3.7
@@ -464,7 +465,7 @@ input[type=range]:focus::-ms-fill-upper {
 
   // Calculate width based on number of columns available
   float: left;
-  width: percentage(1 / $slots);
+  width: percentage(math.div(1, $slots));
 
   @media (max-width: $grid-float-breakpoint) {
     $scRows: 1;
@@ -482,7 +483,7 @@ input[type=range]:focus::-ms-fill-upper {
       $scFinalSlots: $scFinalSlots + 1;
     }
 
-    width: percentage($scRows / $scFinalSlots);
+    width: percentage(math.div($scRows, $scFinalSlots));
   }
 }
 
@@ -564,16 +565,16 @@ input[type=range]:focus::-ms-fill-upper {
 
   @media (min-width: $screen-sm-min) {
     width: $container-tablet;
-    margin-right: $container-tablet / -2;
+    margin-right: math.div($container-tablet, -2);
   }
 
   @media (min-width: $screen-md-min) {
     width: $container-desktop;
-    margin-right: $container-desktop / -2;
+    margin-right: math.div($container-desktop, -2);
   }
 
   @media (min-width: $screen-lg-min) {
     width: $container-large-desktop;
-    margin-right: $container-large-desktop / -2;
+    margin-right: math.div($container-large-desktop, -2);
   }
 }

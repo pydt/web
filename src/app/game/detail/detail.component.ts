@@ -326,7 +326,7 @@ export class GameDetailComponent implements OnInit {
 
           xhr.onload = () => {
             if (xhr.status === 200) {
-              resolve();
+              resolve(null);
             } else {
               reject(xhr.status);
             }
