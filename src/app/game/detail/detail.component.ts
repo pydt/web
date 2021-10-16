@@ -193,6 +193,11 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
+  async resetGameStateOnNextUpload() {
+    const game = await this.gameApi.resetGameStateOnNextUpload(this.game.gameId).toPromise();
+    this.setGame(game);
+  }
+
   changeCiv() {
     this.gameApi.changeCiv(this.game.gameId, {
       playerCiv: this.newCiv.leaderKey

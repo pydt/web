@@ -164,13 +164,18 @@
         </div>
       </div>
     </tab>
-    <tab heading="Kick Current User" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId" (selectTab)="loadSubstituteUsers()">
+    <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId" (selectTab)="loadSubstituteUsers()">
       <div class="well">
         <div class="row">
           <div class="col-sm-12">
             <p>
-              Since you created the game, you can kick users from the game.  You can only kick a user if they have had 24 hours to play their turn
-              and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
+              Since you created the game, you're the admin, and have some special powers!
+            </p>
+          </div>
+          <div class="col-sm-12">
+            <h4>Kick Current User</h4>
+            <p>
+              You can only kick a user if they have had 24 hours to play their turn and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
               inappropriately you may be banned from the site!
             </p>
           </div>
@@ -202,6 +207,26 @@
         <div class="row" style="margin-top:20px;">
           <div class="col-xs-12 text-center">
             <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12">
+            <h4>Reset Game State on Next Upload</h4>
+            <p>
+              This option is mostly for players who switch back and forth between PYDT and normal online play.  If your game saves have got ahead of where
+              PYDT thinks the game is, press the button below to allow the next turn upload to reset the state of the game.  If you're having general turn issues
+              it's probably better <strong>NOT</strong> to use this button and ask for help in the Game Support area of the forum.
+            </p>
+          </div>
+        </div>
+        <div class="row" style="margin-top:20px;" *ngIf="!game.resetGameStateOnNextUpload">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">Enable Game State Reset</button>
+          </div>
+        </div>
+        <div class="row" style="margin-top:20px;" *ngIf="!!game.resetGameStateOnNextUpload">
+          <div class="col-xs-12 text-center">
+            <h4><strong>Game State Reset Enabled!</strong></h4>
           </div>
         </div>
       </div>
