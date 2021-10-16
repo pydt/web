@@ -3,7 +3,6 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MetaLoader, MetaModule, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 import { Angulartics2Module } from 'angulartics2';
 import { DragulaModule } from 'ng2-dragula';
 import { AlertModule } from 'ngx-bootstrap/alert';
@@ -40,20 +39,11 @@ import { UserInfoComponent } from './user/info/info.component';
 import { UserProfileComponent } from './user/profile/profile.component';
 import { UserStatsComponent } from './user/stats/stats.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
 
 export function configFactory() {
   return new Configuration({
     apiKeys: {},
     basePath: envVars.apiUrl
-  });
-}
-
-export function metaFactory(): MetaLoader {
-  return new MetaStaticLoader({
-    pageTitlePositioning: PageTitlePositioning.PrependPageTitle,
-    pageTitleSeparator: ' | ',
-    applicationName: 'Play Your Damn Turn'
   });
 }
 
@@ -88,10 +78,6 @@ export function profileCacheFactory(userService: UserService) {
     PydtSharedModule,
     Ng2TableModule,
     routing,
-    MetaModule.forRoot({
-      provide: MetaLoader,
-      useFactory: metaFactory
-    }),
     Angulartics2Module.forRoot(),
     ServiceWorkerModule.register('pydt-service-worker.js', { enabled: true })
   ],

@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Meta, Title } from '@angular/platform-browser';
+import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AuthService as AuthApi } from 'pydt-shared';
+import { filter, map, mergeMap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
 
@@ -28,9 +30,12 @@ export class AppComponent implements OnInit {
     private http: HttpClient,
     private errorService: ErrorHandler,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private notificationService: NotificationService,
     private zone: NgZone,
     private updates: SwUpdate,
+    private title: Title,
+    private meta: Meta,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
     if (environment.name === 'prod') {
@@ -40,6 +45,31 @@ export class AppComponent implements OnInit {
     this.updates.available.subscribe(x => {
       this.updateModal.show();
     });
+
+    // https://stackoverflow.com/questions/48330535/dynamically-add-meta-description-based-on-route-in-angular
+    router.events.pipe(
+      filter((event) => event instanceof NavigationEnd),
+       map(() => this.activatedRoute),
+       map((route) => {
+         while (route.firstChild) {
+           route = route.firstChild;
+         }
+         return route;
+       }),
+       filter((route) => route.outlet === 'primary'),
+       mergeMap((route) => route.data)
+      )
+      .subscribe((event) => {
+        this.title.setTitle(`${event['meta']['title']} | Play Your Damn Turn`);
+
+        const description = event['meta']['description'];
+
+        if (description) {
+          this.meta.updateTag({ name: 'description', content: description});
+        } else {
+          this.meta.removeTag(`name='description'`);
+        }
+      });
   }
 
   ngOnInit() {
