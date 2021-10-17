@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import * as pako from 'pako';
+import { gzip } from 'pako';
 import {
   BasePath, BusyService, CivDef, Game, GameService, GameStore, MetadataCacheService,
   Platform, PydtMetadata, SteamProfile, User, UserService
@@ -340,7 +340,7 @@ export class GameDetailComponent implements OnInit {
           const reader = new FileReader();
           reader.onload = function() {
             const array = new Uint8Array(<any>this.result);
-            const toSend = pako.gzip(array);
+            const toSend = gzip(array);
             xhr.send(toSend);
           };
           reader.readAsArrayBuffer(event.target.files[0]);
