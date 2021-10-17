@@ -7,7 +7,7 @@ import { CivDef } from 'pydt-shared';
 })
 export class DisplayCivComponent {
   @Input() civ: CivDef;
-  @Output() click = new EventEmitter<CivDef>();
+  @Output() clicked = new EventEmitter<CivDef>();
 
   constructor() {
   }
@@ -20,9 +20,5 @@ export class DisplayCivComponent {
     }
 
     return `/img/civs/${url}`;
-  }
-
-  clicked() {
-    this.click.emit(this.civ);
   }
 }

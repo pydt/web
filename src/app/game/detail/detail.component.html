@@ -277,7 +277,7 @@
         <pydt-select-civ [leaders]="availableCivs" [randomOnly]="game.randomOnly" [curCiv]="newCiv" (selectedCiv)="newCiv = $event"></pydt-select-civ>
         <div class="row">
           <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-primary" [disabled]="playerCiv == newCiv" (click)="changeCiv()">Change Civ!</button>
+            <button type="button" class="btn btn-primary" [disabled]="playerCiv === newCiv" (click)="changeCiv()">Change Civ!</button>
           </div>
         </div>
       </div>

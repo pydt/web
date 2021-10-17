@@ -120,10 +120,10 @@ export class AppComponent implements OnInit {
 
     let i;
     for (i = 0; i < len; i++) {
-      // tslint:disable:no-bitwise
+      /* eslint-disable no-bitwise */
       hash = ((hash << 5) - hash) + str.charCodeAt(i);
       hash |= 0; // Convert to 32bit integer
-      // tslint:enable:no-bitwise
+      /* eslint-enable no-bitwise */
     }
     return hash;
   }

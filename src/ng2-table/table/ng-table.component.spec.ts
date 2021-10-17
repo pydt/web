@@ -30,7 +30,7 @@ describe('Component: ng2-table', () => {
 });
 
 @Component({
-  // tslint:disable-next-line
+  // eslint-disable-next-line
   selector: 'table-test',
   template: ''
 })

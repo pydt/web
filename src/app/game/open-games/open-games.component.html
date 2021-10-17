@@ -22,7 +22,7 @@
     </div>
     <tabset>
       <tab heading="New Games">
-        <h1 *ngIf="filteredGames.notStarted.length == 0">No games found.</h1>
+        <h1 *ngIf="!filteredGames.notStarted.length">No games found.</h1>
         <div *ngFor="let game of filteredGames.notStarted">
           <div class="well"> 
             <pydt-game-preview [game]="game"></pydt-game-preview>
@@ -35,7 +35,7 @@
         </div>
       </tab>
       <tab heading="In-Progress Games with Open Slots">
-        <h1 *ngIf="filteredGames.openSlots.length == 0">No games found.</h1>
+        <h1 *ngIf="!filteredGames.openSlots.length">No games found.</h1>
         <div *ngFor="let game of filteredGames.openSlots">
           <div class="well"> 
             <pydt-game-preview [game]="game"></pydt-game-preview>

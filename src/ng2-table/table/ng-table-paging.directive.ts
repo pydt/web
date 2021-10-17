@@ -1,6 +1,6 @@
 import { Directive, EventEmitter, Input, Output, HostListener } from '@angular/core';
 
-// tslint:disable-next-line
+// eslint-disable-next-line
 @Directive({selector: '[ngTablePaging]'})
 export class NgTablePagingDirective {
   @Input() public ngTablePaging = true;

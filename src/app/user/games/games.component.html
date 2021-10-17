@@ -4,7 +4,7 @@
     <button type="button" class="btn btn-sm btn-default" [disabled]="refreshDisabled" style="position: absolute;top:55px;right:0px;" (click)="refresh()">Refresh</button>
     <tabset>
       <tab heading="Active Games">
-        <h3 *ngIf="games.length == 0">No games found.</h3>
+        <h3 *ngIf="!games.length">No games found.</h3>
         <div *ngFor="let game of games">
           <div class="well"> 
             <pydt-game-preview [game]="game"></pydt-game-preview>
@@ -19,7 +19,7 @@
       <tab heading="Completed Games" (selectTab)="getCompetedGames()">
         <h1 *ngIf="!completedGames" style="text-align: center;">Loading...</h1>
         <ng-container *ngIf="completedGames">
-          <h3 *ngIf="completedGames.length == 0">No completed games found.</h3>
+          <h3 *ngIf="!completedGames.length">No completed games found.</h3>
           <div *ngFor="let game of completedGames">
             <div class="well"> 
               <pydt-game-preview [game]="game"></pydt-game-preview>

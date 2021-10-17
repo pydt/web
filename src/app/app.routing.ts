@@ -12,7 +12,7 @@ import { UserStatsComponent } from './user/stats/stats.component';
 import { ForumComponent } from './forum/forum.component';
 import { AuthService } from './shared';
 
-/*tslint:disable:max-line-length */
+/* eslint-disable max-len */
 const routes: Routes = [
   { path: '', component: HomeComponent, data: { meta: { title: 'Civ 5 / 6 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5 or 6 game easy.' } } },
   { path: 'forum', component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
@@ -25,6 +25,6 @@ const routes: Routes = [
   { path: 'user/stats', component: UserStatsComponent, data: { meta: { title: 'User Statistics', description: 'All users that have played at least one damn turn.' } } },
   { path: 'user/games', canActivate: [AuthService], component: UserGamesComponent, data: { meta: { title: 'Your Games' } } },
 ];
-/*tslint:enable:max-line-length */
+/* eslint-enable max-len */
 
 export const routing = RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' });

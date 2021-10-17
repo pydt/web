@@ -1,4 +1,4 @@
-<pydt-display-civ [civ]="curCiv" (click)="selectCivModal.show()"></pydt-display-civ>
+<pydt-display-civ [civ]="curCiv" (clicked)="selectCivModal.show()"></pydt-display-civ>
 
 <div bsModal #selectCivModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="selectCivModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-sm" style="width:500px;">
@@ -12,7 +12,7 @@
       <div class="modal-body">
         <div style="height:300px;overflow-y:scroll;">
           <div *ngFor="let civ of leaders" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
-            <pydt-display-civ *ngIf="!randomOnly || civ?.civKey == RANDOM_CIV?.civKey" [civ]="civ" (click)="civClicked(civ);selectCivModal.hide();"></pydt-display-civ>
+            <pydt-display-civ *ngIf="!randomOnly || civ?.civKey === RANDOM_CIV?.civKey" [civ]="civ" (clicked)="civClicked(civ);selectCivModal.hide();"></pydt-display-civ>
           </div>
         </div>
       </div>

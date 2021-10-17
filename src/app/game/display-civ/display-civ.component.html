@@ -1,4 +1,4 @@
-<div class="media" style="padding:5px;" (click)="clicked()">
+<div class="media" style="padding:5px;" (click)="clicked.emit(this.civ)">
   <div class="media-left">
     <img class="media-object" [src]="imageUrl()">
   </div>

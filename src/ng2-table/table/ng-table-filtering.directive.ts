@@ -5,7 +5,7 @@ function setProperty(renderer: Renderer2, elementRef: ElementRef, propName: stri
   renderer.setProperty(elementRef, propName, propValue);
 }
 
-// tslint:disable-next-line
+// eslint-disable-next-line
 @Directive({selector: '[ngTableFiltering]'})
 export class NgTableFilteringDirective {
   @Input() public ngTableFiltering: any = {
