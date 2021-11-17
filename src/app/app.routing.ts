@@ -14,7 +14,7 @@ import { AuthService } from './shared';
 
 /* eslint-disable max-len */
 const routes: Routes = [
-  { path: '', component: HomeComponent, data: { meta: { title: 'Civ 5 / 6 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5 or 6 game easy.' } } },
+  { path: '', component: HomeComponent, data: { meta: { title: 'Civ 5 / 6 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)', description: 'Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5/6/Old World/Beyond Earth game easy.' } } },
   { path: 'forum', component: ForumComponent, data: { meta: { title: 'Forums', description: 'Forums for coordinating new games and delivering smack talk in existing games.' } } },
   { path: 'steamreturn', component: SteamReturnComponent, data: { meta: { title: 'Finishing Steam Auth...' } } },
   { path: 'game/create/:gameType', canActivate: [AuthService], component: CreateGameComponent, data: { meta: { title: 'Create a New Game!' } } },
