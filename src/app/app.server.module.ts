@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
-import { DragulaModule } from 'ng2-dragula';
+import { ServerModule } from '@angular/platform-server';
 
 import { AppSharedModule } from './app.shared.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
   imports: [
-    DragulaModule.forRoot(),
     AppSharedModule,
+    ServerModule,
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppServerModule {}

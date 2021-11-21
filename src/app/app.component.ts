@@ -106,28 +106,6 @@ export class AppComponent implements OnInit {
     this.updates.activateUpdate().then(() => document.location.reload());
   }
 
-  /**
-   * Java-like hashCode function for strings
-   *
-   * taken from http://stackoverflow.com/questions/7616461/generate-a-hash-from-string-in-javascript-jquery/7616484#7616484
-   */
-  private hash(str) {
-    const len = str.length;
-    let hash = 0;
-    if (len === 0) {
-      return hash;
-    }
-
-    let i;
-    for (i = 0; i < len; i++) {
-      /* eslint-disable no-bitwise */
-      hash = ((hash << 5) - hash) + str.charCodeAt(i);
-      hash |= 0; // Convert to 32bit integer
-      /* eslint-enable no-bitwise */
-    }
-    return hash;
-  }
-
   updateIsLoggedIn() {
     this.isLoggedIn = !!this.auth.getToken();
   }

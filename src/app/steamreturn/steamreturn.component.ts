@@ -15,22 +15,23 @@ export class SteamReturnComponent implements OnInit {
   }
 
   ngOnInit() {
-    // how does this work?
-    this.http.get<ValidateResponse>(envVars.apiUrl + '/auth/steam/validate' + window.location.search).subscribe(vResp => {
-      if (vResp.token) {
-        this.auth.store(vResp.token, vResp.steamProfile);
-      } else {
-        throw new Error('Steam authentication failed');
-      }
+    if (window.location) {
+      this.http.get<ValidateResponse>(envVars.apiUrl + '/auth/steam/validate' + window.location.search).subscribe(vResp => {
+        if (vResp.token) {
+          this.auth.store(vResp.token, vResp.steamProfile);
+        } else {
+          throw new Error('Steam authentication failed');
+        }
 
-      const returnUrl = localStorage.getItem('returnUrl');
+        const returnUrl = localStorage.getItem('returnUrl');
 
-      if (returnUrl) {
-        localStorage.removeItem('returnUrl');
-        window.location.pathname = returnUrl;
-      } else {
-        this.router.navigate(['/user/profile']);
-      }
-    });
+        if (returnUrl) {
+          localStorage.removeItem('returnUrl');
+          window.location.pathname = returnUrl;
+        } else {
+          this.router.navigate(['/user/profile']);
+        }
+      });
+    }
   }
 }
