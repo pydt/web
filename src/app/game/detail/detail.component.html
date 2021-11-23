@@ -164,7 +164,7 @@
         </div>
       </div>
     </tab>
-    <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid && game.createdBySteamId !== game.currentPlayerSteamId" (selectTab)="loadSubstituteUsers()">
+    <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid" (selectTab)="loadSubstituteUsers()">
       <div class="well">
         <div class="row">
           <div class="col-sm-12">
@@ -172,43 +172,47 @@
               Since you created the game, you're the admin, and have some special powers!
             </p>
           </div>
-          <div class="col-sm-12">
-            <h4>Kick Current User</h4>
-            <p>
-              You can only kick a user if they have had 24 hours to play their turn and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
-              inappropriately you may be banned from the site!
-            </p>
-          </div>
-          <ng-container *ngIf="substituteUsers?.length">
+        </div>
+        <ng-container *ngIf="game.createdBySteamId !== game.currentPlayerSteamId">    
+          <div class="row">
             <div class="col-sm-12">
+              <h4>Kick Current User</h4>
               <p>
-                Users with more than 500 turns played can register to be substituted in to games when players leave.  If this game is still competitive, you can substitute in another player to take over for the player you're removing.
+                You can only kick a user if they have had 24 hours to play their turn and have failed to do so.  Please do not kick users without reason - if complaints are logged against you for kicking players from games
+                inappropriately you may be banned from the site!
               </p>
             </div>
-            <div class="form-group">
+            <ng-container *ngIf="substituteUsers?.length">
               <div class="col-sm-12">
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" style="top: -5px;" [checked]="!!userToSubstitute" (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"> Do you want to substitute another user into this slot?
-                  </label>
+                <p>
+                  Users with more than 500 turns played can register to be substituted in to games when players leave.  If this game is still competitive, you can substitute in another player to take over for the player you're removing.
+                </p>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-12">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" style="top: -5px;" [checked]="!!userToSubstitute" (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"> Do you want to substitute another user into this slot?
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="form-group" *ngIf="userToSubstitute">
-              <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
-              <div class="col-sm-9">
-                <select class="form-control" [(ngModel)]="userToSubstitute">
-                  <option *ngFor="let user of substituteUsers" [ngValue]="user">{{user.displayName}}</option>
-                </select>
+              <div class="form-group" *ngIf="userToSubstitute">
+                <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
+                <div class="col-sm-9">
+                  <select class="form-control" [(ngModel)]="userToSubstitute">
+                    <option *ngFor="let user of substituteUsers" [ngValue]="user">{{user.displayName}}</option>
+                  </select>
+                </div>
               </div>
-            </div>
-          </ng-container>
-        </div>
-        <div class="row" style="margin-top:20px;">
-          <div class="col-xs-12 text-center">
-            <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
+            </ng-container>
           </div>
-        </div>
+          <div class="row" style="margin-top:20px;">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
+            </div>
+          </div>
+        </ng-container>
         <div class="row">
           <div class="col-sm-12">
             <h4>Reset Game State on Next Upload</h4>
