@@ -39,7 +39,9 @@
             "namedChunks": true,
             "allowedCommonJsDependencies": [
               "dragula"
-            ]
+            ],
+            "serviceWorker": true,
+            "ngswConfigPath": "ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -56,18 +58,7 @@
                 }
               ],
               "outputHashing": "all",
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
-            },
-            "development": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              "optimization": true
             }
           },
           "defaultConfiguration": "production"
