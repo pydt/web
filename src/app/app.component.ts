@@ -5,6 +5,7 @@ import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
 import { SwUpdate } from '@angular/service-worker';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 import { ModalDirective } from 'ngx-bootstrap/modal';
+import { setTheme } from 'ngx-bootstrap/utils';
 import { AuthService as AuthApi } from 'pydt-shared';
 import { filter, map, mergeMap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
@@ -38,6 +39,8 @@ export class AppComponent implements OnInit {
     private meta: Meta,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
   ) {
+    setTheme('bs3');
+
     if (environment.name === 'prod') {
       angulartics2GoogleAnalytics.startTracking();
     }
