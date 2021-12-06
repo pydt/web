@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core';
-import countdown from '../../countdownjs/countdown';
-import { CivDef } from 'pydt-shared';
+// Lots to clean up in here...
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types, no-param-reassign, @typescript-eslint/restrict-plus-operands */
+import { Injectable } from "@angular/core";
+import { CivDef, countdown } from "pydt-shared";
 
 @Injectable()
 export class Utility {
-  public static countdown(start: any, end: any, max = 2) {
+  public static countdown(start: unknown, end: unknown, max = 2): unknown {
     // eslint-disable-next-line no-bitwise
-    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max);
+    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max, 0);
   }
 
-  public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]) {
+  public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]): CivDef[] {
     const result: CivDef[] = [];
-    dlcIds = dlcIds || [];
 
     for (const leader of leaders) {
-      if (!leader.options.dlcId || dlcIds.indexOf(leader.options.dlcId) >= 0) {
+      if (!leader.options.dlcId || (dlcIds || []).indexOf(leader.options.dlcId) >= 0) {
         result.push(leader);
       }
     }
@@ -22,7 +23,7 @@ export class Utility {
     return result;
   }
 
-  public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): any {
+  public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): unknown {
     visibleData = visibleData || rawData.slice();
     page = page || tableConfig.paging;
 
@@ -43,13 +44,14 @@ export class Utility {
 
     // Sort...
     rawData.sort((prevRow, curRow) => {
-      const previous = prevRow[columnName + '_sort'] || prevRow[columnName];
-      const current = curRow[columnName + '_sort'] || curRow[columnName];
+      const previous = prevRow[`${columnName}_sort`] || prevRow[columnName];
+      const current = curRow[`${columnName}_sort`] || curRow[columnName];
 
       if (previous > current) {
-        return sort === 'desc' ? -1 : 1;
-      } else if (previous < current) {
-        return sort === 'asc' ? -1 : 1;
+        return sort === "desc" ? -1 : 1;
+      }
+      if (previous < current) {
+        return sort === "asc" ? -1 : 1;
       }
       return 0;
     });
@@ -63,15 +65,13 @@ export class Utility {
 
     if (tableConfig.filtering) {
       if (tableConfig.filtering.filterString.length) {
-        filteredData = rawData.filter(row => {
-          return tableConfig.columns.some((column: any) => {
-            if (column.filter && row[column.name].toLowerCase().indexOf(tableConfig.filtering.filterString.toLowerCase()) >= 0) {
-              return true;
-            }
+        filteredData = rawData.filter(row => tableConfig.columns.some((column: any) => {
+          if (column.filter && row[column.name].toLowerCase().indexOf(tableConfig.filtering.filterString.toLowerCase()) >= 0) {
+            return true;
+          }
 
-            return false;
-          });
-        });
+          return false;
+        }));
       }
 
       tableConfig.filtering.filteredResults = filteredData.length;
@@ -89,6 +89,7 @@ export class Utility {
       }
 
       const end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : rawData.length;
+
       Array.prototype.push.apply(visibleData, filteredData.slice(start, end));
     } else {
       Array.prototype.push.apply(visibleData, filteredData);

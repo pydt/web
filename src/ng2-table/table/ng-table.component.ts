@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
   // eslint-disable-next-line
@@ -32,7 +32,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
         </tr>
       </tbody>
     </table>
-  `
+  `,
 })
 export class NgTableComponent {
   // Table values
@@ -41,10 +41,10 @@ export class NgTableComponent {
   @Input()
   public set config(conf: any) {
     if (!conf.className) {
-      conf.className = 'table-striped table-bordered';
+      conf.className = "table-striped table-bordered";
     }
     if (conf.className instanceof Array) {
-      conf.className = conf.className.join(' ');
+      conf.className = conf.className.join(" ");
     }
     this._config = conf;
   }
@@ -53,7 +53,7 @@ export class NgTableComponent {
   @Output() public tableChanged: EventEmitter<any> = new EventEmitter();
   @Output() public cellClicked: EventEmitter<any> = new EventEmitter();
 
-  public showFilterRow: Boolean = false;
+  public showFilterRow = false;
 
   @Input()
   public set columns(values: Array<any>) {
@@ -62,9 +62,10 @@ export class NgTableComponent {
         this.showFilterRow = true;
       }
       if (value.className && value.className instanceof Array) {
-        value.className = value.className.join(' ');
+        value.className = value.className.join(" ");
       }
       const column = this._columns.find((col: any) => col.name === value.name);
+
       if (column) {
         Object.assign(column, value);
       }
@@ -101,23 +102,23 @@ export class NgTableComponent {
       }
     });
 
-    return {columns: sortColumns};
+    return { columns: sortColumns };
   }
 
   public onChangeTable(column: any): void {
     this._columns.forEach((col: any) => {
       if (col.name !== column.name && col.sort !== false) {
-        col.sort = '';
+        col.sort = "";
       }
     });
-    this.tableChanged.emit({sorting: this.configColumns});
+    this.tableChanged.emit({ sorting: this.configColumns });
   }
 
   public getData(row: any, propertyName: string): string {
-    return propertyName.split('.').reduce((prev: any, curr: string) => prev[curr], row);
+    return propertyName.split(".").reduce((prev: any, curr: string) => prev[curr], row);
   }
 
   public cellClick(row: any, column: any): void {
-    this.cellClicked.emit({row, column});
+    this.cellClicked.emit({ row, column });
   }
 }

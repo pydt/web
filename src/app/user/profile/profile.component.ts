@@ -1,16 +1,16 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Component, OnInit } from "@angular/core";
 import {
-  CivGame, CurrentUserDataWithPud, MetadataCacheService, PrivateUserData, ProfileCacheService, User, UserService
-} from 'pydt-shared';
-import { BehaviorSubject, combineLatest } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { AuthService, NotificationService } from '../../shared';
+  CivGame, CurrentUserDataWithPud, MetadataCacheService, PrivateUserData, ProfileCacheService, User, UserService,
+} from "pydt-shared";
+import { BehaviorSubject, combineLatest } from "rxjs";
+import { map } from "rxjs/operators";
+import { AuthService, NotificationService } from "../../shared";
 
 @Component({
-  selector: 'pydt-user-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: "pydt-user-profile",
+  templateUrl: "./profile.component.html",
+  styleUrls: ["./profile.component.scss"],
 })
 export class UserProfileComponent implements OnInit {
   token: string;
@@ -23,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushNotificationsEndpoint$]).pipe(map(l => {
     const wps = l[0].pud.webPushSubscriptions || [];
     const endpoint = l[1];
+
     return !!wps.find(x => x.endpoint === endpoint);
   }));
 
@@ -32,11 +33,11 @@ export class UserProfileComponent implements OnInit {
     private http: HttpClient,
     public notificationService: NotificationService,
     private profileCache: ProfileCacheService,
-    private metadataCache: MetadataCacheService
+    private metadataCache: MetadataCacheService,
   ) {
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.token = this.auth.getToken();
 
     this.currentUser$.next(await this.userApi.getCurrentWithPud().toPromise());
@@ -51,29 +52,29 @@ export class UserProfileComponent implements OnInit {
     await this.testForumUsername();
   }
 
-  get user() {
+  get user(): User {
     return this.currentUser$.value?.user;
   }
 
-  get pud() {
+  get pud(): PrivateUserData {
     return this.currentUser$.value?.pud;
   }
 
-  private setUser(user: User) {
+  private setUser(user: User): void {
     this.currentUser$.next({
       ...this.currentUser$.value,
-      user
+      user,
     });
   }
 
-  private setPud(pud: PrivateUserData) {
+  private setPud(pud: PrivateUserData): void {
     this.currentUser$.next({
       ...this.currentUser$.value,
-      pud
+      pud,
     });
   }
 
-  async testForumUsername() {
+  async testForumUsername(): Promise<void> {
     const effectiveUserName = this.user.forumUsername || this.user.displayName;
     const discourseUrl = `https://discourse.playyourdamnturn.com/users/${effectiveUserName}.json`;
 
@@ -85,7 +86,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  async subscribeWebPush() {
+  async subscribeWebPush(): Promise<void> {
     const pud = await this.notificationService.subscribeToPushNotifications();
 
     if (pud) {
@@ -93,7 +94,7 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  async unsubscribeWebPush() {
+  async unsubscribeWebPush(): Promise<void> {
     const pud = await this.notificationService.unsubscribeToPushNotifications();
 
     if (pud) {
@@ -101,42 +102,42 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
-  onEmailSubmit() {
+  onEmailSubmit(): void {
     this.userApi.setNotificationEmail({
       emailAddress: this.currentUser$.value.pud.emailAddress,
       newTurnEmails: this.currentUser$.value.pud.newTurnEmails,
     }).subscribe(pud => {
       this.setPud(pud);
       this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Email address updated!'
+        type: "success",
+        msg: "Email address updated!",
       });
     });
   }
 
-  onWebhookSubmit() {
+  onWebhookSubmit(): void {
     this.userApi.setWebhookUrl({ webhookUrl: this.currentUser$.value.pud.webhookUrl }).subscribe(pud => {
       this.setPud(pud);
       this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Webhook updated!'
+        type: "success",
+        msg: "Webhook updated!",
       });
     });
   }
 
-  onForumUsernameSubmit() {
-    this.userApi.setForumUsername({ forumUsername: this.currentUser$.value.user.forumUsername }).subscribe(async user => {
-      this.setUser(user);
-      this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Forum Username updated!'
-      });
+  async onForumUsernameSubmit(): Promise<void> {
+    const user = await this.userApi.setForumUsername({ forumUsername: this.currentUser$.value.user.forumUsername }).toPromise();
 
-      await this.testForumUsername();
+    this.setUser(user);
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Forum Username updated!",
     });
+
+    await this.testForumUsername();
   }
 
-  onSubstitutionSubmit() {
+  onSubstitutionSubmit(): void {
     const willSubstituteForGameTypes: string[] = [];
 
     for (const game of this.games) {
@@ -147,22 +148,22 @@ export class UserProfileComponent implements OnInit {
 
     this.userApi.setSubstitutionPrefs({ willSubstituteForGameTypes }).subscribe(() => {
       this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Substitution Preferences updated!'
+        type: "success",
+        msg: "Substitution Preferences updated!",
       });
     });
   }
 
-  onUserInfoSubmit() {
+  onUserInfoSubmit(): void {
     this.userApi.setUserInformation({
       comments: this.user.comments,
       timezone: this.user.timezone,
-      vacationMode: this.user.vacationMode
+      vacationMode: this.user.vacationMode,
     }).subscribe(() => {
       this.profileCache.clearProfile(this.user.steamId);
       this.notificationService.showAlert({
-        type: 'success',
-        msg: 'User Information updated!'
+        type: "success",
+        msg: "User Information updated!",
       });
     });
   }

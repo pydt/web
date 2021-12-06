@@ -1,6 +1,5 @@
-import { Game, DLC, CivGame } from 'pydt-shared';
-import { Utility } from '../../shared/utility';
-import { runInThisContext } from 'vm';
+import { Game, DLC, CivGame, ModelMap } from "pydt-shared";
+import { Utility } from "../../shared/utility";
 
 export class ConfigureGameModel {
   private _slots = 6;
@@ -12,21 +11,21 @@ export class ConfigureGameModel {
   public password: string;
   public webhookUrl: string;
   public gameSpeed = this.civGame.gameSpeeds[0]?.key;
-  public mapFile = this.civGame.maps[0]?.file;
+  public mapFile = (this.civGame.maps[0] as ModelMap)?.file;
   public mapSize = this.civGame.mapSizes[2]?.key;
   public allowJoinAfterStart = true;
   public randomOnly = false;
   public turnTimerEnabled;
 
-  constructor(public civGame: CivGame, public turnTimerMinutes?) {
+  constructor(public civGame: CivGame, public turnTimerMinutes?: number) {
     this.turnTimerEnabled = !!turnTimerMinutes;
     this.turnTimerMinutes = this.turnTimerMinutes || 600;
   }
 
-  get emptyGame() {
-    return <Game> {
-      gameType: this.civGame.id
-    };
+  get emptyGame(): Game {
+    return {
+      gameType: this.civGame.id,
+    } as Game;
   }
 
   set slots(slots: number) {
@@ -38,29 +37,23 @@ export class ConfigureGameModel {
     }
   }
 
-  get slots() {
+  get slots(): number {
     return this._slots;
   }
 
-  dlcSelected(dlc: DLC) {
-    return Object.keys(this.dlc).some(key => {
-      return key === dlc.id && this.dlc[key];
-    });
+  dlcSelected(dlc: DLC): boolean {
+    return Object.keys(this.dlc).some(key => key === dlc.id && this.dlc[key]);
   }
 
-  get dlcIdArray() {
-    return Object.keys(this.dlc).filter(key => {
-      return this.dlc[key];
-    });
+  get dlcIdArray(): string[] {
+    return Object.keys(this.dlc).filter(key => this.dlc[key]);
   }
 
-  get selectedMap() {
-    return this.civGame.maps.find(map => {
-      return map.file === this.mapFile;
-    });
+  get selectedMap(): ModelMap {
+    return this.civGame.maps.find((map: ModelMap) => map.file === this.mapFile) as ModelMap;
   }
 
-  possiblyUpdateMapSize() {
+  possiblyUpdateMapSize(): void {
     const selectedMap = this.selectedMap;
 
     if (selectedMap && selectedMap.mapSize) {
@@ -68,15 +61,15 @@ export class ConfigureGameModel {
     }
   }
 
-  get turnTimerMinutesString() {
+  get turnTimerMinutesString(): string {
     if (!this.turnTimerEnabled) {
-      return '';
+      return "";
     }
 
-    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3);
+    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3) as string;
   }
 
-  toJSON(): any {
+  toJSON(): unknown {
     return {
       displayName: this.displayName,
       description: this.description,
@@ -90,8 +83,8 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
-      turnTimerMinutes: this.turnTimerEnabled ? this.turnTimerMinutes : undefined,
-      webhookUrl: this.webhookUrl
+      ...(this.turnTimerEnabled ? { turnTimerMinutes: this.turnTimerMinutes } : {}),
+      webhookUrl: this.webhookUrl,
     };
   }
 }

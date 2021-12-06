@@ -1,19 +1,19 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
-import { NavigationEnd, Router, ActivatedRoute } from '@angular/router';
-import { SwUpdate } from '@angular/service-worker';
-import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { setTheme } from 'ngx-bootstrap/utils';
-import { AuthService as AuthApi } from 'pydt-shared';
-import { filter, map, mergeMap } from 'rxjs/operators';
-import { environment } from '../environments/environment';
-import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from './shared';
+import { HttpClient } from "@angular/common/http";
+import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/core";
+import { Meta, Title } from "@angular/platform-browser";
+import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
+import { SwUpdate } from "@angular/service-worker";
+import { Angulartics2GoogleAnalytics } from "angulartics2/ga";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { setTheme } from "ngx-bootstrap/utils";
+import { AuthService as AuthApi } from "pydt-shared";
+import { filter, map, mergeMap } from "rxjs/operators";
+import { environment } from "../environments/environment";
+import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 
 @Component({
-  selector: 'pydt-app',
-  templateUrl: './app.component.html'
+  selector: "pydt-app",
+  templateUrl: "./app.component.html",
 })
 export class AppComponent implements OnInit {
   isCollapsed = true;
@@ -22,8 +22,8 @@ export class AppComponent implements OnInit {
   errorModalMessage: string;
   alerts: AlertConfig[] = [];
 
-  @ViewChild('errorModal', { static: true }) errorModal: ModalDirective;
-  @ViewChild('updateModal', { static: true }) updateModal: ModalDirective;
+  @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
+  @ViewChild("updateModal", { static: true }) updateModal: ModalDirective;
 
   constructor(
     private authApi: AuthApi,
@@ -37,45 +37,50 @@ export class AppComponent implements OnInit {
     private updates: SwUpdate,
     private title: Title,
     private meta: Meta,
-    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics
+    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
-    setTheme('bs3');
+    setTheme("bs3");
 
-    if (environment.name === 'prod') {
+    if (environment.name === "prod") {
       angulartics2GoogleAnalytics.startTracking();
     }
 
-    this.updates.available.subscribe(x => {
+    this.updates.available.subscribe(() => {
       this.updateModal.show();
     });
 
     // https://stackoverflow.com/questions/48330535/dynamically-add-meta-description-based-on-route-in-angular
     router.events.pipe(
-      filter((event) => event instanceof NavigationEnd),
-       map(() => this.activatedRoute),
-       map((route) => {
-         while (route.firstChild) {
-           route = route.firstChild;
-         }
-         return route;
-       }),
-       filter((route) => route.outlet === 'primary'),
-       mergeMap((route) => route.data)
-      )
-      .subscribe((event) => {
-        this.title.setTitle(`${event['meta']['title']} | Play Your Damn Turn`);
+      filter(event => event instanceof NavigationEnd),
+      map(() => this.activatedRoute),
+      map(route => {
+        let curRoute = route;
 
-        const description = event['meta']['description'];
+        while (curRoute.firstChild) {
+          curRoute = curRoute.firstChild;
+        }
+
+        return curRoute;
+      }),
+      filter(route => route.outlet === "primary"),
+      mergeMap(route => route.data),
+    )
+      .subscribe(event => {
+        const m = event.meta as { title: string, description: string };
+
+        this.title.setTitle(`${m.title} | Play Your Damn Turn`);
+
+        const description = m.description;
 
         if (description) {
-          this.meta.updateTag({ name: 'description', content: description});
+          this.meta.updateTag({ name: "description", content: description });
         } else {
-          this.meta.removeTag(`name='description'`);
+          this.meta.removeTag("name='description'");
         }
       });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.updateIsLoggedIn();
 
     this.router.events.subscribe(() => {
@@ -85,7 +90,7 @@ export class AppComponent implements OnInit {
     this.notificationService.subscribeAlert({
       next: config => {
         this.alerts.push(config);
-      }
+      },
     });
 
     (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
@@ -96,34 +101,42 @@ export class AppComponent implements OnInit {
     });
   }
 
-  downloadLinux() {
-    this.http.get<any>('https://api.github.com/repos/pydt/client/releases/latest').subscribe(resp => {
-      for (const asset of resp.assets) {
-        if ((asset.name as string).endsWith('.AppImage')) {
-          window.location.href = asset.browser_download_url;
-        }
+  async downloadLinux(): Promise<void> {
+    const resp = await this.http.get<{
+      assets: {
+        name: string,
+        // eslint-disable-next-line camelcase
+        browser_download_url: string
+      }[]
+    }>("https://api.github.com/repos/pydt/client/releases/latest").toPromise();
+
+    for (const asset of resp.assets) {
+      if ((asset.name).endsWith(".AppImage")) {
+        window.location.href = asset.browser_download_url;
       }
-    });
-  }
-  reload() {
-    this.updates.activateUpdate().then(() => document.location.reload());
+    }
   }
 
-  updateIsLoggedIn() {
+  async reload(): Promise<void> {
+    await this.updates.activateUpdate();
+    document.location.reload();
+  }
+
+  updateIsLoggedIn(): void {
     this.isLoggedIn = !!this.auth.getToken();
   }
 
-  redirectToLogin() {
-    this.authApi.authenticate().subscribe(resp => {
-      const path = window.location.pathname;
+  async redirectToLogin(): Promise<boolean> {
+    const resp = await this.authApi.authenticate().toPromise();
 
-      if (path.toLowerCase().indexOf('/game') === 0) {
-        // If a user authenticated from a game page, return them there
-        localStorage.setItem('returnUrl', window.location.pathname);
-      }
+    const path = window.location.pathname;
 
-      window.location.href = resp.redirectURL;
-    });
+    if (path.toLowerCase().indexOf("/game") === 0) {
+      // If a user authenticated from a game page, return them there
+      localStorage.setItem("returnUrl", window.location.pathname);
+    }
+
+    window.location.href = resp.redirectURL;
 
     return false;
   }

@@ -59,6 +59,8 @@
               ],
               "outputHashing": "all",
               "optimization": true
+            },
+            "development": {
             }
           },
           "defaultConfiguration": "production"
@@ -190,15 +192,6 @@
           "options": {
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "web:serve"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "e2e/**/*.ts",
-              "e2e/**/*.html"
-            ]
           }
         }
       }

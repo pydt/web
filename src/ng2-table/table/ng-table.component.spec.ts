@@ -1,11 +1,11 @@
-import { Component } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component } from "@angular/core";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { Ng2TableModule } from '../ng-table-module';
+import { Ng2TableModule } from "../ng-table-module";
 
-const html = ``;
+const html = "";
 
-describe('Component: ng2-table', () => {
+describe("Component: ng2-table", () => {
   let fixture: ComponentFixture<any>;
   let context: TestTableComponent;
   let element: any;
@@ -14,17 +14,17 @@ describe('Component: ng2-table', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [TestTableComponent],
-      imports: [Ng2TableModule]
+      imports: [Ng2TableModule],
     });
-    TestBed.overrideComponent(TestTableComponent, {set: {template: html}});
+    TestBed.overrideComponent(TestTableComponent, { set: { template: html } });
     fixture = TestBed.createComponent(TestTableComponent);
     context = fixture.componentInstance;
-    element = fixture.nativeElement.querySelector('#c1');
-    clean = fixture.nativeElement.querySelector('#c2');
+    element = fixture.nativeElement.querySelector("#c1");
+    clean = fixture.nativeElement.querySelector("#c2");
     fixture.detectChanges();
   });
 
-  it('should be true', () => {
+  it("should be true", () => {
     expect(true).toBe(true);
   });
 });
@@ -32,7 +32,7 @@ describe('Component: ng2-table', () => {
 @Component({
   // eslint-disable-next-line
   selector: 'table-test',
-  template: ''
+  template: "",
 })
 
 class TestTableComponent {

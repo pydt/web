@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { Game, MetadataCacheService, CivGame } from 'pydt-shared';
-import { ConfigureGameModel } from './configure-game.model';
+import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { DLC, Game, MetadataCacheService, CivGame } from "pydt-shared";
+import { ConfigureGameModel } from "./configure-game.model";
 
 @Component({
-  selector: 'pydt-configure-game',
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.css']
+  selector: "pydt-configure-game",
+  templateUrl: "./config.component.html",
+  styleUrls: ["./config.component.css"],
 })
 export class ConfigureGameComponent implements OnInit {
   @Input() game: Game;
@@ -18,7 +18,7 @@ export class ConfigureGameComponent implements OnInit {
   constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.games = (await this.metadata.getCivGameMetadata()).civGames;
 
     if (this.game) {
@@ -26,11 +26,11 @@ export class ConfigureGameComponent implements OnInit {
     }
   }
 
-  get markdownButtonText() {
-    return this.showMarkdown ? 'Edit Text' : 'Preview Markdown';
+  get markdownButtonText(): string {
+    return this.showMarkdown ? "Edit Text" : "Preview Markdown";
   }
 
-  get allDlcSelected() {
+  get allDlcSelected(): boolean {
     for (const dlc of this.model.civGame.dlcs) {
       if (!this.model.dlc[dlc.id]) {
         return false;
@@ -40,7 +40,7 @@ export class ConfigureGameComponent implements OnInit {
     return true;
   }
 
-  selectAllDlc(selectAll: boolean) {
+  selectAllDlc(selectAll: boolean): void {
     for (const dlc of this.model.civGame.dlcs) {
       this.model.dlc[dlc.id] = selectAll;
     }
@@ -48,27 +48,22 @@ export class ConfigureGameComponent implements OnInit {
     this.validateDlc();
   }
 
-  get majorDlc() {
-    return this.model.civGame.dlcs.filter(dlc => {
-      return dlc.major;
-    });
+  get majorDlc(): DLC[] {
+    return this.model.civGame.dlcs.filter(dlc => dlc.major);
   }
 
-  get minorDlc() {
-    return this.model.civGame.dlcs.filter(dlc => {
-      return !dlc.major;
-    });
+  get minorDlc(): DLC[] {
+    return this.model.civGame.dlcs.filter(dlc => !dlc.major);
   }
 
-  validateDlc() {
+  validateDlc(): void {
     for (const civ of this.selectedCivs) {
-      const leader = this.model.civGame.leaders.find(l => {
-        return l.leaderKey === civ;
-      });
+      const leader = this.model.civGame.leaders.find(l => l.leaderKey === civ);
 
       if (leader.options.dlcId) {
         if (!this.model.dlc[leader.options.dlcId]) {
-          alert(`Can't deselect DLC because there's a player in the game using that DLC.`);
+          // eslint-disable-next-line no-alert
+          alert("Can't deselect DLC because there's a player in the game using that DLC.");
 
           setTimeout(() => {
             this.model.dlc[leader.options.dlcId] = true;

@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, Input, Output, HostListener } from '@angular/core';
+import { Directive, EventEmitter, Input, Output, HostListener } from "@angular/core";
 
 // eslint-disable-next-line
 @Directive({selector: '[ngTablePaging]'})
@@ -15,11 +15,11 @@ export class NgTablePagingDirective {
     this.ngTablePaging = value;
   }
 
-  @HostListener('pagechanged', ['$event'])
+  @HostListener("pagechanged", ["$event"])
   public onChangePage(event: any): void {
     // Object.assign(this.config, event);
     if (this.ngTablePaging) {
-      this.tableChanged.emit({paging: event});
+      this.tableChanged.emit({ paging: event });
     }
   }
 }

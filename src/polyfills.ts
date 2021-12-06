@@ -14,9 +14,9 @@
  * Learn more in https://angular.io/guide/browser-support
  */
 
-/***************************************************************************************************
-* BROWSER POLYFILLS
-*/
+/** *************************************************************************************************
+ * BROWSER POLYFILLS
+ */
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -36,28 +36,26 @@
 (window as any).global = window;
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
+import "classlist.js"; // Run `npm install --save classlist.js`.
 
 /** Evergreen browsers require these. **/
-import 'core-js/es/reflect';
+import "core-js/es/reflect";
 
 
 /**
  * Required to support Web Animations `@angular/animation`.
  * Needed for: All but Chrome, Firefox and Opera. http://caniuse.com/#feat=web-animation
  **/
-import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+import "web-animations-js"; // Run `npm install --save web-animations-js`.
 
 
-
-/***************************************************************************************************
+/** *************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js';  // Included with Angular CLI.
+import "zone.js"; // Included with Angular CLI.
 
 
-
-/***************************************************************************************************
+/** *************************************************************************************************
  * APPLICATION IMPORTS
  */
 

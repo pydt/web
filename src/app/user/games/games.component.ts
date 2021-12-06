@@ -1,10 +1,10 @@
-import { Component, HostListener, OnInit } from '@angular/core';
-import { Game, ProfileCacheService, UserService } from 'pydt-shared';
-import { AuthService } from '../../shared/auth.service';
+import { Component, HostListener, OnInit } from "@angular/core";
+import { Game, ProfileCacheService, UserService } from "pydt-shared";
+import { AuthService } from "../../shared/auth.service";
 
 @Component({
-  selector: 'pydt-user-games',
-  templateUrl: './games.component.html'
+  selector: "pydt-user-games",
+  templateUrl: "./games.component.html",
 })
 export class UserGamesComponent implements OnInit {
   games: Game[];
@@ -14,13 +14,13 @@ export class UserGamesComponent implements OnInit {
   constructor(private userApi: UserService, private authService: AuthService, private profileCache: ProfileCacheService) {
   }
 
-  ngOnInit() {
-    this.getGames();
+  async ngOnInit(): Promise<void> {
+    await this.getGames();
   }
 
-  refresh() {
+  async refresh(): Promise<void> {
     if (!this.refreshDisabled) {
-      this.getGames();
+      await this.getGames();
       this.refreshDisabled = true;
       setTimeout(() => {
         this.refreshDisabled = false;
@@ -28,32 +28,30 @@ export class UserGamesComponent implements OnInit {
     }
   }
 
-  getGames() {
-    this.userApi.games().subscribe(resp => {
-      // Go ahead and get all profiles for all the games in one request
-      this.profileCache.getProfilesForGames(resp.data);
+  async getGames(): Promise<void> {
+    const resp = await this.userApi.games().toPromise();
 
-      const profile = this.authService.getSteamProfile();
+    // Go ahead and get all profiles for all the games in one request
+    void this.profileCache.getProfilesForGames(resp.data);
 
-      const yourTurnGames = resp.data.filter((game: Game) => {
-        return game.inProgress && game.currentPlayerSteamId === profile.steamid;
-      });
+    const profile = this.authService.getSteamProfile();
 
-      this.games = [
-        ...yourTurnGames,
-        ...resp.data.filter(g => !yourTurnGames.includes(g)),
-      ];
-    });
+    const yourTurnGames = resp.data.filter((game: Game) => game.inProgress && game.currentPlayerSteamId === profile.steamid);
+
+    this.games = [
+      ...yourTurnGames,
+      ...resp.data.filter(g => !yourTurnGames.includes(g)),
+    ];
   }
 
-  @HostListener('document:visibilitychange', ['$event'])
-  visibilitychange() {
+  @HostListener("document:visibilitychange", ["$event"])
+  visibilitychange(): void {
     if (!document.hidden) {
-      this.refresh();
+      void this.refresh();
     }
   }
 
-  async getCompetedGames() {
+  async getCompetedGames(): Promise<void> {
     if (!this.completedGames) {
       this.completedGames = await this.userApi.completedGames().toPromise();
     }

@@ -1,18 +1,18 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { gzip } from 'pako';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { gzip } from "pako";
 import {
-  BasePath, BusyService, CivDef, Game, GameService, GameStore, MetadataCacheService,
-  Platform, PydtMetadata, SteamProfile, User, UserService
-} from 'pydt-shared';
-import { AuthService, EndUserError, NotificationService } from '../../shared';
-import { Utility } from '../../shared/utility';
+  BasePath, BusyService, CivDef, CivGame, Game, GameService, GameStore, MetadataCacheService,
+  Platform, PydtMetadata, SteamProfile, User, UserService,
+} from "pydt-shared";
+import { AuthService, EndUserError, NotificationService } from "../../shared";
+import { Utility } from "../../shared/utility";
 
 @Component({
-  selector: 'pydt-game-detail',
-  templateUrl: './detail.component.html',
-  styleUrls: ['./detail.component.scss']
+  selector: "pydt-game-detail",
+  templateUrl: "./detail.component.html",
+  styleUrls: ["./detail.component.scss"],
 })
 export class GameDetailComponent implements OnInit {
   game: Game;
@@ -33,15 +33,15 @@ export class GameDetailComponent implements OnInit {
   metadata: PydtMetadata;
   private discourse: HTMLScriptElement;
 
-  @ViewChild('confirmRevertModal', { static: true }) confirmRevertModal: ModalDirective;
-  @ViewChild('confirmSurrenderModal', { static: true }) confirmSurrenderModal: ModalDirective;
-  @ViewChild('confirmKickUserModal', { static: true }) confirmKickUserModal: ModalDirective;
-  @ViewChild('confirmLeaveModal', { static: true }) confirmLeaveModal: ModalDirective;
-  @ViewChild('confirmDeleteModal', { static: true }) confirmDeleteModal: ModalDirective;
-  @ViewChild('confirmDlcModal', { static: true }) confirmDlcModal: ModalDirective;
-  @ViewChild('mustHaveEmailSetToJoinModal', { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
-  @ViewChild('uploadFirstTurnModal', { static: true }) uploadFirstTurnModal: ModalDirective;
-  @ViewChild('confirmStartGameModal', { static: true }) confirmStartGameModal: ModalDirective;
+  @ViewChild("confirmRevertModal", { static: true }) confirmRevertModal: ModalDirective;
+  @ViewChild("confirmSurrenderModal", { static: true }) confirmSurrenderModal: ModalDirective;
+  @ViewChild("confirmKickUserModal", { static: true }) confirmKickUserModal: ModalDirective;
+  @ViewChild("confirmLeaveModal", { static: true }) confirmLeaveModal: ModalDirective;
+  @ViewChild("confirmDeleteModal", { static: true }) confirmDeleteModal: ModalDirective;
+  @ViewChild("confirmDlcModal", { static: true }) confirmDlcModal: ModalDirective;
+  @ViewChild("mustHaveEmailSetToJoinModal", { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
+  @ViewChild("uploadFirstTurnModal", { static: true }) uploadFirstTurnModal: ModalDirective;
+  @ViewChild("confirmStartGameModal", { static: true }) confirmStartGameModal: ModalDirective;
 
   constructor(
     private gameApi: GameService,
@@ -51,18 +51,18 @@ export class GameDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private notificationService: NotificationService,
     private busyService: BusyService,
-    private metadataCache: MetadataCacheService
+    private metadataCache: MetadataCacheService,
   ) {
-    this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? ':' + location.port : '')}${location.pathname}`;
+    this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? `:${location.port}` : "")}${location.pathname}`;
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.metadata = await this.metadataCache.getCivGameMetadata();
     this.profile = this.auth.getSteamProfile();
-    this.getGame();
+    await this.loadGame();
   }
 
-  get games() {
+  get games(): CivGame[] {
     if (!this.metadata) {
       return [];
     }
@@ -70,7 +70,7 @@ export class GameDetailComponent implements OnInit {
     return this.metadata.civGames;
   }
 
-  get civGame() {
+  get civGame(): CivGame {
     if (!this.game) {
       return null;
     }
@@ -78,20 +78,20 @@ export class GameDetailComponent implements OnInit {
     return this.games.find(x => x.id === this.game.gameType);
   }
 
-  translateLocation(platform: Platform) {
-    let location = platform === Platform.Windows ? '' : '~';
+  translateLocation(platform: Platform): string {
+    let location = platform === Platform.Windows ? "" : "~";
     const locData = this.civGame.saveLocations[platform];
 
     if (locData.basePath === BasePath.AppData) {
-      location = '~/Library/Application Support';
+      location = "~/Library/Application Support";
     } else if (locData.basePath === BasePath.Documents) {
-      location += 'Documents';
+      location += "Documents";
     }
 
     return location + locData.prefix;
   }
 
-  get dataPath() {
+  get dataPath(): string {
     if (!this.civGame) {
       return null;
     }
@@ -99,15 +99,15 @@ export class GameDetailComponent implements OnInit {
     return this.civGame.dataPaths[GameStore.Steam] || this.civGame.dataPaths[GameStore.Epic];
   }
 
-  get winDir() {
+  get winDir(): string {
     if (!this.civGame) {
       return null;
     }
 
-    return `${this.translateLocation(Platform.Windows)}${this.dataPath}${this.civGame.savePath}`.replace(/\//g, '\\');
+    return `${this.translateLocation(Platform.Windows)}${this.dataPath}${this.civGame.savePath}`.replace(/\//gu, "\\");
   }
 
-  get osxDir() {
+  get osxDir(): string {
     if (!this.civGame) {
       return null;
     }
@@ -115,65 +115,66 @@ export class GameDetailComponent implements OnInit {
     return `${this.translateLocation(Platform.OSX)}${this.dataPath}${this.civGame.savePath}`;
   }
 
-  get saveExtension() {
+  get saveExtension(): string {
     if (!this.civGame) {
       return null;
     }
 
-    return '.' + this.civGame.saveExtension;
+    return `.${this.civGame.saveExtension}`;
   }
 
-  discourseEmbed() {
+  discourseEmbed(): void {
     if (!this.discourse && this.game.discourseTopicId) {
       const discourseEmbed = {
-        discourseUrl: 'https://discourse.playyourdamnturn.com/',
-        topicId: this.game.discourseTopicId
+        discourseUrl: "https://discourse.playyourdamnturn.com/",
+        topicId: this.game.discourseTopicId,
       };
 
-      (<any>window).DiscourseEmbed = discourseEmbed;
+      // eslint-disable-next-line dot-notation
+      window["DiscourseEmbed"] = discourseEmbed;
 
-      this.discourse = document.createElement('script');
-      this.discourse.type = 'text/javascript';
+      this.discourse = document.createElement("script");
+      this.discourse.type = "text/javascript";
       this.discourse.async = true;
-      this.discourse.src = discourseEmbed.discourseUrl + 'javascripts/embed.js';
+      this.discourse.src = `${discourseEmbed.discourseUrl}javascripts/embed.js`;
 
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(this.discourse);
+      (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(this.discourse);
     }
   }
 
-  startGame() {
-    this.gameApi.start(this.game.gameId).subscribe(game => {
-      this.setGame(game);
-      this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Game started!'
-      });
+  async startGame(): Promise<void> {
+    const game = await this.gameApi.start(this.game.gameId).toPromise();
+
+    this.setGame(game);
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Game started!",
     });
   }
 
-  getGame() {
-    this.gameApi.get(this.route.snapshot.params['id']).subscribe(game => {
-      this.setGame(game);
-    });
+  async loadGame(): Promise<void> {
+    const game = await this.gameApi.get(this.route.snapshot.params.id).toPromise();
+
+    this.setGame(game);
   }
 
-  startJoinGame() {
+  async startJoinGame(): Promise<void> {
     if (this.game.dlc.length) {
       this.confirmDlcModal.show();
     } else {
-      this.finishJoinGame();
+      await this.finishJoinGame();
     }
   }
 
-  get turnTimerString() {
+  get turnTimerString(): string {
     if (!this.game.turnTimerMinutes) {
-      return '';
+      return "";
     }
 
-    return Utility.countdown(0, this.game.turnTimerMinutes * 60 * 1000);
+    return Utility.countdown(0, this.game.turnTimerMinutes * 60 * 1000) as string;
   }
 
-  async finishJoinGame() {
+  async finishJoinGame(): Promise<void> {
     const current = await this.userApi.getCurrentWithPud().toPromise();
 
     if (!current.pud.emailAddress) {
@@ -181,60 +182,65 @@ export class GameDetailComponent implements OnInit {
     } else {
       const game = await this.gameApi.join(this.game.gameId, {
         playerCiv: this.playerCiv.leaderKey,
-        password: this.joinGamePassword
+        password: this.joinGamePassword,
       }).toPromise();
 
       this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Joined game!'
+        type: "success",
+        msg: "Joined game!",
       });
 
       this.setGame(game);
     }
   }
 
-  async resetGameStateOnNextUpload() {
+  async resetGameStateOnNextUpload(): Promise<void> {
     const game = await this.gameApi.resetGameStateOnNextUpload(this.game.gameId).toPromise();
+
     this.setGame(game);
   }
 
-  changeCiv() {
-    this.gameApi.changeCiv(this.game.gameId, {
-      playerCiv: this.newCiv.leaderKey
-    }).subscribe(game => {
-      this.newCiv = null;
-      this.notificationService.showAlert({
-        type: 'success',
-        msg: 'Changed civilization!'
-      });
+  async changeCiv(): Promise<void> {
+    const game = await this.gameApi.changeCiv(this.game.gameId, {
+      playerCiv: this.newCiv.leaderKey,
+    }).toPromise();
 
-      this.setGame(game);
+    this.newCiv = null;
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Changed civilization!",
     });
+
+    this.setGame(game);
   }
 
-  randomizeUserToSubstitute() {
+  randomizeUserToSubstitute(): User {
     const su = this.substituteUsers;
-    return this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
+
+    const result = this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
+
+    return result;
   }
 
-  loadSubstituteUsers() {
+  async loadSubstituteUsers(): Promise<void> {
     if (!this.substituteUsers) {
-      this.userApi.getSubstituteUsers(this.game.gameType).subscribe(su => {
-        const gameSteamIds = this.game.players.map(x => x.steamId);
-        this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
-        this.randomizeUserToSubstitute();
-      });
+      const su = await this.userApi.getSubstituteUsers(this.game.gameType).toPromise();
+      const gameSteamIds = this.game.players.map(x => x.steamId);
+
+      this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
+      this.randomizeUserToSubstitute();
     }
   }
 
-  setGame(game: Game) {
+  setGame(game: Game): void {
     if (!game) {
-      throw new EndUserError('Game not found.');
+      throw new EndUserError("Game not found.");
     }
 
     this.game = game;
     game.dlc = game.dlc || [];
     const steamIds = game.players.map(x => x.steamId).filter(Boolean);
+
     this.tooManyHumans = steamIds.length >= game.humans;
     this.userInGame = false;
 
@@ -245,9 +251,7 @@ export class GameDetailComponent implements OnInit {
     if (this.profile) {
       this.userInGame = steamIds.includes(this.profile.steamid);
 
-      const userPlayer = game.players.find(player => {
-        return player.steamId === this.profile.steamid;
-      });
+      const userPlayer = game.players.find(player => player.steamId === this.profile.steamid);
 
       if (userPlayer) {
         this.playerCiv = this.findLeader(userPlayer.civType);
@@ -262,14 +266,8 @@ export class GameDetailComponent implements OnInit {
     if (game.inProgress) {
       if (!this.playerCiv && game.allowJoinAfterStart) {
         this.availableCivs = game.players
-          .filter(player => {
-            return !player.steamId;
-          })
-          .map(player => {
-            return this.civGame.leaders.find(leader => {
-              return leader.leaderKey === player.civType;
-            });
-          });
+          .filter(player => !player.steamId)
+          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType));
       }
     } else {
       this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
@@ -287,11 +285,7 @@ export class GameDetailComponent implements OnInit {
       this.playerCiv = this.availableCivs[0];
     }
 
-    this.dlcEnabled = game.dlc.map(dlcId => {
-      return this.civGame.dlcs.find(dlc => {
-        return dlc.id === dlcId;
-      }).displayName;
-    });
+    this.dlcEnabled = game.dlc.map(dlcId => this.civGame.dlcs.find(dlc => dlc.id === dlcId).displayName);
 
     this.dlcDisabled = this.civGame.dlcs
       .filter(dlc => game.dlc.every(dlcId => dlc.id !== dlcId))
@@ -301,28 +295,29 @@ export class GameDetailComponent implements OnInit {
   }
 
   private findLeader(civType: string) {
-    return this.civGame.leaders.find(leader => {
-      return leader.leaderKey === civType;
-    });
+    return this.civGame.leaders.find(leader => leader.leaderKey === civType);
   }
 
-  downloadTurn(gameId) {
-    this.gameApi.getTurn(gameId)
-      .subscribe(resp => {
-        console.log(resp.downloadUrl);
-        window.location.href = resp.downloadUrl;
-      });
+  async downloadTurn(gameId: string): Promise<void> {
+    const resp = await this.gameApi.getTurn(gameId).toPromise();
+
+    window.location.href = resp.downloadUrl;
   }
 
-  async fileSelected(event, gameId) {
-    if (event.target.files.length > 0) {
+  async fileSelected(event: Event, gameId: string): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+    const fileTarget: { files: Blob[], value: string } = (event.target as any);
+
+    if (fileTarget.files.length > 0) {
       this.busyService.incrementBusy(true);
 
       try {
         const gameResp = await this.gameApi.startSubmit(gameId).toPromise();
+
         await new Promise((resolve, reject) => {
           const xhr = new XMLHttpRequest();
-          xhr.open('PUT', gameResp.putUrl, true);
+
+          xhr.open("PUT", gameResp.putUrl, true);
 
           xhr.onload = () => {
             if (xhr.status === 200) {
@@ -336,25 +331,28 @@ export class GameDetailComponent implements OnInit {
             reject(xhr.status);
           };
 
-          xhr.setRequestHeader('Content-Type', 'application/octet-stream');
+          xhr.setRequestHeader("Content-Type", "application/octet-stream");
           const reader = new FileReader();
+
           reader.onload = function() {
-            const array = new Uint8Array(<any>this.result);
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const array = new Uint8Array(this.result as any);
             const toSend = gzip(array);
+
             xhr.send(toSend);
           };
-          reader.readAsArrayBuffer(event.target.files[0]);
+          reader.readAsArrayBuffer(fileTarget.files[0]);
         });
 
         await this.gameApi.finishSubmit(gameId).toPromise();
 
-        this.getGame();
+        await this.loadGame();
         this.notificationService.showAlert({
-          type: 'success',
-          msg: 'Turn submitted successfully!'
+          type: "success",
+          msg: "Turn submitted successfully!",
         });
       } catch (err) {
-        event.target.value = '';
+        fileTarget.value = "";
         throw err;
       } finally {
         this.busyService.incrementBusy(false);
@@ -362,77 +360,75 @@ export class GameDetailComponent implements OnInit {
     }
   }
 
-  revert() {
+  async revert(): Promise<void> {
     this.confirmRevertModal.hide();
 
-    this.gameApi.revert(this.game.gameId).subscribe(game => {
-      this.setGame(game);
-      this.notificationService.showAlert({
-        type: 'warning',
-        msg: 'Turn Reverted!'
-      });
+    const game = await this.gameApi.revert(this.game.gameId).toPromise();
+
+    this.setGame(game);
+    this.notificationService.showAlert({
+      type: "warning",
+      msg: "Turn Reverted!",
     });
   }
 
-  leave() {
+  async leave(): Promise<void> {
     this.confirmLeaveModal.hide();
 
-    this.gameApi.leave(this.game.gameId).subscribe(() => {
-      this.notificationService.showAlert({
-        type: 'warning',
-        msg: 'Left Game :('
-      });
-      this.router.navigate(['/user/games']);
+    await this.gameApi.leave(this.game.gameId).toPromise();
+    this.notificationService.showAlert({
+      type: "warning",
+      msg: "Left Game :(",
     });
+    await this.router.navigate(["/user/games"]);
   }
 
-  surrender() {
+  async surrender(): Promise<void> {
     this.confirmSurrenderModal.hide();
 
     // TODO: Support replace on surrender?
-    this.gameApi.surrender(this.game.gameId, {}).subscribe(() => {
-      this.notificationService.showAlert({
-        type: 'warning',
-        msg: 'Surrendered :('
-      });
-      this.router.navigate(['/user/games']);
+    await this.gameApi.surrender(this.game.gameId, {}).toPromise();
+    this.notificationService.showAlert({
+      type: "warning",
+      msg: "Surrendered :(",
     });
+    await this.router.navigate(["/user/games"]);
   }
 
-  kickPlayer() {
+  async kickPlayer(): Promise<void> {
     this.confirmKickUserModal.hide();
 
     if (this.userToSubstitute) {
-      this.gameApi.replacePlayer(this.game.gameId, {
+      const game = await this.gameApi.replacePlayer(this.game.gameId, {
         newSteamId: this.userToSubstitute.steamId,
-        oldSteamId: this.game.currentPlayerSteamId
-      }).subscribe(game => {
-        this.notificationService.showAlert({
-          type: 'warning',
-          msg: `Successfully kicked user and replaced with ${this.userToSubstitute.displayName}`
-        });
-        this.setGame(game);
+        oldSteamId: this.game.currentPlayerSteamId,
+      }).toPromise();
+
+      this.notificationService.showAlert({
+        type: "warning",
+        msg: `Successfully kicked user and replaced with ${this.userToSubstitute.displayName}`,
       });
+      this.setGame(game);
     } else {
-      this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).subscribe(game => {
-        this.notificationService.showAlert({
-          type: 'warning',
-          msg: 'Successfully kicked user :('
-        });
-        this.setGame(game);
+      const game = await this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).toPromise();
+
+      this.notificationService.showAlert({
+        type: "warning",
+        msg: "Successfully kicked user :(",
       });
+      this.setGame(game);
     }
   }
 
-  delete() {
+  async delete(): Promise<void> {
     this.confirmDeleteModal.hide();
 
-    this.gameApi._delete(this.game.gameId).subscribe(() => {
-      this.notificationService.showAlert({
-        type: 'warning',
-        msg: 'Game Deleted :('
-      });
-      this.router.navigate(['/user/games']);
+    // eslint-disable-next-line no-underscore-dangle
+    await this.gameApi._delete(this.game.gameId).toPromise();
+    this.notificationService.showAlert({
+      type: "warning",
+      msg: "Game Deleted :(",
     });
+    await this.router.navigate(["/user/games"]);
   }
 }

@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { GameService, OpenGamesResponse, ProfileCacheService, SteamProfile, CivGame, MetadataCacheService } from 'pydt-shared';
-import { AuthService } from '../../shared';
+import { Component, OnInit } from "@angular/core";
+import { GameService, OpenGamesResponse, ProfileCacheService, SteamProfile, CivGame, MetadataCacheService } from "pydt-shared";
+import { AuthService } from "../../shared";
 
 @Component({
-  selector: 'pydt-open-games',
-  templateUrl: './open-games.component.html'
+  selector: "pydt-open-games",
+  templateUrl: "./open-games.component.html",
 })
 export class OpenGamesComponent implements OnInit {
   profile: SteamProfile;
   allGames: OpenGamesResponse;
-  gameTypeFilter = '';
+  gameTypeFilter = "";
   games: CivGame[] = [];
 
   constructor(
@@ -20,18 +20,19 @@ export class OpenGamesComponent implements OnInit {
   ) {
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
-    this.getGames();
+    await this.getGames();
     this.profile = this.auth.getSteamProfile();
   }
 
-  getGames() {
-    this.gameApi.listOpen().subscribe(games => {
-      this.allGames = games;
-      // Go ahead and get all profiles for all the games in one request
-      this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
-    });
+  async getGames(): Promise<void> {
+    const games = await this.gameApi.listOpen().toPromise();
+
+    this.allGames = games;
+
+    // Go ahead and get all profiles for all the games in one request
+    await this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
   }
 
   get filteredGames(): OpenGamesResponse {
@@ -41,7 +42,7 @@ export class OpenGamesComponent implements OnInit {
 
     return {
       notStarted: this.allGames.notStarted.filter(x => x.gameType === this.gameTypeFilter),
-      openSlots: this.allGames.openSlots.filter(x => x.gameType === this.gameTypeFilter)
+      openSlots: this.allGames.openSlots.filter(x => x.gameType === this.gameTypeFilter),
     };
   }
 }

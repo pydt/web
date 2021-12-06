@@ -1,10 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ProfileCacheService, SteamProfile, User } from 'pydt-shared';
-import { Utility } from '../../shared/utility';
+import { Component, Input, OnInit } from "@angular/core";
+import { ProfileCacheService, SteamProfile, User } from "pydt-shared";
+import { Utility } from "../../shared/utility";
 
 @Component({
-  selector: 'pydt-user-info',
-  templateUrl: './info.component.html'
+  selector: "pydt-user-info",
+  templateUrl: "./info.component.html",
 })
 export class UserInfoComponent implements OnInit {
   @Input() user: User;
@@ -13,14 +13,15 @@ export class UserInfoComponent implements OnInit {
   constructor(private profileCache: ProfileCacheService) {
   }
 
-  ngOnInit() {
-    this.profileCache.getProfiles([this.user.steamId]).then(result => {
-      this.profile = result[this.user.steamId];
-    });
+  async ngOnInit(): Promise<void> {
+    const result = await this.profileCache.getProfiles([this.user.steamId]);
+
+    this.profile = result[this.user.steamId];
   }
 
-  averageTurnTime() {
+  averageTurnTime(): unknown {
     const avgTurnTime = this.user.timeTaken / (this.user.turnsPlayed + this.user.turnsSkipped);
+
     return Utility.countdown(0, avgTurnTime);
   }
 }

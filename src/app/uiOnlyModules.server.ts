@@ -1,4 +1,3 @@
-import { EmptyModule } from './empty.module';
+import { EmptyModule } from "./empty.module";
 
 export const DragulaModule = EmptyModule;
-

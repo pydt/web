@@ -1,21 +1,36 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ModalDirective } from 'ngx-bootstrap/modal';
-import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheService, CivGame } from 'pydt-shared';
-import { AuthService, NotificationService } from '../../shared';
-import { Utility } from '../../shared/utility';
-import { ConfigureGameModel } from '../config/configure-game.model';
-import { GameCreateButtonComponent } from '../create-button/create-button.component';
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
+import { ModalDirective } from "ngx-bootstrap/modal";
+import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheService, CivGame } from "pydt-shared";
+import { AuthService, NotificationService } from "../../shared";
+import { Utility } from "../../shared/utility";
+import { ConfigureGameModel } from "../config/configure-game.model";
+import { GameCreateButtonComponent } from "../create-button/create-button.component";
+
+class CreateGameModel extends ConfigureGameModel {
+  constructor(public randomCiv: CivDef, civGame: CivGame, turnTimerMinutes?) {
+    super(civGame, turnTimerMinutes);
+  }
+
+  public player1Civ = this.civGame.leaders.find(leader => !leader.options.dlcId && leader !== this.randomCiv);
+
+  toJSON(): CreateGameRequestBody {
+    const result = super.toJSON() as CreateGameRequestBody;
+
+    result.player1Civ = this.player1Civ.leaderKey;
+    return result;
+  }
+}
 
 @Component({
-  selector: 'pydt-create-game',
-  templateUrl: './create.component.html'
+  selector: "pydt-create-game",
+  templateUrl: "./create.component.html",
 })
 export class CreateGameComponent implements OnInit {
   model: CreateGameModel;
   randomCiv: CivDef;
 
-  @ViewChild('mustSetEmailModal', { static: true }) mustSetEmailModal: ModalDirective;
+  @ViewChild("mustSetEmailModal", { static: true }) mustSetEmailModal: ModalDirective;
 
   constructor(
     private gameApi: GameService,
@@ -24,25 +39,28 @@ export class CreateGameComponent implements OnInit {
     private router: Router,
     private notificationService: NotificationService,
     private route: ActivatedRoute,
-    private metadataCache: MetadataCacheService
+    private metadataCache: MetadataCacheService,
   ) {
   }
 
-  filteredLeaders() {
+  filteredLeaders(): CivDef[] {
     return Utility.filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray);
   }
 
-  async ngOnInit() {
+  async ngOnInit(): Promise<void> {
     const metadata = await this.metadataCache.getCivGameMetadata();
+
     this.randomCiv = metadata.randomCiv;
-    const gameTypeParam = this.route.snapshot.params['gameType'];
+    const gameTypeParam = this.route.snapshot.params.gameType as string;
     const civGame = gameTypeParam ? metadata.civGames.find(x => x.id === gameTypeParam) : metadata.civGames[0];
+
     this.model = new CreateGameModel(this.randomCiv, civGame);
     const profile = this.auth.getSteamProfile();
-    this.model.displayName = profile.personaname + '\'s game!';
 
-    if (!GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame)) {
-      this.router.navigate(['/user/games']);
+    this.model.displayName = `${profile.personaname}'s game!`;
+
+    if (!await GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame)) {
+      await this.router.navigate(["/user/games"]);
       return;
     }
 
@@ -53,11 +71,11 @@ export class CreateGameComponent implements OnInit {
     }
   }
 
-  selectedCivChange(civ: CivDef) {
+  selectedCivChange(civ: CivDef): void {
     this.model.player1Civ = civ;
   }
 
-  get curCiv() {
+  get curCiv(): CivDef {
     if (!this.model) {
       return null;
     }
@@ -65,34 +83,18 @@ export class CreateGameComponent implements OnInit {
     return this.model.randomOnly ? this.randomCiv : this.model.player1Civ;
   }
 
-  onSubmit() {
+  async onSubmit(): Promise<void> {
     if (this.model.randomOnly) {
       this.model.player1Civ = this.randomCiv;
     }
 
-    this.gameApi.create(this.model.toJSON())
-      .subscribe(game => {
-        this.router.navigate(['/game', game.gameId]);
-        this.notificationService.showAlert({
-          type: 'success',
-          msg: 'Game created!'
-        });
-      });
-  }
-}
+    const game = await this.gameApi.create(this.model.toJSON()).toPromise();
 
-class CreateGameModel extends ConfigureGameModel {
-  constructor(public randomCiv: CivDef, civGame: CivGame, turnTimerMinutes?) {
-    super(civGame, turnTimerMinutes);
-  }
+    await this.router.navigate(["/game", game.gameId]);
 
-  public player1Civ = this.civGame.leaders.find(leader => {
-    return !leader.options.dlcId && leader !== this.randomCiv;
-  });
-
-  toJSON(): CreateGameRequestBody {
-    const result = super.toJSON() as CreateGameRequestBody;
-    result.player1Civ = this.player1Civ.leaderKey;
-    return result;
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Game created!",
+    });
   }
 }
