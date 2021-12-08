@@ -267,7 +267,7 @@ export class GameDetailComponent implements OnInit {
       if (!this.playerCiv && game.allowJoinAfterStart) {
         this.availableCivs = game.players
           .filter(player => !player.steamId)
-          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType));
+          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || this.metadata.randomCiv);
       }
     } else {
       this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
