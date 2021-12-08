@@ -50,6 +50,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   new ProfileCacheService(userService, null);
 
 @NgModule({
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   imports: [
     DragulaModule,
     AlertModule.forRoot(),
