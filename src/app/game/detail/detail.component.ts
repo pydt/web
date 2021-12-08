@@ -267,7 +267,11 @@ export class GameDetailComponent implements OnInit {
       if (!this.playerCiv && game.allowJoinAfterStart) {
         this.availableCivs = game.players
           .filter(player => !player.steamId)
-          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || this.metadata.randomCiv);
+          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
+            ...this.metadata.randomCiv,
+            leaderKey: player.civType,
+            fullDisplayName: player.civType,
+          });
       }
     } else {
       this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();

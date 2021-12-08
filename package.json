@@ -8,8 +8,8 @@
     "build": "npm run env-vars && npm run lint && ng run web:prerender --configuration production",
     "serve-prod-local": "npm run build & http-server dist",
     "test": "ng test",
-    "lint": "npm run env-vars && ng lint",
-    "lint-fix": "npm run env-vars && ng lint --fix",
+    "lint": "ng lint",
+    "lint-fix": "ng lint --fix",
     "e2e": "ng e2e",
     "prerender": "ng run web:prerender"
   },
