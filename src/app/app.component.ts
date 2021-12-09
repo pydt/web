@@ -9,6 +9,7 @@ import { setTheme } from "ngx-bootstrap/utils";
 import { AuthService as AuthApi } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
+import * as envVars from "../envVars";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 
 @Component({
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   isLoggedIn = false;
   errorModalMessage: string;
   alerts: AlertConfig[] = [];
+  env = envVars;
 
   @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
   @ViewChild("updateModal", { static: true }) updateModal: ModalDirective;

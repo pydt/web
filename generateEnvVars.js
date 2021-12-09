@@ -11,8 +11,10 @@ try {
 }
 
 const rev = cp.execSync('git rev-parse HEAD').toString().trim();
+const date = cp.execSync('git log -1 --format=%cs').toString().trim();
 
 require('fs').writeFileSync('src/envVars.js', 'module.exports=' + JSON.stringify({
   rev,
+  date,
   apiUrl
 }) + ';');

@@ -40,10 +40,13 @@
   <footer class="footer">
     <div class="container">
       <div class="row">
-        <div class="col-sm-6">
-          <p class="text-muted" style="margin-top:20px;">Copyright {{copyrightDate}} <a target="_blank" href="https://www.rosacksoftwaresolutions.com">Rosack Software Solutions, LLC</a>.</p>
+        <div class="col-sm-8">
+          <p class="text-muted" style="margin-top:10px;margin-bottom:0;">
+            Copyright {{copyrightDate}} <a target="_blank" href="https://www.rosacksoftwaresolutions.com">Rosack Software Solutions, LLC</a>.<br />
+            Version <a target="_blank" href="https://github.com/pydt/web/commit/{{env.rev}}">{{env.rev}}</a> ({{env.date}})
+          </p>
         </div>
-        <div class="col-sm-6 text-right hidden-xs">
+        <div class="col-sm-4 text-right hidden-xs">
           <p class="text-muted" style="margin-top:20px;">Source code available on <a href="https://github.com/pydt" target="_blank">Github</a>.</p>
         </div>
       </div>
