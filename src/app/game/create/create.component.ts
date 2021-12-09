@@ -8,7 +8,7 @@ import { ConfigureGameModel } from "../config/configure-game.model";
 import { GameCreateButtonComponent } from "../create-button/create-button.component";
 
 class CreateGameModel extends ConfigureGameModel {
-  constructor(public randomCiv: CivDef, civGame: CivGame, turnTimerMinutes?) {
+  constructor(public randomCiv: CivDef, civGame: CivGame, turnTimerMinutes?: number) {
     super(civGame, turnTimerMinutes);
   }
 

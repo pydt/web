@@ -153,7 +153,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   async loadGame(): Promise<void> {
-    const game = await this.gameApi.get(this.route.snapshot.params.id).toPromise();
+    const game = await this.gameApi.get(this.route.snapshot.params.id as string).toPromise();
 
     this.setGame(game);
   }
@@ -339,7 +339,7 @@ export class GameDetailComponent implements OnInit {
           const reader = new FileReader();
 
           reader.onload = function() {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
             const array = new Uint8Array(this.result as any);
             const toSend = gzip(array);
 

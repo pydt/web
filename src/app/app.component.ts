@@ -3,7 +3,7 @@ import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/cor
 import { Meta, Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
-import { Angulartics2GoogleAnalytics } from "angulartics2/ga";
+import { Angulartics2GoogleAnalytics } from "angulartics2";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { setTheme } from "ngx-bootstrap/utils";
 import { AuthService as AuthApi } from "pydt-shared";
@@ -47,8 +47,10 @@ export class AppComponent implements OnInit {
       angulartics2GoogleAnalytics.startTracking();
     }
 
-    this.updates.available.subscribe(() => {
-      this.updateModal.show();
+    this.updates.versionUpdates.subscribe(e => {
+      if (e.type === "VERSION_READY") {
+        this.updateModal.show();
+      }
     });
 
     // https://stackoverflow.com/questions/48330535/dynamically-add-meta-description-based-on-route-in-angular

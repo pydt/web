@@ -35,7 +35,7 @@ export class EditGameComponent implements OnInit {
 
     const params = await this.route.params.toPromise();
 
-    const game = await this.gameApi.get(params.id).toPromise();
+    const game = await this.gameApi.get(params.id as string).toPromise();
 
     this.game = game;
     const civGame = metadata.civGames.find(x => x.id === game.gameType);
