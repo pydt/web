@@ -13,7 +13,7 @@ import { ErrorHandlerService } from './src/app/shared';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
-  const errorHandler = new ErrorHandlerService(process.env['ROLLBAR_TOKEN']);
+  const errorHandler = new ErrorHandlerService();
   const server = express();
   const distFolder = join(process.cwd(), 'dist/web/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index.html';
@@ -29,7 +29,24 @@ export function app(): express.Express {
 
   // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
+    maxAge: '1y',
+    setHeaders: (res, path) => {
+      const noCacheFiles = [
+        '3rdpartylicenses.txt',
+        'index.html',
+        'index.original.html',
+        'manifest.webmanifest',
+        'ngsw-worker.js',
+        'ngsw.json',
+        'robots.txt',
+        'safety-worker.js',
+        'worker-basic.min.js'
+      ];
+
+      if (noCacheFiles.some(x => path.endsWith(x))) {
+        res.setHeader('Cache-Control', 'public, max-age=0')
+      }
+    }
   }));
 
   // All regular routes use the Universal engine
@@ -38,10 +55,10 @@ export function app(): express.Express {
       if (err) {
         errorHandler.handleError(err);
         // If there's an error, we just want to send the index instead of dying
-        return res.send(indexData);
+        return res.setHeader('Cache-Control', 'public, max-age=0').send(indexData);
       }
       
-      return res.send(html);
+      return res.setHeader('Cache-Control', 'public, max-age=0').send(html);
     });
   });
 

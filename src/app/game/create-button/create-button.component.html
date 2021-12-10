@@ -3,7 +3,7 @@
     <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
       Create a New Game! <span class="caret"></span>
     </button>
-    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic" style="margin-top:50px;">
+    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
       <li role="menuitem" *ngFor="let game of games"><a class="dropdown-item" style="cursor: pointer;" (click)="tryCreateGame(game)">{{ game.displayName }}</a></li>
     </ul>
   </div>

@@ -12,6 +12,9 @@ function bootstrap() {
   platformBrowserDynamic().bootstrapModule(AppModule);
 }
 
+global.process = {
+  env: {}
+} as any;
 
 if (document.readyState === "complete") {
   bootstrap();

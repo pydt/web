@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/core";
+import { Component, ErrorHandler, Inject, NgZone, OnInit, ViewChild, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
@@ -39,6 +40,7 @@ export class AppComponent implements OnInit {
     private updates: SwUpdate,
     private metatag: MetatagService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
+    @Inject(PLATFORM_ID) private platformId: unknown,
   ) {
     setTheme("bs3");
 
@@ -88,12 +90,14 @@ export class AppComponent implements OnInit {
       },
     });
 
-    (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
-      this.zone.run(() => {
-        this.errorModalMessage = endUserErrorMessage;
-        this.errorModal.show();
+    if (isPlatformBrowser(this.platformId)) {
+      (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
+        this.zone.run(() => {
+          this.errorModalMessage = endUserErrorMessage;
+          this.errorModal.show();
+        });
       });
-    });
+    }
   }
 
   async downloadLinux(): Promise<void> {

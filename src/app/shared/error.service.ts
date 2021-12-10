@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable, Optional } from "@angular/core";
+import { ErrorHandler, Injectable } from "@angular/core";
 import * as Rollbar from "rollbar";
 import { Subject } from "rxjs";
 import { environment } from "../../environments/environment";
@@ -19,9 +19,10 @@ export class ErrorHandlerService implements ErrorHandler {
   private errorStream = new Subject();
   private rollbar: Rollbar;
 
-  constructor(@Optional() tokenOverride?: string) {
+  constructor() {
     this.rollbar = new Rollbar({
-      accessToken: tokenOverride || "449af5e02e4248a489633e6c917b333b",
+      // eslint-disable-next-line dot-notation
+      accessToken: process.env["ROLLBAR_SERVER_API_KEY"] || "449af5e02e4248a489633e6c917b333b",
       captureUncaught: true,
       captureUnhandledRejections: true,
       enabled: environment.name !== "dev",
@@ -58,14 +59,16 @@ export class ErrorHandlerService implements ErrorHandler {
     }
 
     if (!endUserErrorMessage) {
-      console.error(error);
-      this.rollbar.error(error, (err, data) => {
-        if (err) {
-          console.log("Error while reporting error to Rollbar: ", err);
-        } else {
-          console.log("Error successfully reported to Rollbar. UUID:", data.result.uuid);
-        }
-      });
+      const messagesToIgnore = ['Cannot match any routes'];
+
+      if (!error.message || !messagesToIgnore.some(x => error.message.includes(x))) {
+        console.error(error);
+        this.rollbar.error(error, (err, data) => {
+          if (err) {
+            console.log("Error while reporting error to Rollbar: ", err);
+          }
+        });
+      }
     }
 
     this.errorStream.next(endUserErrorMessage);

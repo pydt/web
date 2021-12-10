@@ -5,13 +5,12 @@
     "ng": "ng",
     "env-vars": "node generateEnvVars.js",
     "start": "npm run env-vars && ng serve",
-    "build": "npm run env-vars && npm run lint && ng run web:build --configuration production && ng run web:server --configuration production",
+    "build": "npm run env-vars && npm run lint && ng run web:prerender --configuration production",
     "serve-ssr": "npm run build & node dist/web/server/main.js",
     "test": "ng test",
     "lint": "ng lint",
     "lint-fix": "ng lint --fix",
-    "e2e": "ng e2e",
-    "prerender": "ng run web:prerender"
+    "e2e": "ng e2e"
   },
   "private": true,
   "dependencies": {
@@ -42,6 +41,7 @@
     "ngx-markdown": "^13.0.0",
     "pako": "^2.0.4",
     "pydt-shared": "^1.7.2",
+    "remove-markdown": "^0.3.0",
     "rollbar": "^2.24.0",
     "rxjs": "^7.4.0",
     "source-map-support": "^0.5.21",
@@ -67,6 +67,7 @@
     "@types/json2csv": "^5.0.3",
     "@types/node": "^16.11.12",
     "@types/pako": "^1.0.2",
+    "@types/remove-markdown": "^0.3.1",
     "@typescript-eslint/eslint-plugin": "^5.6.0",
     "@typescript-eslint/parser": "^5.6.0",
     "eslint": "^8.4.1",

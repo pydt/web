@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/pydt/web.svg?branch=master)](https://travis-ci.com/pydt/web)
+[![Build Status](https://github.com/pydt/web/actions/workflows/sls-lambda-universal.yml/badge.svg)](https://github.com/pydt/web/actions/workflows/sls-lambda-universal.yml)
 
 # PYDT angular2 web
 

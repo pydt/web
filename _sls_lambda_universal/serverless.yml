@@ -1,0 +1,26 @@
+service: pydt-universal-www
+
+plugins:
+  - serverless-apigw-binary
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  memorySize: 1024
+  timeout: 30
+  stage: dev
+  lambdaHashingVersion: 20201221
+  environment:
+    ROLLBAR_SERVER_API_KEY: ${env:ROLLBAR_SERVER_API_KEY}
+
+custom:
+  apigwBinary:
+    types:
+      - '*/*'
+
+functions:
+  api:
+    handler: pydt-universal.handler
+    events:
+      - http: GET /{proxy+}
+      - http: GET /

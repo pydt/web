@@ -31,7 +31,7 @@ import { OpenGamesComponent } from "./game/open-games/open-games.component";
 import { GamePreviewComponent } from "./game/preview/preview.component";
 import { SelectCivComponent } from "./game/select-civ/select-civ.component";
 import { HomeComponent } from "./home/home.component";
-import { AuthService, ErrorHandlerService, NotificationService } from "./shared";
+import { AuthService, ErrorHandlerService, MetatagService, NotificationService } from "./shared";
 import { SteamReturnComponent } from "./steamreturn/steamreturn.component";
 import { UserGamesComponent } from "./user/games/games.component";
 import { UserInfoComponent } from "./user/info/info.component";
@@ -103,6 +103,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   ],
   providers: [
     AuthService,
+    MetatagService,
     { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },
     { provide: HTTP_INTERCEPTORS, useExisting: DateInterceptor, multi: true },

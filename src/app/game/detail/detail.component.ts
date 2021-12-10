@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, Inject, OnInit, ViewChild, PLATFORM_ID } from "@angular/core";
+import { isPlatformBrowser } from "@angular/common";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
+import removeMarkdown from "remove-markdown";
 import { gzip } from "pako";
 import {
   BasePath, BusyService, CivDef, CivGame, Game, GameService, GameStore, MetadataCacheService,
@@ -54,8 +56,9 @@ export class GameDetailComponent implements OnInit {
     private busyService: BusyService,
     private metadataCache: MetadataCacheService,
     private metatag: MetatagService,
+    @Inject(PLATFORM_ID) private platformId: unknown,
   ) {
-    if (window.location) {
+    if (isPlatformBrowser(platformId)) {
       this.pageUrl = `${window.location.protocol}//${window.location.hostname}${(window.location.port ? `:${window.location.port}` : "")}${window.location.pathname}`;
     }
   }
@@ -65,7 +68,10 @@ export class GameDetailComponent implements OnInit {
     this.profile = this.auth.getSteamProfile();
     await this.loadGame();
 
-    this.metatag.setTitleAndDesc(this.game.displayName, this.game.description);
+    this.metatag.setTitleAndDesc(
+      `${this.game.displayName} | ${this.civGame.displayName}`,
+      removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() || "This game doesn't have a description... I'm sure it's great though!",
+    );
   }
 
   get games(): CivGame[] {
@@ -130,7 +136,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   discourseEmbed(): void {
-    if (window.document && !this.discourse && this.game.discourseTopicId) {
+    if (isPlatformBrowser(this.platformId)) {
       const discourseEmbed = {
         discourseUrl: "https://discourse.playyourdamnturn.com/",
         topicId: this.game.discourseTopicId,

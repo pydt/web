@@ -1,0 +1,24 @@
+name: Deploy universal web build as serverless lambda
+on:
+  push:
+    branches:
+      - master
+      - develop
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: |
+          npm install
+          npm run build
+          cd _sls_lambda_universal
+          npm install
+          npm run deploy-${GITHUB_REF##*/}
+        env:
+          AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
+          AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          ROLLBAR_SERVER_API_KEY: ${{secrets.ROLLBAR_SERVER_API_KEY}}
