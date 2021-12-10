@@ -8,6 +8,7 @@ import {
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
+import { MetatagService } from "./../../shared/metatag.service";
 
 @Component({
   selector: "pydt-game-detail",
@@ -24,7 +25,7 @@ export class GameDetailComponent implements OnInit {
   playerCiv: CivDef;
   joinGamePassword: string;
   newCiv: CivDef;
-  pageUrl: string;
+  pageUrl = "";
   dlcEnabled: string[];
   dlcDisabled: string[];
   historyTabOpened = false;
@@ -52,14 +53,19 @@ export class GameDetailComponent implements OnInit {
     private notificationService: NotificationService,
     private busyService: BusyService,
     private metadataCache: MetadataCacheService,
+    private metatag: MetatagService,
   ) {
-    this.pageUrl = `${location.protocol}//${location.hostname}${(location.port ? `:${location.port}` : "")}${location.pathname}`;
+    if (window.location) {
+      this.pageUrl = `${window.location.protocol}//${window.location.hostname}${(window.location.port ? `:${window.location.port}` : "")}${window.location.pathname}`;
+    }
   }
 
   async ngOnInit(): Promise<void> {
     this.metadata = await this.metadataCache.getCivGameMetadata();
     this.profile = this.auth.getSteamProfile();
     await this.loadGame();
+
+    this.metatag.setTitleAndDesc(this.game.displayName, this.game.description);
   }
 
   get games(): CivGame[] {
@@ -124,7 +130,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   discourseEmbed(): void {
-    if (!this.discourse && this.game.discourseTopicId) {
+    if (window.document && !this.discourse && this.game.discourseTopicId) {
       const discourseEmbed = {
         discourseUrl: "https://discourse.playyourdamnturn.com/",
         topicId: this.game.discourseTopicId,
@@ -133,12 +139,12 @@ export class GameDetailComponent implements OnInit {
       // eslint-disable-next-line dot-notation
       window["DiscourseEmbed"] = discourseEmbed;
 
-      this.discourse = document.createElement("script");
+      this.discourse = window.document.createElement("script");
       this.discourse.type = "text/javascript";
       this.discourse.async = true;
       this.discourse.src = `${discourseEmbed.discourseUrl}javascripts/embed.js`;
 
-      (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(this.discourse);
+      (window.document.getElementsByTagName("head")[0] || window.document.getElementsByTagName("body")[0]).appendChild(this.discourse);
     }
   }
 

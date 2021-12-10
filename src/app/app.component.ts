@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/core";
-import { Meta, Title } from "@angular/platform-browser";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
@@ -11,6 +10,7 @@ import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
 import * as envVars from "../envVars";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
+import { MetatagService } from "./shared/metatag.service";
 
 @Component({
   selector: "pydt-app",
@@ -37,8 +37,7 @@ export class AppComponent implements OnInit {
     private notificationService: NotificationService,
     private zone: NgZone,
     private updates: SwUpdate,
-    private title: Title,
-    private meta: Meta,
+    private metatag: MetatagService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
     setTheme("bs3");
@@ -72,15 +71,7 @@ export class AppComponent implements OnInit {
       .subscribe(event => {
         const m = event.meta as { title: string, description: string };
 
-        this.title.setTitle(`${m.title} | Play Your Damn Turn`);
-
-        const description = m.description;
-
-        if (description) {
-          this.meta.updateTag({ name: "description", content: description });
-        } else {
-          this.meta.removeTag("name='description'");
-        }
+        this.metatag.setTitleAndDesc(m.title, m.description);
       });
   }
 

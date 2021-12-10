@@ -122,7 +122,8 @@
           "options": {
             "outputPath": "dist/web/server",
             "main": "server.ts",
-            "tsConfig": "src/tsconfig.server.json"
+            "tsConfig": "src/tsconfig.server.json",
+            "sourceMap": true
           },
           "configurations": {
             "production": {
@@ -140,7 +141,6 @@
             },
             "development": {
               "optimization": false,
-              "sourceMap": true,
               "extractLicenses": false
             }
           },
