@@ -51,7 +51,7 @@ export class CreateGameComponent implements OnInit {
     const metadata = await this.metadataCache.getCivGameMetadata();
 
     this.randomCiv = metadata.randomCiv;
-    const gameTypeParam = this.route.snapshot.params.gameType as string;
+    const gameTypeParam = this.route.snapshot.paramMap.get("gameType");
     const civGame = gameTypeParam ? metadata.civGames.find(x => x.id === gameTypeParam) : metadata.civGames[0];
 
     this.model = new CreateGameModel(this.randomCiv, civGame);

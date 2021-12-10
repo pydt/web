@@ -33,9 +33,9 @@ export class EditGameComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const metadata = await this.metadataCache.getCivGameMetadata();
 
-    const params = await this.route.params.toPromise();
+    const gameId = this.route.snapshot.paramMap.get("id");
 
-    const game = await this.gameApi.get(params.id as string).toPromise();
+    const game = await this.gameApi.get(gameId).toPromise();
 
     this.game = game;
     const civGame = metadata.civGames.find(x => x.id === game.gameType);

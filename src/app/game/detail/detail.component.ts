@@ -153,7 +153,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   async loadGame(): Promise<void> {
-    const game = await this.gameApi.get(this.route.snapshot.params.id as string).toPromise();
+    const game = await this.gameApi.get(this.route.snapshot.paramMap.get("id")).toPromise();
 
     this.setGame(game);
   }
