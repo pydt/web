@@ -236,7 +236,7 @@
       </div>
     </tab>
   </tabset>
-  <div *ngIf="game && availableCivs.length">
+  <ng-container *ngIf="game && availableCivs.length">
     <div class="panel panel-default">
       <div class="panel-heading">Join Game</div>
       <div class="panel-body">
@@ -274,6 +274,8 @@
         </div>
       </div>
     </div>
+  </ng-container>
+  <ng-container *ngIf="game && !game.inProgress">
     <div class="panel panel-default" *ngIf="userInGame">
       <div class="panel-heading">Change Your Civ</div>
       <div class="panel-body">
@@ -313,7 +315,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
   <div *ngIf="game && game.gameTurnRangeKey <= 1 && game.createdBySteamId === profile?.steamid" class="panel panel-default">
     <div class="panel-heading">Delete Game</div>
     <div class="panel-body">
