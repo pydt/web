@@ -100,7 +100,7 @@ export class AppComponent implements OnInit {
     }
   }
 
-  async downloadLinux(): Promise<void> {
+  async download(extension: "exe" | "dmg" | "AppImage"): Promise<void> {
     const resp = await this.http.get<{
       assets: {
         name: string,
@@ -110,14 +110,19 @@ export class AppComponent implements OnInit {
     }>("https://api.github.com/repos/pydt/client/releases/latest").toPromise();
 
     for (const asset of resp.assets) {
-      if ((asset.name).endsWith(".AppImage")) {
+      if ((asset.name).endsWith(`.${extension}`)) {
         window.location.href = asset.browser_download_url;
       }
     }
   }
 
   async reload(): Promise<void> {
-    await this.updates.activateUpdate();
+    try {
+      await this.updates.activateUpdate();
+    } catch {
+      // If the activation fails, just reload anyway
+    }
+
     document.location.reload();
   }
 
