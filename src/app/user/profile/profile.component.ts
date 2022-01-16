@@ -6,6 +6,7 @@ import {
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService, NotificationService } from "../../shared";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "pydt-user-profile",
@@ -34,6 +35,7 @@ export class UserProfileComponent implements OnInit {
     public notificationService: NotificationService,
     private profileCache: ProfileCacheService,
     private metadataCache: MetadataCacheService,
+    private router: Router,
   ) {
   }
 
@@ -84,6 +86,11 @@ export class UserProfileComponent implements OnInit {
     } catch {
       this.noDiscourseUser = true;
     }
+  }
+
+  logout() {
+    this.auth.logout();
+    void this.router.navigate(["/"]);
   }
 
   async subscribeWebPush(): Promise<void> {

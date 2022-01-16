@@ -14,6 +14,12 @@ export class AuthService implements CanActivate {
     this.config.apiKeys.Authorization = token;
   }
 
+  logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("steamProfile");
+    this.config.apiKeys.Authorization = "";
+  }
+
   getToken(): string {
     return (localStorage.getItem("token") || "").trim();
   }
