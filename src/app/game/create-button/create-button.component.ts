@@ -22,6 +22,12 @@ export class GameCreateButtonComponent implements OnInit {
   }
 
   static async canCreateGame(auth: AuthService, userApi: UserService, civGame: CivGame): Promise<boolean> {
+    const user = await userApi.getCurrent().toPromise();
+
+    if (user.canCreateMultipleGames) {
+      return true;
+    }
+
     const myGames = await userApi.games().toPromise();
     const profile = auth.getSteamProfile();
 
