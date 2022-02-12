@@ -53,11 +53,11 @@ export class GameDetailTurnsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
-      this.tableColumns.push({
+      this.tableColumns = [...this.tableColumns, {
         title: "Skipped?",
         name: "skipped",
         className: "cursor-pointer",
-      });
+      }];
     }
 
     this.profiles = await this.profileCache.getProfiles(this.humanPlayers.map(x => x.steamId));

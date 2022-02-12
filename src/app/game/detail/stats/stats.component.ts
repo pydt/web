@@ -38,11 +38,11 @@ export class GameDetailStatsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
-      this.tableColumns.push({
+      this.tableColumns = [...this.tableColumns, {
         title: "Skipped",
         name: "turnsSkipped",
         className: "cursor-pointer",
-      });
+      }];
     }
 
     const profiles = await this.profileCache.getProfiles(this.humanPlayers().map(x => x.steamId));
