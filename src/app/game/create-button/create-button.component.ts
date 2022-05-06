@@ -14,7 +14,7 @@ export class GameCreateButtonComponent implements OnInit {
   games: CivGame[] = [];
 
   constructor(
-    private auth: AuthService,
+    public auth: AuthService,
     private userApi: UserService,
     private metadataCache: MetadataCacheService,
     private router: Router,

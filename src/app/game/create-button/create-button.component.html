@@ -1,4 +1,4 @@
-<div style="display: inline-block;">
+<div *ngIf="!!auth.getToken()" style="display: inline-block;">
   <div class="btn-group" dropdown>
     <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
       Create a New Game! <span class="caret"></span>
