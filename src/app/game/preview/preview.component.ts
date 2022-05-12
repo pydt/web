@@ -70,7 +70,7 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get canEditTurnOrder(): boolean {
-    if (!this.editMode || this.game.inProgress) {
+    if (!this.editMode || (this.game.gameTurnRangeKey || 0) > 1) {
       return false;
     }
 
