@@ -2,17 +2,17 @@ import { Game, DLC, CivGame, ModelMap } from "pydt-shared";
 import { Utility } from "../../shared/utility";
 
 export class ConfigureGameModel {
-  private _slots = 6;
+  private _slots = this.civGame.mapSizes[2]?.players || 6;
+  private _mapFile = (this.civGame.maps[0] as ModelMap)?.file;
+  private _mapSize = this.civGame.mapSizes[2]?.key;
 
   public displayName: string;
   public description: string;
-  public humans = 6;
+  public humans = this.civGame.mapSizes[2]?.players || 6;
   public dlc: { [index: string]: boolean; } = {};
   public password: string;
   public webhookUrl: string;
   public gameSpeed = this.civGame.gameSpeeds[0]?.key;
-  public mapFile = (this.civGame.maps[0] as ModelMap)?.file;
-  public mapSize = this.civGame.mapSizes[2]?.key;
   public allowJoinAfterStart = true;
   public randomOnly = false;
   public turnTimerEnabled;
@@ -28,17 +28,18 @@ export class ConfigureGameModel {
     } as Game;
   }
 
-  set slots(slots: number) {
-    this._slots = Number(slots);
-
-    // I think the range slider sends through strings, make sure we compare as numbers...
-    if (Number(slots) < Number(this.humans)) {
-      this.humans = slots;
-    }
-  }
-
   get slots(): number {
     return this._slots;
+  }
+
+  set slots(slots: number) {
+    const slotsHumansEqual = this._slots === this.humans;
+
+    this._slots = Number(slots);
+
+    if (slotsHumansEqual) {
+      this.humans = this._slots;
+    }
   }
 
   dlcSelected(dlc: DLC): boolean {
@@ -53,11 +54,30 @@ export class ConfigureGameModel {
     return this.civGame.maps.find((map: ModelMap) => map.file === this.mapFile) as ModelMap;
   }
 
-  possiblyUpdateMapSize(): void {
-    const selectedMap = this.selectedMap;
+  get mapFile() {
+    return this._mapFile;
+  }
 
-    if (selectedMap && selectedMap.mapSize) {
-      this.mapSize = selectedMap.mapSize.key;
+  set mapFile(value: string) {
+    this._mapFile = value;
+
+    if (this.selectedMap && this.selectedMap.mapSize) {
+      this.mapSize = this.selectedMap.mapSize.key;
+    }
+  }
+
+  get mapSize() {
+    return this._mapSize;
+  }
+
+  set mapSize(value: string) {
+    this._mapSize = value;
+
+    const ms = this.civGame.mapSizes.find(x => x.key === value);
+
+    if (ms) {
+      this.slots = ms.players;
+      this.humans = ms.players;
     }
   }
 
