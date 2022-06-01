@@ -56,6 +56,17 @@ export class ConfigureGameComponent implements OnInit {
     return this.model.civGame.dlcs.filter(dlc => !dlc.major);
   }
 
+  get slotsArray() {
+    return new Array<number>(this.model.slots);
+  }
+
+  get slotsPreviewGame() {
+    return {
+      slots: this.model.slots,
+      humans: this.model.humans,
+    } as Game;
+  }
+
   validateDlc(): void {
     for (const civ of this.selectedCivs) {
       const leader = this.model.civGame.leaders.find(l => l.leaderKey === civ);

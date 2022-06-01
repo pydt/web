@@ -33,13 +33,10 @@ export class ConfigureGameModel {
   }
 
   set slots(slots: number) {
-    const slotsHumansEqual = this._slots === this.humans;
+    const slotsHumansDiff = this._slots - this.humans;
 
     this._slots = Number(slots);
-
-    if (slotsHumansEqual) {
-      this.humans = this._slots;
-    }
+    this.humans = Math.max(this._slots - slotsHumansDiff, 2);
   }
 
   dlcSelected(dlc: DLC): boolean {
