@@ -9,7 +9,7 @@ export class ConfigureGameModel {
   public displayName: string;
   public description: string;
   public humans = this.civGame.mapSizes[2]?.players || 6;
-  public dlc: { [index: string]: boolean; } = {};
+  public dlc: { [index: string]: boolean } = {};
   public password: string;
   public webhookUrl: string;
   public gameSpeed = this.civGame.gameSpeeds[0]?.key;
@@ -48,7 +48,9 @@ export class ConfigureGameModel {
   }
 
   get selectedMap(): ModelMap {
-    return this.civGame.maps.find((map: ModelMap) => map.file === this.mapFile) as ModelMap;
+    return this.civGame.maps.find(
+      (map: ModelMap) => map.file === this.mapFile,
+    ) as ModelMap;
   }
 
   get mapFile() {
@@ -56,10 +58,12 @@ export class ConfigureGameModel {
   }
 
   set mapFile(value: string) {
-    this._mapFile = value;
+    if (this._mapFile !== value) {
+      this._mapFile = value;
 
-    if (this.selectedMap && this.selectedMap.mapSize) {
-      this.mapSize = this.selectedMap.mapSize.key;
+      if (this.selectedMap && this.selectedMap.mapSize) {
+        this.mapSize = this.selectedMap.mapSize.key;
+      }
     }
   }
 
@@ -68,13 +72,15 @@ export class ConfigureGameModel {
   }
 
   set mapSize(value: string) {
-    this._mapSize = value;
+    if (this._mapSize !== value) {
+      this._mapSize = value;
 
-    const ms = this.civGame.mapSizes.find(x => x.key === value);
+      const ms = this.civGame.mapSizes.find(x => x.key === value);
 
-    if (ms) {
-      this.slots = ms.players;
-      this.humans = ms.players;
+      if (ms) {
+        this.slots = ms.players;
+        this.humans = ms.players;
+      }
     }
   }
 
@@ -100,7 +106,9 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
-      ...(this.turnTimerEnabled ? { turnTimerMinutes: this.turnTimerMinutes } : {}),
+      ...(this.turnTimerEnabled
+        ? { turnTimerMinutes: this.turnTimerMinutes }
+        : {}),
       webhookUrl: this.webhookUrl,
     };
   }
