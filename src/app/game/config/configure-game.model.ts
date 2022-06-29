@@ -22,6 +22,24 @@ export class ConfigureGameModel {
     this.turnTimerMinutes = this.turnTimerMinutes || 600;
   }
 
+  initialize(game: Game) {
+    this.displayName = game.displayName;
+    this.description = game.description;
+    this._slots = game.slots;
+    this.humans = game.humans;
+    this.password = game.hashedPassword;
+    this.gameSpeed = game.gameSpeed;
+    this._mapFile = game.mapFile;
+    this._mapSize = game.mapSize;
+    this.allowJoinAfterStart = game.allowJoinAfterStart;
+    this.randomOnly = game.randomOnly;
+    this.webhookUrl = game.webhookUrl;
+
+    for (const dlcId of game.dlc || []) {
+      this.dlc[dlcId] = true;
+    }
+  }
+
   get emptyGame(): Game {
     return {
       gameType: this.civGame.id,
