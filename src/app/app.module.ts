@@ -39,6 +39,7 @@ import { UserProfileComponent } from "./user/profile/profile.component";
 import { UserStatsComponent } from "./user/stats/stats.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { DragulaModule } from "./uiOnlyModules";
+import { InfoTooltipComponent } from "./shared/info-tooltip/info-tooltip.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -91,6 +92,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     GameDetailStatsComponent,
     GameDetailTurnsComponent,
     GamePreviewComponent,
+    InfoTooltipComponent,
     CreateGameComponent,
     OpenGamesComponent,
     DisplayCivComponent,

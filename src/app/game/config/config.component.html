@@ -53,14 +53,14 @@
       <div class="checkbox" *ngFor="let dlc of majorDlc">
         <label>
           <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
-          {{dlc.displayName}}
+          {{dlc.displayName}} <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
         </label>
       </div>
       <hr />
       <div class="checkbox" *ngFor="let dlc of minorDlc">
         <label>
           <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
-          {{dlc.displayName}}
+          {{dlc.displayName}} <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
         </label>
       </div>
     </div>
