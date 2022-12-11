@@ -28,7 +28,7 @@
     "angulartics2": "^12.0.0",
     "bootstrap-sass": "^3.4.1",
     "core-js": "^3.19.3",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-saver": "^2.0.5",
     "font-awesome": "^4.7.0",
     "intl": "^1.2.5",
