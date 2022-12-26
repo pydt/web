@@ -141,7 +141,8 @@
             },
             "development": {
               "optimization": false,
-              "extractLicenses": false
+              "extractLicenses": false,
+              "vendorChunk": true
             }
           },
           "defaultConfiguration": "production"
