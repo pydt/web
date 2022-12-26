@@ -1,11 +1,14 @@
 {
   "name": "web",
   "version": "0.0.0",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "ng": "ng",
     "env-vars": "node generateEnvVars.js",
     "start": "npm run env-vars && ng serve",
-    "build": "npm run env-vars && npm run lint && ng run web:prerender --configuration production",
+    "build": "npm run env-vars && npm run lint && ng run web:prerender:production",
     "serve-ssr": "npm run build & node dist/web/server/main.js",
     "test": "ng test",
     "lint": "ng lint",

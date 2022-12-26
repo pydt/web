@@ -5,11 +5,10 @@ plugins:
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   memorySize: 1024
   timeout: 30
   stage: dev
-  lambdaHashingVersion: 20201221
   environment:
     ROLLBAR_SERVER_API_KEY: ${env:ROLLBAR_SERVER_API_KEY}
 
