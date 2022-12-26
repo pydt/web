@@ -27,4 +27,4 @@ const routes: Routes = [
 ];
 /* eslint-enable max-len */
 
-export const routing = RouterModule.forRoot(routes, { relativeLinkResolution: "legacy" });
+export const routing = RouterModule.forRoot(routes);
