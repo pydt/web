@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, no-param-reassign, @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-unsafe-argument */
 import { Injectable } from "@angular/core";
+import { orderBy } from "lodash";
 import { CivDef, countdown } from "pydt-shared";
 
 @Injectable()
@@ -28,8 +29,8 @@ export class Utility {
     page = page || tableConfig.paging;
 
     const columns = tableConfig.sorting.columns || [];
-    let columnName: string = void 0;
-    let sort: string = void 0;
+    let columnName: string;
+    let sort: "asc" | "desc";
 
     for (let i = 0; i < columns.length; i++) {
       if (columns[i].sort) {
@@ -43,25 +44,15 @@ export class Utility {
     }
 
     // Sort...
-    rawData.sort((prevRow, curRow) => {
-      const previous = prevRow[`${columnName}_sort`] || prevRow[columnName];
-      const current = curRow[`${columnName}_sort`] || curRow[columnName];
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    const sorted = orderBy(rawData, x => x[`${columnName}_sort`] || x[columnName], sort);
 
-      if (previous > current) {
-        return sort === "desc" ? -1 : 1;
-      }
-      if (previous < current) {
-        return sort === "asc" ? -1 : 1;
-      }
-      return 0;
-    });
-
-    for (let i = 0; i < rawData.length; i++) {
-      rawData[i].rank = i + 1;
+    for (let i = 0; i < sorted.length; i++) {
+      sorted[i].rank = i + 1;
     }
 
     // Filter...
-    let filteredData = rawData.slice();
+    let filteredData = [...sorted];
 
     if (tableConfig.filtering) {
       if (tableConfig.filtering.filterString.length) {

@@ -1,6 +1,7 @@
 import { Component, HostListener, OnInit } from "@angular/core";
 import { Game, ProfileCacheService, UserService } from "pydt-shared";
 import { AuthService } from "../../shared/auth.service";
+import { orderBy } from "lodash";
 
 @Component({
   selector: "pydt-user-games",
@@ -39,8 +40,8 @@ export class UserGamesComponent implements OnInit {
     const yourTurnGames = resp.data.filter((game: Game) => game.inProgress && game.currentPlayerSteamId === profile.steamid);
 
     this.games = [
-      ...yourTurnGames,
-      ...resp.data.filter(g => !yourTurnGames.includes(g)),
+      ...orderBy(yourTurnGames, x => x.updatedAt, "desc"),
+      ...orderBy(resp.data.filter(g => !yourTurnGames.includes(g)), x => x.updatedAt, "desc"),
     ];
   }
 
