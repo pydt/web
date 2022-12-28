@@ -136,7 +136,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   discourseEmbed(): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (!this.discourse && isPlatformBrowser(this.platformId)) {
       const discourseEmbed = {
         discourseUrl: "https://discourse.playyourdamnturn.com/",
         topicId: this.game.discourseTopicId,
