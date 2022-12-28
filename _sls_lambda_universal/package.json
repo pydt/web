@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "copy": "npx copyfiles ../dist/**/*.* dist",
-    "deploy-develop": "npm run copy && sls deploy -v",
-    "deploy-master": "npm run copy && sls deploy -v --stage prod"
+    "deploy-develop": "npm run copy && sls deploy --verbose",
+    "deploy-master": "npm run copy && sls deploy --verbose --stage prod"
   },
   "author": "",
   "license": "ISC",
