@@ -40,6 +40,7 @@ import { UserStatsComponent } from "./user/stats/stats.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { DragulaModule } from "./uiOnlyModules";
 import { InfoTooltipComponent } from "./shared/info-tooltip/info-tooltip.component";
+import { environment } from "../environments/environment";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -79,7 +80,8 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     Ng2TableModule,
     routing,
     Angulartics2Module.forRoot(),
-    ServiceWorkerModule.register("pydt-service-worker.js", { enabled: true }),
+    // https://github.com/angular/angular/issues/47455
+    ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
   ],
   declarations: [
     AppComponent,
