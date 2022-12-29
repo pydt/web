@@ -1,12 +1,11 @@
-import { Component, Inject, OnInit, ViewChild, PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
 import { gzip } from "pako";
 import {
   BasePath, BusyService, CivDef, CivGame, Game, GameService, GameStore, MetadataCacheService,
-  Platform, PydtMetadata, SteamProfile, User, UserService,
+  Platform, PydtMetadata, SteamProfile,
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
@@ -25,30 +24,15 @@ export class GameDetailComponent implements OnInit {
   availableCivs: CivDef[];
   tooManyHumans = false;
   playerCiv: CivDef;
-  joinGamePassword: string;
-  newCiv: CivDef;
-  pageUrl = "";
   dlcEnabled: string[];
   dlcDisabled: string[];
   historyTabOpened = false;
-  substituteUsers: User[];
-  userToSubstitute: User;
   metadata: PydtMetadata;
-  private discourse: HTMLScriptElement;
 
-  @ViewChild("confirmRevertModal", { static: true }) confirmRevertModal: ModalDirective;
-  @ViewChild("confirmSurrenderModal", { static: true }) confirmSurrenderModal: ModalDirective;
-  @ViewChild("confirmKickUserModal", { static: true }) confirmKickUserModal: ModalDirective;
-  @ViewChild("confirmLeaveModal", { static: true }) confirmLeaveModal: ModalDirective;
-  @ViewChild("confirmDeleteModal", { static: true }) confirmDeleteModal: ModalDirective;
-  @ViewChild("confirmDlcModal", { static: true }) confirmDlcModal: ModalDirective;
-  @ViewChild("mustHaveEmailSetToJoinModal", { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
   @ViewChild("uploadFirstTurnModal", { static: true }) uploadFirstTurnModal: ModalDirective;
-  @ViewChild("confirmStartGameModal", { static: true }) confirmStartGameModal: ModalDirective;
 
   constructor(
     private gameApi: GameService,
-    private userApi: UserService,
     private auth: AuthService,
     private router: Router,
     private route: ActivatedRoute,
@@ -56,11 +40,7 @@ export class GameDetailComponent implements OnInit {
     private busyService: BusyService,
     private metadataCache: MetadataCacheService,
     private metatag: MetatagService,
-    @Inject(PLATFORM_ID) private platformId: unknown,
   ) {
-    if (isPlatformBrowser(platformId)) {
-      this.pageUrl = `${window.location.protocol}//${window.location.hostname}${(window.location.port ? `:${window.location.port}` : "")}${window.location.pathname}`;
-    }
   }
 
   async ngOnInit(): Promise<void> {
@@ -135,47 +115,10 @@ export class GameDetailComponent implements OnInit {
     return `.${this.civGame.saveExtension}`;
   }
 
-  discourseEmbed(): void {
-    if (!this.discourse && isPlatformBrowser(this.platformId)) {
-      const discourseEmbed = {
-        discourseUrl: "https://discourse.playyourdamnturn.com/",
-        topicId: this.game.discourseTopicId,
-      };
-
-      // eslint-disable-next-line dot-notation
-      window["DiscourseEmbed"] = discourseEmbed;
-
-      this.discourse = window.document.createElement("script");
-      this.discourse.type = "text/javascript";
-      this.discourse.async = true;
-      this.discourse.src = `${discourseEmbed.discourseUrl}javascripts/embed.js`;
-
-      (window.document.getElementsByTagName("head")[0] || window.document.getElementsByTagName("body")[0]).appendChild(this.discourse);
-    }
-  }
-
-  async startGame(): Promise<void> {
-    const game = await this.gameApi.start(this.game.gameId).toPromise();
-
-    this.setGame(game);
-    this.notificationService.showAlert({
-      type: "success",
-      msg: "Game started!",
-    });
-  }
-
   async loadGame(): Promise<void> {
     const game = await this.gameApi.get(this.route.snapshot.paramMap.get("id")).toPromise();
 
     this.setGame(game);
-  }
-
-  async startJoinGame(): Promise<void> {
-    if (this.game.dlc.length) {
-      this.confirmDlcModal.show();
-    } else {
-      await this.finishJoinGame();
-    }
   }
 
   get turnTimerString(): string {
@@ -184,64 +127,6 @@ export class GameDetailComponent implements OnInit {
     }
 
     return Utility.countdown(0, this.game.turnTimerMinutes * 60 * 1000) as string;
-  }
-
-  async finishJoinGame(): Promise<void> {
-    const current = await this.userApi.getCurrentWithPud().toPromise();
-
-    if (!current.pud.emailAddress) {
-      this.mustHaveEmailSetToJoinModal.show();
-    } else {
-      const game = await this.gameApi.join(this.game.gameId, {
-        playerCiv: this.playerCiv.leaderKey,
-        password: this.joinGamePassword,
-      }).toPromise();
-
-      this.notificationService.showAlert({
-        type: "success",
-        msg: "Joined game!",
-      });
-
-      this.setGame(game);
-    }
-  }
-
-  async resetGameStateOnNextUpload(): Promise<void> {
-    const game = await this.gameApi.resetGameStateOnNextUpload(this.game.gameId).toPromise();
-
-    this.setGame(game);
-  }
-
-  async changeCiv(): Promise<void> {
-    const game = await this.gameApi.changeCiv(this.game.gameId, {
-      playerCiv: this.newCiv.leaderKey,
-    }).toPromise();
-
-    this.newCiv = null;
-    this.notificationService.showAlert({
-      type: "success",
-      msg: "Changed civilization!",
-    });
-
-    this.setGame(game);
-  }
-
-  randomizeUserToSubstitute(): User {
-    const su = this.substituteUsers;
-
-    const result = this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
-
-    return result;
-  }
-
-  async loadSubstituteUsers(): Promise<void> {
-    if (!this.substituteUsers) {
-      const su = await this.userApi.getSubstituteUsers(this.game.gameType).toPromise();
-      const gameSteamIds = this.game.players.map(x => x.steamId);
-
-      this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
-      this.randomizeUserToSubstitute();
-    }
   }
 
   setGame(game: Game): void {
@@ -267,7 +152,6 @@ export class GameDetailComponent implements OnInit {
 
       if (userPlayer) {
         this.playerCiv = this.findLeader(userPlayer.civType);
-        this.newCiv = this.playerCiv;
       }
     }
 
@@ -306,8 +190,6 @@ export class GameDetailComponent implements OnInit {
     this.dlcDisabled = this.civGame.dlcs
       .filter(dlc => game.dlc.every(dlcId => dlc.id !== dlcId))
       .map(x => x.displayName);
-
-    this.discourseEmbed();
   }
 
   private findLeader(civType: string) {
@@ -374,77 +256,5 @@ export class GameDetailComponent implements OnInit {
         this.busyService.incrementBusy(false);
       }
     }
-  }
-
-  async revert(): Promise<void> {
-    this.confirmRevertModal.hide();
-
-    const game = await this.gameApi.revert(this.game.gameId).toPromise();
-
-    this.setGame(game);
-    this.notificationService.showAlert({
-      type: "warning",
-      msg: "Turn Reverted!",
-    });
-  }
-
-  async leave(): Promise<void> {
-    this.confirmLeaveModal.hide();
-
-    await this.gameApi.leave(this.game.gameId).toPromise();
-    this.notificationService.showAlert({
-      type: "warning",
-      msg: "Left Game :(",
-    });
-    await this.router.navigate(["/user/games"]);
-  }
-
-  async surrender(): Promise<void> {
-    this.confirmSurrenderModal.hide();
-
-    // TODO: Support replace on surrender?
-    await this.gameApi.surrender(this.game.gameId, {}).toPromise();
-    this.notificationService.showAlert({
-      type: "warning",
-      msg: "Surrendered :(",
-    });
-    await this.router.navigate(["/user/games"]);
-  }
-
-  async kickPlayer(): Promise<void> {
-    this.confirmKickUserModal.hide();
-
-    if (this.userToSubstitute) {
-      const game = await this.gameApi.replacePlayer(this.game.gameId, {
-        newSteamId: this.userToSubstitute.steamId,
-        oldSteamId: this.game.currentPlayerSteamId,
-      }).toPromise();
-
-      this.notificationService.showAlert({
-        type: "warning",
-        msg: `Successfully kicked user and replaced with ${this.userToSubstitute.displayName}`,
-      });
-      this.setGame(game);
-    } else {
-      const game = await this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).toPromise();
-
-      this.notificationService.showAlert({
-        type: "warning",
-        msg: "Successfully kicked user :(",
-      });
-      this.setGame(game);
-    }
-  }
-
-  async delete(): Promise<void> {
-    this.confirmDeleteModal.hide();
-
-    // eslint-disable-next-line no-underscore-dangle
-    await this.gameApi._delete(this.game.gameId).toPromise();
-    this.notificationService.showAlert({
-      type: "warning",
-      msg: "Game Deleted :(",
-    });
-    await this.router.navigate(["/user/games"]);
   }
 }

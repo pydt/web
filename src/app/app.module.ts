@@ -41,6 +41,16 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { DragulaModule } from "./uiOnlyModules";
 import { InfoTooltipComponent } from "./shared/info-tooltip/info-tooltip.component";
 import { environment } from "../environments/environment";
+import { GameDetailSmackTalkComponent } from "./game/detail/smack-talk/smack-talk.component";
+import { GameDetailDeleteComponent } from "./game/detail/delete/delete.component";
+import { GameDetailRevertComponent } from "./game/detail/revert/revert.component";
+import { GameDetailAdminComponent } from "./game/detail/admin/admin.component";
+import { GameDetailSurrenderComponent } from "./game/detail/surrender/surrender.component";
+import { BrowserDataService } from "./shared/browser-data.service";
+import { GameDetailChangeCivComponent } from "./game/detail/change-civ/change-civ.component";
+import { GameDetailJoinComponent } from "./game/detail/join/join.component";
+import { GameDetailLeaveComponent } from "./game/detail/leave/leave.component";
+import { GameDetailStartComponent } from "./game/detail/start/start.component";
 import { NotFoundComponent } from "./not-found.component";
 
 export const configFactory = (): Configuration =>
@@ -92,7 +102,16 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     GameCreateButtonComponent,
     EditGameComponent,
     GameDetailComponent,
+    GameDetailAdminComponent,
+    GameDetailChangeCivComponent,
+    GameDetailDeleteComponent,
+    GameDetailJoinComponent,
+    GameDetailLeaveComponent,
+    GameDetailRevertComponent,
+    GameDetailSmackTalkComponent,
+    GameDetailStartComponent,
     GameDetailStatsComponent,
+    GameDetailSurrenderComponent,
     GameDetailTurnsComponent,
     GamePreviewComponent,
     InfoTooltipComponent,
@@ -109,6 +128,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   ],
   providers: [
     AuthService,
+    BrowserDataService,
     MetatagService,
     { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },

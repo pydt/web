@@ -1,6 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ErrorHandler, Inject, NgZone, OnInit, ViewChild, PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
+import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/core";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
@@ -12,6 +11,7 @@ import { environment } from "../environments/environment";
 import * as envVars from "../envVars";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 import { MetatagService } from "./shared/metatag.service";
+import { BrowserDataService } from "./shared/browser-data.service";
 
 @Component({
   selector: "pydt-app",
@@ -39,8 +39,8 @@ export class AppComponent implements OnInit {
     private zone: NgZone,
     private updates: SwUpdate,
     private metatag: MetatagService,
+    private browserData: BrowserDataService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-    @Inject(PLATFORM_ID) private platformId: unknown,
   ) {
     setTheme("bs3");
 
@@ -90,7 +90,7 @@ export class AppComponent implements OnInit {
       },
     });
 
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.browserData.isBrowser()) {
       (this.errorService as ErrorHandlerService).subscribe(endUserErrorMessage => {
         this.zone.run(() => {
           this.errorModalMessage = endUserErrorMessage;

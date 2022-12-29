@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, Inject, OnInit, PLATFORM_ID } from "@angular/core";
-import { isPlatformBrowser } from "@angular/common";
+import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ValidateResponse } from "pydt-shared";
 import * as envVars from "../../envVars";
 import { AuthService } from "../shared";
+import { BrowserDataService } from "../shared/browser-data.service";
 
 @Component({
   selector: "pydt-steam-return",
@@ -15,13 +15,13 @@ export class SteamReturnComponent implements OnInit {
     private http: HttpClient,
     private auth: AuthService,
     private router: Router,
-    @Inject(PLATFORM_ID) private platformId: unknown,
+    private browserData: BrowserDataService,
   ) {
     // Do stuff
   }
 
   async ngOnInit(): Promise<void> {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.browserData.isBrowser()) {
       const vResp = await this.http.get<ValidateResponse>(`${envVars.apiUrl}/auth/steam/validate${window.location.search}`).toPromise();
 
       if (vResp.token) {

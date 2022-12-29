@@ -1,0 +1,31 @@
+<div class="panel panel-default">
+  <div class="panel-heading">Leave Game</div>
+  <div class="panel-body">
+    <p>If you want to leave the game before it starts, click the button below!</p>
+    <div class="row">
+      <div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-danger" (click)="confirmLeaveModal.show()">Leave Game</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div bsModal #confirmLeaveModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmLeaveModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmLeaveModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Do you really want to leave {{game?.displayName}}?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmLeaveModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="leave()">Leave Game!</button>
+      </div>
+    </div>
+  </div>
+</div>
