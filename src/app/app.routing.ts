@@ -25,8 +25,7 @@ const routes: Routes = [
   { path: "user/profile", canActivate: [AuthService], component: UserProfileComponent, data: { meta: { title: "Your Profile" } } },
   { path: "user/stats", component: UserStatsComponent, data: { meta: { title: "User Statistics", description: "All users that have played at least one damn turn." } } },
   { path: "user/games", canActivate: [AuthService], component: UserGamesComponent, data: { meta: { title: "Your Games" } } },
-  { path: "404", component: NotFoundComponent, data: { meta: { title: "Page Not Found" } } },
-  { path: "**", redirectTo: "/404" },
+  { path: "**", component: NotFoundComponent, data: { meta: { title: "Page Not Found" } } },
 ];
 /* eslint-enable max-len */
 
