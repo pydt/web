@@ -1,30 +1,67 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Play Your Damn Turn!</title>
-    <meta name="description" content="Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5/6/Old World/Beyond Earth game easy.">
-    <base href="/">
-    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png">
-    <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16">
-    <link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5bbad5">
-    <meta name="theme-color" content="#2C3E50">
-    <link rel="manifest" href="/manifest.webmanifest">
-</head>
+    <meta
+      name="description"
+      content="Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5/6/Old World/Beyond Earth game easy."
+    />
+    <base href="/" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/img/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" href="/img/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="/img/favicon-16x16.png" sizes="16x16" />
+    <link rel="mask-icon" href="/img/safari-pinned-tab.svg" color="#5bbad5" />
+    <meta name="theme-color" content="#2C3E50" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+  </head>
   <body>
     <pydt-app>
-      <div style="background-color:#ddd;position:fixed;width:100%;height:100%;margin:0;padding:0;top:0;left:0;">
-        <div style="position:fixed;background: url(/img/pydt_large.png) no-repeat fixed center; background-size: contain; opacity: 0.2;height: 100%; width:100%;"></div>
-        <h1 style="position:fixed;width:100%;text-align:center;top:45%;margin:0;font-family:Helvetica;">Loading, Please Wait...</h1>
+      <div
+        style="
+          background-color: #ddd;
+          position: fixed;
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          top: 0;
+          left: 0;
+        "
+      >
+        <div
+          style="
+            position: fixed;
+            background: url(/img/pydt_large.png) no-repeat fixed center;
+            background-size: contain;
+            opacity: 0.2;
+            height: 100%;
+            width: 100%;
+          "
+        ></div>
+        <h1 style="position: fixed; width: 100%; text-align: center; top: 45%; margin: 0; font-family: Helvetica">
+          Loading, Please Wait...
+        </h1>
       </div>
     </pydt-app>
     <noscript>Please enable JavaScript to continue using this application.</noscript>
-</body>
+  </body>
   <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-    ga('create', 'UA-88598537-1', 'auto');
+    (function (i, s, o, g, r, a, m) {
+      i["GoogleAnalyticsObject"] = r;
+      (i[r] =
+        i[r] ||
+        function () {
+          (i[r].q = i[r].q || []).push(arguments);
+        }),
+        (i[r].l = 1 * new Date());
+      (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+      a.async = 1;
+      a.src = g;
+      m.parentNode.insertBefore(a, m);
+    })(window, document, "script", "https://www.google-analytics.com/analytics.js", "ga");
+    ga("create", "UA-88598537-1", "auto");
   </script>
 </html>

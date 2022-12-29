@@ -5,7 +5,9 @@
       <pydt-configure-game [game]="game" [model]="model" [selectedCivs]="selectedCivs"></pydt-configure-game>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-          <button class="btn btn-default" [routerLink]="['/game', game.gameId]" style="margin-right:10px;">Cancel</button>
+          <button class="btn btn-default" [routerLink]="['/game', game.gameId]" style="margin-right: 10px">
+            Cancel
+          </button>
           <button type="submit" class="btn btn-primary" [disabled]="!editGameForm.form.valid">Edit Game</button>
         </div>
       </div>

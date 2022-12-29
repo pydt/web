@@ -1,10 +1,15 @@
 <div class="row">
   <div class="col-md-4">
-    <p><b>Current Round:</b> {{game.round}}</p>
-    <p><b>Last Turn:</b> {{lastTurn()}} ago</p>
-    <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
+    <p><b>Current Round:</b> {{ game.round }}</p>
+    <p><b>Last Turn:</b> {{ lastTurn() }} ago</p>
+    <p><b>Average Turn Time:</b> {{ averageTurnTime() }}</p>
   </div>
   <div class="col-md-8">
-    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="tableData" (tableChanged)="onChangeTable(tableConfig, tableData)"></ng-table>
+    <ng-table
+      [config]="tableConfig"
+      [columns]="tableColumns"
+      [rows]="tableData"
+      (tableChanged)="onChangeTable(tableConfig, tableData)"
+    ></ng-table>
   </div>
 </div>

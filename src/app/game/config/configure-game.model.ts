@@ -66,9 +66,7 @@ export class ConfigureGameModel {
   }
 
   get selectedMap(): ModelMap {
-    return this.civGame.maps.find(
-      (map: ModelMap) => map.file === this.mapFile,
-    ) as ModelMap;
+    return this.civGame.maps.find((map: ModelMap) => map.file === this.mapFile) as ModelMap;
   }
 
   get mapFile() {
@@ -124,9 +122,7 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
-      ...(this.turnTimerEnabled
-        ? { turnTimerMinutes: this.turnTimerMinutes }
-        : {}),
+      ...(this.turnTimerEnabled ? { turnTimerMinutes: this.turnTimerMinutes } : {}),
       webhookUrl: this.webhookUrl,
     };
   }

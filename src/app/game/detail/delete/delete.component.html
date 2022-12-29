@@ -10,7 +10,15 @@
   </div>
 </div>
 
-<div bsModal #confirmDeleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #confirmDeleteModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmDeleteModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -20,7 +28,7 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        Do you really want to delete {{game?.displayName}}?  <b>THIS ACTION IS IRREVERSIBLE!</b>
+        Do you really want to delete {{ game?.displayName }}? <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmDeleteModal.hide()">Cancel</button>

@@ -1,20 +1,27 @@
 <div class="row">
   <div class="col-sm-4 text-center">
-    <a href="https://steamcommunity.com/profiles/{{user.steamId}}" target="_steamprofile" class="thumbnail">
-      <img [src]="profile?.avatarfull">
+    <a href="https://steamcommunity.com/profiles/{{ user.steamId }}" target="_steamprofile" class="thumbnail">
+      <img [src]="profile?.avatarfull" />
     </a>
-    <a href="https://steamcommunity.com/profiles/{{user.steamId}}" target="_steamprofile" class="btn btn-sm btn-default">Open Steam Profile</a>
+    <a
+      href="https://steamcommunity.com/profiles/{{ user.steamId }}"
+      target="_steamprofile"
+      class="btn btn-sm btn-default"
+      >Open Steam Profile</a
+    >
   </div>
   <div class="col-sm-8">
-    <h1 style="margin-top:0;">{{user?.displayName}} <ng-container *ngIf="user.vacationMode">(On Vacation!)</ng-container></h1>
+    <h1 style="margin-top: 0">
+      {{ user?.displayName }} <ng-container *ngIf="user.vacationMode">(On Vacation!)</ng-container>
+    </h1>
     <div *ngIf="user.turnsPlayed">
       <p *ngIf="user.timezone"><b>Time Zone:</b> {{ user.timezone }}</p>
       <p *ngIf="user.comments"><b>Comments:</b> {{ user.comments }}</p>
-      <p><b>Active Games:</b> {{(user.activeGameIds || []).length}}</p>
-      <p><b>Turns Played:</b> {{user.turnsPlayed}}</p>
-      <p><b>Average Turn Time:</b> {{averageTurnTime()}}</p>
-      <p><b class="text-success">Fast Turns (< 1 hour):</b> {{user.fastTurns}}</p>
-      <p><b class="text-danger">Slow Turns (> 6 hours):</b> {{user.slowTurns}}</p>
+      <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
+      <p><b>Turns Played:</b> {{ user.turnsPlayed }}</p>
+      <p><b>Average Turn Time:</b> {{ averageTurnTime() }}</p>
+      <p><b class="text-success">Fast Turns (< 1 hour):</b> {{ user.fastTurns }}</p>
+      <p><b class="text-danger">Slow Turns (> 6 hours):</b> {{ user.slowTurns }}</p>
     </div>
   </div>
 </div>

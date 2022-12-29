@@ -9,52 +9,94 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" [routerLink]="['']"><img src="/img/pydt_large.png" style="height:45px;margin-top:-12px;" (click)="isCollapsed = true"></a>
+        <a class="navbar-brand" [routerLink]="['']"
+          ><img src="/img/pydt_large.png" style="height: 45px; margin-top: -12px" (click)="isCollapsed = true"
+        /></a>
       </div>
       <div id="navbar" class="navbar-collapse" [collapse]="isCollapsed">
         <ul class="nav navbar-nav">
-          <li [routerLinkActive]="['active']"><a [routerLink]="['forum']" (click)="isCollapsed = true">Forum</a></li>
+          <li [routerLinkActive]="['active']">
+            <a [routerLink]="['forum']" (click)="isCollapsed = true">Forum</a>
+          </li>
           <li id="download-clients" dropdown>
             <a href="javascript:void(0)" dropdownToggle>Download Client <span class="caret"></span></a>
             <ul class="dropdown-menu" *dropdownMenu aria-labelledby="download-clients">
-              <li><a href="#" (click)="download('exe');isCollapsed = true;false">Windows</a></li>
-              <li><a href="#" (click)="download('dmg');isCollapsed = true;false">Mac OS X</a></li>
-              <li><a href="#" (click)="download('AppImage');isCollapsed = true;false">Linux</a></li>
+              <li>
+                <a href="#" (click)="download('exe'); isCollapsed = true; (false)">Windows</a>
+              </li>
+              <li>
+                <a href="#" (click)="download('dmg'); isCollapsed = true; (false)">Mac OS X</a>
+              </li>
+              <li>
+                <a href="#" (click)="download('AppImage'); isCollapsed = true; (false)">Linux</a>
+              </li>
             </ul>
           </li>
-          <li [routerLinkActive]="['active']"><a [routerLink]="['game/listOpen']" (click)="isCollapsed = true">Open Games</a></li>
-          <li [routerLinkActive]="['active']"><a [routerLink]="['user/stats']" (click)="isCollapsed = true">Users</a></li>
-          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']"><a href="javascript:void(0)" (click)="redirectToLogin()" style="padding-bottom:0;padding-top:12px;" (click)="isCollapsed = true"><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png" /></a></li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a></li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']"><a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a></li>
+          <li [routerLinkActive]="['active']">
+            <a [routerLink]="['game/listOpen']" (click)="isCollapsed = true">Open Games</a>
+          </li>
+          <li [routerLinkActive]="['active']">
+            <a [routerLink]="['user/stats']" (click)="isCollapsed = true">Users</a>
+          </li>
+          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']">
+            <a
+              href="javascript:void(0)"
+              (click)="redirectToLogin()"
+              style="padding-bottom: 0; padding-top: 12px"
+              (click)="isCollapsed = true"
+              ><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+            /></a>
+          </li>
+          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']">
+            <a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a>
+          </li>
+          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']">
+            <a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a>
+          </li>
           <li><a href="https://patreon.com/pydt" target="_blank">Donate!</a></li>
         </ul>
-      </div><!--/.nav-collapse -->
+      </div>
+      <!--/.nav-collapse -->
     </div>
   </nav>
   <div class="container alert-container">
-    <alert *ngFor="let config of alerts" dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{config.msg}}</alert>
+    <alert *ngFor="let config of alerts" dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{
+      config.msg
+    }}</alert>
   </div>
   <router-outlet></router-outlet>
-  <div style="padding:15px"></div>
+  <div style="padding: 15px"></div>
   <footer class="footer">
     <div class="container">
       <div class="row">
         <div class="col-sm-8">
-          <p class="text-muted" style="margin-top:10px;margin-bottom:0;">
-            Copyright {{copyrightDate}} <a target="_blank" href="https://www.rosacksoftwaresolutions.com">Rosack Software Solutions, LLC</a>.<br />
-            Version <a target="_blank" href="https://github.com/pydt/web/commit/{{env.rev}}">{{env.rev}}</a> ({{env.date}})
+          <p class="text-muted" style="margin-top: 10px; margin-bottom: 0">
+            Copyright {{ copyrightDate }}
+            <a target="_blank" href="https://www.rosacksoftwaresolutions.com">Rosack Software Solutions, LLC</a>.<br />
+            Version
+            <a target="_blank" href="https://github.com/pydt/web/commit/{{ env.rev }}">{{ env.rev }}</a>
+            ({{ env.date }})
           </p>
         </div>
         <div class="col-sm-4 text-right hidden-xs">
-          <p class="text-muted" style="margin-top:20px;">Source code available on <a href="https://github.com/pydt" target="_blank">Github</a>.</p>
+          <p class="text-muted" style="margin-top: 20px">
+            Source code available on <a href="https://github.com/pydt" target="_blank">Github</a>.
+          </p>
         </div>
       </div>
     </div>
   </footer>
 </div>
 
-<div bsModal #errorModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #errorModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="errorModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -64,8 +106,8 @@
         <h4 class="modal-title">Error</h4>
       </div>
       <div class="modal-body">
-        <p>Sorry, we ran into an error.<p>
-        <p class="text-danger" *ngIf="errorModalMessage">Error Message: {{errorModalMessage}}</p>
+        <p>Sorry, we ran into an error.</p>
+        <p class="text-danger" *ngIf="errorModalMessage">Error Message: {{ errorModalMessage }}</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="errorModal.hide()">Close</button>
@@ -74,7 +116,15 @@
   </div>
 </div>
 
-<div bsModal #updateModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #updateModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="updateModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -84,7 +134,7 @@
         <h4 class="modal-title">Update Available!</h4>
       </div>
       <div class="modal-body">
-        <p>A new version of Play Your Damn Turn is available!  You'll need to refresh the page to get the new code.<p>
+        <p>A new version of Play Your Damn Turn is available! You'll need to refresh the page to get the new code.</p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="reload()">Reload PYDT!</button>

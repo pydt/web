@@ -1,35 +1,97 @@
-<span *ngIf="!canEditTurnOrder && !!game.hashedPassword" tooltip="This game is password protected." placement="left" class="glyphicon glyphicon-lock pull-right"></span>
-<button class="btn btn-sm btn-default pull-right" *ngIf="canEditTurnOrder && !editingTurnOrder" type="button" (click)="editingTurnOrder = true">Edit Turn Order</button>
-<button class="btn btn-sm btn-primary pull-right" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">Save Turn Order</button>
+<span
+  *ngIf="!canEditTurnOrder && !!game.hashedPassword"
+  tooltip="This game is password protected."
+  placement="left"
+  class="glyphicon glyphicon-lock pull-right"
+></span>
+<button
+  class="btn btn-sm btn-default pull-right"
+  *ngIf="canEditTurnOrder && !editingTurnOrder"
+  type="button"
+  (click)="editingTurnOrder = true"
+>
+  Edit Turn Order
+</button>
+<button class="btn btn-sm btn-primary pull-right" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">
+  Save Turn Order
+</button>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
-  <img src="/img/game_{{ game.gameType }}.png" style="height:25px;padding-right: 10px;position:relative;top:-3px;" [tooltip]="civGame?.displayName" />
-  {{game.displayName}}
+  <img
+    src="/img/game_{{ game.gameType }}.png"
+    style="height: 25px; padding-right: 10px; position: relative; top: -3px"
+    [tooltip]="civGame?.displayName"
+  />
+  {{ game.displayName }}
   <span *ngIf="!game.inProgress">(Not Started)</span>
-  <span *ngIf="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">(Your Turn)</span> 
+  <span *ngIf="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">(Your Turn)</span>
 </h3>
-<div class="row" style="padding-left:13px;padding-right:13px;">
+<div class="row" style="padding-left: 13px; padding-right: 13px">
   <ng-container *ngIf="editingTurnOrder">
-    <div class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="0" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
+    <div class="col-{{ game.slots }}-slots">
+      <pydt-player-avatar
+        [game]="game"
+        [players]="gamePlayers"
+        [gamePlayerProfiles]="gamePlayerProfiles"
+        [civDefs]="civDefs"
+        [index]="0"
+        [thumbnailOnly]="true"
+        size="BIG"
+      ></pydt-player-avatar>
     </div>
     <div dragula="players" [(dragulaModel)]="reorderableIndexes">
-      <div *ngFor="let index of reorderableIndexes" class="col-{{game.slots}}-slots">
-        <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="index" [thumbnailOnly]="true" [thumbnailOnlyDragMode]="true" size="BIG"></pydt-player-avatar>
+      <div *ngFor="let index of reorderableIndexes" class="col-{{ game.slots }}-slots">
+        <pydt-player-avatar
+          [game]="game"
+          [players]="gamePlayers"
+          [gamePlayerProfiles]="gamePlayerProfiles"
+          [civDefs]="civDefs"
+          [index]="index"
+          [thumbnailOnly]="true"
+          [thumbnailOnlyDragMode]="true"
+          size="BIG"
+        ></pydt-player-avatar>
       </div>
     </div>
-    <div *ngFor="let index of emptyIndexes" class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="index" [thumbnailOnly]="true" size="BIG"></pydt-player-avatar>
+    <div *ngFor="let index of emptyIndexes" class="col-{{ game.slots }}-slots">
+      <pydt-player-avatar
+        [game]="game"
+        [players]="gamePlayers"
+        [gamePlayerProfiles]="gamePlayerProfiles"
+        [civDefs]="civDefs"
+        [index]="index"
+        [thumbnailOnly]="true"
+        size="BIG"
+      ></pydt-player-avatar>
     </div>
   </ng-container>
   <ng-container *ngIf="!editingTurnOrder">
-    <div *ngFor="let player of gamePlayers; let i = index;" class="col-{{game.slots}}-slots">
-      <pydt-player-avatar [game]="game" [players]="gamePlayers" [gamePlayerProfiles]="gamePlayerProfiles" [civDefs]="civDefs" [index]="i" size="BIG" (click)="showUserDetail($event.steamId)"></pydt-player-avatar>
+    <div *ngFor="let player of gamePlayers; let i = index" class="col-{{ game.slots }}-slots">
+      <pydt-player-avatar
+        [game]="game"
+        [players]="gamePlayers"
+        [gamePlayerProfiles]="gamePlayerProfiles"
+        [civDefs]="civDefs"
+        [index]="i"
+        size="BIG"
+        (click)="showUserDetail($event.steamId)"
+      ></pydt-player-avatar>
     </div>
   </ng-container>
 </div>
-<p *ngIf="editingTurnOrder" style="padding-bottom:20px;text-align: center;">Drag and drop the player icons to edit the turn order.  The game creator must always be first and can't be moved, and all AI players must always be last.</p>
+<p *ngIf="editingTurnOrder" style="padding-bottom: 20px; text-align: center">
+  Drag and drop the player icons to edit the turn order. The game creator must always be first and can't be moved, and
+  all AI players must always be last.
+</p>
 
-<div bsModal #playerDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="playerDetailModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #playerDetailModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="playerDetailModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -38,7 +100,7 @@
         </button>
         <h4 class="modal-title">User Info</h4>
       </div>
-      <div class="modal-body" style="min-height:200px;">
+      <div class="modal-body" style="min-height: 200px">
         <h4 *ngIf="!user">Loading...</h4>
         <pydt-user-info *ngIf="user" [user]="user"></pydt-user-info>
       </div>

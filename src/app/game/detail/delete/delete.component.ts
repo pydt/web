@@ -12,12 +12,7 @@ export class GameDetailDeleteComponent {
   @Input() game: Game;
   @ViewChild("confirmDeleteModal", { static: true }) confirmDeleteModal: ModalDirective;
 
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private router: Router,
-  ) {
-  }
+  constructor(private gameApi: GameService, private notificationService: NotificationService, private router: Router) {}
 
   async delete(): Promise<void> {
     this.confirmDeleteModal.hide();

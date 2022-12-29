@@ -1,11 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import {
-  Game,
-  GameRequestBody,
-  GameService,
-  MetadataCacheService,
-} from "pydt-shared";
+import { Game, GameRequestBody, GameService, MetadataCacheService } from "pydt-shared";
 import { NotificationService } from "../../shared";
 import { ConfigureGameModel } from "../config/configure-game.model";
 
@@ -57,9 +52,7 @@ export class EditGameComponent implements OnInit {
   }
 
   async onSubmit(): Promise<void> {
-    const game = await this.gameApi
-      .edit(this.model.gameId, this.model.toJSON())
-      .toPromise();
+    const game = await this.gameApi.edit(this.model.gameId, this.model.toJSON()).toPromise();
 
     this.notificationService.showAlert({
       type: "success",

@@ -1,7 +1,13 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
-  CivGame, CurrentUserDataWithPud, MetadataCacheService, PrivateUserData, ProfileCacheService, User, UserService,
+  CivGame,
+  CurrentUserDataWithPud,
+  MetadataCacheService,
+  PrivateUserData,
+  ProfileCacheService,
+  User,
+  UserService,
 } from "pydt-shared";
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
@@ -15,18 +21,20 @@ import { Router } from "@angular/router";
 })
 export class UserProfileComponent implements OnInit {
   token: string;
-  substitutionModel: { [index: string]: boolean; } = {};
+  substitutionModel: { [index: string]: boolean } = {};
   loaded: boolean;
   noDiscourseUser: boolean;
   games: CivGame[];
 
   currentUser$ = new BehaviorSubject<CurrentUserDataWithPud>(null);
-  notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushNotificationsEndpoint$]).pipe(map(l => {
-    const wps = l[0].pud.webPushSubscriptions || [];
-    const endpoint = l[1];
+  notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushNotificationsEndpoint$]).pipe(
+    map(l => {
+      const wps = l[0].pud.webPushSubscriptions || [];
+      const endpoint = l[1];
 
-    return !!wps.find(x => x.endpoint === endpoint);
-  }));
+      return !!wps.find(x => x.endpoint === endpoint);
+    }),
+  );
 
   constructor(
     private userApi: UserService,
@@ -36,8 +44,7 @@ export class UserProfileComponent implements OnInit {
     private profileCache: ProfileCacheService,
     private metadataCache: MetadataCacheService,
     private router: Router,
-  ) {
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.token = this.auth.getToken();
@@ -110,16 +117,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   onEmailSubmit(): void {
-    this.userApi.setNotificationEmail({
-      emailAddress: this.currentUser$.value.pud.emailAddress,
-      newTurnEmails: this.currentUser$.value.pud.newTurnEmails,
-    }).subscribe(pud => {
-      this.setPud(pud);
-      this.notificationService.showAlert({
-        type: "success",
-        msg: "Email address updated!",
+    this.userApi
+      .setNotificationEmail({
+        emailAddress: this.currentUser$.value.pud.emailAddress,
+        newTurnEmails: this.currentUser$.value.pud.newTurnEmails,
+      })
+      .subscribe(pud => {
+        this.setPud(pud);
+        this.notificationService.showAlert({
+          type: "success",
+          msg: "Email address updated!",
+        });
       });
-    });
   }
 
   onWebhookSubmit(): void {
@@ -133,7 +142,9 @@ export class UserProfileComponent implements OnInit {
   }
 
   async onForumUsernameSubmit(): Promise<void> {
-    const user = await this.userApi.setForumUsername({ forumUsername: this.currentUser$.value.user.forumUsername }).toPromise();
+    const user = await this.userApi
+      .setForumUsername({ forumUsername: this.currentUser$.value.user.forumUsername })
+      .toPromise();
 
     this.setUser(user);
     this.notificationService.showAlert({
@@ -162,16 +173,18 @@ export class UserProfileComponent implements OnInit {
   }
 
   onUserInfoSubmit(): void {
-    this.userApi.setUserInformation({
-      comments: this.user.comments,
-      timezone: this.user.timezone,
-      vacationMode: this.user.vacationMode,
-    }).subscribe(() => {
-      this.profileCache.clearProfile(this.user.steamId);
-      this.notificationService.showAlert({
-        type: "success",
-        msg: "User Information updated!",
+    this.userApi
+      .setUserInformation({
+        comments: this.user.comments,
+        timezone: this.user.timezone,
+        vacationMode: this.user.vacationMode,
+      })
+      .subscribe(() => {
+        this.profileCache.clearProfile(this.user.steamId);
+        this.notificationService.showAlert({
+          type: "success",
+          msg: "User Information updated!",
+        });
       });
-    });
   }
 }

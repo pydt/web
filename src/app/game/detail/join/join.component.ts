@@ -25,8 +25,7 @@ export class GameDetailJoinComponent {
     private notificationService: NotificationService,
     private userApi: UserService,
     public browserData: BrowserDataService,
-  ) {
-  }
+  ) {}
 
   async startJoinGame(): Promise<void> {
     if (this.game.dlc.length) {
@@ -42,10 +41,12 @@ export class GameDetailJoinComponent {
     if (!current.pud.emailAddress) {
       this.mustHaveEmailSetToJoinModal.show();
     } else {
-      const game = await this.gameApi.join(this.game.gameId, {
-        playerCiv: this.playerCiv.leaderKey,
-        password: this.joinGamePassword,
-      }).toPromise();
+      const game = await this.gameApi
+        .join(this.game.gameId, {
+          playerCiv: this.playerCiv.leaderKey,
+          password: this.joinGamePassword,
+        })
+        .toPromise();
 
       this.notificationService.showAlert({
         type: "success",

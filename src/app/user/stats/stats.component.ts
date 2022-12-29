@@ -26,7 +26,7 @@ export class UserStatsComponent implements OnInit {
     className: ["table", "table-condensed", "table-striped"],
     paging: { page: 1, itemsPerPage: 25 },
   };
-  rawData: {[gameType: string]: unknown[]} = {};
+  rawData: { [gameType: string]: unknown[] } = {};
   visibleData: Array<unknown> = [];
   allGame = <CivGame>{
     id: "ALL",
@@ -35,14 +35,10 @@ export class UserStatsComponent implements OnInit {
   games: CivGame[] = [];
   currentGame = this.allGame;
 
-  constructor(private userApi: UserService, private metadataCache: MetadataCacheService) {
-  }
+  constructor(private userApi: UserService, private metadataCache: MetadataCacheService) {}
 
   get allCivGames(): CivGame[] {
-    return [
-      this.allGame,
-      ...this.games,
-    ];
+    return [this.allGame, ...this.games];
   }
 
   async ngOnInit(): Promise<void> {
@@ -50,23 +46,28 @@ export class UserStatsComponent implements OnInit {
 
     this.userApi.all().subscribe(users => {
       for (const game of this.games) {
-        this.rawData[game.id] = users.map(user => {
-          const gameStats = user.statsByGameType.find(x => x.gameType === game.id);
+        this.rawData[game.id] = users
+          .map(user => {
+            const gameStats = user.statsByGameType.find(x => x.gameType === game.id);
 
-          return gameStats ? this.createRawData(gameStats, user) : null;
-        }).filter(Boolean);
+            return gameStats ? this.createRawData(gameStats, user) : null;
+          })
+          .filter(Boolean);
       }
 
       this.rawData[this.allGame.id] = users.map(user => {
         const activeGames = (user.activeGameIds || []).length;
         const totalGames = activeGames + (user.inactiveGameIds || []).length;
 
-        return this.createRawData(<GameTypeTurnData>{
-          ...user,
-          activeGames,
-          totalGames,
-          gameType: this.allGame.id,
-        }, user);
+        return this.createRawData(
+          <GameTypeTurnData>{
+            ...user,
+            activeGames,
+            totalGames,
+            gameType: this.allGame.id,
+          },
+          user,
+        );
       });
 
       this.onChangeTable(this.tableConfig, this.rawData[this.currentGame.id], this.visibleData);

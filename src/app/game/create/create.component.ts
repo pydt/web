@@ -40,8 +40,7 @@ export class CreateGameComponent implements OnInit {
     private notificationService: NotificationService,
     private route: ActivatedRoute,
     private metadataCache: MetadataCacheService,
-  ) {
-  }
+  ) {}
 
   filteredLeaders(): CivDef[] {
     return Utility.filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray);
@@ -59,7 +58,7 @@ export class CreateGameComponent implements OnInit {
 
     this.model.displayName = `${profile.personaname}'s game!`;
 
-    if (!await GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame)) {
+    if (!(await GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame))) {
       await this.router.navigate(["/user/games"]);
       return;
     }

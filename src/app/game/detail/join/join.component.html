@@ -2,13 +2,13 @@
   <div class="panel-heading">Join Game</div>
   <div class="panel-body">
     <div *ngIf="userInGame">
-      <p>
-        Send your friends a link to this page to join your game!
-      </p>
+      <p>Send your friends a link to this page to join your game!</p>
       <div class="input-group">
-        <input type="text" class="form-control" [value]="browserData.getCurrentUrl()" readonly>
+        <input type="text" class="form-control" [value]="browserData.getCurrentUrl()" readonly />
         <span class="input-group-btn">
-          <button class="btn btn-default" type="button" ngxClipboard [cbContent]="browserData.getCurrentUrl()">Copy Game URL to Clipboard</button>
+          <button class="btn btn-default" type="button" ngxClipboard [cbContent]="browserData.getCurrentUrl()">
+            Copy Game URL to Clipboard
+          </button>
         </span>
       </div>
     </div>
@@ -18,10 +18,22 @@
     <div *ngIf="!userInGame && profile.steamid">
       <div *ngIf="!tooManyHumans">
         <p>If you want to join this game, select a civ and then press the button below!</p>
-        <pydt-select-civ [leaders]="availableCivs" [randomOnly]="game.randomOnly" [curCiv]="playerCiv" (selectedCiv)="playerCiv = $event"></pydt-select-civ>
+        <pydt-select-civ
+          [leaders]="availableCivs"
+          [randomOnly]="game.randomOnly"
+          [curCiv]="playerCiv"
+          (selectedCiv)="playerCiv = $event"
+        ></pydt-select-civ>
         <div class="form-group" *ngIf="game.hashedPassword">
           <label for="password">The creator of the game has set a password:</label>
-          <input type="password" class="form-control" id="password" placeholder="Game Password" [(ngModel)]="joinGamePassword" name="password">
+          <input
+            type="password"
+            class="form-control"
+            id="password"
+            placeholder="Game Password"
+            [(ngModel)]="joinGamePassword"
+            name="password"
+          />
         </div>
         <div class="row">
           <div class="col-xs-12 text-center">
@@ -36,7 +48,15 @@
   </div>
 </div>
 
-<div bsModal #mustHaveEmailSetToJoinModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mustHaveEmailSetToJoinModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #mustHaveEmailSetToJoinModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="mustHaveEmailSetToJoinModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -46,8 +66,8 @@
         <h4 class="modal-title">Please set your email address first!</h4>
       </div>
       <div class="modal-body">
-        Before you join a game, please set your email address to receive notifications in your profile.  Otherwise, it makes it harder to guarantee
-        that you'll know it's your turn, and games go a lot slower!
+        Before you join a game, please set your email address to receive notifications in your profile. Otherwise, it
+        makes it harder to guarantee that you'll know it's your turn, and games go a lot slower!
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" [routerLink]="['/user/profile']">Go to Your Profile</button>
@@ -56,7 +76,15 @@
   </div>
 </div>
 
-<div bsModal #confirmDlcModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmDlcModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #confirmDlcModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmDlcModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -67,12 +95,19 @@
       </div>
       <div class="modal-body">
         <p>This game requires the following DLC:</p>
-        <p><b>{{dlcEnabled}}</b></p>
-        <p><span class="text-danger">If you don't have all of these DLCs you won't be able to play in this game!</span>  If you've got all the DLC, go ahead and press the Join Game button below.</p>
+        <p>
+          <b>{{ dlcEnabled }}</b>
+        </p>
+        <p>
+          <span class="text-danger">If you don't have all of these DLCs you won't be able to play in this game!</span>
+          If you've got all the DLC, go ahead and press the Join Game button below.
+        </p>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmDlcModal.hide()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmDlcModal.hide(); finishJoinGame();">Join Game!</button>
+        <button type="button" class="btn btn-primary" (click)="confirmDlcModal.hide(); finishJoinGame()">
+          Join Game!
+        </button>
       </div>
     </div>
   </div>

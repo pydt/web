@@ -12,8 +12,11 @@ export class UserGamesComponent implements OnInit {
   completedGames: Game[];
   refreshDisabled = false;
 
-  constructor(private userApi: UserService, private authService: AuthService, private profileCache: ProfileCacheService) {
-  }
+  constructor(
+    private userApi: UserService,
+    private authService: AuthService,
+    private profileCache: ProfileCacheService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getGames();
@@ -37,11 +40,17 @@ export class UserGamesComponent implements OnInit {
 
     const profile = this.authService.getSteamProfile();
 
-    const yourTurnGames = resp.data.filter((game: Game) => game.inProgress && game.currentPlayerSteamId === profile.steamid);
+    const yourTurnGames = resp.data.filter(
+      (game: Game) => game.inProgress && game.currentPlayerSteamId === profile.steamid,
+    );
 
     this.games = [
       ...orderBy(yourTurnGames, x => x.updatedAt, "desc"),
-      ...orderBy(resp.data.filter(g => !yourTurnGames.includes(g)), x => x.updatedAt, "desc"),
+      ...orderBy(
+        resp.data.filter(g => !yourTurnGames.includes(g)),
+        x => x.updatedAt,
+        "desc",
+      ),
     ];
   }
 

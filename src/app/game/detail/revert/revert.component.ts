@@ -12,11 +12,7 @@ export class GameDetailRevertComponent {
   @Output() setGame = new EventEmitter<Game>();
   @ViewChild("confirmRevertModal", { static: true }) confirmRevertModal: ModalDirective;
 
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {
-  }
+  constructor(private gameApi: GameService, private notificationService: NotificationService) {}
 
   async revert(): Promise<void> {
     this.confirmRevertModal.hide();

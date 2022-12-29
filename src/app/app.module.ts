@@ -13,7 +13,16 @@ import { TabsModule } from "ngx-bootstrap/tabs";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule, MarkedOptions } from "ngx-markdown";
-import { ApiModule, Configuration, DateInterceptor, ProfileCacheService, PydtSharedModule, UserService, BusyService, MetadataCacheService } from "pydt-shared";
+import {
+  ApiModule,
+  Configuration,
+  DateInterceptor,
+  ProfileCacheService,
+  PydtSharedModule,
+  UserService,
+  BusyService,
+  MetadataCacheService,
+} from "pydt-shared";
 import { Ng2TableModule } from "../ng2-table/ng-table-module";
 import * as envVars from "../envVars";
 import { AppComponent } from "./app.component";

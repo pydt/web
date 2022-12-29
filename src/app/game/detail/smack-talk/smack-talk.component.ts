@@ -10,10 +10,7 @@ export class GameDetailSmackTalkComponent implements OnChanges {
   @Input() game: Game;
   private discourse: HTMLScriptElement;
 
-  constructor(
-    public browserData: BrowserDataService,
-  ) {
-  }
+  constructor(public browserData: BrowserDataService) {}
 
   ngOnChanges(): void {
     if (this.game && !this.discourse && this.browserData.isBrowser()) {
@@ -30,7 +27,9 @@ export class GameDetailSmackTalkComponent implements OnChanges {
       this.discourse.async = true;
       this.discourse.src = `${discourseEmbed.discourseUrl}javascripts/embed.js`;
 
-      (window.document.getElementsByTagName("head")[0] || window.document.getElementsByTagName("body")[0]).appendChild(this.discourse);
+      (window.document.getElementsByTagName("head")[0] || window.document.getElementsByTagName("body")[0]).appendChild(
+        this.discourse,
+      );
     }
   }
 }

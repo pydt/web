@@ -4,5 +4,4 @@ import { Component } from "@angular/core";
   selector: "pydt-forum",
   templateUrl: "./forum.component.html",
 })
-export class ForumComponent {
-}
+export class ForumComponent {}

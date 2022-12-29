@@ -12,12 +12,7 @@ export class GameDetailLeaveComponent {
   @Input() game: Game;
   @ViewChild("confirmLeaveModal", { static: true }) confirmLeaveModal: ModalDirective;
 
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private router: Router,
-  ) {
-  }
+  constructor(private gameApi: GameService, private notificationService: NotificationService, private router: Router) {}
 
   async leave(): Promise<void> {
     this.confirmLeaveModal.hide();

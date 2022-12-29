@@ -9,7 +9,13 @@ import { CivDef, countdown } from "pydt-shared";
 export class Utility {
   public static countdown(start: unknown, end: unknown, max = 2): unknown {
     // eslint-disable-next-line no-bitwise
-    return countdown(start, end, countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES, max, 0);
+    return countdown(
+      start,
+      end,
+      countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES,
+      max,
+      0,
+    );
   }
 
   public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]): CivDef[] {
@@ -60,13 +66,18 @@ export class Utility {
 
     if (tableConfig.filtering) {
       if (tableConfig.filtering.filterString.length) {
-        filteredData = rawData.filter(row => tableConfig.columns.some((column: any) => {
-          if (column.filter && row[column.name].toLowerCase().indexOf(tableConfig.filtering.filterString.toLowerCase()) >= 0) {
-            return true;
-          }
+        filteredData = rawData.filter(row =>
+          tableConfig.columns.some((column: any) => {
+            if (
+              column.filter &&
+              row[column.name].toLowerCase().indexOf(tableConfig.filtering.filterString.toLowerCase()) >= 0
+            ) {
+              return true;
+            }
 
-          return false;
-        }));
+            return false;
+          }),
+        );
       }
 
       tableConfig.filtering.filteredResults = filteredData.length;
@@ -83,7 +94,7 @@ export class Utility {
         start = (page.page - 1) * page.itemsPerPage;
       }
 
-      const end = page.itemsPerPage > -1 ? (start + page.itemsPerPage) : rawData.length;
+      const end = page.itemsPerPage > -1 ? start + page.itemsPerPage : rawData.length;
 
       Array.prototype.push.apply(visibleData, filteredData.slice(start, end));
     } else {

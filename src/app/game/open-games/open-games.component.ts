@@ -1,5 +1,12 @@
 import { Component, OnInit } from "@angular/core";
-import { GameService, OpenGamesResponse, ProfileCacheService, SteamProfile, CivGame, MetadataCacheService } from "pydt-shared";
+import {
+  GameService,
+  OpenGamesResponse,
+  ProfileCacheService,
+  SteamProfile,
+  CivGame,
+  MetadataCacheService,
+} from "pydt-shared";
 import { AuthService } from "../../shared";
 
 @Component({
@@ -17,8 +24,7 @@ export class OpenGamesComponent implements OnInit {
     private auth: AuthService,
     private profileCache: ProfileCacheService,
     private metadataCache: MetadataCacheService,
-  ) {
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;

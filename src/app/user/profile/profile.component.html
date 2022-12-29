@@ -20,7 +20,8 @@
                 <div class="col-sm-9">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode"> For games that support turn timers, will automatically skip your turn. 
+                      <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode" />
+                      For games that support turn timers, will automatically skip your turn.
                     </label>
                   </div>
                 </div>
@@ -66,7 +67,14 @@
               <div class="form-group">
                 <label class="col-sm-3 control-label">Comments</label>
                 <div class="col-sm-9">
-                  <input type="text" class="form-control" name="comments" [(ngModel)]="user.comments" placeholder="A status message to show over your avatar." maxlength="50">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="comments"
+                    [(ngModel)]="user.comments"
+                    placeholder="A status message to show over your avatar."
+                    maxlength="50"
+                  />
                 </div>
               </div>
               <div class="form-group">
@@ -86,54 +94,86 @@
             <div class="well">
               <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
               <div class="input-group">
-                <input type="text" class="form-control" [value]="token" readonly>
+                <input type="text" class="form-control" [value]="token" readonly />
                 <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">Copy Token to Clipboard</button>
+                  <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">
+                    Copy Token to Clipboard
+                  </button>
                 </span>
               </div>
             </div>
           </tab>
-          <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail': ''">
+          <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail' : ''">
             <div class="well">
               <p>
-                Enter your email address to receive game state notifications (it's your turn, a player has joined your game, etc).  Your email address
-                will never be disclosed to any third parties, and will only be used for game-related messages and critical notifications from playyourdamnturn.com.
-                If you don't want turn notification emails but want other game state notification emails, you can just disable the new turn emails below.
+                Enter your email address to receive game state notifications (it's your turn, a player has joined your
+                game, etc). Your email address will never be disclosed to any third parties, and will only be used for
+                game-related messages and critical notifications from playyourdamnturn.com. If you don't want turn
+                notification emails but want other game state notification emails, you can just disable the new turn
+                emails below.
               </p>
               <form (ngSubmit)="onEmailSubmit()" #emailForm="ngForm">
                 <div class="form-group">
                   <label for="emailAddress">Email Address</label>
-                  <input type="text" class="form-control" id="emailAddress" [(ngModel)]="pud.emailAddress" name="emailAddress">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="emailAddress"
+                    [(ngModel)]="pud.emailAddress"
+                    name="emailAddress"
+                  />
                 </div>
                 <div class="checkbox">
                   <label>
-                    <input type="checkbox" style="top:-5px;" name="newTurnEmails" [(ngModel)]="pud.newTurnEmails"> Send me Turn Notification emails. 
+                    <input type="checkbox" style="top: -5px" name="newTurnEmails" [(ngModel)]="pud.newTurnEmails" />
+                    Send me Turn Notification emails.
                   </label>
                 </div>
-                <button type="submit" style="margin-top: 20px;" class="btn btn-default">Submit</button>
+                <button type="submit" style="margin-top: 20px" class="btn btn-default">Submit</button>
               </form>
             </div>
           </tab>
           <tab heading="Web Push Notifications">
             <div class="well">
-              <p>You can get browser push notifications when it's your turn!  Use the button below to register/unregister this browser.
-                If you ever press the button to block push notifications from this site you'll need to clear that setting in your browser before registration will work again!
+              <p>
+                You can get browser push notifications when it's your turn! Use the button below to register/unregister
+                this browser. If you ever press the button to block push notifications from this site you'll need to
+                clear that setting in your browser before registration will work again!
               </p>
-              <p>Web notifications for this browser are currently <strong>{{ (notificationsEnabled$ | async) ? 'ENABLED' : 'DISABLED' }}</strong></p>
-              <button class="btn btn-primary" *ngIf="(notificationsEnabled$ | async) === false" (click)="subscribeWebPush()">Enable Web Push Notifications</button>
-              <button class="btn btn-primary" *ngIf="notificationsEnabled$ | async" (click)="unsubscribeWebPush()">Disable Web Push Notifications</button>
+              <p>
+                Web notifications for this browser are currently
+                <strong>{{ (notificationsEnabled$ | async) ? "ENABLED" : "DISABLED" }}</strong>
+              </p>
+              <button
+                class="btn btn-primary"
+                *ngIf="(notificationsEnabled$ | async) === false"
+                (click)="subscribeWebPush()"
+              >
+                Enable Web Push Notifications
+              </button>
+              <button class="btn btn-primary" *ngIf="notificationsEnabled$ | async" (click)="unsubscribeWebPush()">
+                Disable Web Push Notifications
+              </button>
             </div>
           </tab>
           <tab heading="Webhook Notifications">
             <div class="well">
               <p>
-                A URL to send turn notifications to when you have a new turn available for any of your games.  The HTTP request will be a POST with the following parameters:
-                gameName, userName, round, civName, leaderName.  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.
+                A URL to send turn notifications to when you have a new turn available for any of your games. The HTTP
+                request will be a POST with the following parameters: gameName, userName, round, civName, leaderName.
+                The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud
+                should work for this as well.
               </p>
               <form (ngSubmit)="onWebhookSubmit()" #webhookForm="ngForm">
                 <div class="form-group">
                   <label for="webhookUrl">Webhook URL</label>
-                  <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="pud.webhookUrl" name="webhookUrl">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="webhookUrl"
+                    [(ngModel)]="pud.webhookUrl"
+                    name="webhookUrl"
+                  />
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
               </form>
@@ -142,12 +182,19 @@
           <tab heading="Forum Username">
             <div class="well">
               <p>
-                If your forum username is different than your Steam ID, you can set it here.  Having the correct forum username set will help notify you of smack talk messages appropriately.
+                If your forum username is different than your Steam ID, you can set it here. Having the correct forum
+                username set will help notify you of smack talk messages appropriately.
               </p>
               <form (ngSubmit)="onForumUsernameSubmit()" #webhookForm="ngForm">
                 <div class="form-group">
                   <label for="webhookUrl">Forum Username</label>
-                  <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="user.forumUsername" name="forumUsername">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="webhookUrl"
+                    [(ngModel)]="user.forumUsername"
+                    name="forumUsername"
+                  />
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
               </form>
@@ -156,14 +203,23 @@
           <tab heading="Substitution Availability">
             <div class="well">
               <p>
-                Players that have played more than 500 turns on the site can register themselves to be available to substitute for players that are surrendering or getting kicked from games.
-                <span *ngIf="user.turnsPlayed >= 500"  style="font-weight:bold;">Please select the games you'd like to substitute for below.</span>
+                Players that have played more than 500 turns on the site can register themselves to be available to
+                substitute for players that are surrendering or getting kicked from games.
+                <span *ngIf="user.turnsPlayed >= 500" style="font-weight: bold"
+                  >Please select the games you'd like to substitute for below.</span
+                >
               </p>
               <form *ngIf="user.turnsPlayed >= 500" (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
                 <div class="form-group" *ngFor="let game of games">
                   <div class="checkbox">
                     <label>
-                      <input type="checkbox" [name]="game.id" style="top: -5px;" [(ngModel)]="substitutionModel[game.id]"> {{ game.displayName }} 
+                      <input
+                        type="checkbox"
+                        [name]="game.id"
+                        style="top: -5px"
+                        [(ngModel)]="substitutionModel[game.id]"
+                      />
+                      {{ game.displayName }}
                     </label>
                   </div>
                 </div>
@@ -180,8 +236,8 @@
           <div class="panel-heading">You haven't joined the forum!</div>
           <div class="panel-body">
             <p>
-              Please consider joining the forum!  It's a simple process to register (you can use your steam credentials there as well), and will help you
-              communicate with other users during matchups.
+              Please consider joining the forum! It's a simple process to register (you can use your steam credentials
+              there as well), and will help you communicate with other users during matchups.
             </p>
             <div class="row">
               <div class="col-xs-12 text-center">

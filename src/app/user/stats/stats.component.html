@@ -2,25 +2,45 @@
   <div *ngIf="rawData">
     <h1>User Statistics</h1>
     <tabset>
-      <tab *ngFor="let game of allCivGames"
-           [heading]="game.displayName"
-           [active]="game === currentGame"
-           (selectTab)="setCurrentGame(game)">
+      <tab
+        *ngFor="let game of allCivGames"
+        [heading]="game.displayName"
+        [active]="game === currentGame"
+        (selectTab)="setCurrentGame(game)"
+      >
       </tab>
     </tabset>
-    <hr style="margin-top: 1px;" />
+    <hr style="margin-top: 1px" />
     <div class="row">
       <div class="col-md-6 form-inline">
         <div class="form-group">
           <label for="exampleInputName2">Search for User:</label>
-          <input type="text" class="form-control" [(ngModel)]="tableConfig.filtering.filterString" (ngModelChange)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)">
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="tableConfig.filtering.filterString"
+            (ngModelChange)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)"
+          />
         </div>
       </div>
       <div class="col-md-6">
-        <pagination class="pull-right" [(ngModel)]="tableConfig.paging.page" [totalItems]="tableConfig.filtering.filteredResults" [itemsPerPage]="tableConfig.paging.itemsPerPage" [maxSize]="5" [rotate]="false" (pageChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData, $event)"></pagination>
+        <pagination
+          class="pull-right"
+          [(ngModel)]="tableConfig.paging.page"
+          [totalItems]="tableConfig.filtering.filteredResults"
+          [itemsPerPage]="tableConfig.paging.itemsPerPage"
+          [maxSize]="5"
+          [rotate]="false"
+          (pageChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData, $event)"
+        ></pagination>
       </div>
     </div>
     <hr />
-    <ng-table [config]="tableConfig" [columns]="tableColumns" [rows]="visibleData" (tableChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)"></ng-table>
+    <ng-table
+      [config]="tableConfig"
+      [columns]="tableColumns"
+      [rows]="visibleData"
+      (tableChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)"
+    ></ng-table>
   </div>
 </div>

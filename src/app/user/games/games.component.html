@@ -1,31 +1,43 @@
 <div class="container">
-  <div *ngIf="games" style="position: relative;">
+  <div *ngIf="games" style="position: relative">
     <h1>Your Games</h1>
-    <button type="button" class="btn btn-sm btn-default" [disabled]="refreshDisabled" style="position: absolute;top:55px;right:0px;" (click)="refresh()">Refresh</button>
+    <button
+      type="button"
+      class="btn btn-sm btn-default"
+      [disabled]="refreshDisabled"
+      style="position: absolute; top: 55px; right: 0px"
+      (click)="refresh()"
+    >
+      Refresh
+    </button>
     <tabset>
       <tab heading="Active Games">
         <h3 *ngIf="!games.length">No games found.</h3>
         <div *ngFor="let game of games">
-          <div class="well"> 
+          <div class="well">
             <pydt-game-preview [game]="game"></pydt-game-preview>
             <div class="row">
               <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
+                  View Game Details
+                </button>
               </div>
             </div>
           </div>
         </div>
       </tab>
       <tab heading="Completed Games" (selectTab)="getCompetedGames()">
-        <h1 *ngIf="!completedGames" style="text-align: center;">Loading...</h1>
+        <h1 *ngIf="!completedGames" style="text-align: center">Loading...</h1>
         <ng-container *ngIf="completedGames">
           <h3 *ngIf="!completedGames.length">No completed games found.</h3>
           <div *ngFor="let game of completedGames">
-            <div class="well"> 
+            <div class="well">
               <pydt-game-preview [game]="game"></pydt-game-preview>
               <div class="row">
                 <div class="col-xs-12 text-center">
-                  <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">View Game Details</button>
+                  <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
+                    View Game Details
+                  </button>
                 </div>
               </div>
             </div>

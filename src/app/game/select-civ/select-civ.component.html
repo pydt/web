@@ -1,7 +1,15 @@
 <pydt-display-civ [civ]="curCiv" (clicked)="selectCivModal.show()"></pydt-display-civ>
 
-<div bsModal #selectCivModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="selectCivModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-sm" style="width:500px;">
+<div
+  bsModal
+  #selectCivModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="selectCivModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-sm" style="width: 500px">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" aria-label="Close" (click)="selectCivModal.hide()">
@@ -10,9 +18,13 @@
         <h4 class="modal-title">Select Your Civ</h4>
       </div>
       <div class="modal-body">
-        <div style="height:300px;overflow-y:scroll;">
+        <div style="height: 300px; overflow-y: scroll">
           <div *ngFor="let civ of leaders" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
-            <pydt-display-civ *ngIf="!randomOnly || civ?.civKey === RANDOM_CIV?.civKey" [civ]="civ" (clicked)="civClicked(civ);selectCivModal.hide();"></pydt-display-civ>
+            <pydt-display-civ
+              *ngIf="!randomOnly || civ?.civKey === RANDOM_CIV?.civKey"
+              [civ]="civ"
+              (clicked)="civClicked(civ); selectCivModal.hide()"
+            ></pydt-display-civ>
           </div>
         </div>
       </div>

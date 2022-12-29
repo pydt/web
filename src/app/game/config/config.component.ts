@@ -15,8 +15,7 @@ export class ConfigureGameComponent implements OnInit {
   showMarkdown = false;
   games: CivGame[];
 
-  constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {
-  }
+  constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {}
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadata.getCivGameMetadata()).civGames;

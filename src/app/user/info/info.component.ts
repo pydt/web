@@ -10,8 +10,7 @@ export class UserInfoComponent implements OnInit {
   @Input() user: User;
   profile: SteamProfile;
 
-  constructor(private profileCache: ProfileCacheService) {
-  }
+  constructor(private profileCache: ProfileCacheService) {}
 
   async ngOnInit(): Promise<void> {
     const result = await this.profileCache.getProfiles([this.user.steamId]);

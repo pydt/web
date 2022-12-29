@@ -16,8 +16,7 @@ export class SelectCivComponent implements OnInit {
 
   RANDOM_CIV: CivDef;
 
-  constructor(private metadataCache: MetadataCacheService) {
-  }
+  constructor(private metadataCache: MetadataCacheService) {}
 
   async ngOnInit(): Promise<void> {
     this.RANDOM_CIV = (await this.metadataCache.getCivGameMetadata()).randomCiv;

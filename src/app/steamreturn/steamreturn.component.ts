@@ -22,7 +22,9 @@ export class SteamReturnComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     if (this.browserData.isBrowser()) {
-      const vResp = await this.http.get<ValidateResponse>(`${envVars.apiUrl}/auth/steam/validate${window.location.search}`).toPromise();
+      const vResp = await this.http
+        .get<ValidateResponse>(`${envVars.apiUrl}/auth/steam/validate${window.location.search}`)
+        .toPromise();
 
       if (vResp.token) {
         this.auth.store(vResp.token, vResp.steamProfile);

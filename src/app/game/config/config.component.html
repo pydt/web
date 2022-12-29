@@ -1,87 +1,122 @@
 <div class="form-group">
   <label class="col-sm-3 control-label">Game Type:</label>
   <div class="col-sm-9">
-    <p class='form-control-static'>{{model.civGame.displayName}}</p>
+    <p class="form-control-static">{{ model.civGame.displayName }}</p>
   </div>
 </div>
 <div *ngIf="game && game.inProgress">
   <div class="form-group">
     <label class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
-      <p class='form-control-static'>{{model.displayName}}</p>
+      <p class="form-control-static">{{ model.displayName }}</p>
     </div>
   </div>
 </div>
-<div *ngIf="!game || !game.inProgress"> 
+<div *ngIf="!game || !game.inProgress">
   <div class="form-group" [class.has-error]="(displayName.statusChanges | async) !== 'VALID'">
     <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
     <div class="col-sm-9">
-      <input type="text" class="form-control" id="displayName" required [(ngModel)]="model.displayName" name="displayName" #displayName="ngModel">
+      <input
+        type="text"
+        class="form-control"
+        id="displayName"
+        required
+        [(ngModel)]="model.displayName"
+        name="displayName"
+        #displayName="ngModel"
+      />
     </div>
   </div>
 </div>
 <div class="form-group">
   <div class="col-sm-3 hidden-xs">
-    <div class="clearfix"> 
+    <div class="clearfix">
       <label for="description" class="control-label pull-right">Description:</label>
     </div>
-    <button type="button" class="btn btn-default btn-xs pull-right" (click)="showMarkdown = !showMarkdown">{{markdownButtonText}}</button>
+    <button type="button" class="btn btn-default btn-xs pull-right" (click)="showMarkdown = !showMarkdown">
+      {{ markdownButtonText }}
+    </button>
   </div>
   <div class="visible-xs">
-    <label for="description" class="control-label" style="padding-left: 15px; padding-right:10px;">Description:</label>
-    <button type="button" class="btn btn-default btn-xs"(click)="showMarkdown = !showMarkdown">{{markdownButtonText}}</button>
+    <label for="description" class="control-label" style="padding-left: 15px; padding-right: 10px">Description:</label>
+    <button type="button" class="btn btn-default btn-xs" (click)="showMarkdown = !showMarkdown">
+      {{ markdownButtonText }}
+    </button>
   </div>
-  <div [style.display]="showMarkdown ? 'block' : 'none'" class="col-sm-9" style="border: 1px solid #888;">
+  <div [style.display]="showMarkdown ? 'block' : 'none'" class="col-sm-9" style="border: 1px solid #888">
     <markdown [data]="model.description"></markdown>
   </div>
   <div [style.display]="showMarkdown ? 'none' : 'block'" class="col-sm-9">
-    <textarea rows="3" class="form-control" id="description" [(ngModel)]="model.description" name="description" placeholder="A short description of game parameters, house rules, etc."></textarea>
+    <textarea
+      rows="3"
+      class="form-control"
+      id="description"
+      [(ngModel)]="model.description"
+      name="description"
+      placeholder="A short description of game parameters, house rules, etc."
+    ></textarea>
   </div>
-  <span id="dlcHelp" class="help-block col-sm-offset-3">You can use markdown to format your description.  <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank">Click here to see a markdown cheatsheet.</a></span>
+  <span id="dlcHelp" class="help-block col-sm-offset-3"
+    >You can use markdown to format your description.
+    <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank"
+      >Click here to see a markdown cheatsheet.</a
+    ></span
+  >
 </div>
-<div *ngIf="!game || (game.gameTurnRangeKey || 0) <= 1"> 
+<div *ngIf="!game || (game.gameTurnRangeKey || 0) <= 1">
   <div class="form-group">
     <label class="col-sm-3 control-label">DLC Support:</label>
     <div class="col-sm-9">
       <div class="checkbox">
         <label>
-          <input type="checkbox" [ngModel]="allDlcSelected" (ngModelChange)="selectAllDlc($event)">
+          <input type="checkbox" [ngModel]="allDlcSelected" (ngModelChange)="selectAllDlc($event)" />
           <strong>Select All</strong>
         </label>
       </div>
       <hr />
       <div class="checkbox" *ngFor="let dlc of majorDlc">
         <label>
-          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
-          {{dlc.displayName}} <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()" />
+          {{ dlc.displayName }}
+          <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
         </label>
       </div>
       <hr />
       <div class="checkbox" *ngFor="let dlc of minorDlc">
         <label>
-          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()">
-          {{dlc.displayName}} <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()" />
+          {{ dlc.displayName }}
+          <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
         </label>
       </div>
     </div>
-    <span id="dlcHelp" class="help-block col-sm-offset-3">All players in your game must have any DLC selected installed, otherwise they will be unable to load save files!</span>
+    <span id="dlcHelp" class="help-block col-sm-offset-3"
+      >All players in your game must have any DLC selected installed, otherwise they will be unable to load save
+      files!</span
+    >
   </div>
   <div class="form-group">
     <label for="description" class="col-sm-3 control-label">Game Speed:</label>
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.gameSpeed">
-        <option *ngFor="let speed of model.civGame.gameSpeeds" [ngValue]="speed.key">{{speed.displayName}}</option>
-        <option [ngValue]="undefined">{{ model.emptyGame | gamespeed: games }}</option>
+        <option *ngFor="let speed of model.civGame.gameSpeeds" [ngValue]="speed.key">
+          {{ speed.displayName }}
+        </option>
+        <option [ngValue]="undefined">{{ model.emptyGame | gamespeed : games }}</option>
       </select>
     </div>
-    <span id="dlcHelp" class="help-block col-sm-offset-3">Please select Online unless you know what you're doing!  Asynchonous games can take a long time to complete!</span>
+    <span id="dlcHelp" class="help-block col-sm-offset-3"
+      >Please select Online unless you know what you're doing! Asynchonous games can take a long time to complete!</span
+    >
   </div>
   <div class="form-group">
     <label for="description" class="col-sm-3 control-label">Map Type:</label>
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.mapFile">
-        <option *ngFor="let map of model.civGame.maps" [ngValue]="map.file">{{map.displayName}}</option>
-        <option [ngValue]="undefined">{{ model.emptyGame | map: games }}</option>
+        <option *ngFor="let map of model.civGame.maps" [ngValue]="map.file">
+          {{ map.displayName }}
+        </option>
+        <option [ngValue]="undefined">{{ model.emptyGame | map : games }}</option>
       </select>
     </div>
   </div>
@@ -89,27 +124,42 @@
     <label for="description" class="col-sm-3 control-label">Map Size:</label>
     <div class="col-sm-9">
       <select class="form-control" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap?.mapSize">
-        <option *ngFor="let size of model.civGame.mapSizes" [ngValue]="size.key">{{size.displayName}} (suggested {{size.players}} players)</option>
-        <option [ngValue]="undefined">{{ model.emptyGame | mapsize: games }}</option>
+        <option *ngFor="let size of model.civGame.mapSizes" [ngValue]="size.key">
+          {{ size.displayName }} (suggested {{ size.players }} players)
+        </option>
+        <option [ngValue]="undefined">{{ model.emptyGame | mapsize : games }}</option>
       </select>
     </div>
   </div>
   <div class="form-group">
     <label for="slotsRange" class="col-sm-3 control-label">Number of Slots:</label>
     <div class="col-sm-1">
-      <p class="form-control-static"><b>{{model.slots}}</b></p>
+      <p class="form-control-static">
+        <b>{{ model.slots }}</b>
+      </p>
     </div>
     <div class="col-sm-8">
-      <input type="range" id="slotsRange" min="{{minHumans}}" max="12" step="1" [(ngModel)]="model.slots" name="slots" aria-describedby="slotsHelp">
+      <input
+        type="range"
+        id="slotsRange"
+        min="{{ minHumans }}"
+        max="12"
+        step="1"
+        [(ngModel)]="model.slots"
+        name="slots"
+        aria-describedby="slotsHelp"
+      />
     </div>
-    <span id="slotsHelp" class="help-block col-sm-offset-3">The total number of civilizations in the game (human or ai).</span>
+    <span id="slotsHelp" class="help-block col-sm-offset-3"
+      >The total number of civilizations in the game (human or ai).</span
+    >
   </div>
   <div class="form-group">
     <label for="displayName" class="col-sm-3 control-label">Only allow random Civ selection:</label>
     <div class="col-sm-9">
       <div class="checkbox">
         <label>
-          <input type="checkbox" [(ngModel)]="model.randomOnly">
+          <input type="checkbox" [(ngModel)]="model.randomOnly" />
         </label>
       </div>
     </div>
@@ -118,14 +168,28 @@
 <div class="form-group">
   <label for="humansRange" class="col-sm-3 control-label">Maximum Number of Humans:</label>
   <div class="col-sm-1">
-    <p class="form-control-static"><b>{{model.humans}}</b></p>
+    <p class="form-control-static">
+      <b>{{ model.humans }}</b>
+    </p>
   </div>
   <div class="col-sm-8">
-    <input type="range" id="humansRange" min="{{minHumans}}" max="{{model.slots}}" step="1" [(ngModel)]="model.humans" name="humans" aria-describedby="humansHelp">
+    <input
+      type="range"
+      id="humansRange"
+      min="{{ minHumans }}"
+      max="{{ model.slots }}"
+      step="1"
+      [(ngModel)]="model.humans"
+      name="humans"
+      aria-describedby="humansHelp"
+    />
   </div>
-  <span id="humansHelp" class="help-block col-sm-offset-3">The maximum number of human players in the game.  If the game is started with less than this number, the remaining slots will be filled with AI players.</span>
+  <span id="humansHelp" class="help-block col-sm-offset-3"
+    >The maximum number of human players in the game. If the game is started with less than this number, the remaining
+    slots will be filled with AI players.</span
+  >
   <div class="col-sm-offset-3 col-sm-8">
-    <div *ngFor="let player of slotsArray; let i = index;" class="col-{{model.slots}}-slots">
+    <div *ngFor="let player of slotsArray; let i = index" class="col-{{ model.slots }}-slots">
       <pydt-player-avatar [game]="slotsPreviewGame" [players]="[]" [index]="i" size="BIG"></pydt-player-avatar>
     </div>
   </div>
@@ -135,7 +199,7 @@
   <div class="col-sm-9">
     <div class="checkbox">
       <label>
-        <input type="checkbox" [(ngModel)]="model.allowJoinAfterStart">
+        <input type="checkbox" [(ngModel)]="model.allowJoinAfterStart" />
       </label>
     </div>
   </div>
@@ -143,9 +207,12 @@
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Game Password:</label>
   <div class="col-sm-9">
-    <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password">
+    <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password" />
   </div>
-  <span id="passwordHelp" class="help-block col-sm-offset-3">If you wish for your game to be protected so that only people who know the password can join, set a password in the field above.</span>
+  <span id="passwordHelp" class="help-block col-sm-offset-3"
+    >If you wish for your game to be protected so that only people who know the password can join, set a password in the
+    field above.</span
+  >
 </div>
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Turn Timer:</label>
@@ -153,26 +220,38 @@
     <div class="col-sm-1">
       <div class="checkbox">
         <label>
-          <input type="checkbox" [(ngModel)]="model.turnTimerEnabled">
+          <input type="checkbox" [(ngModel)]="model.turnTimerEnabled" />
         </label>
       </div>
     </div>
     <ng-container *ngIf="model.turnTimerEnabled">
       <div class="col-sm-5">
-        <input type="range" id="turnTimerMinutesRange" min="60" max="4320" step="15" [(ngModel)]="model.turnTimerMinutes" name="turnTimerMinutes">
+        <input
+          type="range"
+          id="turnTimerMinutesRange"
+          min="60"
+          max="4320"
+          step="15"
+          [(ngModel)]="model.turnTimerMinutes"
+          name="turnTimerMinutes"
+        />
       </div>
       <div class="col-sm-3">
-        <p class='form-control-static'>
+        <p class="form-control-static">
           {{ model.turnTimerMinutesString }}
         </p>
-      </div>  
+      </div>
     </ng-container>
   </ng-container>
 </div>
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Webhook URL:</label>
   <div class="col-sm-9">
-    <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="model.webhookUrl" name="webhookUrl">
+    <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="model.webhookUrl" name="webhookUrl" />
   </div>
-  <span id="webhookUrlHelp" class="help-block col-sm-offset-3">A URL to send turn notifications to when there is a new turn for any player in this game.  The HTTP request will be a POST with the following parameters: gameName, userName, round, civName, leaderName.  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.</span>
+  <span id="webhookUrlHelp" class="help-block col-sm-offset-3"
+    >A URL to send turn notifications to when there is a new turn for any player in this game. The HTTP request will be
+    a POST with the following parameters: gameName, userName, round, civName, leaderName. The value1/2/3 parameters used
+    by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.</span
+  >
 </div>

@@ -19,8 +19,7 @@ export class GameDetailAdminComponent implements OnInit {
     private gameApi: GameService,
     private userApi: UserService,
     private notificationService: NotificationService,
-  ) {
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     if (!this.substituteUsers) {
@@ -41,7 +40,7 @@ export class GameDetailAdminComponent implements OnInit {
   randomizeUserToSubstitute(): User {
     const su = this.substituteUsers;
 
-    const result = this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null;
+    const result = (this.userToSubstitute = su.length ? su[Math.floor(Math.random() * su.length)] : null);
 
     return result;
   }
@@ -50,10 +49,12 @@ export class GameDetailAdminComponent implements OnInit {
     this.confirmKickUserModal.hide();
 
     if (this.userToSubstitute) {
-      const game = await this.gameApi.replacePlayer(this.game.gameId, {
-        newSteamId: this.userToSubstitute.steamId,
-        oldSteamId: this.game.currentPlayerSteamId,
-      }).toPromise();
+      const game = await this.gameApi
+        .replacePlayer(this.game.gameId, {
+          newSteamId: this.userToSubstitute.steamId,
+          oldSteamId: this.game.currentPlayerSteamId,
+        })
+        .toPromise();
 
       this.notificationService.showAlert({
         type: "warning",
@@ -61,7 +62,9 @@ export class GameDetailAdminComponent implements OnInit {
       });
       this.setGame.emit(game);
     } else {
-      const game = await this.gameApi.surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId }).toPromise();
+      const game = await this.gameApi
+        .surrender(this.game.gameId, { kickUserId: this.game.currentPlayerSteamId })
+        .toPromise();
 
       this.notificationService.showAlert({
         type: "warning",

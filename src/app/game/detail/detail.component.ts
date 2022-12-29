@@ -4,8 +4,17 @@ import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
 import { gzip } from "pako";
 import {
-  BasePath, BusyService, CivDef, CivGame, Game, GameService, GameStore, MetadataCacheService,
-  Platform, PydtMetadata, SteamProfile,
+  BasePath,
+  BusyService,
+  CivDef,
+  CivGame,
+  Game,
+  GameService,
+  GameStore,
+  MetadataCacheService,
+  Platform,
+  PydtMetadata,
+  SteamProfile,
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
@@ -40,8 +49,7 @@ export class GameDetailComponent implements OnInit {
     private busyService: BusyService,
     private metadataCache: MetadataCacheService,
     private metatag: MetatagService,
-  ) {
-  }
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.metadata = await this.metadataCache.getCivGameMetadata();
@@ -50,7 +58,8 @@ export class GameDetailComponent implements OnInit {
 
     this.metatag.setTitleAndDesc(
       `${this.game.displayName} | ${this.civGame.displayName}`,
-      removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() || "This game doesn't have a description... I'm sure it's great though!",
+      removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() ||
+        "This game doesn't have a description... I'm sure it's great though!",
     );
   }
 
@@ -163,11 +172,14 @@ export class GameDetailComponent implements OnInit {
       if (!this.playerCiv && game.allowJoinAfterStart) {
         this.availableCivs = game.players
           .filter(player => !player.steamId)
-          .map(player => this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
-            ...this.metadata.randomCiv,
-            leaderKey: player.civType,
-            fullDisplayName: player.civType,
-          });
+          .map(
+            player =>
+              this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
+                ...this.metadata.randomCiv,
+                leaderKey: player.civType,
+                fullDisplayName: player.civType,
+              },
+          );
       }
     } else {
       this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
@@ -204,7 +216,7 @@ export class GameDetailComponent implements OnInit {
 
   async fileSelected(event: Event, gameId: string): Promise<void> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
-    const fileTarget: { files: Blob[], value: string } = (event.target as any);
+    const fileTarget: { files: Blob[]; value: string } = event.target as any;
 
     if (fileTarget.files.length > 0) {
       this.busyService.incrementBusy(true);
@@ -232,7 +244,7 @@ export class GameDetailComponent implements OnInit {
           xhr.setRequestHeader("Content-Type", "application/octet-stream");
           const reader = new FileReader();
 
-          reader.onload = function() {
+          reader.onload = function () {
             // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
             const array = new Uint8Array(this.result as any);
             const toSend = gzip(array);

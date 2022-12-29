@@ -14,20 +14,18 @@ export class GameDetailChangeCivComponent implements OnChanges {
 
   newCiv: CivDef;
 
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {
-  }
+  constructor(private gameApi: GameService, private notificationService: NotificationService) {}
 
   ngOnChanges(): void {
     this.newCiv = this.playerCiv;
   }
 
   async changeCiv(): Promise<void> {
-    const game = await this.gameApi.changeCiv(this.game.gameId, {
-      playerCiv: this.newCiv.leaderKey,
-    }).toPromise();
+    const game = await this.gameApi
+      .changeCiv(this.game.gameId, {
+        playerCiv: this.newCiv.leaderKey,
+      })
+      .toPromise();
 
     this.newCiv = null;
     this.notificationService.showAlert({

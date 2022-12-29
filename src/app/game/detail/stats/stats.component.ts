@@ -28,8 +28,7 @@ export class GameDetailStatsComponent implements OnInit {
   tableData: Array<unknown>;
   games: CivGame[] = [];
 
-  constructor(private profileCache: ProfileCacheService, private metadataCache: MetadataCacheService) {
-  }
+  constructor(private profileCache: ProfileCacheService, private metadataCache: MetadataCacheService) {}
 
   get civGame(): CivGame {
     return this.games.find(x => x.id === this.game.gameType);
@@ -38,11 +37,14 @@ export class GameDetailStatsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
-      this.tableColumns = [...this.tableColumns, {
-        title: "Skipped",
-        name: "turnsSkipped",
-        className: "cursor-pointer",
-      }];
+      this.tableColumns = [
+        ...this.tableColumns,
+        {
+          title: "Skipped",
+          name: "turnsSkipped",
+          className: "cursor-pointer",
+        },
+      ];
     }
 
     const profiles = await this.profileCache.getProfiles(this.humanPlayers().map(x => x.steamId));

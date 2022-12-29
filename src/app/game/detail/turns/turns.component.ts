@@ -1,6 +1,15 @@
 import { Component, Input, OnInit } from "@angular/core";
 import * as moment from "moment";
-import { Game, GameService, ProfileCacheService, SteamProfileMap, MetadataCacheService, CivGame, GameTurn, GamePlayer } from "pydt-shared";
+import {
+  Game,
+  GameService,
+  ProfileCacheService,
+  SteamProfileMap,
+  MetadataCacheService,
+  CivGame,
+  GameTurn,
+  GamePlayer,
+} from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { Parser } from "json2csv";
 import * as FileSaver from "file-saver";
@@ -39,8 +48,7 @@ export class GameDetailTurnsComponent implements OnInit {
     private profileCache: ProfileCacheService,
     private gameService: GameService,
     private metadataCache: MetadataCacheService,
-  ) {
-  }
+  ) {}
 
   get civGame(): CivGame {
     return this.games.find(x => x.id === this.game.gameType);
@@ -53,11 +61,14 @@ export class GameDetailTurnsComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
     if (this.civGame.turnTimerSupported) {
-      this.tableColumns = [...this.tableColumns, {
-        title: "Skipped?",
-        name: "skipped",
-        className: "cursor-pointer",
-      }];
+      this.tableColumns = [
+        ...this.tableColumns,
+        {
+          title: "Skipped?",
+          name: "skipped",
+          className: "cursor-pointer",
+        },
+      ];
     }
 
     this.profiles = await this.profileCache.getProfiles(this.humanPlayers.map(x => x.steamId));
@@ -75,7 +86,9 @@ export class GameDetailTurnsComponent implements OnInit {
   }
 
   async downloadCsv(): Promise<void> {
-    const turns = (await this.gameService.getTurns(this.game.gameId, 0, this.game.gameTurnRangeKey).toPromise()).reverse();
+    const turns = (
+      await this.gameService.getTurns(this.game.gameId, 0, this.game.gameTurnRangeKey).toPromise()
+    ).reverse();
 
     this.profiles = await this.profileCache.getProfiles([...new Set(turns.map(x => x.playerSteamId))]);
 
@@ -89,7 +102,7 @@ export class GameDetailTurnsComponent implements OnInit {
         { label: "Start Time", value: "startDate" },
         { label: "End Time", value: "endDate" },
         { label: "Time Taken", value: "timeTaken" },
-        ...this.civGame.turnTimerSupported ? [{ label: "Skipped?", value: "skipped" }] : [],
+        ...(this.civGame.turnTimerSupported ? [{ label: "Skipped?", value: "skipped" }] : []),
       ],
     });
 

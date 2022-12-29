@@ -12,12 +12,7 @@ export class GameDetailSurrenderComponent {
   @Input() game: Game;
   @ViewChild("confirmSurrenderModal", { static: true }) confirmSurrenderModal: ModalDirective;
 
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private router: Router,
-  ) {
-  }
+  constructor(private gameApi: GameService, private notificationService: NotificationService, private router: Router) {}
 
   async surrender(): Promise<void> {
     this.confirmSurrenderModal.hide();

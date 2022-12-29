@@ -55,23 +55,24 @@ export class AppComponent implements OnInit {
     });
 
     // https://stackoverflow.com/questions/48330535/dynamically-add-meta-description-based-on-route-in-angular
-    router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => this.activatedRoute),
-      map(route => {
-        let curRoute = route;
+    router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => this.activatedRoute),
+        map(route => {
+          let curRoute = route;
 
-        while (curRoute.firstChild) {
-          curRoute = curRoute.firstChild;
-        }
+          while (curRoute.firstChild) {
+            curRoute = curRoute.firstChild;
+          }
 
-        return curRoute;
-      }),
-      filter(route => route.outlet === "primary"),
-      mergeMap(route => route.data),
-    )
+          return curRoute;
+        }),
+        filter(route => route.outlet === "primary"),
+        mergeMap(route => route.data),
+      )
       .subscribe(event => {
-        const m = event.meta as { title: string, description: string };
+        const m = event.meta as { title: string; description: string };
 
         this.metatag.setTitleAndDesc(m.title, m.description);
       });
@@ -101,16 +102,18 @@ export class AppComponent implements OnInit {
   }
 
   async download(extension: "exe" | "dmg" | "AppImage"): Promise<void> {
-    const resp = await this.http.get<{
-      assets: {
-        name: string,
-        // eslint-disable-next-line camelcase
-        browser_download_url: string
-      }[]
-    }>("https://api.github.com/repos/pydt/client/releases/latest").toPromise();
+    const resp = await this.http
+      .get<{
+        assets: {
+          name: string;
+          // eslint-disable-next-line camelcase
+          browser_download_url: string;
+        }[];
+      }>("https://api.github.com/repos/pydt/client/releases/latest")
+      .toPromise();
 
     for (const asset of resp.assets) {
-      if ((asset.name).endsWith(`.${extension}`)) {
+      if (asset.name.endsWith(`.${extension}`)) {
         window.location.href = asset.browser_download_url;
       }
     }

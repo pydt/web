@@ -18,8 +18,7 @@ export class GameCreateButtonComponent implements OnInit {
     private userApi: UserService,
     private metadataCache: MetadataCacheService,
     private router: Router,
-  ) {
-  }
+  ) {}
 
   static async canCreateGame(auth: AuthService, userApi: UserService, civGame: CivGame): Promise<boolean> {
     const user = await userApi.getCurrent().toPromise();

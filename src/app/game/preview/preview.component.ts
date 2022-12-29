@@ -1,11 +1,19 @@
 import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import {
-  CivDef, Game, GamePlayer, GameService, ProfileCacheService, SteamProfile,
-  SteamProfileMap, User, UserService, CivGame, MetadataCacheService,
+  CivDef,
+  Game,
+  GamePlayer,
+  GameService,
+  ProfileCacheService,
+  SteamProfile,
+  SteamProfileMap,
+  User,
+  UserService,
+  CivGame,
+  MetadataCacheService,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
-
 
 @Component({
   selector: "pydt-game-preview",
@@ -34,8 +42,7 @@ export class GamePreviewComponent implements OnChanges {
     private profileCache: ProfileCacheService,
     private notificationService: NotificationService,
     private metadataCache: MetadataCacheService,
-  ) {
-  }
+  ) {}
 
   async ngOnChanges(): Promise<void> {
     this.activeProfile = this.auth.getSteamProfile();
@@ -82,20 +89,19 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   saveTurnOrder(): void {
-    this.gameApi.updateTurnOrder(this.game.gameId, {
-      steamIds: [
-        this.activeProfile.steamid,
-        ...this.reorderableIndexes.map(x => this.game.players[x].steamId),
-      ],
-    }).subscribe(game => {
-      this.notificationService.showAlert({
-        type: "success",
-        msg: "Turn order updated!",
-      });
+    this.gameApi
+      .updateTurnOrder(this.game.gameId, {
+        steamIds: [this.activeProfile.steamid, ...this.reorderableIndexes.map(x => this.game.players[x].steamId)],
+      })
+      .subscribe(game => {
+        this.notificationService.showAlert({
+          type: "success",
+          msg: "Turn order updated!",
+        });
 
-      this.editingTurnOrder = false;
-      this.gameUpdated.emit(game);
-    });
+        this.editingTurnOrder = false;
+        this.gameUpdated.emit(game);
+      });
   }
 
   async showUserDetail(userId: string): Promise<void> {

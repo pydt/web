@@ -1,9 +1,9 @@
-<div class="media" style="padding:5px;" (click)="clicked.emit(this.civ)">
+<div class="media" style="padding: 5px" (click)="clicked.emit(this.civ)">
   <div class="media-left">
-    <img class="media-object" [src]="imageUrl()">
+    <img class="media-object" [src]="imageUrl()" />
   </div>
   <div class="media-body">
-    <h4 *ngIf="!civ" class="media-heading" style="padding-top:20px;">Unknown Civ</h4>
-    <h4 *ngIf="civ" class="media-heading" style="padding-top:20px;">{{civ.fullDisplayName}}</h4>
+    <h4 *ngIf="!civ" class="media-heading" style="padding-top: 20px">Unknown Civ</h4>
+    <h4 *ngIf="civ" class="media-heading" style="padding-top: 20px">{{ civ.fullDisplayName }}</h4>
   </div>
 </div>

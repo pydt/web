@@ -15,7 +15,15 @@
   </div>
 </div>
 
-<div bsModal #confirmStartGameModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmStartGameLabel" aria-hidden="true">
+<div
+  bsModal
+  #confirmStartGameModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmStartGameLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -25,11 +33,13 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        Are you sure you're ready to start this game with <b>{{game?.players.length}}</b> human players?
+        Are you sure you're ready to start this game with <b>{{ game?.players.length }}</b> human players?
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmStartGameModal.hide()">Cancel</button>
-        <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.hide(); startGame();">Start the Game!</button>
+        <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.hide(); startGame()">
+          Start the Game!
+        </button>
       </div>
     </div>
   </div>

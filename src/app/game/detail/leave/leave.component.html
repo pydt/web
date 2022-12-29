@@ -10,7 +10,15 @@
   </div>
 </div>
 
-<div bsModal #confirmLeaveModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="confirmLeaveModalLabel" aria-hidden="true">
+<div
+  bsModal
+  #confirmLeaveModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmLeaveModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
@@ -19,9 +27,7 @@
         </button>
         <h4 class="modal-title">Are you sure?</h4>
       </div>
-      <div class="modal-body">
-        Do you really want to leave {{game?.displayName}}?
-      </div>
+      <div class="modal-body">Do you really want to leave {{ game?.displayName }}?</div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmLeaveModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="leave()">Leave Game!</button>
