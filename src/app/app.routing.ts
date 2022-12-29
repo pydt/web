@@ -11,6 +11,7 @@ import { UserGamesComponent } from "./user/games/games.component";
 import { UserStatsComponent } from "./user/stats/stats.component";
 import { ForumComponent } from "./forum/forum.component";
 import { AuthService } from "./shared";
+import { NotFoundComponent } from "./not-found.component";
 
 /* eslint-disable max-len */
 const routes: Routes = [
@@ -24,6 +25,8 @@ const routes: Routes = [
   { path: "user/profile", canActivate: [AuthService], component: UserProfileComponent, data: { meta: { title: "Your Profile" } } },
   { path: "user/stats", component: UserStatsComponent, data: { meta: { title: "User Statistics", description: "All users that have played at least one damn turn." } } },
   { path: "user/games", canActivate: [AuthService], component: UserGamesComponent, data: { meta: { title: "Your Games" } } },
+  { path: "404", component: NotFoundComponent, data: { meta: { title: "Page Not Found" } } },
+  { path: "**", redirectTo: "/404" },
 ];
 /* eslint-enable max-len */
 

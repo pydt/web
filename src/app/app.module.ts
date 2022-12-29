@@ -41,6 +41,7 @@ import { ServiceWorkerModule } from "@angular/service-worker";
 import { DragulaModule } from "./uiOnlyModules";
 import { InfoTooltipComponent } from "./shared/info-tooltip/info-tooltip.component";
 import { environment } from "../environments/environment";
+import { NotFoundComponent } from "./not-found.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -104,6 +105,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     UserInfoComponent,
     UserGamesComponent,
     UserStatsComponent,
+    NotFoundComponent,
   ],
   providers: [
     AuthService,
