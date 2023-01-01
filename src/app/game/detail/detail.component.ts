@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
 import { gzip } from "pako";
@@ -26,6 +26,8 @@ import { MetatagService } from "./../../shared/metatag.service";
   styleUrls: ["./detail.component.scss"],
 })
 export class GameDetailComponent implements OnInit {
+  private gameId: string;
+
   game: Game;
   profile: SteamProfile;
   userInGame = false;
@@ -43,7 +45,6 @@ export class GameDetailComponent implements OnInit {
   constructor(
     private gameApi: GameService,
     private auth: AuthService,
-    private router: Router,
     private route: ActivatedRoute,
     private notificationService: NotificationService,
     private busyService: BusyService,
@@ -54,13 +55,17 @@ export class GameDetailComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     this.metadata = await this.metadataCache.getCivGameMetadata();
     this.profile = this.auth.getSteamProfile();
-    await this.loadGame();
 
-    this.metatag.setTitleAndDesc(
-      `${this.game.displayName} | ${this.civGame.displayName}`,
-      removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() ||
-        "This game doesn't have a description... I'm sure it's great though!",
-    );
+    this.route.params.subscribe(async params => {
+      this.gameId = params["id"];
+      await this.loadGame();
+
+      this.metatag.setTitleAndDesc(
+        `${this.game.displayName} | ${this.civGame.displayName}`,
+        removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() ||
+          "This game doesn't have a description... I'm sure it's great though!",
+      );
+    });
   }
 
   get games(): CivGame[] {
@@ -125,7 +130,7 @@ export class GameDetailComponent implements OnInit {
   }
 
   async loadGame(): Promise<void> {
-    const game = await this.gameApi.get(this.route.snapshot.paramMap.get("id")).toPromise();
+    const game = await this.gameApi.get(this.gameId).toPromise();
 
     this.setGame(game);
   }

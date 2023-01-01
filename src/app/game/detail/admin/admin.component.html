@@ -3,79 +3,127 @@
     <p>Since you created the game, you're the admin, and have some special powers!</p>
   </div>
 </div>
-<ng-container *ngIf="game.createdBySteamId !== game.currentPlayerSteamId">
-  <div class="row">
-    <div class="col-sm-12">
-      <h4>Kick Current User</h4>
-      <p>
-        You can only kick a user if they have had 24 hours to play their turn and have failed to do so. Please do not
-        kick users without reason - if complaints are logged against you for kicking players from games inappropriately
-        you may be banned from the site!
-      </p>
-    </div>
-    <ng-container *ngIf="substituteUsers?.length">
-      <div class="col-sm-12">
-        <p>
-          Users with more than 500 turns played can register to be substituted in to games when players leave. If this
-          game is still competitive, you can substitute in another player to take over for the player you're removing.
-        </p>
-      </div>
-      <div class="form-group">
+<tabset>
+  <tab heading="Kick Current User" *ngIf="game.createdBySteamId !== game.currentPlayerSteamId">
+    <div class="well">
+      <div class="row">
         <div class="col-sm-12">
-          <div class="checkbox">
-            <label>
-              <input
-                type="checkbox"
-                style="top: -5px"
-                [checked]="!!userToSubstitute"
-                (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"
-              />
-              Do you want to substitute another user into this slot?
-            </label>
+          <p>
+            You can only kick a user if they have had 24 hours to play their turn and have failed to do so. Please do
+            not kick users without reason - if complaints are logged against you for kicking players from games
+            inappropriately you may be banned from the site!
+          </p>
+        </div>
+        <ng-container *ngIf="substituteUsers?.length">
+          <div class="col-sm-12">
+            <p>
+              Users with more than 500 turns played can register to be substituted in to games when players leave. If
+              this game is still competitive, you can substitute in another player to take over for the player you're
+              removing.
+            </p>
           </div>
+          <div class="form-group">
+            <div class="col-sm-12">
+              <div class="checkbox">
+                <label>
+                  <input
+                    type="checkbox"
+                    style="top: -5px"
+                    [checked]="!!userToSubstitute"
+                    (click)="userToSubstitute = userToSubstitute ? null : randomizeUserToSubstitute()"
+                  />
+                  Do you want to substitute another user into this slot?
+                </label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="userToSubstitute">
+            <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
+            <div class="col-sm-9">
+              <select class="form-control" [(ngModel)]="userToSubstitute">
+                <option *ngFor="let user of substituteUsers" [ngValue]="user">
+                  {{ user.displayName }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="row" style="margin-top: 20px">
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
         </div>
       </div>
-      <div class="form-group" *ngIf="userToSubstitute">
-        <label for="description" class="col-sm-3 control-label">User to Substitute:</label>
-        <div class="col-sm-9">
-          <select class="form-control" [(ngModel)]="userToSubstitute">
-            <option *ngFor="let user of substituteUsers" [ngValue]="user">
-              {{ user.displayName }}
-            </option>
-          </select>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-  <div class="row" style="margin-top: 20px">
-    <div class="col-xs-12 text-center">
-      <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick User</button>
     </div>
-  </div>
-</ng-container>
-<div class="row">
-  <div class="col-sm-12">
-    <h4>Reset Game State on Next Upload</h4>
-    <p>
-      This option is mostly for players who switch back and forth between PYDT and normal online play. If your game
-      saves have got ahead of where PYDT thinks the game is, press the button below to allow the next turn upload to
-      reset the state of the game. If you're having general turn issues it's probably better <strong>NOT</strong> to use
-      this button and ask for help in the Game Support area of the forum.
-    </p>
-  </div>
-</div>
-<div class="row" style="margin-top: 20px" *ngIf="!game.resetGameStateOnNextUpload">
-  <div class="col-xs-12 text-center">
-    <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">
-      Enable Game State Reset
-    </button>
-  </div>
-</div>
-<div class="row" style="margin-top: 20px" *ngIf="!!game.resetGameStateOnNextUpload">
-  <div class="col-xs-12 text-center">
-    <h4><strong>Game State Reset Enabled!</strong></h4>
-  </div>
-</div>
+  </tab>
+  <tab heading="Reset Game State on Next Upload">
+    <div class="well">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            This option is mostly for players who switch back and forth between PYDT and normal online play. If your
+            game saves have got ahead of where PYDT thinks the game is, press the button below to allow the next turn
+            upload to reset the state of the game. If you're having general turn issues it's probably better
+            <strong>NOT</strong> to use this button and ask for help in the Game Support area of the forum.
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px" *ngIf="!game.resetGameStateOnNextUpload">
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">
+            Enable Game State Reset
+          </button>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px" *ngIf="!!game.resetGameStateOnNextUpload">
+        <div class="col-xs-12 text-center">
+          <h4><strong>Game State Reset Enabled!</strong></h4>
+        </div>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Restart Game">
+    <div class="well">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            This will allow you to restart the game and go back to the initial save upload within the first 2 rounds of
+            the game. This can help you fix things like missed settings or bad start locations without having to
+            re-lobby the game.
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px">
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-default" [disabled]="game.round > 2" (click)="confirmRestartModal.show()">
+            <ng-container *ngIf="game.round > 2">Too Late to Restart</ng-container>
+            <ng-container *ngIf="game.round <= 2">Restart Game!</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </tab>
+  <tab heading="Clone Game">
+    <div class="well">
+      <div class="row">
+        <div class="col-sm-12">
+          <p>
+            This will allow you to create a new game with the same players and settings. To prevent spam, you can only
+            use this after 15 turns have been played in a game and you can only do it once per game.
+          </p>
+        </div>
+      </div>
+      <div class="row" style="margin-top: 20px">
+        <div class="col-xs-12 text-center">
+          <button type="button" class="btn btn-default" [disabled]="game.gameTurnRangeKey < 15" (click)="clone()">
+            <ng-container *ngIf="game.gameTurnRangeKey < 15">Cannot Clone Yet</ng-container>
+            <ng-container *ngIf="game.gameTurnRangeKey >= 15">Clone Game!</ng-container>
+          </button>
+        </div>
+      </div>
+    </div>
+  </tab>
+</tabset>
 
 <div
   bsModal
@@ -101,6 +149,63 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmKickUserModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="kickPlayer()">Kick Player!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #confirmRestartModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmRestartModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmRestartModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to restart this game?
+        <b>THIS ACTION IS IRREVERSIBLE!</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmRestartModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="restart()">Restart the Game!</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #confirmCloneModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmCloneModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmCloneModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you really want to clone this game and didn't just press that button by accident?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmCloneModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="clone()">Clone the Game!</button>
       </div>
     </div>
   </div>

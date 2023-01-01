@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, User, UserService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
@@ -6,11 +7,14 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-admin",
   templateUrl: "./admin.component.html",
+  styleUrls: ["./admin.component.scss"],
 })
 export class GameDetailAdminComponent implements OnInit {
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
+  @ViewChild("confirmCloneModal", { static: true }) confirmCloneModal: ModalDirective;
   @ViewChild("confirmKickUserModal", { static: true }) confirmKickUserModal: ModalDirective;
+  @ViewChild("confirmRestartModal", { static: true }) confirmRestartModal: ModalDirective;
 
   substituteUsers: User[];
   userToSubstitute: User;
@@ -19,6 +23,7 @@ export class GameDetailAdminComponent implements OnInit {
     private gameApi: GameService,
     private userApi: UserService,
     private notificationService: NotificationService,
+    private router: Router,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -72,5 +77,31 @@ export class GameDetailAdminComponent implements OnInit {
       });
       this.setGame.emit(game);
     }
+  }
+
+  async clone() {
+    this.confirmCloneModal.hide();
+
+    const clone = await this.gameApi.clone(this.game.gameId).toPromise();
+
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Game successfully cloned!",
+    });
+
+    await this.router.navigate(["/game", clone.gameId]);
+  }
+
+  async restart() {
+    this.confirmRestartModal.hide();
+
+    const game = await this.gameApi.restart(this.game.gameId).toPromise();
+
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Game successfully restarted!",
+    });
+
+    this.setGame.emit(game);
   }
 }
