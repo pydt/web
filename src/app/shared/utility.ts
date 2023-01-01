@@ -51,6 +51,10 @@ export class Utility {
       sorted[i].rank = i + 1;
     }
 
+    // TODO: fix this function to not require mutating the rawData parameter!
+    rawData.length = 0;
+    rawData.push(...sorted);
+
     // Filter...
     let filteredData = [...sorted];
 
