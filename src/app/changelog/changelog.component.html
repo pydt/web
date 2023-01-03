@@ -1,0 +1,35 @@
+<div class="container">
+  <h1>Changelog</h1>
+  <p>
+    This page will keep track of recent major changes to the website and client for easy reference. (Yes, I should have
+    done this a long time ago)
+  </p>
+
+  <tabset>
+    <tab heading="Web Site">
+      <div class="well">
+        <hr />
+        <ng-container *ngFor="let change of changelog.websiteChanges">
+          <h4>{{ change.date | date }}</h4>
+          <markdown [data]="change.desc"></markdown>
+          <hr />
+        </ng-container>
+      </div>
+    </tab>
+    <tab heading="Client">
+      <div class="well">
+        <hr />
+        <ng-container *ngFor="let change of changelog.clientChanges">
+          <h1>
+            <a href="https://github.com/pydt/client/releases/tag/v{{ change.version }}" target="blank">{{
+              change.version
+            }}</a>
+          </h1>
+          <h4>{{ change.date | date }}</h4>
+          <markdown [data]="change.desc"></markdown>
+          <hr />
+        </ng-container>
+      </div>
+    </tab>
+  </tabset>
+</div>

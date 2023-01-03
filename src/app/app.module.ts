@@ -61,6 +61,8 @@ import { GameDetailJoinComponent } from "./game/detail/join/join.component";
 import { GameDetailLeaveComponent } from "./game/detail/leave/leave.component";
 import { GameDetailStartComponent } from "./game/detail/start/start.component";
 import { NotFoundComponent } from "./not-found.component";
+import { ChangeLogComponent } from "./changelog/changelog.component";
+import { ChangelogService } from "./shared/changelog.service";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -105,6 +107,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   ],
   declarations: [
     AppComponent,
+    ChangeLogComponent,
     HomeComponent,
     ForumComponent,
     ConfigureGameComponent,
@@ -138,6 +141,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   providers: [
     AuthService,
     BrowserDataService,
+    ChangelogService,
     MetatagService,
     { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },

@@ -53,6 +53,14 @@
           <li *ngIf="isLoggedIn" [routerLinkActive]="['active']">
             <a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a>
           </li>
+          <li>
+            <a [routerLink]="['changelog']" (click)="isCollapsed = true"
+              >Changelog
+              <span *ngIf="changelog.unviewedChanges$ | async" class="badge">{{
+                changelog.unviewedChanges$ | async
+              }}</span></a
+            >
+          </li>
           <li><a href="https://patreon.com/pydt" target="_blank">Donate!</a></li>
         </ul>
       </div>

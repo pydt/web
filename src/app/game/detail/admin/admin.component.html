@@ -95,7 +95,12 @@
       </div>
       <div class="row" style="margin-top: 20px">
         <div class="col-xs-12 text-center">
-          <button type="button" class="btn btn-default" [disabled]="game.round > 2" (click)="confirmRestartModal.show()">
+          <button
+            type="button"
+            class="btn btn-default"
+            [disabled]="game.round > 2"
+            (click)="confirmRestartModal.show()"
+          >
             <ng-container *ngIf="game.round > 2">Too Late to Restart</ng-container>
             <ng-container *ngIf="game.round <= 2">Restart Game!</ng-container>
           </button>

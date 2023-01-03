@@ -12,6 +12,7 @@ import { UserStatsComponent } from "./user/stats/stats.component";
 import { ForumComponent } from "./forum/forum.component";
 import { AuthService } from "./shared";
 import { NotFoundComponent } from "./not-found.component";
+import { ChangeLogComponent } from "./changelog/changelog.component";
 
 /* eslint-disable max-len */
 const routes: Routes = [
@@ -80,6 +81,11 @@ const routes: Routes = [
     canActivate: [AuthService],
     component: UserGamesComponent,
     data: { meta: { title: "Your Games" } },
+  },
+  {
+    path: "changelog",
+    component: ChangeLogComponent,
+    data: { meta: { title: "Changelog" } },
   },
   { path: "**", component: NotFoundComponent, data: { meta: { title: "Page Not Found" } } },
 ];

@@ -12,6 +12,7 @@ import * as envVars from "../envVars";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 import { MetatagService } from "./shared/metatag.service";
 import { BrowserDataService } from "./shared/browser-data.service";
+import { ChangelogService } from "./shared/changelog.service";
 
 @Component({
   selector: "pydt-app",
@@ -40,6 +41,7 @@ export class AppComponent implements OnInit {
     private updates: SwUpdate,
     private metatag: MetatagService,
     private browserData: BrowserDataService,
+    public changelog: ChangelogService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
     setTheme("bs3");
