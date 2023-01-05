@@ -79,11 +79,11 @@ export class CreateGameComponent implements OnInit {
       return null;
     }
 
-    return this.model.randomOnly ? this.randomCiv : this.model.player1Civ;
+    return this.model.randomOnly === "FORCE_RANDOM" ? this.randomCiv : this.model.player1Civ;
   }
 
   async onSubmit(): Promise<void> {
-    if (this.model.randomOnly) {
+    if (this.model.randomOnly === "FORCE_RANDOM") {
       this.model.player1Civ = this.randomCiv;
     }
 

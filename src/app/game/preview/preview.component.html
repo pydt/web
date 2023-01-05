@@ -102,7 +102,31 @@
       </div>
       <div class="modal-body" style="min-height: 200px">
         <h4 *ngIf="!user">Loading...</h4>
-        <pydt-user-info *ngIf="user" [user]="user"></pydt-user-info>
+        <ng-container *ngIf="user">
+          <pydt-user-info [user]="user"></pydt-user-info>
+          <div class="row" style="margin-top: 8px">
+            <div class="col-sm-12">
+              <pydt-game-detail-change-civ
+                *ngIf="canChangeCivs"
+                [game]="game"
+                [steamId]="user?.steamId"
+                [playerCiv]="userCiv"
+                [availableCivs]="availableCivs"
+                (setGame)="gameUpdated.emit($event)"
+              ></pydt-game-detail-change-civ>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12">
+              <pydt-game-detail-leave
+                *ngIf="editMode && activeProfile?.steamid !== user?.steamId"
+                [game]="game"
+                [steamId]="user?.steamId"
+                (setGame)="gameUpdated.emit($event)"
+              ></pydt-game-detail-leave>
+            </div>
+          </div>
+        </ng-container>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="playerDetailModal.hide()">OK</button>

@@ -1,6 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { Angulartics2Module } from "angulartics2";
@@ -82,6 +82,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     HttpClientModule,
     BrowserModule.withServerTransition({ appId: "serverApp" }),
     FormsModule,
+    ReactiveFormsModule,
     ApiModule.forRoot(configFactory),
     ClipboardModule,
     CollapseModule.forRoot(),

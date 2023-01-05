@@ -23,6 +23,7 @@ import { AuthService, NotificationService } from "../../shared";
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
   @Input() editMode = false;
+  @Input() availableCivs: CivDef[];
   @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
   gamePlayers: GamePlayer[];
@@ -77,11 +78,15 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get canEditTurnOrder(): boolean {
+    return this.canChangeCivs && this.game.players.length > 2;
+  }
+
+  get canChangeCivs(): boolean {
     if (!this.editMode || (this.game.gameTurnRangeKey || 0) > 1) {
       return false;
     }
 
-    return this.game.createdBySteamId === this.activeProfile.steamid && this.game.players.length > 2;
+    return this.game.createdBySteamId === this.activeProfile.steamid;
   }
 
   get aiPlayers(): GamePlayer[] {
@@ -110,5 +115,11 @@ export class GamePreviewComponent implements OnChanges {
       this.playerDetailModal.show();
       this.user = await this.userApi.byId(userId).toPromise();
     }
+  }
+
+  get userCiv() {
+    const index = this.gamePlayers.findIndex(x => x.steamId === this.user?.steamId);
+
+    return this.civDefs[index];
   }
 }

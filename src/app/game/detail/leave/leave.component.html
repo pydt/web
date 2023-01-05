@@ -1,10 +1,15 @@
 <div class="panel panel-default">
-  <div class="panel-heading">Leave Game</div>
+  <div class="panel-heading">{{ steamId ? "Remove User From" : "Leave" }} Game</div>
   <div class="panel-body">
-    <p>If you want to leave the game before it starts, click the button below!</p>
+    <p>
+      If you want to {{ steamId ? "remove this user from " : "leave" }} the game before it starts, click the button
+      below!
+    </p>
     <div class="row">
       <div class="col-xs-12 text-center">
-        <button type="button" class="btn btn-danger" (click)="confirmLeaveModal.show()">Leave Game</button>
+        <button type="button" class="btn btn-danger" (click)="confirmLeaveModal.show()">
+          {{ steamId ? "Remove User From" : "Leave" }} Game
+        </button>
       </div>
     </div>
   </div>

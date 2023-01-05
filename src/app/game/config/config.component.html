@@ -155,11 +155,21 @@
     >
   </div>
   <div class="form-group">
-    <label for="displayName" class="col-sm-3 control-label">Only allow random Civ selection:</label>
+    <label for="displayName" class="col-sm-3 control-label">Civ selection:</label>
+    <div class="col-sm-9">
+      <select class="form-control" [(ngModel)]="model.randomOnly">
+        <option *ngFor="let option of RANDOM_ONLY_OPTIONS" [ngValue]="option.key">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="displayName" class="col-sm-3 control-label">Allow Duplicate Civs:</label>
     <div class="col-sm-9">
       <div class="checkbox">
         <label>
-          <input type="checkbox" [(ngModel)]="model.randomOnly" />
+          <input type="checkbox" [(ngModel)]="model.allowDuplicateLeaders" />
         </label>
       </div>
     </div>

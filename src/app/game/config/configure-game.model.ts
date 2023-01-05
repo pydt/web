@@ -13,8 +13,9 @@ export class ConfigureGameModel {
   public password: string;
   public webhookUrl: string;
   public gameSpeed = this.civGame.gameSpeeds[0]?.key;
-  public allowJoinAfterStart = true;
-  public randomOnly = false;
+  public allowJoinAfterStart = false;
+  public randomOnly = Game.RandomOnlyEnum.EITHER;
+  public allowDuplicateLeaders = false;
   public turnTimerEnabled;
 
   constructor(public civGame: CivGame, public turnTimerMinutes?: number) {
@@ -32,7 +33,8 @@ export class ConfigureGameModel {
     this._mapFile = game.mapFile;
     this._mapSize = game.mapSize;
     this.allowJoinAfterStart = game.allowJoinAfterStart;
-    this.randomOnly = game.randomOnly;
+    this.randomOnly = game.randomOnly || "EITHER";
+    this.allowDuplicateLeaders = game.allowDuplicateLeaders;
     this.webhookUrl = game.webhookUrl;
 
     for (const dlcId of game.dlc || []) {
@@ -122,6 +124,7 @@ export class ConfigureGameModel {
       mapSize: this.mapSize,
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
+      allowDuplicateLeaders: this.allowDuplicateLeaders,
       ...(this.turnTimerEnabled ? { turnTimerMinutes: this.turnTimerMinutes } : {}),
       webhookUrl: this.webhookUrl,
     };

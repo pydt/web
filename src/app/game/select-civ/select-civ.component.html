@@ -1,4 +1,4 @@
-<pydt-display-civ [civ]="curCiv" (clicked)="selectCivModal.show()"></pydt-display-civ>
+<pydt-display-civ [civ]="curCiv" (clicked)="showModal()"></pydt-display-civ>
 
 <div
   bsModal
@@ -18,15 +18,17 @@
         <h4 class="modal-title">Select Your Civ</h4>
       </div>
       <div class="modal-body">
-        <div style="height: 300px; overflow-y: scroll">
-          <div *ngFor="let civ of leaders" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
+        <div style="height: 300px; overflow-y: scroll; margin-bottom: 10px">
+          <div *ngFor="let civ of filteredCivs$ | async" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
             <pydt-display-civ
-              *ngIf="!randomOnly || civ?.civKey === RANDOM_CIV?.civKey"
+              *ngIf="showCiv(civ)"
               [civ]="civ"
               (clicked)="civClicked(civ); selectCivModal.hide()"
             ></pydt-display-civ>
           </div>
         </div>
+
+        <input type="text" class="form-control" [formControl]="civFilter" placeholder="Filter Civs..." />
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="selectCivModal.hide()">Cancel</button>

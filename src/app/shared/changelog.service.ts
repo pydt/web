@@ -42,8 +42,11 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
-    date: "2023-01-03",
-    desc: `Added the ability to restart or clone a game.  Both of these features are available in the game admin tools tab.  Restarting a game is only available during the first two rounds to be able to fix game issues without re-lobbying.  Cloning a game is available to recreate a game for rematches.`,
+    date: "2023-01-09",
+    desc: `- Added the ability to restart or clone a game.  Both of these features are available in the game admin tools tab.  Restarting a game is only available during the first two rounds to be able to fix game issues without re-lobbying.  Cloning a game is available to recreate a game for rematches.
+- Instead of just an option for "Random Only", you can now force users to choose a leader, choose random, or neither.
+- Added an option to allow duplicate leaders.
+- The admin can set user civs and boot users before game start in the user detail popup.`,
   },
   {
     date: "2022-12-20",
@@ -51,7 +54,7 @@ const WEBSITE_CHANGES: Changelog[] = [
   },
   {
     date: "2022-11-24",
-    desc: `Add support for Great Negotiators DLC`,
+    desc: `Add support for Great Negotiators DLC.`,
   },
   {
     date: "2022-09-30",

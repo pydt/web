@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
-import { DLC, Game, MetadataCacheService, CivGame } from "pydt-shared";
+import { DLC, Game, MetadataCacheService, CivGame, RANDOM_ONLY_OPTIONS } from "pydt-shared";
 import { ConfigureGameModel } from "./configure-game.model";
 
 @Component({
@@ -14,6 +14,7 @@ export class ConfigureGameComponent implements OnInit {
   minHumans = 2;
   showMarkdown = false;
   games: CivGame[];
+  RANDOM_ONLY_OPTIONS = RANDOM_ONLY_OPTIONS;
 
   constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {}
 
