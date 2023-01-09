@@ -17,7 +17,7 @@
     <div class="pull-right form-inline">
       <div class="form-group">
         <label>Filter Games: </label>
-        <select class="form-control" [(ngModel)]="gameTypeFilter">
+        <select class="form-control" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
           <option value="">All Game Types</option>
           <option *ngFor="let game of games" [value]="game.id">{{ game.displayName }}</option>
         </select>
@@ -25,8 +25,8 @@
     </div>
     <tabset>
       <tab heading="New Games">
-        <h1 *ngIf="!filteredGames.notStarted.length">No games found.</h1>
-        <div *ngFor="let game of filteredGames.notStarted">
+        <h1 *ngIf="!(filteredGames$ | async).notStarted.length">No games found.</h1>
+        <div *ngFor="let game of (filteredGames$ | async).notStarted">
           <div class="well">
             <pydt-game-preview [game]="game"></pydt-game-preview>
             <div class="row">
@@ -40,8 +40,8 @@
         </div>
       </tab>
       <tab heading="In-Progress Games with Open Slots">
-        <h1 *ngIf="!filteredGames.openSlots.length">No games found.</h1>
-        <div *ngFor="let game of filteredGames.openSlots">
+        <h1 *ngIf="!(filteredGames$ | async).openSlots.length">No games found.</h1>
+        <div *ngFor="let game of (filteredGames$ | async).openSlots">
           <div class="well">
             <pydt-game-preview [game]="game"></pydt-game-preview>
             <div class="row">

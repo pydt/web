@@ -30,7 +30,6 @@
         "class-methods-use-this": ["off"],
         "comma-dangle": ["error", "always-multiline"],
         "func-style": ["error", "expression"],
-        "indent": ["error", 2, {"SwitchCase": 1}],
         "lines-around-comment": ["off"],
         "semi": ["error", "always"],
         "new-cap": ["off"],
