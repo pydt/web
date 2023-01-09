@@ -172,7 +172,9 @@
   <pydt-game-detail-join
     *ngIf="game && availableCivs.length"
     [game]="game"
+    [availableCivs]="availableCivs"
     [profile]="profile"
+    [playerCiv]="playerCiv"
     [userInGame]="userInGame"
     [dlcEnabled]="dlcEnabled"
     (setGame)="setGame($event)"

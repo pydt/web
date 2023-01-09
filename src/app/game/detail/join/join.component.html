@@ -21,8 +21,8 @@
         <pydt-select-civ
           [leaders]="availableCivs"
           [randomOnly]="game.randomOnly"
-          [curCiv]="playerCiv"
-          (selectedCiv)="playerCiv = $event"
+          [curCiv]="selectedCiv"
+          (selectedCiv)="selectedCiv = $event"
         ></pydt-select-civ>
         <div class="form-group" *ngIf="game.hashedPassword">
           <label for="password">The creator of the game has set a password:</label>

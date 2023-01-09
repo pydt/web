@@ -19,7 +19,7 @@
       </div>
       <div class="modal-body">
         <div style="height: 300px; overflow-y: scroll; margin-bottom: 10px">
-          <div *ngFor="let civ of filteredCivs$ | async" [class.selectedCiv]="civ.leaderKey === curCiv.leaderKey">
+          <div *ngFor="let civ of filteredCivs$ | async" [class.selectedCiv]="civ?.leaderKey === curCiv?.leaderKey">
             <pydt-display-civ
               *ngIf="showCiv(civ)"
               [civ]="civ"
