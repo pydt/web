@@ -154,9 +154,9 @@
         <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
       </div>
     </tab>
-    <tab heading="Surrender">
+    <tab [heading]="noOtherPlayers ? 'End Game' : 'Surrender'">
       <div class="well">
-        <pydt-game-detail-surrender [game]="game"></pydt-game-detail-surrender>
+        <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
       </div>
     </tab>
     <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid" #adminTab="tab">

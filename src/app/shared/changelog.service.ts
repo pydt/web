@@ -11,6 +11,11 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.1",
+    date: "2022-01-10",
+    desc: `A quick hotfix release to fix an issue with the taskbar icon duplicating endlessly. Also including a small commit I missed in the last release because I hadn't pushed it from another computer that shows the current round in the game header.`,
+  },
+  {
     version: "2.1.0",
     date: "2022-01-10",
     desc: `It's been a long time since I did a client release, but not a lot in here other than version bumps and a couple small things:
@@ -50,6 +55,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 ];
 
 const WEBSITE_CHANGES: Changelog[] = [
+  {
+    date: "2023-01-10",
+    desc: `You now have the ability to subscribe to receive email notifications when games are added.  Go to the Email Notifications tab in Your Profile to set it up!`,
+  },
   {
     date: "2023-01-09",
     desc: `- Added the ability to restart or clone a game.  Both of these features are available in the game admin tools tab.  Restarting a game is only available during the first two rounds to be able to fix game issues without re-lobbying.  Cloning a game is available to recreate a game for rematches.

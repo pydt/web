@@ -1,7 +1,10 @@
 <div class="row">
   <div class="col-sm-12">
-    <p>
+    <p *ngIf="!noOtherPlayers">
       If you no longer wish to play in this game, you can surrender and have an AI player take your place in the game.
+    </p>
+    <p *ngIf="noOtherPlayers">
+      No one else is left in this game, you should probably just press the End Game button below to end it.
     </p>
   </div>
 </div>
@@ -9,14 +12,10 @@
   <div class="col-xs-12 text-center">
     <button
       type="button"
-      *ngIf="game.gameTurnRangeKey > 1"
       class="btn btn-danger"
       (click)="confirmSurrenderModal.show()"
     >
-      Surrender
-    </button>
-    <button type="button" *ngIf="game.gameTurnRangeKey <= 1" class="btn btn-danger" (click)="confirmLeaveModal.show()">
-      Surrender
+      {{ noOtherPlayers ? 'End Game' : 'Surrender' }}
     </button>
   </div>
 </div>
@@ -39,7 +38,7 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        Do you really want to surrender from {{ game?.displayName }}?
+        Do you really want to {{ noOtherPlayers ? 'End' : 'Surrender from' }} {{ game?.displayName }}?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
