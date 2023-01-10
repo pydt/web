@@ -11,6 +11,15 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.0",
+    date: "2022-01-10",
+    desc: `It's been a long time since I did a client release, but not a lot in here other than version bumps and a couple small things:
+
+- Multiple user support: You can now switch between multiple user tokens in the client with the new User menu.
+- Proton/Steam Deck: I still don't think things are great on the steam deck, but I added better detection for proton installations (used by steam deck).
+- Fixed a bug with the game store dropdown not displaying the saved selections correctly.`,
+  },
+  {
     version: "2.0.2",
     date: "2022-02-13",
     desc: `There's no real changes in this release - the 2.0.0 release wasn't able to upgrade 1.6.0 windows to 2.0.0 because of the change in updater/installer format.  This release fakes an upgrade in the old format (playyourdamnturn-2.0.2-full.nupkg and RELEASES), which really just contains the new installer.  The new installer runs, and the PYDT client will check for the old client on startup and run the uninstaller to get rid of it.  See here if you're interested in the details: https://github.com/electron-userland/electron-builder/issues/837#issuecomment-614127460.
