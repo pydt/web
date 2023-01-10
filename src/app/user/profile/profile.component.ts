@@ -134,7 +134,7 @@ export class UserProfileComponent implements OnInit {
         emailAddress: this.pud.emailAddress,
         newTurnEmails: !!this.pud.newTurnEmails,
         newGameEmails: !!this.pud.newGameEmails,
-        newGameEmailFilter: this.pud.newGameEmailFilter,
+        newGameEmailFilter: this.pud.newGameEmailFilter || "",
         newGameEmailsWithPasswords: !!this.pud.newGameEmailsWithPasswords,
         newGameEmailTypes: this.pud.newGameEmailTypes,
       })
