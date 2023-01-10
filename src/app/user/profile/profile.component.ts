@@ -116,17 +116,33 @@ export class UserProfileComponent implements OnInit {
     }
   }
 
+  hasNewGameEmailType(type: string) {
+    return this.pud.newGameEmailTypes.some(x => x === type);
+  }
+
+  toggleNewGameEmailType(type: string) {
+    if (this.hasNewGameEmailType(type)) {
+      this.pud.newGameEmailTypes = this.currentUser$.value.pud.newGameEmailTypes.filter(x => x !== type);
+    } else {
+      this.pud.newGameEmailTypes = [...new Set([...this.pud.newGameEmailTypes, type])];
+    }
+  }
+
   onEmailSubmit(): void {
     this.userApi
       .setNotificationEmail({
-        emailAddress: this.currentUser$.value.pud.emailAddress,
-        newTurnEmails: this.currentUser$.value.pud.newTurnEmails,
+        emailAddress: this.pud.emailAddress,
+        newTurnEmails: !!this.pud.newTurnEmails,
+        newGameEmails: !!this.pud.newGameEmails,
+        newGameEmailFilter: this.pud.newGameEmailFilter,
+        newGameEmailsWithPasswords: !!this.pud.newGameEmailsWithPasswords,
+        newGameEmailTypes: this.pud.newGameEmailTypes,
       })
       .subscribe(pud => {
         this.setPud(pud);
         this.notificationService.showAlert({
           type: "success",
-          msg: "Email address updated!",
+          msg: "Email notification settings updated!",
         });
       });
   }

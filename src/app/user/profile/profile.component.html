@@ -126,8 +126,59 @@
                 <div class="checkbox">
                   <label>
                     <input type="checkbox" style="top: -5px" name="newTurnEmails" [(ngModel)]="pud.newTurnEmails" />
-                    Send me Turn Notification emails.
+                    Send me turn notification emails.
                   </label>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" style="top: -5px" name="newGameEmails" [(ngModel)]="pud.newGameEmails" />
+                    Send me new game notification emails.
+                  </label>
+                </div>
+                <div *ngIf="pud.newGameEmails" class="well" style="padding: 0 19px; background-color: #f8f8f8">
+                  <div class="form-group">
+                    <div class="checkbox">
+                      <label>
+                        <input
+                          type="checkbox"
+                          style="top: -5px"
+                          name="newGameEmailsWithPasswords"
+                          [(ngModel)]="pud.newGameEmailsWithPasswords"
+                        />
+                        Include Password Protected Games?
+                      </label>
+                    </div>
+                    <p style="margin-top: 16px;">
+                    <strong>Game Types</strong></p>
+                    <div class="checkbox" *ngFor="let game of games">
+                      <label>
+                        <input
+                        style="top: -5px;"
+                          type="checkbox"
+                          [name]="'emailTypes' + game.id"
+                          [ngModel]="hasNewGameEmailType(game.id)"
+                          (ngModelChange)="toggleNewGameEmailType(game.id)"
+                        />
+                        {{ game.displayName }}
+                      </label>
+                    </div>
+                    <div class="form-group" style="margin-top: 16px;">
+                      <label for="emailAddress"
+                        >Game Title Filter
+                        <span style="font-weight: normal"
+                          >(comma seperated for multiple filters, if blank you will get notifications for all
+                          games)</span
+                        ></label
+                      >
+                      <input
+                        type="text"
+                        class="form-control"
+                        id="newGameEmailFilter"
+                        [(ngModel)]="pud.newGameEmailFilter"
+                        name="newGameEmailFilter"
+                      />
+                    </div>
+                  </div>
                 </div>
                 <button type="submit" style="margin-top: 20px" class="btn btn-default">Submit</button>
               </form>
