@@ -148,12 +148,13 @@
                         Include Password Protected Games?
                       </label>
                     </div>
-                    <p style="margin-top: 16px;">
-                    <strong>Game Types</strong></p>
+                    <p style="margin-top: 16px">
+                      <strong>Game Types</strong>
+                    </p>
                     <div class="checkbox" *ngFor="let game of games">
                       <label>
                         <input
-                        style="top: -5px;"
+                          style="top: -5px"
                           type="checkbox"
                           [name]="'emailTypes' + game.id"
                           [ngModel]="hasNewGameEmailType(game.id)"
@@ -162,7 +163,7 @@
                         {{ game.displayName }}
                       </label>
                     </div>
-                    <div class="form-group" style="margin-top: 16px;">
+                    <div class="form-group" style="margin-top: 16px">
                       <label for="emailAddress"
                         >Game Title Filter
                         <span style="font-weight: normal"

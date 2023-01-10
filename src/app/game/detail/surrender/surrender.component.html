@@ -10,12 +10,8 @@
 </div>
 <div class="row">
   <div class="col-xs-12 text-center">
-    <button
-      type="button"
-      class="btn btn-danger"
-      (click)="confirmSurrenderModal.show()"
-    >
-      {{ noOtherPlayers ? 'End Game' : 'Surrender' }}
+    <button type="button" class="btn btn-danger" (click)="confirmSurrenderModal.show()">
+      {{ noOtherPlayers ? "End Game" : "Surrender" }}
     </button>
   </div>
 </div>
@@ -38,7 +34,7 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        Do you really want to {{ noOtherPlayers ? 'End' : 'Surrender from' }} {{ game?.displayName }}?
+        Do you really want to {{ noOtherPlayers ? "End" : "Surrender from" }} {{ game?.displayName }}?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
