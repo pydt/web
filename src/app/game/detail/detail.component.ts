@@ -133,12 +133,6 @@ export class GameDetailComponent implements OnInit {
   async loadGame(): Promise<void> {
     const game = await this.gameApi.get(this.gameId).toPromise();
 
-    const otherActivePlayerCount = game.players.filter(
-      x => x.steamId !== this.profile?.steamid && !!x.steamId && !x.hasSurrendered,
-    ).length;
-
-    this.noOtherPlayers = otherActivePlayerCount === 0;
-
     this.setGame(game);
   }
 
@@ -154,6 +148,12 @@ export class GameDetailComponent implements OnInit {
     if (!game) {
       throw new EndUserError("Game not found.");
     }
+
+    const otherActivePlayerCount = game.players.filter(
+      x => x.steamId !== this.profile?.steamid && !!x.steamId && !x.hasSurrendered,
+    ).length;
+
+    this.noOtherPlayers = otherActivePlayerCount === 0;
 
     this.game = game;
     game.dlc = game.dlc || [];
