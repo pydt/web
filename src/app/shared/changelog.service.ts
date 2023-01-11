@@ -12,12 +12,12 @@ export type Changelog = {
 const CLIENT_CHANGES: Changelog[] = [
   {
     version: "2.1.1",
-    date: "2022-01-10",
+    date: "2023-01-10",
     desc: `A quick hotfix release to fix an issue with the taskbar icon duplicating endlessly. Also including a small commit I missed in the last release because I hadn't pushed it from another computer that shows the current round in the game header.`,
   },
   {
     version: "2.1.0",
-    date: "2022-01-10",
+    date: "2023-01-10",
     desc: `It's been a long time since I did a client release, but not a lot in here other than version bumps and a couple small things:
 
 - Multiple user support: You can now switch between multiple user tokens in the client with the new User menu.
