@@ -78,10 +78,10 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get canEditTurnOrder(): boolean {
-    return this.canChangeCivs && this.game.players.length > 2;
+    return this.canEdit && this.game.players.length > 2;
   }
 
-  get canChangeCivs(): boolean {
+  get canEdit(): boolean {
     if (!this.editMode || (this.game.gameTurnRangeKey || 0) > 1) {
       return false;
     }
