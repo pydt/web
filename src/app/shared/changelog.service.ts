@@ -56,6 +56,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2023-01-28",
+    desc: `Add support for Rulers of China DLC.`,
+  },
+  {
     date: "2023-01-10",
     desc: `You now have the ability to subscribe to receive email notifications when games are added.  Go to the Email Notifications tab in Your Profile to set it up!`,
   },
