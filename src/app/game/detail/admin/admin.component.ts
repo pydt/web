@@ -32,7 +32,6 @@ export class GameDetailAdminComponent implements OnInit {
       const gameSteamIds = this.game.players.map(x => x.steamId);
 
       this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
-      this.randomizeUserToSubstitute();
     }
   }
 
