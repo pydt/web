@@ -56,6 +56,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2023-03-30",
+    desc: `Add support for the Rulers of England DLC.`,
+  },
+  {
     date: "2023-03-16",
     desc: `Add support for the Great Builders DLC.`,
   },
