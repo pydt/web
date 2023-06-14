@@ -11,6 +11,15 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.2",
+    date: "2023-06-13",
+    desc: `A fairly small release with some bug/feature requests:
+
+  - [Fix start minimized](https://discourse.playyourdamnturn.com/t/start-minimized-on-startup/832)
+  - [Unique archive files](https://discourse.playyourdamnturn.com/t/unique-archive-files/7390)
+  - [Clear unread smack talk](https://discourse.playyourdamnturn.com/t/option-to-dismiss-smack-talk-post-notifications-in-client/7860)`,
+  },
+  {
     version: "2.1.1",
     date: "2023-01-10",
     desc: `A quick hotfix release to fix an issue with the taskbar icon duplicating endlessly. Also including a small commit I missed in the last release because I hadn't pushed it from another computer that shows the current round in the game header.`,
