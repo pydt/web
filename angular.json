@@ -60,8 +60,7 @@
               "outputHashing": "all",
               "optimization": true
             },
-            "development": {
-            }
+            "development": {}
           },
           "defaultConfiguration": "development"
         },
@@ -97,6 +96,7 @@
             "scripts": [],
             "styles": [
               "src/styles/app.scss",
+              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "node_modules/dragula/dist/dragula.css"
             ],
             "assets": [

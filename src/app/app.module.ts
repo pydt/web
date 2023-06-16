@@ -23,6 +23,10 @@ import {
   BusyService,
   MetadataCacheService,
 } from "pydt-shared";
+import { VgCoreModule } from "@videogular/ngx-videogular/core";
+import { VgControlsModule } from "@videogular/ngx-videogular/controls";
+import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
+import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { Ng2TableModule } from "../ng2-table/ng-table-module";
 import * as envVars from "../envVars";
 import { AppComponent } from "./app.component";
@@ -103,6 +107,10 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     Ng2TableModule,
     routing,
     Angulartics2Module.forRoot(),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
     // https://github.com/angular/angular/issues/47455
     ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
   ],

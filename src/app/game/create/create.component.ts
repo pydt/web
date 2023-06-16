@@ -14,7 +14,7 @@ class CreateGameModel extends ConfigureGameModel {
 
   public player1Civ = this.civGame.leaders.find(leader => !leader.options.dlcId && leader !== this.randomCiv);
 
-  toJSON(): CreateGameRequestBody {
+  override toJSON(): CreateGameRequestBody {
     const result = super.toJSON() as CreateGameRequestBody;
 
     result.player1Civ = this.player1Civ.leaderKey;

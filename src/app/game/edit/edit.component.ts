@@ -7,13 +7,13 @@ import { ConfigureGameModel } from "../config/configure-game.model";
 class EditGameModel extends ConfigureGameModel {
   gameId: string;
 
-  initialize(game: Game) {
+  override initialize(game: Game) {
     super.initialize(game);
 
     this.gameId = game.gameId;
   }
 
-  toJSON(): GameRequestBody {
+  override toJSON(): GameRequestBody {
     return super.toJSON() as GameRequestBody;
   }
 }

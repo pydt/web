@@ -30,7 +30,7 @@ export class Utility {
     return result;
   }
 
-  public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): unknown {
+  public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): void {
     visibleData = visibleData || rawData.slice();
     page = page || tableConfig.paging;
 

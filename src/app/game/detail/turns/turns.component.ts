@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, HostListener, Input, OnInit } from "@angular/core";
 import * as moment from "moment";
 import {
   Game,
@@ -13,6 +13,7 @@ import {
 import { Utility } from "../../../shared/utility";
 import { Parser } from "json2csv";
 import * as FileSaver from "file-saver";
+import { AuthService } from "../../../shared";
 
 export interface TableColumn {
   title: string;
@@ -48,6 +49,7 @@ export class GameDetailTurnsComponent implements OnInit {
     private profileCache: ProfileCacheService,
     private gameService: GameService,
     private metadataCache: MetadataCacheService,
+    private auth: AuthService,
   ) {}
 
   get civGame(): CivGame {
@@ -112,7 +114,39 @@ export class GameDetailTurnsComponent implements OnInit {
     FileSaver.saveAs(blob, `${this.game.displayName}.csv`);
   }
 
+  @HostListener("window:DownloadTurn", ["$event.detail"])
+  public async downloadTurn(turn: number): Promise<void> {
+    const resp = await this.gameService.getTurnById(this.game.gameId, turn).toPromise();
+
+    window.location.href = resp.downloadUrl;
+  }
+
   private createTableData(turns: GameTurn[], textOnly: boolean): unknown[] {
+    const canDownload = (turn: GameTurn) => {
+      if (!this.auth.getToken()) {
+        // Unauthenticated users can't download
+        return false;
+      }
+
+      // Only go back 20 turns since that's all PYDT keeps
+      if (turn.turn < (this.game.gameTurnRangeKey || 0) - 20) {
+        return false;
+      }
+
+      // Allow download if it's the end user's turn or if the game is finalized
+      return this.game.finalized || turn.playerSteamId === this.auth.getSteamProfile().steamid;
+    };
+
+    if (turns.some(x => canDownload(x)) && !this.tableColumns.some(x => x.name === "download")) {
+      this.tableColumns = [
+        ...this.tableColumns,
+        {
+          title: "Download",
+          name: "download",
+        },
+      ];
+    }
+
     return turns.map(turn => {
       let timeTaken = "";
 
@@ -130,6 +164,9 @@ export class GameDetailTurnsComponent implements OnInit {
         endDate: turn.endDate ? moment(turn.endDate).format("LLL") : "In Progress...",
         timeTaken: timeTaken.toString(),
         skipped: turn.skipped ? "Skipped!" : "",
+        download: canDownload(turn)
+          ? `<a href='#' *ngIf="false" onClick="window.dispatchEvent(new CustomEvent('DownloadTurn', { detail: ${turn.turn} }));return false;">Download</a>`
+          : "",
       };
     });
   }

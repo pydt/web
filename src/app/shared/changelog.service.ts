@@ -11,13 +11,15 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
-    version: "2.1.2",
+    version: "2.1.4",
     date: "2023-06-13",
     desc: `A fairly small release with some bug/feature requests:
 
-  - [Fix start minimized](https://discourse.playyourdamnturn.com/t/start-minimized-on-startup/832)
-  - [Unique archive files](https://discourse.playyourdamnturn.com/t/unique-archive-files/7390)
-  - [Clear unread smack talk](https://discourse.playyourdamnturn.com/t/option-to-dismiss-smack-talk-post-notifications-in-client/7860)`,
+- [Fix start minimized](https://discourse.playyourdamnturn.com/t/start-minimized-on-startup/832)
+- [Unique archive files](https://discourse.playyourdamnturn.com/t/unique-archive-files/7390)
+- [Clear unread smack talk](https://discourse.playyourdamnturn.com/t/option-to-dismiss-smack-talk-post-notifications-in-client/7860)
+  
+**NOTE:** Versions 2.1.2 and 2.1.3 were basically the same as this release, there were a couple things that needed to be hotfixed.`,
   },
   {
     version: "2.1.1",
@@ -64,6 +66,12 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 ];
 
 const WEBSITE_CHANGES: Changelog[] = [
+  {
+    date: "2023-06-20",
+    desc: `Endgame changes (BETA): I've integrated <a href="https://github.com/viash-io/civ6_pipeline" target="_blank">this Civ 6 replay generator</a> into the game pipeline, it will take one image per turn and then create a video of the game when the game is "finalized" (less than 2 players remain in the game).  The image generation has been running in the background for about a month now, and any turns played before it started running won't be captured in the video.  Also, I've made a few bugfixes to the image generation (and I'm sure there's more things to find) so the video might not be great yet, but definitely let me know if you see issues with the videos.
+
+Also, you can now download your previous turns from the turn history tab, and once the game is finalized you can download any player's turn (but PYDT only keeps the most recent 20 or so saves, so not that far back).`,
+  },
   {
     date: "2023-03-30",
     desc: `Add support for the Rulers of England DLC.`,
