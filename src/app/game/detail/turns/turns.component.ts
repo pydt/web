@@ -7,8 +7,8 @@ import {
   SteamProfileMap,
   MetadataCacheService,
   CivGame,
-  GameTurn,
   GamePlayer,
+  GameTurnListItem,
 } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { Parser } from "json2csv";
@@ -121,23 +121,10 @@ export class GameDetailTurnsComponent implements OnInit {
     window.location.href = resp.downloadUrl;
   }
 
-  private createTableData(turns: GameTurn[], textOnly: boolean): unknown[] {
-    const canDownload = (turn: GameTurn) => {
-      if (!this.auth.getToken()) {
-        // Unauthenticated users can't download
-        return false;
-      }
+  private createTableData(turns: GameTurnListItem[], textOnly: boolean): unknown[] {
+    const canDownload = (turn: GameTurnListItem) => this.auth.getToken() && turn.hasSave;
 
-      // Only go back 20 turns since that's all PYDT keeps
-      if (turn.turn < (this.game.gameTurnRangeKey || 0) - 20) {
-        return false;
-      }
-
-      // Allow download if it's the end user's turn or if the game is finalized
-      return this.game.finalized || turn.playerSteamId === this.auth.getSteamProfile().steamid;
-    };
-
-    if (turns.some(x => canDownload(x)) && !this.tableColumns.some(x => x.name === "download")) {
+    if (turns.some(canDownload) && !this.tableColumns.some(x => x.name === "download")) {
       this.tableColumns = [
         ...this.tableColumns,
         {
