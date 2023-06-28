@@ -164,8 +164,9 @@ export class GameDetailTurnsComponent implements OnInit {
         endDate: turn.endDate ? moment(turn.endDate).format("LLL") : "In Progress...",
         timeTaken: timeTaken.toString(),
         skipped: turn.skipped ? "Skipped!" : "",
+        // onClick wasn't working on the first click for some reason...
         download: canDownload(turn)
-          ? `<a href='#' *ngIf="false" onClick="window.dispatchEvent(new CustomEvent('DownloadTurn', { detail: ${turn.turn} }));return false;">Download</a>`
+          ? `<a href='#' onMousedown="window.dispatchEvent(new CustomEvent('DownloadTurn', { detail: ${turn.turn} }));return false;">Download</a>`
           : "",
       };
     });

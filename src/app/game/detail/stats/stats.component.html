@@ -13,7 +13,7 @@
     ></ng-table>
   </div>
 </div>
-<div *ngIf="game.gameVideoUrl" class="row">
+<div *ngIf="game.gameVideoUrl && isBrowser" class="row">
   <div class="col-md-12">
     <vg-player>
       <video [vgMedia]="media" #media id="replay" preload="auto" controls style="width: 100%">

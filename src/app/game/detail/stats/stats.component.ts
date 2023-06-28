@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
+import { BrowserDataService } from "../../../shared/browser-data.service";
 
 export interface TableColumn {
   title: string;
@@ -28,10 +29,18 @@ export class GameDetailStatsComponent implements OnInit {
   tableData: Array<unknown>;
   games: CivGame[] = [];
 
-  constructor(private profileCache: ProfileCacheService, private metadataCache: MetadataCacheService) {}
+  constructor(
+    private profileCache: ProfileCacheService,
+    private metadataCache: MetadataCacheService,
+    private browserData: BrowserDataService,
+  ) {}
 
   get civGame(): CivGame {
     return this.games.find(x => x.id === this.game.gameType);
+  }
+
+  get isBrowser() {
+    return this.browserData.isBrowser();
   }
 
   async ngOnInit(): Promise<void> {
