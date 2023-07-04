@@ -17,10 +17,11 @@ export class ConfigureGameModel {
   public randomOnly = Game.RandomOnlyEnum.EITHER;
   public allowDuplicateLeaders = false;
   public turnTimerEnabled;
+  public turnTimerVacationHandling = Game.TurnTimerVacationHandlingEnum.SKIPAFTERTIMER;
 
   constructor(public civGame: CivGame, public turnTimerMinutes?: number) {
     this.turnTimerEnabled = !!turnTimerMinutes;
-    this.turnTimerMinutes = this.turnTimerMinutes || 600;
+    this.turnTimerMinutes = this.turnTimerMinutes || 1440;
   }
 
   initialize(game: Game) {
@@ -36,6 +37,7 @@ export class ConfigureGameModel {
     this.randomOnly = game.randomOnly || "EITHER";
     this.allowDuplicateLeaders = game.allowDuplicateLeaders;
     this.webhookUrl = game.webhookUrl;
+    this.turnTimerVacationHandling = game.turnTimerVacationHandling || "SKIP_AFTER_TIMER";
 
     for (const dlcId of game.dlc || []) {
       this.dlc[dlcId] = true;
@@ -125,7 +127,9 @@ export class ConfigureGameModel {
       allowJoinAfterStart: this.allowJoinAfterStart,
       randomOnly: this.randomOnly,
       allowDuplicateLeaders: this.allowDuplicateLeaders,
-      ...(this.turnTimerEnabled ? { turnTimerMinutes: this.turnTimerMinutes } : {}),
+      ...(this.turnTimerEnabled
+        ? { turnTimerMinutes: this.turnTimerMinutes, turnTimerVacationHandling: this.turnTimerVacationHandling }
+        : {}),
       webhookUrl: this.webhookUrl,
     };
   }

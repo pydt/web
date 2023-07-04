@@ -57,6 +57,9 @@
           <div class="col-md-6" *ngIf="game.turnTimerMinutes">
             <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
           </div>
+          <div class="col-md-6" *ngIf="game.turnTimerMinutes">
+            <p><b>Turn Timer Vacation Mode Behavior:</b> {{ game | turnTimerVacation }}</p>
+          </div>
           <div class="col-md-6" *ngIf="game.webhookUrl">
             <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
               <b>Webhook URL:</b> {{ game.webhookUrl }}

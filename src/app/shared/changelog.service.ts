@@ -67,6 +67,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2023-07-05",
+    desc: `When users are in vacation mode and a game has a turn timer, they will now be skipped at the end of the turn timer by default.  The game host can also choose to skip the user immediately or pause the game when a user is on vacation.`,
+  },
+  {
     date: "2023-06-20",
     desc: `Endgame changes (BETA): I've integrated <a href="https://github.com/viash-io/civ6_pipeline" target="_blank">this Civ 6 replay generator</a> into the game pipeline, it will take one image per turn and then create a video of the game when the game is "finalized" (less than 2 players remain in the game).  The image generation has been running in the background for about a month now, and any turns played before it started running won't be captured in the video.  Also, I've made a few bugfixes to the image generation (and I'm sure there's more things to find) so the video might not be great yet, but definitely let me know if you see issues with the videos.
 

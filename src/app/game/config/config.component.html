@@ -224,9 +224,9 @@
     field above.</span
   >
 </div>
-<div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Turn Timer:</label>
-  <ng-container *ngIf="model.civGame.turnTimerSupported">
+<ng-container *ngIf="model.civGame.turnTimerSupported">
+  <div class="form-group">
+    <label for="displayName" class="col-sm-3 control-label">Turn Timer:</label>
     <div class="col-sm-1">
       <div class="checkbox">
         <label>
@@ -252,8 +252,18 @@
         </p>
       </div>
     </ng-container>
-  </ng-container>
-</div>
+  </div>
+  <div class="form-group" *ngIf="model.turnTimerEnabled">
+    <label for="displayName" class="col-sm-3 control-label">Turn Timer Vacation Mode Behavior:</label>
+    <div class="col-sm-9">
+      <select class="form-control" [(ngModel)]="model.turnTimerVacationHandling">
+        <option *ngFor="let option of TURN_TIMER_VACATION_OPTIONS" [ngValue]="option.key">
+          {{ option.label }}
+        </option>
+      </select>
+    </div>
+  </div>
+</ng-container>
 <div class="form-group">
   <label for="displayName" class="col-sm-3 control-label">Webhook URL:</label>
   <div class="col-sm-9">
