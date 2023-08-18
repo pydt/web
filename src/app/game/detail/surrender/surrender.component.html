@@ -34,12 +34,14 @@
         <h4 class="modal-title">Are you sure?</h4>
       </div>
       <div class="modal-body">
-        Do you really want to {{ noOtherPlayers ? "End" : "Surrender from" }} {{ game?.displayName }}?
+        Do you really want to {{ noOtherPlayers ? "end" : "surrender from" }} {{ game?.displayName }}?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="confirmSurrenderModal.hide()">Cancel</button>
-        <button type="button" class="btn btn-danger" (click)="surrender()">Surrender!</button>
+        <button type="button" class="btn btn-danger" (click)="surrender()">
+          {{ noOtherPlayers ? "End Game" : "Surrender!" }}
+        </button>
       </div>
     </div>
   </div>
