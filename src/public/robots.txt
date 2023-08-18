@@ -1,2 +1,4 @@
 User-agent: *
-Allow: /
+Disallow: /game/
+Disallow: /user/
+Sitemap: https://www.playyourdamnturn.com/sitemap.txt
