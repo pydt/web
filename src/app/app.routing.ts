@@ -8,7 +8,7 @@ import { OpenGamesComponent } from "./game/open-games/open-games.component";
 import { EditGameComponent } from "./game/edit/edit.component";
 import { UserProfileComponent } from "./user/profile/profile.component";
 import { UserGamesComponent } from "./user/games/games.component";
-import { UserStatsComponent } from "./user/stats/stats.component";
+import { StatsComponent } from "./stats/stats.component";
 import { ForumComponent } from "./forum/forum.component";
 import { AuthService } from "./shared";
 import { NotFoundComponent } from "./not-found.component";
@@ -67,12 +67,12 @@ const routes: Routes = [
     data: { meta: { title: "Your Profile" } },
   },
   {
-    path: "user/stats",
-    component: UserStatsComponent,
+    path: "stats",
+    component: StatsComponent,
     data: {
       meta: {
-        title: "User Statistics",
-        description: "All users that have played at least one damn turn.",
+        title: "Statistics",
+        description: "All users that have played at least one damn turn in the past year.",
       },
     },
   },

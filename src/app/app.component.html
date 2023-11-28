@@ -36,7 +36,7 @@
             <a [routerLink]="['game/listOpen']" (click)="isCollapsed = true">Open Games</a>
           </li>
           <li [routerLinkActive]="['active']">
-            <a [routerLink]="['user/stats']" (click)="isCollapsed = true">Users</a>
+            <a [routerLink]="['stats']" (click)="isCollapsed = true">Stats</a>
           </li>
           <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']">
             <a

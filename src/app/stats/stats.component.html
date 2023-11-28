@@ -1,6 +1,6 @@
 <div class="container">
   <div *ngIf="rawData">
-    <h1>User Statistics</h1>
+    <h1>Statistics</h1>
     <tabset>
       <tab
         *ngFor="let game of allCivGames"
@@ -11,6 +11,22 @@
       </tab>
     </tabset>
     <hr style="margin-top: 1px" />
+    <div class="well">
+      <div class="row">
+        <div class="col-md-6">
+          <p><b>First Turn Played:</b> {{ globalData?.firstTurnEndDate }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><b>Last Turn Played:</b> {{ globalData?.lastTurnEndDate }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><b>Turns Played:</b> {{ globalData?.turnsPlayed }}</p>
+        </div>
+        <div class="col-md-6">
+          <p><b>Turns Skipped:</b> {{ globalData?.turnsSkipped }}</p>
+        </div>
+      </div>
+    </div>
     <div class="row">
       <div class="col-md-6 form-inline">
         <div class="form-group">

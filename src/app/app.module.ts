@@ -49,7 +49,7 @@ import { SteamReturnComponent } from "./steamreturn/steamreturn.component";
 import { UserGamesComponent } from "./user/games/games.component";
 import { UserInfoComponent } from "./user/info/info.component";
 import { UserProfileComponent } from "./user/profile/profile.component";
-import { UserStatsComponent } from "./user/stats/stats.component";
+import { StatsComponent } from "./stats/stats.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { DragulaModule } from "./uiOnlyModules";
 import { InfoTooltipComponent } from "./shared/info-tooltip/info-tooltip.component";
@@ -144,7 +144,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     UserProfileComponent,
     UserInfoComponent,
     UserGamesComponent,
-    UserStatsComponent,
+    StatsComponent,
     NotFoundComponent,
   ],
   providers: [
