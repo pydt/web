@@ -1,9 +1,9 @@
-import { Injectable } from "@angular/core";
-import { CanActivate, Router } from "@angular/router";
+import { Injectable, inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
 import { Configuration, SteamProfile } from "pydt-shared";
 
 @Injectable()
-export class AuthService implements CanActivate {
+export class AuthService {
   constructor(private router: Router, private config: Configuration) {
     this.config.apiKeys.Authorization = this.getToken();
   }
@@ -27,15 +27,15 @@ export class AuthService implements CanActivate {
   getSteamProfile(): SteamProfile {
     return JSON.parse((localStorage.getItem("steamProfile") || "{}").trim()) as SteamProfile;
   }
-
-  canActivate(): boolean {
-    const isLoggedIn = !!this.getToken();
-
-    if (isLoggedIn) {
-      return true;
-    }
-
-    void this.router.navigate(["/"]);
-    return false;
-  }
 }
+
+export const canActivateFn: CanActivateFn = () => {
+  const isLoggedIn = !!inject(AuthService).getToken();
+
+  if (isLoggedIn) {
+    return true;
+  }
+
+  void inject(Router).navigate(["/"]);
+  return false;
+};

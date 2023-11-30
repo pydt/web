@@ -10,7 +10,7 @@ import { UserProfileComponent } from "./user/profile/profile.component";
 import { UserGamesComponent } from "./user/games/games.component";
 import { StatsComponent } from "./stats/stats.component";
 import { ForumComponent } from "./forum/forum.component";
-import { AuthService } from "./shared";
+import { canActivateFn } from "./shared";
 import { NotFoundComponent } from "./not-found.component";
 import { ChangeLogComponent } from "./changelog/changelog.component";
 
@@ -44,7 +44,7 @@ const routes: Routes = [
   },
   {
     path: "game/create/:gameType",
-    canActivate: [AuthService],
+    canActivate: [canActivateFn],
     component: CreateGameComponent,
     data: { meta: { title: "Create a New Game!" } },
   },
@@ -62,7 +62,7 @@ const routes: Routes = [
   { path: "game/:id/edit", component: EditGameComponent, data: { meta: { title: "Edit Game" } } },
   {
     path: "user/profile",
-    canActivate: [AuthService],
+    canActivate: [canActivateFn],
     component: UserProfileComponent,
     data: { meta: { title: "Your Profile" } },
   },
@@ -78,7 +78,7 @@ const routes: Routes = [
   },
   {
     path: "user/games",
-    canActivate: [AuthService],
+    canActivate: [canActivateFn],
     component: UserGamesComponent,
     data: { meta: { title: "Your Games" } },
   },
