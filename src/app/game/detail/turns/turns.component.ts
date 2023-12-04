@@ -138,7 +138,7 @@ export class GameDetailTurnsComponent implements OnInit {
       let timeTaken = "";
 
       if (turn.endDate) {
-        timeTaken = Utility.countdown(turn.startDate, turn.endDate) as string;
+        timeTaken = Utility.countdown(turn.startDate, turn.endDate);
       }
 
       return {

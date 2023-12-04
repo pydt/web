@@ -18,7 +18,10 @@ export class NotificationService {
 
   public readonly pushNotificationsEndpoint$ = this.swPush.subscription.pipe(map(x => x?.endpoint));
 
-  constructor(private swPush: SwPush, private userService: UserService) {}
+  constructor(
+    private swPush: SwPush,
+    private userService: UserService,
+  ) {}
 
   async subscribeToPushNotifications(): Promise<PrivateUserData> {
     try {

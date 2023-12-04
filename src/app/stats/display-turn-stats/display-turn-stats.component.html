@@ -11,7 +11,10 @@
         <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
       </div>
       <div class="col-md-{{ factWidth }}">
-        <p><b>Turns Played / Skipped:</b> {{ turnData.turnsPlayed.toLocaleString() }} / {{ turnData.turnsSkipped.toLocaleString() }}</p>
+        <p>
+          <b>Turns Played / Skipped:</b> {{ turnData.turnsPlayed.toLocaleString() }} /
+          {{ turnData.turnsSkipped.toLocaleString() }}
+        </p>
       </div>
     </ng-container>
     <div *ngIf="displayCharts" class="col-md-12">

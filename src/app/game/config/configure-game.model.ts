@@ -19,7 +19,10 @@ export class ConfigureGameModel {
   public turnTimerEnabled;
   public turnTimerVacationHandling = Game.TurnTimerVacationHandlingEnum.SKIPAFTERTIMER;
 
-  constructor(public civGame: CivGame, public turnTimerMinutes?: number) {
+  constructor(
+    public civGame: CivGame,
+    public turnTimerMinutes?: number,
+  ) {
     this.turnTimerEnabled = !!turnTimerMinutes;
     this.turnTimerMinutes = this.turnTimerMinutes || 1440;
   }
@@ -109,7 +112,7 @@ export class ConfigureGameModel {
       return "";
     }
 
-    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3) as string;
+    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3);
   }
 
   toJSON(): unknown {

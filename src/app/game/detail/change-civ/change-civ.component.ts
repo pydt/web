@@ -13,7 +13,10 @@ export class GameDetailChangeCivComponent {
   @Input() playerCiv: CivDef;
   @Output() setGame = new EventEmitter<Game>();
 
-  constructor(private gameApi: GameService, private notificationService: NotificationService) {}
+  constructor(
+    private gameApi: GameService,
+    private notificationService: NotificationService,
+  ) {}
 
   async changeCiv(newCiv: CivDef): Promise<void> {
     const game = await this.gameApi

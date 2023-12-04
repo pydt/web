@@ -102,7 +102,7 @@
         <option *ngFor="let speed of model.civGame.gameSpeeds" [ngValue]="speed.key">
           {{ speed.displayName }}
         </option>
-        <option [ngValue]="undefined">{{ model.emptyGame | gamespeed : games }}</option>
+        <option [ngValue]="undefined">{{ model.emptyGame | gamespeed: games }}</option>
       </select>
     </div>
     <span id="dlcHelp" class="help-block col-sm-offset-3"
@@ -116,7 +116,7 @@
         <option *ngFor="let map of model.civGame.maps" [ngValue]="map.file">
           {{ map.displayName }}
         </option>
-        <option [ngValue]="undefined">{{ model.emptyGame | map : games }}</option>
+        <option [ngValue]="undefined">{{ model.emptyGame | map: games }}</option>
       </select>
     </div>
   </div>
@@ -127,7 +127,7 @@
         <option *ngFor="let size of model.civGame.mapSizes" [ngValue]="size.key">
           {{ size.displayName }} (suggested {{ size.players }} players)
         </option>
-        <option [ngValue]="undefined">{{ model.emptyGame | mapsize : games }}</option>
+        <option [ngValue]="undefined">{{ model.emptyGame | mapsize: games }}</option>
       </select>
     </div>
   </div>

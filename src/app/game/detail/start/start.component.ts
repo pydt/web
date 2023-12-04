@@ -13,7 +13,11 @@ export class GameDetailStartComponent {
   @Output() setGame = new EventEmitter<Game>();
   @ViewChild("confirmStartGameModal", { static: true }) confirmStartGameModal: ModalDirective;
 
-  constructor(private gameApi: GameService, private notificationService: NotificationService, private router: Router) {}
+  constructor(
+    private gameApi: GameService,
+    private notificationService: NotificationService,
+    private router: Router,
+  ) {}
 
   async startGame(): Promise<void> {
     const game = await this.gameApi.start(this.game.gameId).toPromise();

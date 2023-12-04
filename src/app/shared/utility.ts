@@ -7,7 +7,7 @@ import { CivDef, countdown } from "pydt-shared";
 
 @Injectable()
 export class Utility {
-  public static countdown(start: unknown, end: unknown, max = 2): unknown {
+  public static countdown(start: unknown, end: unknown, max = 2) {
     // eslint-disable-next-line no-bitwise
     return countdown(
       start,
@@ -15,7 +15,7 @@ export class Utility {
       countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES,
       max,
       0,
-    );
+    ) as string;
   }
 
   public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]): CivDef[] {

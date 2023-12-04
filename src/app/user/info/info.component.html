@@ -19,7 +19,7 @@
     <div *ngIf="stats.turnsPlayed">
       <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
       <hr />
-      <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px;">
+      <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px">
         <option *ngFor="let game of allCivGames" [ngValue]="game.id">{{ game.displayName }}</option>
       </select>
       <pydt-turn-stats [turnData]="stats" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>

@@ -27,9 +27,6 @@ export class DisplayTurnStatsComponent {
   }
 
   get averageTurnTime() {
-    return Utility.countdown(
-      0,
-      this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped),
-    ) as string;
+    return Utility.countdown(0, this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped));
   }
 }

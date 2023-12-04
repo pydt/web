@@ -1,6 +1,6 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { TurnData } from "pydt-shared";
-import { Chart, ChartConfiguration } from "chart.js";
+import { ChartConfiguration } from "chart.js";
 
 @Component({
   selector: "pydt-turn-year-chart",
@@ -28,7 +28,7 @@ export class TurnYearChartComponent implements OnChanges {
       labels: Object.keys(this.turnData?.yearBuckets || {}),
       datasets: [
         {
-          data: Object.values(this.turnData?.yearBuckets || {}),
+          data: Object.values(this.turnData?.yearBuckets || {}) as number[],
           label: "Turns Played",
           backgroundColor: "#2C3E50",
           borderColor: "#2C3E50",

@@ -37,16 +37,16 @@
             <p><b>Max Human Players:</b> {{ game.humans }}</p>
           </div>
           <div class="col-md-6" *ngIf="game.gameSpeed">
-            <p><b>Game Speed:</b> {{ game | gamespeed : games }}</p>
+            <p><b>Game Speed:</b> {{ game | gamespeed: games }}</p>
           </div>
           <div class="col-md-6">
-            <p><b>Map Type:</b> {{ game | map : games }}</p>
+            <p><b>Map Type:</b> {{ game | map: games }}</p>
           </div>
           <div class="col-md-6">
             <p><b>Allow Users to Join After Start:</b> {{ game.allowJoinAfterStart ? "Yes" : "No" }}</p>
           </div>
           <div class="col-md-6" *ngIf="game.mapSize">
-            <p><b>Map Size:</b> {{ game | mapsize : games }}</p>
+            <p><b>Map Size:</b> {{ game | mapsize: games }}</p>
           </div>
           <div class="col-md-6">
             <p><b>Civ Selection:</b> {{ game | randomOnly }}</p>
@@ -249,9 +249,9 @@
           <span>
             Set the following settings:
             <ul>
-              <li *ngIf="game?.gameSpeed"><b>Game Speed:</b> {{ game | gamespeed : games }}</li>
-              <li *ngIf="game?.mapFile"><b>Map Type:</b> {{ game | map : games }}</li>
-              <li *ngIf="game?.mapSize"><b>Map Size:</b> {{ game | mapsize : games }}</li>
+              <li *ngIf="game?.gameSpeed"><b>Game Speed:</b> {{ game | gamespeed: games }}</li>
+              <li *ngIf="game?.mapFile"><b>Map Type:</b> {{ game | map: games }}</li>
+              <li *ngIf="game?.mapSize"><b>Map Size:</b> {{ game | mapsize: games }}</li>
             </ul>
           </span>
           When you're ready, click "Confirm Settings", make sure that you have

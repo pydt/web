@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges } from "@angular/core";
 import { TURN_BUCKETS, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { Utility } from "../../shared/utility";
@@ -38,7 +38,7 @@ export class TurnLengthChartComponent implements OnChanges {
       labels: [...TURN_BUCKETS.slice(0, -1).map(x => `< ${Utility.countdown(0, x)}`), "> 1 week"],
       datasets: [
         {
-          data: TURN_BUCKETS.map(x => this.turnData.turnLengthBuckets?.[x] || 0),
+          data: TURN_BUCKETS.map(x => (this.turnData.turnLengthBuckets?.[x] as number) || 0),
           label: "Turns Played",
           backgroundColor: turnLengthColors,
           borderColor: turnLengthColors,
@@ -53,7 +53,7 @@ export class TurnLengthChartComponent implements OnChanges {
           },
           y: {
             display: false,
-            max: Math.max(...Object.values(this.turnData?.turnLengthBuckets || {})),
+            max: Math.max(...(Object.values(this.turnData?.turnLengthBuckets || {}) as number[])),
           },
         }
       : {};

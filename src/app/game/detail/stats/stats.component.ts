@@ -65,7 +65,7 @@ export class GameDetailStatsComponent implements OnInit {
 
       if (player.timeTaken) {
         avgTurnTimeSort = player.timeTaken / (player.turnsPlayed || 0 + player.turnsSkipped || 0);
-        avgTurnTime = Utility.countdown(0, avgTurnTimeSort) as string;
+        avgTurnTime = Utility.countdown(0, avgTurnTimeSort);
       }
 
       return {
@@ -108,12 +108,12 @@ export class GameDetailStatsComponent implements OnInit {
       .map(player => player.turnsPlayed || 0 + player.turnsSkipped || 0)
       .reduce((a, b) => a + b);
 
-    return Utility.countdown(0, totalTimeTaken / totalTurns) as string;
+    return Utility.countdown(0, totalTimeTaken / totalTurns);
   }
 
   lastTurn(): string {
     const lastTurnTime = this.game.lastTurnEndDate || this.game.updatedAt;
 
-    return Utility.countdown(lastTurnTime, null) as string;
+    return Utility.countdown(lastTurnTime, null);
   }
 }

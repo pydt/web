@@ -4,7 +4,10 @@ import { Configuration, SteamProfile } from "pydt-shared";
 
 @Injectable()
 export class AuthService {
-  constructor(private router: Router, private config: Configuration) {
+  constructor(
+    private router: Router,
+    private config: Configuration,
+  ) {
     this.config.apiKeys.Authorization = this.getToken();
   }
 

@@ -24,7 +24,10 @@ export class ConfigureGameComponent implements OnInit {
   RANDOM_ONLY_OPTIONS = RANDOM_ONLY_OPTIONS;
   TURN_TIMER_VACATION_OPTIONS = TURN_TIMER_VACATION_OPTIONS;
 
-  constructor(private cdRef: ChangeDetectorRef, private metadata: MetadataCacheService) {}
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private metadata: MetadataCacheService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadata.getCivGameMetadata()).civGames;
