@@ -2,12 +2,14 @@ import { Component, Input, OnInit } from "@angular/core";
 import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
+import { TurnLengthChartComponent } from "../../../stats/turn-length-chart/turn-length-chart.component";
 
 export interface TableColumn {
   title: string;
   name: string;
-  sort?: string;
+  sort?: string | false;
   className?: string;
+  isComponent?: boolean;
 }
 
 @Component({
@@ -19,8 +21,7 @@ export class GameDetailStatsComponent implements OnInit {
   tableColumns: Array<TableColumn> = [
     { title: "Player", name: "player", className: "cursor-pointer" },
     { title: "Avg Turn Time", name: "avgTurnTime", sort: "asc", className: "cursor-pointer" },
-    { title: "< 1 hour", name: "fastTurns", className: "cursor-pointer text-success" },
-    { title: "> 6 hours", name: "slowTurns", className: "cursor-pointer text-danger" },
+    { title: "Turn Length", name: "turnLength", isComponent: true, sort: false },
   ];
   tableConfig = {
     sorting: { columns: this.tableColumns },
@@ -77,6 +78,13 @@ export class GameDetailStatsComponent implements OnInit {
         turnsSkipped: player.turnsSkipped || 0,
         fastTurns: player.fastTurns || 0,
         slowTurns: player.slowTurns || 0,
+        turnLength: {
+          component: TurnLengthChartComponent,
+          inputs: {
+            turnData: player,
+            smallMode: true,
+          },
+        },
       };
     });
 

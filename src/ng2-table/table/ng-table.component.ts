@@ -3,36 +3,8 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
   // eslint-disable-next-line
-  selector: 'ng-table',
-  template: `
-    <table class="table dataTable" ngClass="{{config.className || ''}}"
-           role="grid" style="width: 100%;">
-      <thead>
-        <tr role="row">
-          <th *ngFor="let column of columns" [ngTableSorting]="config" [column]="column"
-              (sortChanged)="onChangeTable($event)" ngClass="{{column.className || ''}}">
-            {{column.title}}
-            <i *ngIf="config && column.sort" class="pull-right fa"
-              [ngClass]="{'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc'}"></i>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-      <tr *ngIf="showFilterRow">
-        <td *ngFor="let column of columns">
-          <input *ngIf="column.filtering" placeholder="{{column.filtering.placeholder}}"
-                 [ngTableFiltering]="column.filtering"
-                 class="form-control"
-                 style="width: auto;"
-                 (tableChanged)="onChangeTable(config)"/>
-        </td>
-      </tr>
-        <tr *ngFor="let row of rows">
-          <td (click)="cellClick(row, column.name)" *ngFor="let column of columns" [innerHtml]="sanitize(getData(row, column.name))"></td>
-        </tr>
-      </tbody>
-    </table>
-  `,
+  selector: "ng-table",
+  templateUrl: "./ng-table.component.html",
 })
 export class NgTableComponent {
   // Table values
@@ -78,8 +50,7 @@ export class NgTableComponent {
   private _columns: Array<any> = [];
   private _config: any = {};
 
-  public constructor(private sanitizer: DomSanitizer) {
-  }
+  public constructor(private sanitizer: DomSanitizer) {}
 
   public sanitize(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

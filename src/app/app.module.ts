@@ -67,6 +67,12 @@ import { GameDetailStartComponent } from "./game/detail/start/start.component";
 import { NotFoundComponent } from "./not-found.component";
 import { ChangeLogComponent } from "./changelog/changelog.component";
 import { ChangelogService } from "./shared/changelog.service";
+import { NgChartsModule } from "ng2-charts";
+import { DisplayTurnStatsComponent } from "./stats/display-turn-stats/display-turn-stats.component";
+import { TurnLengthChartComponent } from "./stats/turn-length-chart/turn-length-chart.component";
+import { TurnYearChartComponent } from "./stats/turn-year-chart/turn-year-chart.component";
+import { TimeOfDayChartComponent } from "./stats/time-of-day-chart/time-of-day-chart.component";
+import { DayOfWeekChartComponent } from "./stats/day-of-week-chart/day-of-week-chart.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -111,12 +117,15 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
+    NgChartsModule,
     // https://github.com/angular/angular/issues/47455
     ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
   ],
   declarations: [
     AppComponent,
     ChangeLogComponent,
+    DayOfWeekChartComponent,
+    DisplayTurnStatsComponent,
     HomeComponent,
     ForumComponent,
     ConfigureGameComponent,
@@ -145,6 +154,9 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     UserInfoComponent,
     UserGamesComponent,
     StatsComponent,
+    TimeOfDayChartComponent,
+    TurnLengthChartComponent,
+    TurnYearChartComponent,
     NotFoundComponent,
   ],
   providers: [

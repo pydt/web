@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
+import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
 
 @Component({
   selector: "pydt-user-stats",
@@ -15,8 +16,7 @@ export class StatsComponent implements OnInit {
     { title: "Total Games", name: "totalGames", className: "cursor-pointer" },
     { title: "Turns Played", name: "turnsPlayed", className: "cursor-pointer", sort: "desc" },
     { title: "Avg Turn Time", name: "avgTurnTime", className: "cursor-pointer" },
-    { title: "< 1 hour", name: "fastTurns", className: "cursor-pointer text-success" },
-    { title: "> 6 hours", name: "slowTurns", className: "cursor-pointer text-danger" },
+    { title: "Turn Length", name: "turnLength", isComponent: true, sort: false },
   ];
   tableConfig = {
     columns: this.tableColumns,
@@ -35,7 +35,10 @@ export class StatsComponent implements OnInit {
   games: CivGame[] = [];
   currentGame = this.allGame;
 
-  constructor(private statsApi: StatsService, private metadataCache: MetadataCacheService) {}
+  constructor(
+    private statsApi: StatsService,
+    private metadataCache: MetadataCacheService,
+  ) {}
 
   get allCivGames(): CivGame[] {
     return [this.allGame, ...this.games];
@@ -75,6 +78,13 @@ export class StatsComponent implements OnInit {
         avgTurnTime_sort: avgTurnTime,
         fastTurns: x.fastTurns,
         slowTurns: x.slowTurns,
+        turnLength: {
+          component: TurnLengthChartComponent,
+          inputs: {
+            turnData: x,
+            smallMode: true,
+          },
+        },
       };
     });
 

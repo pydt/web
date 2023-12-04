@@ -1,0 +1,34 @@
+<div *ngIf="turnData">
+  <div class="row">
+    <ng-container *ngIf="displayFacts">
+      <div class="col-md-{{ factWidth }}">
+        <p><b>First Turn Played:</b> {{ firstTurnEndDate }}</p>
+      </div>
+      <div class="col-md-{{ factWidth }}">
+        <p><b>Last Turn Played:</b> {{ lastTurnEndDate }}</p>
+      </div>
+      <div class="col-md-{{ factWidth }}">
+        <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
+      </div>
+      <div class="col-md-{{ factWidth }}">
+        <p><b>Turns Played / Skipped:</b> {{ turnData.turnsPlayed.toLocaleString() }} / {{ turnData.turnsSkipped.toLocaleString() }}</p>
+      </div>
+    </ng-container>
+    <div *ngIf="displayCharts" class="col-md-12">
+      <tabset>
+        <tab heading="Turn Length">
+          <pydt-turn-length-chart [turnData]="turnData"></pydt-turn-length-chart>
+        </tab>
+        <tab heading="Turns per Year" *ngIf="showTurnsPerYear">
+          <pydt-turn-year-chart [turnData]="turnData"></pydt-turn-year-chart>
+        </tab>
+        <tab heading="Time of Day" *ngIf="turnData.hourOfDayQueue && !hideQueueCharts">
+          <pydt-time-of-day-chart [turnData]="turnData"></pydt-time-of-day-chart>
+        </tab>
+        <tab heading="Day of Week" *ngIf="turnData.dayOfWeekQueue && !hideQueueCharts">
+          <pydt-day-of-week-chart [turnData]="turnData"></pydt-day-of-week-chart>
+        </tab>
+      </tabset>
+    </div>
+  </div>
+</div>

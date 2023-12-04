@@ -14,14 +14,19 @@
     <h1 style="margin-top: 0">
       {{ user?.displayName }} <ng-container *ngIf="user.vacationMode">(On Vacation!)</ng-container>
     </h1>
-    <div *ngIf="user.turnsPlayed">
-      <p *ngIf="user.timezone"><b>Time Zone:</b> {{ user.timezone }}</p>
-      <p *ngIf="user.comments"><b>Comments:</b> {{ user.comments }}</p>
+    <p *ngIf="user.timezone"><b>Time Zone:</b> {{ user.timezone }}</p>
+    <p *ngIf="user.comments"><b>Comments:</b> {{ user.comments }}</p>
+    <div *ngIf="stats.turnsPlayed">
       <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
-      <p><b>Turns Played:</b> {{ user.turnsPlayed }}</p>
-      <p><b>Average Turn Time:</b> {{ averageTurnTime() }}</p>
-      <p><b class="text-success">Fast Turns (< 1 hour):</b> {{ user.fastTurns }}</p>
-      <p><b class="text-danger">Slow Turns (> 6 hours):</b> {{ user.slowTurns }}</p>
+      <hr />
+      <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px;">
+        <option *ngFor="let game of allCivGames" [ngValue]="game.id">{{ game.displayName }}</option>
+      </select>
+      <pydt-turn-stats [turnData]="stats" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>
     </div>
+  </div>
+  <div *ngIf="stats.turnsPlayed" class="col-sm-12">
+    <hr />
+    <pydt-turn-stats [turnData]="stats" [displayFacts]="false"></pydt-turn-stats>
   </div>
 </div>

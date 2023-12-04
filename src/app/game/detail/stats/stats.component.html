@@ -1,8 +1,7 @@
 <div class="row">
   <div class="col-md-4">
     <p><b>Current Round:</b> {{ game.round }}</p>
-    <p><b>Last Turn:</b> {{ lastTurn() }} ago</p>
-    <p><b>Average Turn Time:</b> {{ averageTurnTime() }}</p>
+    <pydt-turn-stats [turnData]="game" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>
   </div>
   <div class="col-md-8">
     <ng-table
@@ -13,6 +12,7 @@
     ></ng-table>
   </div>
 </div>
+<pydt-turn-stats [turnData]="game" [displayFacts]="false"></pydt-turn-stats>
 <div *ngIf="game.gameVideoUrl && isBrowser" class="row">
   <div class="col-md-12">
     <vg-player>
