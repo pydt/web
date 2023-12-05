@@ -15,6 +15,15 @@
 <button class="btn btn-sm btn-primary pull-right" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">
   Save Turn Order
 </button>
+<button
+  class="btn btn-sm btn-default pull-right"
+  style="margin-right: 12px"
+  *ngIf="editingTurnOrder"
+  type="button"
+  (click)="sortViaPlayTimes()"
+>
+  Sort via Play Times
+</button>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   <img
     src="/img/game_{{ game.gameType }}.png"
@@ -130,6 +139,39 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="playerDetailModal.hide()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div
+  bsModal
+  #timeSortResultsModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="timeSortResultsModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="timeSortResultsModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Sort Results</h4>
+      </div>
+      <div class="modal-body" style="min-height: 200px">
+        <h4>The players were sorted according to their prime playing hour (in browser local time):</h4>
+        <ul>
+          <li *ngFor="let result of sortResults">
+            <strong>{{ result.user.displayName }}</strong
+            >: {{ result.maxHourLocal }}:00
+          </li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="timeSortResultsModal.hide()">OK</button>
       </div>
     </div>
   </div>

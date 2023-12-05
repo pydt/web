@@ -47,6 +47,22 @@ export class GameDetailJoinComponent implements OnChanges {
     if (!current.pud.emailAddress) {
       this.mustHaveEmailSetToJoinModal.show();
     } else {
+      if (!current.user.timezone) {
+        const offset = new Date().getTimezoneOffset();
+
+        await this.userApi
+          .setUserInformation({
+            comments: current.user.comments,
+            timezone:
+              "GMT " +
+              (offset < 0 ? "+" : "-") + // Note the reversed sign!
+              Math.abs(offset / 60).toString() +
+              ":00",
+            vacationMode: current.user.vacationMode,
+          })
+          .toPromise();
+      }
+
       const game = await this.gameApi
         .join(this.game.gameId, {
           playerCiv: this.selectedCiv.leaderKey,

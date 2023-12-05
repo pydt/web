@@ -67,6 +67,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2023-12-05",
+    desc: `We're keeping much more detailed statistics on turn activity, which you can see pretty much anywhere turn stats are showed (global/game/user).  Now that we have this, I've added a new "Sort via Play Times" option when sorting players that will take into account their last 100 turns and sort appropriately, so people no longer have to bug Valamas all the time.`,
+  },
+  {
     date: "2023-07-05",
     desc: `When users are in vacation mode and a game has a turn timer, they will now be skipped at the end of the turn timer by default.  The game host can also choose to skip the user immediately or pause the game when a user is on vacation.`,
   },

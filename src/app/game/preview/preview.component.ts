@@ -12,8 +12,10 @@ import {
   UserService,
   CivGame,
   MetadataCacheService,
+  HOUR_OF_DAY_KEY,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
+import { orderBy } from "lodash";
 
 @Component({
   selector: "pydt-game-preview",
@@ -26,6 +28,7 @@ export class GamePreviewComponent implements OnChanges {
   @Input() availableCivs: CivDef[];
   @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
+  @ViewChild("timeSortResultsModal", { static: true }) timeSortResultsModal: ModalDirective;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
   reorderableIndexes: number[];
@@ -35,6 +38,11 @@ export class GamePreviewComponent implements OnChanges {
   gamePlayerProfiles: SteamProfileMap = {};
   games: CivGame[] = [];
   private civDefs: CivDef[];
+  sortResults: {
+    user: User;
+    maxHour: number;
+    maxHourLocal: number;
+  }[];
 
   constructor(
     private gameApi: GameService,
@@ -107,6 +115,56 @@ export class GamePreviewComponent implements OnChanges {
         this.editingTurnOrder = false;
         this.gameUpdated.emit(game);
       });
+  }
+
+  async sortViaPlayTimes() {
+    const userData = await Promise.all(
+      [this.gamePlayers[0], ...this.reorderableIndexes.map(x => this.gamePlayers[x])].map(x =>
+        this.userApi.byId(x.steamId).toPromise(),
+      ),
+    );
+
+    const maxHours = userData
+      .map(user => {
+        // Not sure of a better default...
+        let maxHour = 12;
+
+        if (user.hourOfDayQueue?.length) {
+          const hourlyTurns = [...HOUR_OF_DAY_KEY].map(
+            hourSymbol => [...user.hourOfDayQueue].filter(x => x === hourSymbol).length,
+          );
+
+          maxHour = hourlyTurns.reduce((maxIndex, x, i, arr) => (x > arr[maxIndex] ? i : maxIndex), 0);
+        } else if (user.timezone) {
+          const match = user.timezone.match(/^GMT\s([-+]\d{1,2}):\d{2}$/);
+          // Use noon of their profile timezone
+          maxHour = (parseInt(match[1], 10) + 12) % 12;
+        }
+
+        return {
+          user,
+          maxHour,
+          maxHourLocal: -1,
+        };
+      })
+      .map((user, i, arr) => {
+        user.maxHourLocal = new Date(Date.UTC(2000, 1, 1, user.maxHour)).getHours();
+
+        // If current user's max hour is less than the admin's, increment it by a day for sorting
+        if (i > 0 && user.maxHour < arr[0].maxHour) {
+          user.maxHour += 24;
+        }
+
+        return user;
+      });
+
+    const orderedPlayers = orderBy(maxHours.slice(1), "maxHour");
+
+    this.sortResults = [maxHours[0], ...orderedPlayers];
+
+    this.reorderableIndexes = orderedPlayers.map(x => this.gamePlayers.findIndex(y => y.steamId === x.user.steamId));
+
+    this.timeSortResultsModal.show();
   }
 
   async showUserDetail(userId: string): Promise<void> {
