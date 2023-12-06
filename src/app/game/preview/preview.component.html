@@ -8,7 +8,7 @@
   class="btn btn-sm btn-default pull-right"
   *ngIf="canEditTurnOrder && !editingTurnOrder"
   type="button"
-  (click)="editingTurnOrder = true"
+  (click)="startEditingTurnOrder()"
 >
   Edit Turn Order
 </button>
@@ -47,8 +47,12 @@
         size="BIG"
       ></pydt-player-avatar>
     </div>
-    <div dragula="players" [(dragulaModel)]="reorderableIndexes">
-      <div *ngFor="let index of reorderableIndexes" class="col-{{ game.slots }}-slots">
+    <div
+      dragula="players"
+      [dragulaModel]="reorderableIndexes$ | async"
+      (dragulaModelChange)="reorderableIndexes$.next($event)"
+    >
+      <div *ngFor="let index of reorderableIndexes$ | async" class="col-{{ game.slots }}-slots">
         <pydt-player-avatar
           [game]="game"
           [players]="gamePlayers"
@@ -87,10 +91,38 @@
     </div>
   </ng-container>
 </div>
-<p *ngIf="editingTurnOrder" style="padding-bottom: 20px; text-align: center">
-  Drag and drop the player icons to edit the turn order. The game creator must always be first and can't be moved, and
-  all AI players must always be last.
-</p>
+<ng-container *ngIf="editingTurnOrder">
+  <p style="padding-bottom: 20px; text-align: center">
+    Drag and drop the player icons to edit the turn order. The game creator must always be first and can't be moved, and
+    all AI players must always be last.
+  </p>
+
+  <h4 style="text-align: center">Player Turn Times (in browser local time):</h4>
+
+  <table class="table table-condensed table-striped">
+    <thead>
+      <tr role="row">
+        <th></th>
+        <th *ngFor="let hour of hours">
+          {{ hour }}
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of playerUsers$ | async">
+        <th>{{ user.displayName }}</th>
+        <td
+          *ngFor="let hour of userTurnTimesLocal(user)"
+          [ngClass]="{ maxHour: hour.isMax }"
+          [attr.colspan]="hour.timezoneHour ? 24 : undefined"
+        >
+          {{ hour.turns }}
+          {{ hour.timezoneHour ? "No turn data, using noon in profile timezone (" + hour.timezoneHour + ":00)" : "" }}
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
 
 <div
   bsModal
@@ -139,39 +171,6 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="playerDetailModal.hide()">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  bsModal
-  #timeSortResultsModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="timeSortResultsModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="timeSortResultsModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Sort Results</h4>
-      </div>
-      <div class="modal-body" style="min-height: 200px">
-        <h4>The players were sorted according to their prime playing hour (in browser local time):</h4>
-        <ul>
-          <li *ngFor="let result of sortResults">
-            <strong>{{ result.user.displayName }}</strong
-            >: {{ result.maxHourLocal }}:00
-          </li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="timeSortResultsModal.hide()">OK</button>
       </div>
     </div>
   </div>

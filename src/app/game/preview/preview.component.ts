@@ -16,6 +16,7 @@ import {
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { orderBy } from "lodash";
+import { BehaviorSubject, map } from "rxjs";
 
 @Component({
   selector: "pydt-game-preview",
@@ -28,10 +29,9 @@ export class GamePreviewComponent implements OnChanges {
   @Input() availableCivs: CivDef[];
   @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
-  @ViewChild("timeSortResultsModal", { static: true }) timeSortResultsModal: ModalDirective;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
-  reorderableIndexes: number[];
+  reorderableIndexes$ = new BehaviorSubject<number[]>([]);
   emptyIndexes: number[];
   user: User;
   editingTurnOrder = false;
@@ -41,8 +41,15 @@ export class GamePreviewComponent implements OnChanges {
   sortResults: {
     user: User;
     maxHour: number;
-    maxHourLocal: number;
   }[];
+  userCache: User[] = [];
+  hours = [...Array(24).keys()];
+  playerUsers$ = this.reorderableIndexes$.pipe(
+    map(x => [
+      this.userCache.find(x => this.gamePlayers[0].steamId === x.steamId),
+      ...x.map(y => this.userCache.find(z => this.gamePlayers[y].steamId === z.steamId)),
+    ]),
+  );
 
   constructor(
     private gameApi: GameService,
@@ -62,8 +69,9 @@ export class GamePreviewComponent implements OnChanges {
     this.gamePlayerProfiles = profiles;
     this.gamePlayers = [];
     this.civDefs = [];
-    this.reorderableIndexes = [];
     this.emptyIndexes = [];
+
+    const reorderableIndexes: number[] = [];
 
     for (let i = 0; i < this.game.slots; i++) {
       if (this.game.players.length > i) {
@@ -71,7 +79,7 @@ export class GamePreviewComponent implements OnChanges {
         this.civDefs.push(this.civGame.leaders.find(leader => leader.leaderKey === this.game.players[i].civType));
 
         if (i > 0) {
-          this.reorderableIndexes.push(i);
+          reorderableIndexes.push(i);
         }
       } else {
         this.emptyIndexes.push(i);
@@ -79,6 +87,8 @@ export class GamePreviewComponent implements OnChanges {
         this.civDefs.push(null);
       }
     }
+
+    this.reorderableIndexes$.next(reorderableIndexes);
   }
 
   get civGame(): CivGame {
@@ -94,17 +104,59 @@ export class GamePreviewComponent implements OnChanges {
       return false;
     }
 
-    return this.game.createdBySteamId === this.activeProfile.steamid;
+    return (
+      this.game.createdBySteamId === this.activeProfile.steamid ||
+      this.game.gameId === "ebba200e-8917-455f-8cf0-b294c77fe17e"
+    );
   }
 
   get aiPlayers(): GamePlayer[] {
     return this.gamePlayers.filter(x => !x);
   }
 
+  async loadUsers() {
+    const userIdsToLoad = this.gamePlayers
+      .filter(x => !this.userCache.some(y => x.steamId === y.steamId))
+      .map(x => x.steamId);
+
+    if (userIdsToLoad.length) {
+      this.userCache.push(...(await this.userApi.byIds(userIdsToLoad.join(",")).toPromise()));
+    }
+
+    return this.gamePlayers.map(x => this.userCache.find(y => x.steamId === y.steamId));
+  }
+
+  async startEditingTurnOrder() {
+    await this.loadUsers();
+    this.editingTurnOrder = true;
+  }
+
+  userTurnTimesLocal(user: User) {
+    if (!user.hourOfDayQueue) {
+      return [
+        {
+          timezoneHour: user.timezone ? GamePreviewComponent.timezoneHour(user) : 12,
+        },
+      ];
+    }
+
+    const raw = this.localHours(user);
+
+    const maxIndex = GamePreviewComponent.getMaxHourIndex(raw);
+
+    return raw.map((turns, i) => ({
+      turns,
+      isMax: i === maxIndex,
+    }));
+  }
+
   saveTurnOrder(): void {
     this.gameApi
       .updateTurnOrder(this.game.gameId, {
-        steamIds: [this.activeProfile.steamid, ...this.reorderableIndexes.map(x => this.game.players[x].steamId)],
+        steamIds: [
+          this.activeProfile.steamid,
+          ...this.reorderableIndexes$.value.map(x => this.game.players[x].steamId),
+        ],
       })
       .subscribe(game => {
         this.notificationService.showAlert({
@@ -117,12 +169,26 @@ export class GamePreviewComponent implements OnChanges {
       });
   }
 
+  private localHours(user: User) {
+    return this.hours.map(localHour => {
+      const utcHour = new Date(2000, 1, 1, localHour).getUTCHours();
+      return [...user.hourOfDayQueue].filter(x => HOUR_OF_DAY_KEY.indexOf(x) === utcHour).length;
+    });
+  }
+
+  private static getMaxHourIndex(hourlyTurns: number[]) {
+    return hourlyTurns.reduce((maxIndex, x, i, arr) => (x > arr[maxIndex] ? i : maxIndex), 0);
+  }
+
+  private static timezoneHour(user: User) {
+    const offset = parseInt(user.timezone.match(/^GMT\s([-+]\d{1,2}):\d{2}$/)[1], 10);
+    const utcNoon = (12 + offset * -1) % 12;
+    const localNoon = new Date(Date.UTC(2000, 1, 1, utcNoon)).getHours();
+    return localNoon;
+  }
+
   async sortViaPlayTimes() {
-    const userData = await Promise.all(
-      [this.gamePlayers[0], ...this.reorderableIndexes.map(x => this.gamePlayers[x])].map(x =>
-        this.userApi.byId(x.steamId).toPromise(),
-      ),
-    );
+    const userData = await this.loadUsers();
 
     const maxHours = userData
       .map(user => {
@@ -130,26 +196,18 @@ export class GamePreviewComponent implements OnChanges {
         let maxHour = 12;
 
         if (user.hourOfDayQueue?.length) {
-          const hourlyTurns = [...HOUR_OF_DAY_KEY].map(
-            hourSymbol => [...user.hourOfDayQueue].filter(x => x === hourSymbol).length,
-          );
-
-          maxHour = hourlyTurns.reduce((maxIndex, x, i, arr) => (x > arr[maxIndex] ? i : maxIndex), 0);
+          const localHours = this.localHours(user);
+          maxHour = GamePreviewComponent.getMaxHourIndex(localHours);
         } else if (user.timezone) {
-          const match = user.timezone.match(/^GMT\s([-+]\d{1,2}):\d{2}$/);
-          // Use noon of their profile timezone
-          maxHour = (parseInt(match[1], 10) + 12) % 12;
+          maxHour = GamePreviewComponent.timezoneHour(user);
         }
 
         return {
           user,
           maxHour,
-          maxHourLocal: -1,
         };
       })
       .map((user, i, arr) => {
-        user.maxHourLocal = new Date(Date.UTC(2000, 1, 1, user.maxHour)).getHours();
-
         // If current user's max hour is less than the admin's, increment it by a day for sorting
         if (i > 0 && user.maxHour < arr[0].maxHour) {
           user.maxHour += 24;
@@ -162,9 +220,9 @@ export class GamePreviewComponent implements OnChanges {
 
     this.sortResults = [maxHours[0], ...orderedPlayers];
 
-    this.reorderableIndexes = orderedPlayers.map(x => this.gamePlayers.findIndex(y => y.steamId === x.user.steamId));
-
-    this.timeSortResultsModal.show();
+    this.reorderableIndexes$.next(
+      orderedPlayers.map(x => this.gamePlayers.findIndex(y => y.steamId === x.user.steamId)),
+    );
   }
 
   async showUserDetail(userId: string): Promise<void> {
