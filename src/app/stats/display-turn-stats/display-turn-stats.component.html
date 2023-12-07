@@ -2,18 +2,18 @@
   <div class="row">
     <ng-container *ngIf="displayFacts">
       <div class="col-md-{{ factWidth }}">
-        <p><b>First Turn Played:</b> {{ firstTurnEndDate }}</p>
+        <p style="white-space: nowrap"><b>First Turn Played:</b> {{ firstTurnEndDate }}<wbr /> ({{ firstTurnAgo }})</p>
       </div>
       <div class="col-md-{{ factWidth }}">
-        <p><b>Last Turn Played:</b> {{ lastTurnEndDate }}</p>
+        <p style="white-space: nowrap"><b>Last Turn Played:</b> {{ lastTurnEndDate }}<wbr /> ({{ lastTurnAgo }})</p>
       </div>
       <div class="col-md-{{ factWidth }}">
         <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
       </div>
       <div class="col-md-{{ factWidth }}">
         <p>
-          <b>Turns Played / Skipped:</b> {{ turnData.turnsPlayed.toLocaleString() }} /
-          {{ turnData.turnsSkipped.toLocaleString() }}
+          <b>Turns Played / Skipped:</b> {{ (turnData.turnsPlayed || 0).toLocaleString() }} /
+          {{ (turnData.turnsSkipped || 0).toLocaleString() }}
         </p>
       </div>
     </ng-container>

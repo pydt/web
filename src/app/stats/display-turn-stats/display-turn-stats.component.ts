@@ -14,6 +14,14 @@ export class DisplayTurnStatsComponent {
   @Input() hideQueueCharts = false;
   @Input() factWidth = 6;
 
+  get firstTurnAgo() {
+    return Utility.countdownAgo(this.turnData.firstTurnEndDate, null);
+  }
+
+  get lastTurnAgo() {
+    return Utility.countdownAgo(this.turnData.lastTurnEndDate, null);
+  }
+
   get firstTurnEndDate() {
     return this.turnData.firstTurnEndDate ? moment(this.turnData.firstTurnEndDate).format("LLL") : "";
   }
