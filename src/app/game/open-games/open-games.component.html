@@ -1,5 +1,5 @@
 <div class="container">
-  <div *ngIf="allGames">
+  <div>
     <h1>Open Games</h1>
     <p>
       This is a list of all games that are currently forming and available to join.
@@ -24,36 +24,24 @@
       </div>
     </div>
     <tabset>
-      <tab heading="New Games">
-        <h1 *ngIf="!(filteredGames$ | async).notStarted.length">No games found.</h1>
-        <div *ngFor="let game of (filteredGames$ | async).notStarted">
-          <div class="well">
-            <pydt-game-preview [game]="game"></pydt-game-preview>
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
-                  View Game Details
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </tab>
-      <tab heading="In-Progress Games with Open Slots">
-        <h1 *ngIf="!(filteredGames$ | async).openSlots.length">No games found.</h1>
-        <div *ngFor="let game of (filteredGames$ | async).openSlots">
-          <div class="well">
-            <pydt-game-preview [game]="game"></pydt-game-preview>
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
-                  View Game Details
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </tab>
+      <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
+      <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
+      <tab heading="In-Progress Games with Open Slots" (selectTab)="getOpenSlots(false)"></tab>
     </tabset>
+    <ng-container *ngIf="filteredGames$ | async">
+      <h1 *ngIf="!(filteredGames$ | async).length">No games found.</h1>
+      <div *ngFor="let game of filteredGames$ | async">
+        <div class="well">
+          <pydt-game-preview [game]="game"></pydt-game-preview>
+          <div class="row">
+            <div class="col-xs-12 text-center">
+              <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
+                View Game Details
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 </div>

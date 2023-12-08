@@ -67,6 +67,10 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2023-12-08",
+    desc: `Added support for the ability to request a substitution in a game - games containing players that need substitution will be shown in the new "Substitution Requested" tab of the Open Games page.`,
+  },
+  {
     date: "2023-12-05",
     desc: `We're keeping much more detailed statistics on turn activity, which you can see pretty much anywhere turn stats are showed (global/game/user).  Now that we have this, I've added a new "Sort via Play Times" option when sorting players that will take into account their last 100 turns and sort appropriately, so people no longer have to bug Valamas all the time.`,
   },

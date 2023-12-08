@@ -157,7 +157,18 @@
         <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
       </div>
     </tab>
-    <tab [heading]="noOtherPlayers ? 'End Game' : 'Surrender'">
+    <tab heading="Request Substitution" *ngIf="!noOtherPlayers">
+      <div class="well">
+        <pydt-game-request-substitution [game]="game" (setGame)="setGame($event)"></pydt-game-request-substitution>
+      </div>
+    </tab>
+    <tab
+      [heading]="noOtherPlayers ? 'End Game' : 'Surrender'"
+      *ngIf="
+        'need something here to get it ordered after request sub' ===
+        'need something here to get it ordered after request sub'
+      "
+    >
       <div class="well">
         <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
       </div>

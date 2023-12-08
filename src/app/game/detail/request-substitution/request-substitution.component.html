@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-sm-12">
+    <p *ngIf="substitutionRequested">
+      You have requested substitution, if you'd like to remove your request press the button below.
+    </p>
+    <p *ngIf="!substitutionRequested">
+      If you would like to request to have someone take your spot in this game but keep playing until that happens,
+      press the button below. This is much preferred to surrendering if you have a viable position!
+    </p>
+  </div>
+</div>
+<div class="row">
+  <div class="col-xs-12 text-center">
+    <button type="button" class="btn btn-danger" (click)="requestSubstitution()">
+      {{ substitutionRequested ? "Undo Substitution Request" : "Request Substitution" }}
+    </button>
+  </div>
+</div>

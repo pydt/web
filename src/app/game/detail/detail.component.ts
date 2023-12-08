@@ -32,7 +32,7 @@ export class GameDetailComponent implements OnInit {
   profile: SteamProfile;
   userInGame = false;
   civDefs: CivDef[] = [];
-  availableCivs: CivDef[];
+  availableCivs: AvailableCiv[];
   tooManyHumans = false;
   playerCiv: CivDef;
   dlcEnabled: string[];
@@ -181,17 +181,24 @@ export class GameDetailComponent implements OnInit {
     }
 
     if (game.inProgress) {
-      if (!this.playerCiv && game.allowJoinAfterStart) {
-        this.availableCivs = game.players
-          .filter(player => !player.steamId)
-          .map(
-            player =>
-              this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
+      if (!this.playerCiv) {
+        const needSubstitution = game.players.filter(x => x.substitutionRequested);
+
+        if (game.allowJoinAfterStart) {
+          this.availableCivs.push(
+            ...[
+              ...needSubstitution,
+              ...game.players.filter(player => !player.steamId && !needSubstitution.includes(player)),
+            ].map(player => ({
+              ...(this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
                 ...this.metadata.randomCiv,
                 leaderKey: player.civType,
                 fullDisplayName: player.civType,
-              },
+              }),
+              steamIdNeedsSubstitution: player.substitutionRequested ? player.steamId : undefined,
+            })),
           );
+        }
       }
     } else {
       this.availableCivs = Utility.filterCivsByDlc(this.civGame.leaders, this.game.dlc).slice();
@@ -281,4 +288,8 @@ export class GameDetailComponent implements OnInit {
       }
     }
   }
+}
+
+export interface AvailableCiv extends CivDef {
+  steamIdNeedsSubstitution?: string;
 }

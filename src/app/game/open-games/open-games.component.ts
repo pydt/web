@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-import { BehaviorSubject, map } from "rxjs";
+import { BehaviorSubject, combineLatest, map } from "rxjs";
 import {
+  Game,
   GameService,
-  OpenGamesResponse,
+  OpenSlotsGame,
   ProfileCacheService,
   SteamProfile,
   CivGame,
@@ -17,18 +18,22 @@ import { AuthService } from "../../shared";
 })
 export class OpenGamesComponent implements OnInit {
   profile: SteamProfile;
-  allGames: OpenGamesResponse;
+  private notStarted$ = new BehaviorSubject<Game[]>(undefined);
+  private openSlots$ = new BehaviorSubject<OpenSlotsGame[]>(undefined);
   gameTypeFilter$ = new BehaviorSubject("");
-  filteredGames$ = this.gameTypeFilter$.pipe(
-    map(type => {
+  tabFilter$ = new BehaviorSubject<"notStarted" | "substitutions" | "joinAfterStart">("notStarted");
+  filteredGames$ = combineLatest([this.gameTypeFilter$, this.tabFilter$, this.notStarted$, this.openSlots$]).pipe(
+    map(([type, tab, notStarted, openSlots]) => {
+      const games =
+        tab === "notStarted"
+          ? notStarted
+          : openSlots?.filter(game => (tab === "substitutions" ? game.substitutionRequested : game.joinAfterStart));
+
       if (!type) {
-        return this.allGames;
+        return games;
       }
 
-      return {
-        notStarted: this.allGames.notStarted.filter(x => x.gameType === type),
-        openSlots: this.allGames.openSlots.filter(x => x.gameType === type),
-      };
+      return games.filter(x => x.gameType === type);
     }),
   );
   games: CivGame[] = [];
@@ -44,7 +49,7 @@ export class OpenGamesComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
-    await this.getGames();
+    await this.getNotStarted();
     this.profile = this.auth.getSteamProfile();
 
     this.route.queryParams.subscribe(params => {
@@ -65,17 +70,27 @@ export class OpenGamesComponent implements OnInit {
         : {},
       relativeTo: this.route,
     });
+
+    this.gameTypeFilter$.next(type);
   }
 
-  async getGames(): Promise<void> {
-    const games = await this.gameApi.listOpen().toPromise();
+  async getNotStarted(): Promise<void> {
+    this.tabFilter$.next("notStarted");
 
-    this.allGames = games;
+    if (!this.notStarted$.value) {
+      this.notStarted$.next(await this.gameApi.notStarted().toPromise());
+    }
 
-    // Refire observable
-    this.gameTypeFilter$.next(this.gameTypeFilter$.value);
+    await this.profileCache.getProfilesForGames(this.notStarted$.value);
+  }
 
-    // Go ahead and get all profiles for all the games in one request
-    await this.profileCache.getProfilesForGames(games.notStarted.concat(games.openSlots));
+  async getOpenSlots(substitutions: boolean): Promise<void> {
+    this.tabFilter$.next(substitutions ? "substitutions" : "joinAfterStart");
+
+    if (!this.openSlots$.value) {
+      this.openSlots$.next(await this.gameApi.openSlots().toPromise());
+    }
+
+    await this.profileCache.getProfilesForGames(this.openSlots$.value);
   }
 }

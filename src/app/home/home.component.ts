@@ -1,6 +1,6 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { StatsService } from "pydt-shared";
+import { BusyService, StatsService } from "pydt-shared";
 
 @Component({
   selector: "pydt-home",
@@ -10,9 +10,13 @@ import { StatsService } from "pydt-shared";
 export class HomeComponent implements OnInit {
   turnsText = "";
 
-  constructor(private statsApi: StatsService) {}
+  constructor(
+    private busyService: BusyService,
+    private statsApi: StatsService,
+  ) {}
 
   ngOnInit(): void {
+    this.busyService.ignoreNextIntercept = true;
     this.statsApi
       .global()
       .subscribe(x => (this.turnsText = `Over ${x.turnsPlayed.toLocaleString()} damn turns played.`));

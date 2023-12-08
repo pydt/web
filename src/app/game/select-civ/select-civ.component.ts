@@ -3,6 +3,7 @@ import { CivDef, Game, MetadataCacheService } from "pydt-shared";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { FormControl } from "@angular/forms";
 import { map } from "rxjs";
+import { AvailableCiv } from "../detail/detail.component";
 
 @Component({
   selector: "pydt-select-civ",
@@ -10,10 +11,10 @@ import { map } from "rxjs";
   styleUrls: ["./select-civ.component.scss"],
 })
 export class SelectCivComponent implements OnInit {
-  @Input() curCiv: CivDef;
-  @Input() leaders: CivDef[];
+  @Input() curCiv: AvailableCiv;
+  @Input() leaders: AvailableCiv[];
   @Input() randomOnly: Game.RandomOnlyEnum = "EITHER";
-  @Output() selectedCiv = new EventEmitter<CivDef>();
+  @Output() selectedCiv = new EventEmitter<AvailableCiv>();
   @ViewChild("selectCivModal", { static: true }) selectCivModal: ModalDirective;
 
   civFilter = new FormControl<string>("");

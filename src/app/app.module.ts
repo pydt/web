@@ -73,6 +73,7 @@ import { TurnLengthChartComponent } from "./stats/turn-length-chart/turn-length-
 import { TurnYearChartComponent } from "./stats/turn-year-chart/turn-year-chart.component";
 import { TimeOfDayChartComponent } from "./stats/time-of-day-chart/time-of-day-chart.component";
 import { DayOfWeekChartComponent } from "./stats/day-of-week-chart/day-of-week-chart.component";
+import { GameDetailRequestSubstitutionComponent } from "./game/detail/request-substitution/request-substitution.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -124,7 +125,9 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   declarations: [
     AppComponent,
     ChangeLogComponent,
+    CreateGameComponent,
     DayOfWeekChartComponent,
+    DisplayCivComponent,
     DisplayTurnStatsComponent,
     HomeComponent,
     ForumComponent,
@@ -137,6 +140,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     GameDetailDeleteComponent,
     GameDetailJoinComponent,
     GameDetailLeaveComponent,
+    GameDetailRequestSubstitutionComponent,
     GameDetailRevertComponent,
     GameDetailSmackTalkComponent,
     GameDetailStartComponent,
@@ -145,9 +149,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     GameDetailTurnsComponent,
     GamePreviewComponent,
     InfoTooltipComponent,
-    CreateGameComponent,
     OpenGamesComponent,
-    DisplayCivComponent,
     SelectCivComponent,
     SteamReturnComponent,
     UserProfileComponent,

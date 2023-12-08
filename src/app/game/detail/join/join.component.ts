@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { CivDef, Game, GameService, SteamProfile, UserService } from "pydt-shared";
+import { CivDef, Game, GamePlayer, GameService, SteamProfile, UserService } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
-import { NotificationService } from "../../../shared";
+import { AuthService, NotificationService } from "../../../shared";
+import { AvailableCiv } from "../detail.component";
 
 @Component({
   selector: "pydt-game-detail-join",
@@ -11,7 +12,8 @@ import { NotificationService } from "../../../shared";
 export class GameDetailJoinComponent implements OnChanges {
   @Input() game: Game;
   @Input() profile: SteamProfile;
-  @Input() availableCivs: CivDef[];
+  @Input() needReplacement: GamePlayer[];
+  @Input() availableCivs: AvailableCiv[];
   @Input() playerCiv: CivDef;
   @Input() userInGame: boolean;
   @Input() dlcEnabled: string[];
@@ -19,10 +21,11 @@ export class GameDetailJoinComponent implements OnChanges {
   @ViewChild("confirmDlcModal", { static: true }) confirmDlcModal: ModalDirective;
   @ViewChild("mustHaveEmailSetToJoinModal", { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
 
-  selectedCiv: CivDef;
+  selectedCiv: AvailableCiv;
   joinGamePassword: string;
 
   constructor(
+    private auth: AuthService,
     private gameApi: GameService,
     private notificationService: NotificationService,
     private userApi: UserService,
@@ -63,12 +66,24 @@ export class GameDetailJoinComponent implements OnChanges {
           .toPromise();
       }
 
-      const game = await this.gameApi
-        .join(this.game.gameId, {
-          playerCiv: this.selectedCiv.leaderKey,
-          password: this.joinGamePassword,
-        })
-        .toPromise();
+      let game: Game;
+
+      if (this.selectedCiv.steamIdNeedsSubstitution) {
+        game = await this.gameApi
+          .replaceRequestedSubstitutionPlayer(this.game.gameId, {
+            oldSteamId: this.selectedCiv.steamIdNeedsSubstitution,
+            newSteamId: this.auth.getSteamProfile().steamid,
+            password: this.joinGamePassword,
+          })
+          .toPromise();
+      } else {
+        game = await this.gameApi
+          .join(this.game.gameId, {
+            playerCiv: this.selectedCiv.leaderKey,
+            password: this.joinGamePassword,
+          })
+          .toPromise();
+      }
 
       this.notificationService.showAlert({
         type: "success",

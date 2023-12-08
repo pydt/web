@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { Game, GameService, User, UserService } from "pydt-shared";
+import { Game, GamePlayer, GameService, ProfileCacheService, SteamProfile, User, UserService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
 
 @Component({
@@ -18,13 +18,24 @@ export class GameDetailAdminComponent implements OnInit {
 
   substituteUsers: User[];
   userToSubstitute: User;
+  profileToRequestSubstitution: SteamProfile;
+  profiles: SteamProfile[];
 
   constructor(
     private gameApi: GameService,
     private userApi: UserService,
     private notificationService: NotificationService,
     private router: Router,
+    private profileCache: ProfileCacheService,
   ) {}
+
+  get humanPlayers(): GamePlayer[] {
+    return this.game.players.filter(player => !!player.steamId);
+  }
+
+  get substitutionRequested() {
+    return this.game.players.find(x => x.steamId === this.profileToRequestSubstitution?.steamid)?.substitutionRequested;
+  }
 
   async ngOnInit(): Promise<void> {
     if (!this.substituteUsers) {
@@ -33,6 +44,9 @@ export class GameDetailAdminComponent implements OnInit {
 
       this.substituteUsers = su.filter(x => gameSteamIds.indexOf(x.steamId) < 0);
     }
+
+    this.profiles = Object.values(await this.profileCache.getProfiles(this.humanPlayers.map(x => x.steamId)));
+    this.profileToRequestSubstitution = this.profiles[0];
   }
 
   async resetGameStateOnNextUpload(): Promise<void> {
@@ -102,5 +116,20 @@ export class GameDetailAdminComponent implements OnInit {
     });
 
     this.setGame.emit(game);
+  }
+
+  async requestSubstitution(): Promise<void> {
+    this.game = await this.gameApi
+      .requestSubstitution(this.game.gameId, {
+        steamId: this.profileToRequestSubstitution.steamid,
+      })
+      .toPromise();
+
+    this.notificationService.showAlert({
+      type: "warning",
+      msg: this.substitutionRequested ? "Substitution Requested!" : "Removed substitution request.",
+    });
+
+    this.setGame.emit(this.game);
   }
 }
