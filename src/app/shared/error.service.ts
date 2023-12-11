@@ -22,10 +22,10 @@ export class ErrorHandlerService implements ErrorHandler {
   constructor() {
     this.rollbar = new Rollbar({
       // eslint-disable-next-line dot-notation
-      accessToken: process.env["ROLLBAR_SERVER_API_KEY"] || "449af5e02e4248a489633e6c917b333b",
+      accessToken: process.env["ROLLBAR_SERVER_API_KEY"],
       captureUncaught: true,
       captureUnhandledRejections: true,
-      enabled: environment.name !== "dev",
+      enabled: !!process.env["ROLLBAR_SERVER_API_KEY"],
       payload: {
         environment: environment.name,
         client: {
@@ -59,7 +59,7 @@ export class ErrorHandlerService implements ErrorHandler {
     }
 
     if (!endUserErrorMessage) {
-      const messagesToIgnore = ['Cannot match any routes'];
+      const messagesToIgnore = ["Cannot match any routes"];
 
       if (!error.message || !messagesToIgnore.some(x => error.message.includes(x))) {
         console.error(error);
