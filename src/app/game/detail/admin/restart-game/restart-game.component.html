@@ -1,0 +1,48 @@
+<ng-container>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+        This will allow you to restart the game and go back to the initial save upload within the first 2 rounds of the
+        game. This can help you fix things like missed settings or bad start locations without having to re-lobby the
+        game.
+      </p>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-xs-12 text-center">
+      <button type="button" class="btn btn-default" [disabled]="game.round > 2" (click)="confirmRestartModal.show()">
+        <ng-container *ngIf="game.round > 2">Too Late to Restart</ng-container>
+        <ng-container *ngIf="game.round <= 2">Restart Game!</ng-container>
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<div
+  bsModal
+  #confirmRestartModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmRestartModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmRestartModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to restart this game?
+        <b>THIS ACTION IS IRREVERSIBLE!</b>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmRestartModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="restart()">Restart the Game!</button>
+      </div>
+    </div>
+  </div>
+</div>

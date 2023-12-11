@@ -74,6 +74,12 @@ import { TurnYearChartComponent } from "./stats/turn-year-chart/turn-year-chart.
 import { TimeOfDayChartComponent } from "./stats/time-of-day-chart/time-of-day-chart.component";
 import { DayOfWeekChartComponent } from "./stats/day-of-week-chart/day-of-week-chart.component";
 import { GameDetailRequestSubstitutionComponent } from "./game/detail/request-substitution/request-substitution.component";
+import { GameDetailAdminKickPlayerComponent } from "./game/detail/admin/kick-player/kick-player.component";
+import { GameDetailAdminResetGameComponent } from "./game/detail/admin/reset-game/reset-game.component";
+import { GameDetailAdminRestartGameComponent } from "./game/detail/admin/restart-game/restart-game.component";
+import { GameDetailAdminCloneGameComponent } from "./game/detail/admin/clone-game/clone-game.component";
+import { GameDetailAdminMarkSubstitutionComponent } from "./game/detail/admin/mark-substitution/mark-substitution.component";
+import { GameDetailAdminManageModsComponent } from "./game/detail/admin/manage-mods/manage-mods.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -136,6 +142,12 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     EditGameComponent,
     GameDetailComponent,
     GameDetailAdminComponent,
+    GameDetailAdminCloneGameComponent,
+    GameDetailAdminKickPlayerComponent,
+    GameDetailAdminManageModsComponent,
+    GameDetailAdminMarkSubstitutionComponent,
+    GameDetailAdminResetGameComponent,
+    GameDetailAdminRestartGameComponent,
     GameDetailChangeCivComponent,
     GameDetailDeleteComponent,
     GameDetailJoinComponent,

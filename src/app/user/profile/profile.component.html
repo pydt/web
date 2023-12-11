@@ -216,7 +216,7 @@
                 The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud
                 should work for this as well.
               </p>
-              <form (ngSubmit)="onWebhookSubmit()" #webhookForm="ngForm">
+              <form (ngSubmit)="onWebhookSubmit()">
                 <div class="form-group">
                   <label for="webhookUrl">Webhook URL</label>
                   <input
@@ -237,7 +237,7 @@
                 If your forum username is different than your Steam ID, you can set it here. Having the correct forum
                 username set will help notify you of smack talk messages appropriately.
               </p>
-              <form (ngSubmit)="onForumUsernameSubmit()" #webhookForm="ngForm">
+              <form (ngSubmit)="onForumUsernameSubmit()">
                 <div class="form-group">
                   <label for="webhookUrl">Forum Username</label>
                   <input

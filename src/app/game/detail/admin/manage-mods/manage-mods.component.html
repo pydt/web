@@ -1,0 +1,83 @@
+<ng-container>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+        This will allow you to modify the Civ 6 mods registered in the save file. The main use for this is updating the
+        BBG mod version in a game.
+        <strong
+          >IF YOU DON'T KNOW WHAT THIS MEANS YOU LIKELY DON'T WANT TO TOUCH THIS! THIS CAN BREAK YOUR SAVE!</strong
+        >
+      </p>
+      <ng-container *ngIf="mods">
+        <hr />
+        <h4>Add Mod:</h4>
+        <form (ngSubmit)="addMod()">
+          <div class="form-group">
+            <label for="webhookUrl">Mod ID:</label>
+            <input type="text" class="form-control" id="newModId" [(ngModel)]="newModId" name="newModId" />
+          </div>
+          <div class="form-group">
+            <label for="webhookUrl">Mod Title:</label>
+            <input type="text" class="form-control" id="newModTitle" [(ngModel)]="newModTitle" name="newModTitle" />
+          </div>
+          <button type="submit" class="btn btn-default">Add Mod</button>
+        </form>
+        <hr />
+        <h4>Current Mods:</h4>
+        <table class="table table-condensed table-striped">
+          <thead>
+            <tr role="row">
+              <th>Mod ID</th>
+              <th>Mod Title</th>
+              <th>Delete Mod?</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let mod of mods">
+              <td>{{ mod.id }}</td>
+              <td>{{ mod.title }}</td>
+              <td>
+                <a href="#" (click)="startDelete(mod); (false)"><i class="fa fa-trash text-danger"></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px" *ngIf="!mods">
+    <div class="col-xs-12 text-center">
+      <button type="button" class="btn btn-default" (click)="loadMods()">Load Mods for Current Save</button>
+    </div>
+  </div>
+</ng-container>
+
+<div
+  bsModal
+  #confirmDeleteModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmDeleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmDeleteModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete this mod?</p>
+        <b>ID: </b> {{ modToDelete?.id }}<br />
+        <b>Title: </b> {{ modToDelete?.title }}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmDeleteModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="finishDelete()">Delete the Mod</button>
+      </div>
+    </div>
+  </div>
+</div>

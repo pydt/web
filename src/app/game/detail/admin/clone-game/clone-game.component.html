@@ -1,0 +1,46 @@
+<ng-container>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>
+        This will allow you to create a new game with the same players and settings. To prevent spam, you can only use
+        this after 15 turns have been played in a game and you can only do it once per game.
+      </p>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-xs-12 text-center">
+      <button type="button" class="btn btn-default" [disabled]="game.gameTurnRangeKey < 15" (click)="clone()">
+        <ng-container *ngIf="game.gameTurnRangeKey < 15">Cannot Clone Yet</ng-container>
+        <ng-container *ngIf="game.gameTurnRangeKey >= 15">Clone Game!</ng-container>
+      </button>
+    </div>
+  </div>
+</ng-container>
+
+<div
+  bsModal
+  #confirmCloneModal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="confirmCloneModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" aria-label="Close" (click)="confirmCloneModal.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h4 class="modal-title">Are you sure?</h4>
+      </div>
+      <div class="modal-body">
+        Are you sure you really want to clone this game and didn't just press that button by accident?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="confirmCloneModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-danger" (click)="clone()">Clone the Game!</button>
+      </div>
+    </div>
+  </div>
+</div>

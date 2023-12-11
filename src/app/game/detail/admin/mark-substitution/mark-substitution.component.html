@@ -1,0 +1,19 @@
+<ng-container>
+  <div class="row">
+    <div class="col-sm-12">
+      <p>Use this to mark a player as requesting substitution so another player can take their spot.</p>
+      <select class="form-control" [(ngModel)]="profileToRequestSubstitution">
+        <option *ngFor="let profile of profiles" [ngValue]="profile">
+          {{ profile.personaname }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row" style="margin-top: 20px">
+    <div class="col-xs-12 text-center">
+      <button type="button" class="btn btn-default" (click)="requestSubstitution()">
+        {{ substitutionRequested ? "Undo Substitution Request" : "Mark for Substitution" }}
+      </button>
+    </div>
+  </div>
+</ng-container>
