@@ -17,7 +17,7 @@
         </p>
       </div>
     </ng-container>
-    <div *ngIf="displayCharts" class="col-md-12">
+    <div *ngIf="isBrowser && displayCharts" class="col-md-12">
       <tabset>
         <tab heading="Turn Length">
           <pydt-turn-length-chart [turnData]="turnData"></pydt-turn-length-chart>
