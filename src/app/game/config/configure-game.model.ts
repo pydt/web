@@ -1,5 +1,4 @@
-import { Game, DLC, CivGame, ModelMap } from "pydt-shared";
-import { Utility } from "../../shared/utility";
+import { Game, DLC, CivGame, ModelMap, CountdownUtility } from "pydt-shared";
 
 export class ConfigureGameModel {
   private _slots = this.civGame.mapSizes[2]?.players || 6;
@@ -112,7 +111,7 @@ export class ConfigureGameModel {
       return "";
     }
 
-    return Utility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3);
+    return CountdownUtility.countdown(0, this.turnTimerMinutes * 60 * 1000, 3);
   }
 
   toJSON(): unknown {

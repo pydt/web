@@ -8,6 +8,7 @@ import {
   BusyService,
   CivDef,
   CivGame,
+  CountdownUtility,
   Game,
   GameService,
   GameStore,
@@ -141,7 +142,7 @@ export class GameDetailComponent implements OnInit {
       return "";
     }
 
-    return Utility.countdown(0, this.game.turnTimerMinutes * 60 * 1000);
+    return CountdownUtility.countdown(0, this.game.turnTimerMinutes * 60 * 1000);
   }
 
   setGame(game: Game): void {

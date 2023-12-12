@@ -2,28 +2,28 @@
   *ngIf="!canEditTurnOrder && !!game.hashedPassword"
   tooltip="This game is password protected."
   placement="left"
-  class="glyphicon glyphicon-lock pull-right"
+  class="glyphicon glyphicon-lock pull-right ml"
 ></span>
 <button
-  class="btn btn-sm btn-default pull-right"
+  class="btn btn-sm btn-default pull-right ml"
   *ngIf="canEditTurnOrder && !editingTurnOrder"
   type="button"
   (click)="startEditingTurnOrder()"
 >
   Edit Turn Order
 </button>
-<button class="btn btn-sm btn-primary pull-right" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">
+<button class="btn btn-sm btn-primary pull-right ml" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">
   Save Turn Order
 </button>
 <button
-  class="btn btn-sm btn-default pull-right"
-  style="margin-right: 12px"
+  class="btn btn-sm btn-default pull-right ml"
   *ngIf="editingTurnOrder"
   type="button"
   (click)="sortViaPlayTimes()"
 >
   Sort via Play Times
 </button>
+<p *ngIf="showLastTurn" class="pull-right ml">{{ lastTurnText$ | async }}</p>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   <img
     src="/img/game_{{ game.gameType }}.png"

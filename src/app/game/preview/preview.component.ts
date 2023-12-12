@@ -13,10 +13,11 @@ import {
   CivGame,
   MetadataCacheService,
   HOUR_OF_DAY_KEY,
+  CountdownUtility,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { orderBy } from "lodash";
-import { BehaviorSubject, map } from "rxjs";
+import { BehaviorSubject, Observable, map } from "rxjs";
 
 @Component({
   selector: "pydt-game-preview",
@@ -27,8 +28,10 @@ export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
   @Input() editMode = false;
   @Input() availableCivs: CivDef[];
+  @Input() showLastTurn = false;
   @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
+  lastTurnText$: Observable<string>;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
   reorderableIndexes$ = new BehaviorSubject<number[]>([]);
@@ -65,6 +68,8 @@ export class GamePreviewComponent implements OnChanges {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;
 
     const profiles = await this.profileCache.getProfilesForGame(this.game);
+
+    this.lastTurnText$ = CountdownUtility.lastTurnOrTimerExpires$(this.game);
 
     this.gamePlayerProfiles = profiles;
     this.gamePlayers = [];

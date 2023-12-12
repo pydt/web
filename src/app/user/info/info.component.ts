@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { CivGame, MetadataCacheService, ProfileCacheService, SteamProfile, User } from "pydt-shared";
-import { Utility } from "../../shared/utility";
+import { CivGame, CountdownUtility, MetadataCacheService, ProfileCacheService, SteamProfile, User } from "pydt-shared";
 
 @Component({
   selector: "pydt-user-info",
@@ -43,6 +42,6 @@ export class UserInfoComponent implements OnInit {
   averageTurnTime(): unknown {
     const avgTurnTime = this.stats.timeTaken / (this.stats.turnsPlayed + this.stats.turnsSkipped);
 
-    return Utility.countdown(0, avgTurnTime);
+    return CountdownUtility.countdown(0, avgTurnTime);
   }
 }

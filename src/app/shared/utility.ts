@@ -3,35 +3,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, no-param-reassign, @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-unsafe-argument */
 import { Injectable } from "@angular/core";
 import { orderBy } from "lodash";
-import { CivDef, countdown } from "pydt-shared";
+import { CivDef } from "pydt-shared";
 
 @Injectable()
 export class Utility {
-  public static countdownAgo(start: unknown, end: unknown, max = 2) {
-    if (!start) {
-      return "never";
-    }
-
-    const text = Utility.countdown(start, end, max);
-
-    if (!text.toString()) {
-      return "now";
-    }
-
-    return `${text} ago`;
-  }
-
-  public static countdown(start: unknown, end: unknown, max = 2) {
-    // eslint-disable-next-line no-bitwise
-    return countdown(
-      start,
-      end,
-      countdown.YEARS | countdown.MONTHS | countdown.DAYS | countdown.HOURS | countdown.MINUTES,
-      max,
-      0,
-    ) as string;
-  }
-
   public static filterCivsByDlc(leaders: CivDef[], dlcIds: string[]): CivDef[] {
     const result: CivDef[] = [];
 

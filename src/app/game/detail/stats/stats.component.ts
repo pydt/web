@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService } from "pydt-shared";
+import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService, CountdownUtility } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 import { TurnLengthChartComponent } from "../../../stats/turn-length-chart/turn-length-chart.component";
@@ -65,7 +65,7 @@ export class GameDetailStatsComponent implements OnInit {
 
       if (player.timeTaken) {
         avgTurnTimeSort = player.timeTaken / (player.turnsPlayed || 0 + player.turnsSkipped || 0);
-        avgTurnTime = Utility.countdown(0, avgTurnTimeSort);
+        avgTurnTime = CountdownUtility.countdown(0, avgTurnTimeSort);
       }
 
       return {
@@ -108,12 +108,12 @@ export class GameDetailStatsComponent implements OnInit {
       .map(player => player.turnsPlayed || 0 + player.turnsSkipped || 0)
       .reduce((a, b) => a + b);
 
-    return Utility.countdown(0, totalTimeTaken / totalTurns);
+    return CountdownUtility.countdown(0, totalTimeTaken / totalTurns);
   }
 
   lastTurn(): string {
     const lastTurnTime = this.game.lastTurnEndDate || this.game.updatedAt;
 
-    return Utility.countdown(lastTurnTime, null);
+    return CountdownUtility.countdown(lastTurnTime, null);
   }
 }

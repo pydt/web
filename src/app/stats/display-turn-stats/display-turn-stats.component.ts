@@ -1,7 +1,6 @@
 import { Component, Input } from "@angular/core";
 import moment from "moment";
-import { TurnData } from "pydt-shared";
-import { Utility } from "../../shared/utility";
+import { CountdownUtility, TurnData } from "pydt-shared";
 
 @Component({
   selector: "pydt-turn-stats",
@@ -15,11 +14,11 @@ export class DisplayTurnStatsComponent {
   @Input() factWidth = 6;
 
   get firstTurnAgo() {
-    return Utility.countdownAgo(this.turnData.firstTurnEndDate, null);
+    return CountdownUtility.countdownAgo(this.turnData.firstTurnEndDate, null);
   }
 
   get lastTurnAgo() {
-    return Utility.countdownAgo(this.turnData.lastTurnEndDate, null);
+    return CountdownUtility.countdownAgo(this.turnData.lastTurnEndDate, null);
   }
 
   get firstTurnEndDate() {
@@ -35,6 +34,9 @@ export class DisplayTurnStatsComponent {
   }
 
   get averageTurnTime() {
-    return Utility.countdown(0, this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped));
+    return CountdownUtility.countdown(
+      0,
+      this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped),
+    );
   }
 }

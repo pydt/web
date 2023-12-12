@@ -8,7 +8,7 @@ import { BusyService, StatsService } from "pydt-shared";
   styleUrls: ["./home.component.scss"],
 })
 export class HomeComponent implements OnInit {
-  turnsText = "";
+  turnsText = "🤔";
 
   constructor(
     private busyService: BusyService,

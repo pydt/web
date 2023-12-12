@@ -1,7 +1,6 @@
 import { Component, Input, OnChanges } from "@angular/core";
-import { TURN_BUCKETS, TurnData } from "pydt-shared";
+import { CountdownUtility, TURN_BUCKETS, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
-import { Utility } from "../../shared/utility";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
 
 @Component({
@@ -42,7 +41,7 @@ export class TurnLengthChartComponent implements OnChanges {
     ];
 
     this.chartData = {
-      labels: [...TURN_BUCKETS.slice(0, -1).map(x => `< ${Utility.countdown(0, x)}`), "> 1 week"],
+      labels: [...TURN_BUCKETS.slice(0, -1).map(x => `< ${CountdownUtility.countdown(0, x)}`), "> 1 week"],
       datasets: [
         {
           data: TURN_BUCKETS.map(x => (this.turnData.turnLengthBuckets?.[x] as number) || 0),

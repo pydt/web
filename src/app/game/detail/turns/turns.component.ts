@@ -9,8 +9,8 @@ import {
   CivGame,
   GamePlayer,
   GameTurnListItem,
+  CountdownUtility,
 } from "pydt-shared";
-import { Utility } from "../../../shared/utility";
 import { Parser } from "json2csv";
 import * as FileSaver from "file-saver";
 import { AuthService } from "../../../shared";
@@ -138,7 +138,7 @@ export class GameDetailTurnsComponent implements OnInit {
       let timeTaken = "";
 
       if (turn.endDate) {
-        timeTaken = Utility.countdown(turn.startDate, turn.endDate);
+        timeTaken = CountdownUtility.countdown(turn.startDate, turn.endDate);
       }
 
       return {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
+import { CivGame, CountdownUtility, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
 
@@ -73,7 +73,7 @@ export class StatsComponent implements OnInit {
         activeGames: x.activeGames,
         totalGames: x.totalGames,
         turnsPlayed: x.turnsPlayed,
-        avgTurnTime: Utility.countdown(0, avgTurnTime),
+        avgTurnTime: CountdownUtility.countdown(0, avgTurnTime),
         // eslint-disable-next-line camelcase
         avgTurnTime_sort: avgTurnTime,
         fastTurns: x.fastTurns,
