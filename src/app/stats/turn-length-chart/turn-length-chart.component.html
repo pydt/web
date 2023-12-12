@@ -1,3 +1,4 @@
 <div [style.width]="smallMode ? '80px' : '100%'" [style.height]="smallMode ? '32px' : '200px'">
-  <canvas baseChart [data]="chartData" [options]="chartOptions" [legend]="false" [type]="'bar'"> </canvas>
+  <canvas *ngIf="isBrowser" baseChart [data]="chartData" [options]="chartOptions" [legend]="false" [type]="'bar'">
+  </canvas>
 </div>

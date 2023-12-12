@@ -2,7 +2,6 @@ import { Component, Input } from "@angular/core";
 import moment from "moment";
 import { TurnData } from "pydt-shared";
 import { Utility } from "../../shared/utility";
-import { BrowserDataService } from "../../shared/browser-data.service";
 
 @Component({
   selector: "pydt-turn-stats",
@@ -14,12 +13,6 @@ export class DisplayTurnStatsComponent {
   @Input() displayCharts = true;
   @Input() hideQueueCharts = false;
   @Input() factWidth = 6;
-
-  constructor(private browserData: BrowserDataService) {}
-
-  get isBrowser() {
-    return this.browserData.isBrowser();
-  }
 
   get firstTurnAgo() {
     return Utility.countdownAgo(this.turnData.firstTurnEndDate, null);

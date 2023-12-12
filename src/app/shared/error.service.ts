@@ -27,7 +27,7 @@ export class ErrorHandlerService implements ErrorHandler {
       captureUnhandledRejections: true,
       enabled: !!process.env["ROLLBAR_SERVER_API_KEY"],
       payload: {
-        environment: environment.name,
+        environment: process.env["ROLLBAR_ENV"] || environment.name,
         client: {
           javascript: {
             // eslint-disable-next-line camelcase

@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import { TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
+import { BrowserDataService } from "../../../app/shared/browser-data.service";
 
 @Component({
   selector: "pydt-day-of-week-chart",
@@ -22,6 +23,12 @@ export class DayOfWeekChartComponent implements OnChanges {
       },
     },
   };
+
+  isBrowser = false;
+
+  constructor(browserData: BrowserDataService) {
+    this.isBrowser = browserData.isBrowser();
+  }
 
   ngOnChanges(): void {
     const labels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];

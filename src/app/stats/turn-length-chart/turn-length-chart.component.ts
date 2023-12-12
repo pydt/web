@@ -2,6 +2,7 @@ import { Component, Input, OnChanges } from "@angular/core";
 import { TURN_BUCKETS, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { Utility } from "../../shared/utility";
+import { BrowserDataService } from "../../../app/shared/browser-data.service";
 
 @Component({
   selector: "pydt-turn-length-chart",
@@ -19,6 +20,12 @@ export class TurnLengthChartComponent implements OnChanges {
     maintainAspectRatio: false,
     animation: false,
   };
+
+  isBrowser = false;
+
+  constructor(browserData: BrowserDataService) {
+    this.isBrowser = browserData.isBrowser();
+  }
 
   ngOnChanges(): void {
     const turnLengthColors = [

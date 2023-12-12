@@ -1,6 +1,7 @@
 import { Component, Input, OnChanges } from "@angular/core";
 import { HOUR_OF_DAY_KEY, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
+import { BrowserDataService } from "../../../app/shared/browser-data.service";
 
 @Component({
   selector: "pydt-time-of-day-chart",
@@ -22,6 +23,12 @@ export class TimeOfDayChartComponent implements OnChanges {
       },
     },
   };
+
+  isBrowser = false;
+
+  constructor(browserData: BrowserDataService) {
+    this.isBrowser = browserData.isBrowser();
+  }
 
   ngOnChanges(): void {
     const labels = [];

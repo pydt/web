@@ -11,11 +11,12 @@ provider:
   stage: dev
   environment:
     ROLLBAR_SERVER_API_KEY: ${env:ROLLBAR_SERVER_API_KEY}
+    ROLLBAR_ENV: ${opt:stage, self:provider.stage}
 
 custom:
   apigwBinary:
     types:
-      - '*/*'
+      - "*/*"
 
 functions:
   api:
