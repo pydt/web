@@ -100,6 +100,36 @@ export class GamePreviewComponent implements OnChanges {
     return this.games.find(x => x.id === this.game.gameType);
   }
 
+  get gameTitle(): string {
+    let result = this.game.displayName;
+    const addlData: string[] = [];
+
+    if (!this.game.inProgress) {
+      addlData.push("Not Started");
+    }
+
+    if (this.game.inProgress && this.activeProfile?.steamid === this.game.currentPlayerSteamId) {
+      addlData.push("Your Turn");
+    }
+
+    addlData.push(
+      ...(this.game.flags || []).map(x => {
+        switch (x) {
+          case "CIV6_CONGRESS_TURN":
+            return "Congress Turn";
+          default:
+            return x;
+        }
+      }),
+    );
+
+    if (addlData.length) {
+      result += ` (${addlData.join(", ")})`;
+    }
+
+    return result;
+  }
+
   get canEditTurnOrder(): boolean {
     return this.canEdit && this.game.players.length > 2;
   }

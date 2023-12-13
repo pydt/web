@@ -30,9 +30,7 @@
     style="height: 25px; padding-right: 10px; position: relative; top: -3px"
     [tooltip]="civGame?.displayName"
   />
-  {{ game.displayName }}
-  <span *ngIf="!game.inProgress">(Not Started)</span>
-  <span *ngIf="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">(Your Turn)</span>
+  {{ gameTitle }}
 </h3>
 <div class="row" style="padding-left: 13px; padding-right: 13px">
   <ng-container *ngIf="editingTurnOrder">
