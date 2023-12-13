@@ -116,14 +116,14 @@ export class GamePreviewComponent implements OnChanges {
 
   async loadUsers() {
     const userIdsToLoad = this.gamePlayers
-      .filter(x => !this.userCache.some(y => x.steamId === y.steamId))
+      .filter(x => !!x && !this.userCache.some(y => x.steamId === y.steamId))
       .map(x => x.steamId);
 
     if (userIdsToLoad.length) {
       this.userCache.push(...(await this.userApi.byIds(userIdsToLoad.join(",")).toPromise()));
     }
 
-    return this.gamePlayers.map(x => this.userCache.find(y => x.steamId === y.steamId));
+    return this.gamePlayers.flatMap(x => (!!x ? this.userCache.filter(y => x.steamId === y.steamId) : []));
   }
 
   async startEditingTurnOrder() {
