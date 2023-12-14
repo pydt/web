@@ -14,6 +14,7 @@ import {
   MetadataCacheService,
   HOUR_OF_DAY_KEY,
   CountdownUtility,
+  GAMEFLAG,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { orderBy } from "lodash";
@@ -113,7 +114,7 @@ export class GamePreviewComponent implements OnChanges {
     }
 
     addlData.push(
-      ...(this.game.flags || []).map(x => {
+      ...(this.game.flags || []).map((x: GAMEFLAG) => {
         switch (x) {
           case "CIV6_CONGRESS_TURN":
             return "Congress Turn";

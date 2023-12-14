@@ -11,6 +11,16 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.5",
+    date: "2023-12-14",
+    desc: `Library bumps and a couple small niceties:
+- [Show more than hours](https://discourse.playyourdamnturn.com/t/client-shows-hours-since-last-turn-and-never-days/8087)
+- [Show timer when playing](https://discourse.playyourdamnturn.com/t/display-timer-in-the-client-screen-when-waiting-for-the-save-to-be-uploaded/8084)
+- [Congress Turn notification](https://discourse.playyourdamnturn.com/t/congress-turns/8079/3)
+- Added some code so I could override the OSX Civ 6 save path, I think they introduced a bug in a recent release where the path is doubled up so it looks like "/Users/user/Library/Application Support/Sid Meier's Civilization VI/Sid Meier's Civilization VI/Saves/Hotseat" instead of just having one SMCVI directory.
+`,
+  },
+  {
     version: "2.1.4",
     date: "2023-06-13",
     desc: `A fairly small release with some bug/feature requests:
