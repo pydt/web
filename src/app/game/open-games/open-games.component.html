@@ -32,7 +32,7 @@
       <h1 *ngIf="!(filteredGames$ | async).length">No games found.</h1>
       <div *ngFor="let game of filteredGames$ | async">
         <div class="well">
-          <pydt-game-preview [game]="game"></pydt-game-preview>
+          <pydt-game-preview [game]="game" [hideNotStarted]="true"></pydt-game-preview>
           <div class="row">
             <div class="col-xs-12 text-center">
               <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">

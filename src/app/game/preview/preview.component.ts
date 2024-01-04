@@ -29,7 +29,8 @@ export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;
   @Input() editMode = false;
   @Input() availableCivs: CivDef[];
-  @Input() showLastTurn = false;
+  @Input() showTurnInfo = false;
+  @Input() hideNotStarted = false;
   @Output() gameUpdated = new EventEmitter<Game>();
   @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
   lastTurnText$: Observable<string>;
@@ -105,7 +106,7 @@ export class GamePreviewComponent implements OnChanges {
     let result = this.game.displayName;
     const addlData: string[] = [];
 
-    if (!this.game.inProgress) {
+    if (!this.hideNotStarted && !this.game.inProgress) {
       addlData.push("Not Started");
     }
 

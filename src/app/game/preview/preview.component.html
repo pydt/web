@@ -23,7 +23,9 @@
 >
   Sort via Play Times
 </button>
-<p *ngIf="showLastTurn" class="pull-right ml">{{ lastTurnText$ | async }}</p>
+<p *ngIf="showTurnInfo && game.gameTurnRangeKey > 1" class="pull-right ml">
+  Round {{ game.round }} - {{ lastTurnText$ | async }}
+</p>
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   <img
     src="/img/game_{{ game.gameType }}.png"

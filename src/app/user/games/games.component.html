@@ -15,7 +15,7 @@
         <h3 *ngIf="!games.length">No games found.</h3>
         <div *ngFor="let game of games">
           <div class="well">
-            <pydt-game-preview [game]="game" [showLastTurn]="true"></pydt-game-preview>
+            <pydt-game-preview [game]="game" [showTurnInfo]="true"></pydt-game-preview>
             <div class="row">
               <div class="col-xs-12 text-center">
                 <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
