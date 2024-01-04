@@ -33,6 +33,10 @@ export class DisplayTurnStatsComponent {
     return Object.keys(this.turnData.yearBuckets || {}).length > 1;
   }
 
+  get showPerUserCheckbox() {
+    return "players" in this.turnData;
+  }
+
   get averageTurnTime() {
     return CountdownUtility.countdown(
       0,

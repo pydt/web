@@ -28,18 +28,26 @@
     <div *ngIf="displayCharts" class="col-md-12">
       <tabset>
         <tab heading="Turn Length">
-          <pydt-turn-length-chart [turnData]="turnData"></pydt-turn-length-chart>
+          <pydt-turn-length-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-length-chart>
         </tab>
         <tab heading="Turns per Year" *ngIf="showTurnsPerYear">
-          <pydt-turn-year-chart [turnData]="turnData"></pydt-turn-year-chart>
+          <pydt-turn-year-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-year-chart>
         </tab>
         <tab heading="Time of Day" *ngIf="turnData.hourOfDayQueue && !hideQueueCharts">
-          <pydt-time-of-day-chart [turnData]="turnData"></pydt-time-of-day-chart>
+          <pydt-time-of-day-chart [turnData]="turnData" [perUser]="perUser"></pydt-time-of-day-chart>
         </tab>
         <tab heading="Day of Week" *ngIf="turnData.dayOfWeekQueue && !hideQueueCharts">
-          <pydt-day-of-week-chart [turnData]="turnData"></pydt-day-of-week-chart>
+          <pydt-day-of-week-chart [turnData]="turnData" [perUser]="perUser"></pydt-day-of-week-chart>
         </tab>
       </tabset>
+      <form *ngIf="showPerUserCheckbox" class="form-inline" style="margin-left: 28px">
+        <div class="checkbox">
+          <label>
+            <input type="checkbox" [(ngModel)]="perUser" [ngModelOptions]="{ standalone: true }" />
+            Show Per-User Data
+          </label>
+        </div>
+      </form>
     </div>
   </div>
 </div>
