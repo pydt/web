@@ -20,7 +20,7 @@ export class GameDetailAdminMarkSubstitutionComponent implements OnInit {
   ) {}
 
   get humanPlayers(): GamePlayer[] {
-    return this.game.players.filter(player => !!player.steamId);
+    return this.game.players.filter(player => !!player.steamId && !player.isDead);
   }
 
   get substitutionRequested() {
