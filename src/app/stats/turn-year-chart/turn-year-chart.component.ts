@@ -73,11 +73,12 @@ export class TurnYearChartComponent implements OnChanges {
   async ngOnChanges() {
     const labels = Object.keys(this.turnData?.yearBuckets || {});
     const datasets: (typeof this.chartData)["datasets"] = [];
-    const profiles =
-      "players" in this.turnData ? await this.profileCache.getProfiles(this.turnData.players.map(x => x.steamId)) : {};
 
     if ("players" in this.turnData) {
-      for (const player of this.turnData.players) {
+      const humans = this.turnData.players.filter(x => x.steamId);
+      const profiles = await this.profileCache.getProfiles(humans.map(x => x.steamId));
+
+      for (const player of humans) {
         const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
 
         for (let i = 0; i < labels.length; i += 1) {

@@ -72,8 +72,6 @@ export class TimeOfDayChartComponent implements OnChanges {
   async ngOnChanges() {
     const labels = [];
     const datasets: (typeof this.chartData)["datasets"] = [];
-    const profiles =
-      "players" in this.turnData ? await this.profileCache.getProfiles(this.turnData.players.map(x => x.steamId)) : {};
 
     // Get UTC hours of day
     for (const localHour of [...Array(24).keys()]) {
@@ -81,7 +79,10 @@ export class TimeOfDayChartComponent implements OnChanges {
       labels.push(`${localHour.toString().padStart(2, "0")}:00`);
 
       if ("players" in this.turnData) {
-        for (const player of this.turnData.players) {
+        const humans = this.turnData.players.filter(x => x.steamId);
+        const profiles = await this.profileCache.getProfiles(humans.map(x => x.steamId));
+
+        for (const player of humans) {
           const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
           dataset.data[localHour] =
             ((dataset.data[localHour] as number) || 0) +

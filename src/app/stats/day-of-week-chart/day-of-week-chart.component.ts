@@ -72,13 +72,14 @@ export class DayOfWeekChartComponent implements OnChanges {
   async ngOnChanges() {
     const labels = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     const datasets: (typeof this.chartData)["datasets"] = [];
-    const profiles =
-      "players" in this.turnData ? await this.profileCache.getProfiles(this.turnData.players.map(x => x.steamId)) : {};
 
     // Get UTC hours of day
     for (const day of [...Array(7).keys()]) {
       if ("players" in this.turnData) {
-        for (const player of this.turnData.players) {
+        const humans = this.turnData.players.filter(x => x.steamId);
+        const profiles = await this.profileCache.getProfiles(humans.map(x => x.steamId));
+
+        for (const player of humans) {
           const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
 
           dataset.data[day] =
