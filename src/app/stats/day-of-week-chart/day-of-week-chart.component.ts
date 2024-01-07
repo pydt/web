@@ -83,11 +83,12 @@ export class DayOfWeekChartComponent implements OnChanges {
           const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
 
           dataset.data[day] =
-            ((dataset.data[day] as number) || 0) + [...player?.dayOfWeekQueue].filter(x => x === day.toString()).length;
+            ((dataset.data[day] as number) || 0) +
+            [...(player?.dayOfWeekQueue || "")].filter(x => x === day.toString()).length;
         }
       } else {
         const dataset = this.findDataSet(datasets);
-        dataset.data.push([...this.turnData?.dayOfWeekQueue].filter(x => x === day.toString()).length);
+        dataset.data.push([...(this.turnData?.dayOfWeekQueue || "")].filter(x => x === day.toString()).length);
       }
     }
 

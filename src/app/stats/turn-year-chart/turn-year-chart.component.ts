@@ -82,7 +82,8 @@ export class TurnYearChartComponent implements OnChanges {
         const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
 
         for (let i = 0; i < labels.length; i += 1) {
-          dataset.data[i] = (((dataset.data[i] as number) || 0) + (player.yearBuckets || {})[labels[i]]) as number;
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+          dataset.data[i] = ((dataset.data[i] as number) || 0) + ((player.yearBuckets || {})[labels[i]] || 0);
         }
       }
     } else {

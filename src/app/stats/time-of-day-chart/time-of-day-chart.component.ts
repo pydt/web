@@ -86,13 +86,13 @@ export class TimeOfDayChartComponent implements OnChanges {
           const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
           dataset.data[localHour] =
             ((dataset.data[localHour] as number) || 0) +
-            [...player?.hourOfDayQueue].filter(x => HOUR_OF_DAY_KEY.indexOf(x) === utcHour).length;
+            [...(player?.hourOfDayQueue || "")].filter(x => HOUR_OF_DAY_KEY.indexOf(x) === utcHour).length;
         }
       } else {
         const dataset = this.findDataSet(datasets);
 
         dataset.data.push(
-          [...this.turnData?.hourOfDayQueue].filter(x => HOUR_OF_DAY_KEY.indexOf(x) === utcHour).length,
+          [...(this.turnData?.hourOfDayQueue || "")].filter(x => HOUR_OF_DAY_KEY.indexOf(x) === utcHour).length,
         );
       }
     }
