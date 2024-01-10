@@ -181,7 +181,7 @@ export class GameDetailComponent implements OnInit {
       this.civDefs.push(this.findLeader(player.civType));
     }
 
-    if (game.inProgress) {
+    if (game.gameTurnRangeKey > 1) {
       if (!this.playerCiv) {
         const needSubstitution = game.players.filter(x => x.substitutionRequested);
 
