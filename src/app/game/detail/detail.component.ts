@@ -185,7 +185,7 @@ export class GameDetailComponent implements OnInit {
       if (!this.playerCiv) {
         const needSubstitution = game.players.filter(x => x.substitutionRequested);
 
-        if (game.allowJoinAfterStart) {
+        if (game.allowJoinAfterStart || needSubstitution.length) {
           this.availableCivs.push(
             ...[
               ...needSubstitution,
