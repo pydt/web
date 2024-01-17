@@ -11,6 +11,14 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.6",
+    date: "2023-01-17",
+    desc: `Very small release, a couple of bug fixes and an update to bring in the dead player icon.
+
+- [Fix double link open](https://discourse.playyourdamnturn.com/t/double-open/8740/10)
+- [Remove play save after submit](https://discourse.playyourdamnturn.com/t/save-file-not-being-removed/8674)`,
+  },
+  {
     version: "2.1.5",
     date: "2023-12-14",
     desc: `Library bumps and a couple small niceties:
