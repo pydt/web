@@ -21,19 +21,27 @@ export class OpenGamesComponent implements OnInit {
   private notStarted$ = new BehaviorSubject<Game[]>(undefined);
   private openSlots$ = new BehaviorSubject<OpenSlotsGame[]>(undefined);
   gameTypeFilter$ = new BehaviorSubject("");
+  publicOnly$ = new BehaviorSubject(false);
   tabFilter$ = new BehaviorSubject<"notStarted" | "substitutions" | "joinAfterStart">("notStarted");
-  filteredGames$ = combineLatest([this.gameTypeFilter$, this.tabFilter$, this.notStarted$, this.openSlots$]).pipe(
-    map(([type, tab, notStarted, openSlots]) => {
+  filteredGames$ = combineLatest([
+    this.gameTypeFilter$,
+    this.tabFilter$,
+    this.notStarted$,
+    this.openSlots$,
+    this.publicOnly$,
+  ]).pipe(
+    map(([type, tab, notStarted, openSlots, publicOnly]) => {
       const games =
         tab === "notStarted"
           ? notStarted
           : openSlots?.filter(game => (tab === "substitutions" ? game.substitutionRequested : game.joinAfterStart));
 
       if (!type) {
-        return games;
+        if (games) return games.filter(x => (publicOnly ? !x.hashedPassword : true));
+        else return games; // games is undefined
       }
 
-      return games.filter(x => x.gameType === type);
+      return games.filter(x => x.gameType === type).filter(x => (publicOnly ? !x.hashedPassword : true));
     }),
   );
   games: CivGame[] = [];
@@ -72,6 +80,10 @@ export class OpenGamesComponent implements OnInit {
     });
 
     this.gameTypeFilter$.next(type);
+  }
+
+  setPublicOnly(publicOnly: boolean) {
+    this.publicOnly$.next(publicOnly);
   }
 
   async getNotStarted(): Promise<void> {
