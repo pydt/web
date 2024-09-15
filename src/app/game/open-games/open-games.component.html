@@ -3,8 +3,9 @@
     <h1>Open Games</h1>
     <p>
       This is a list of all games that are currently forming and available to join.
-      <span *ngIf="profile">If you don't see one that you want to join, use the button below to create one
-        yourself!</span>
+      <span *ngIf="profile"
+        >If you don't see one that you want to join, use the button below to create one yourself!</span
+      >
       <b>Games must be started within 30 days of creation, or they will be automatically deleted!</b>
     </p>
     <div class="row" *ngIf="profile">
@@ -12,25 +13,45 @@
         <pydt-game-create-button></pydt-game-create-button>
       </div>
     </div>
-    <hr />
-    <div class="pull-right form-inline">
-      <div class="form-group">
-        <label>Public only: </label>
-        <input type="checkbox" [ngModel]="publicOnly$ | async" (change)="setPublicOnly($event.target.checked)" />
+    <hr style="margin-bottom: 50px" />
+    <div style="position: relative">
+      <div style="position: absolute; right: 0; top: -40px">
+        <div class="form-inline">
+          <div class="form-group">
+            <label>Filter Games: </label>
+            <select class="form-control" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
+              <option value="">All Game Types</option>
+              <option *ngFor="let game of games" [value]="game.id">{{ game.displayName }}</option>
+            </select>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="btn btn-default btn-xs pull-right"
+          style="margin-top: 5px"
+          (click)="togglePublicOnly()"
+        >
+          <span
+            class="glyphicon"
+            [ngClass]="{
+              'glyphicon-check': publicOnly$ | async,
+              'glyphicon-unchecked': (publicOnly$ | async) === false
+            }"
+            aria-hidden="true"
+          ></span>
+          Public Only
+        </button>
       </div>
-      <div class="form-group">
-        <label>Filter Games: </label>
-        <select class="form-control" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
-          <option value="">All Game Types</option>
-          <option *ngFor="let game of games" [value]="game.id">{{ game.displayName }}</option>
-        </select>
+      <div class="row" *ngIf="profile">
+        <div class="col-xs-10">
+          <tabset>
+            <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
+            <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
+            <tab heading="In-Progress Games with Open Slots" (selectTab)="getOpenSlots(false)"></tab>
+          </tabset>
+        </div>
       </div>
     </div>
-    <tabset>
-      <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
-      <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
-      <tab heading="In-Progress Games with Open Slots" (selectTab)="getOpenSlots(false)"></tab>
-    </tabset>
     <ng-container *ngIf="filteredGames$ | async">
       <h1 *ngIf="!(filteredGames$ | async).length">No games found.</h1>
       <div *ngFor="let game of filteredGames$ | async">

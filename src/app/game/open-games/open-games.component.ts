@@ -82,8 +82,8 @@ export class OpenGamesComponent implements OnInit {
     this.gameTypeFilter$.next(type);
   }
 
-  setPublicOnly(publicOnly: boolean) {
-    this.publicOnly$.next(publicOnly);
+  togglePublicOnly() {
+    this.publicOnly$.next(!this.publicOnly$.value);
   }
 
   async getNotStarted(): Promise<void> {
