@@ -4,6 +4,7 @@ import { Subject } from "rxjs";
 import { environment } from "../../environments/environment";
 import * as envVars from "../../envVars";
 import { HttpErrorResponse } from "@angular/common/http";
+import { AuthService } from "./auth.service";
 
 export class EndUserError extends Error {
   constructor(m: string) {
@@ -19,7 +20,7 @@ export class ErrorHandlerService implements ErrorHandler {
   private errorStream = new Subject();
   private rollbar: Rollbar;
 
-  constructor() {
+  constructor(private auth: AuthService) {
     this.rollbar = new Rollbar({
       // eslint-disable-next-line dot-notation
       accessToken: process.env["ROLLBAR_SERVER_API_KEY"],
@@ -54,6 +55,11 @@ export class ErrorHandlerService implements ErrorHandler {
 
     if (error instanceof HttpErrorResponse) {
       endUserErrorMessage = error.error.errorMessage;
+
+      if (error.status === 401) {
+        // Unauthorized, remove token
+        this.auth.logout();
+      }
     } else if (error instanceof EndUserError) {
       endUserErrorMessage = error.message;
     }
