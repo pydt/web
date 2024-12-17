@@ -101,6 +101,15 @@
                   </button>
                 </span>
               </div>
+              <hr />
+              <div class="row">
+                <div class="col-xs-8">
+                  <p>If you'd like to invalidate the current token and generate a new one, click here:</p>
+                </div>
+                <div class="col-xs-4">
+                  <button class="btn btn-danger pull-right" (click)="updateTokenNonce()">Invalidate Token!</button>
+                </div>
+              </div>
             </div>
           </tab>
           <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail' : ''">

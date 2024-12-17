@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import {
+  AuthService as AuthApi,
   CivGame,
   CurrentUserDataWithPud,
   MetadataCacheService,
@@ -37,6 +38,7 @@ export class UserProfileComponent implements OnInit {
   );
 
   constructor(
+    private authApi: AuthApi,
     private userApi: UserService,
     private auth: AuthService,
     private http: HttpClient,
@@ -202,5 +204,11 @@ export class UserProfileComponent implements OnInit {
           msg: "User Information updated!",
         });
       });
+  }
+
+  async updateTokenNonce() {
+    const newToken = await this.authApi.updateTokenNonce().toPromise();
+    this.token = newToken;
+    this.auth.store(newToken, this.auth.getSteamProfile());
   }
 }
