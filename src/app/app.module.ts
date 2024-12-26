@@ -1,4 +1,4 @@
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -28,7 +28,7 @@ import { VgControlsModule } from "@videogular/ngx-videogular/controls";
 import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { Ng2TableModule } from "../ng2-table/ng-table-module";
-import * as envVars from "../envVars";
+import envVars from "../envVars";
 import { AppComponent } from "./app.component";
 import { routing } from "./app.routing";
 import { ForumComponent } from "./forum/forum.component";
@@ -91,43 +91,6 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   new ProfileCacheService(userService, null);
 
 @NgModule({
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  imports: [
-    DragulaModule,
-    AlertModule.forRoot(),
-    BrowserAnimationsModule,
-    HttpClientModule,
-    BrowserModule.withServerTransition({ appId: "serverApp" }),
-    FormsModule,
-    ReactiveFormsModule,
-    ApiModule.forRoot(configFactory),
-    ClipboardModule,
-    CollapseModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
-    PaginationModule.forRoot(),
-    TabsModule.forRoot(),
-    TooltipModule.forRoot(),
-    MarkdownModule.forRoot({
-      markedOptions: {
-        provide: MarkedOptions,
-        useValue: {
-          breaks: true,
-        },
-      },
-    }),
-    PydtSharedModule,
-    Ng2TableModule,
-    routing,
-    Angulartics2Module.forRoot(),
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
-    NgChartsModule,
-    // https://github.com/angular/angular/issues/47455
-    ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
-  ],
   declarations: [
     AppComponent,
     ChangeLogComponent,
@@ -173,6 +136,42 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     TurnYearChartComponent,
     NotFoundComponent,
   ],
+  bootstrap: [AppComponent],
+  imports: [
+    DragulaModule,
+    AlertModule.forRoot(),
+    BrowserAnimationsModule,
+    BrowserModule.withServerTransition({ appId: "serverApp" }),
+    FormsModule,
+    ReactiveFormsModule,
+    ApiModule.forRoot(configFactory),
+    ClipboardModule,
+    CollapseModule.forRoot(),
+    BsDropdownModule.forRoot(),
+    ModalModule.forRoot(),
+    PaginationModule.forRoot(),
+    TabsModule.forRoot(),
+    TooltipModule.forRoot(),
+    MarkdownModule.forRoot({
+      markedOptions: {
+        provide: MarkedOptions,
+        useValue: {
+          breaks: true,
+        },
+      },
+    }),
+    PydtSharedModule,
+    Ng2TableModule,
+    routing,
+    Angulartics2Module.forRoot(),
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
+    NgChartsModule,
+    // https://github.com/angular/angular/issues/47455
+    ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
+  ],
   providers: [
     AuthService,
     BrowserDataService,
@@ -184,7 +183,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     { provide: HTTP_INTERCEPTORS, useExisting: MetadataCacheService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService,
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

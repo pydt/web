@@ -253,12 +253,12 @@ export class GameDetailComponent implements OnInit {
             if (xhr.status === 200) {
               resolve(null);
             } else {
-              reject(xhr.status);
+              reject(new Error(`XHR error status: ${xhr.status}`));
             }
           };
 
           xhr.onerror = () => {
-            reject(xhr.status);
+            reject(new Error(`XHR error status: ${xhr.status}`));
           };
 
           xhr.setRequestHeader("Content-Type", "application/octet-stream");

@@ -8,7 +8,7 @@ import { setTheme } from "ngx-bootstrap/utils";
 import { AuthService as AuthApi } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
-import * as envVars from "../envVars";
+import envVars from "../envVars";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 import { MetatagService } from "./shared/metatag.service";
 import { BrowserDataService } from "./shared/browser-data.service";

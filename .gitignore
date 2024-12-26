@@ -42,5 +42,5 @@ yarn-error.log
 # System Files
 .DS_Store
 Thumbs.db
-/src/envVars.js
+/src/envVars.*
 .tmp

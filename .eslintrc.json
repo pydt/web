@@ -53,6 +53,12 @@
             "style": "camelCase",
             "type": "attribute"
           }
+        ],
+        "@typescript-eslint/no-misused-promises": [
+          "error",
+          {
+            "checksVoidReturn": false
+          }
         ]
       }
     },

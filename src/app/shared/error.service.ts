@@ -2,7 +2,7 @@ import { ErrorHandler, Injectable } from "@angular/core";
 import * as Rollbar from "rollbar";
 import { Subject } from "rxjs";
 import { environment } from "../../environments/environment";
-import * as envVars from "../../envVars";
+import envVars from "../../envVars";
 import { HttpErrorResponse } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 
