@@ -35,7 +35,7 @@
             class="glyphicon"
             [ngClass]="{
               'glyphicon-check': publicOnly$ | async,
-              'glyphicon-unchecked': (publicOnly$ | async) === false
+              'glyphicon-unchecked': (publicOnly$ | async) === false,
             }"
             aria-hidden="true"
           ></span>

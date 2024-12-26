@@ -12,7 +12,7 @@ import { PaginationModule } from "ngx-bootstrap/pagination";
 import { TabsModule } from "ngx-bootstrap/tabs";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ClipboardModule } from "ngx-clipboard";
-import { MarkdownModule, MarkedOptions } from "ngx-markdown";
+import { MarkdownModule, MARKED_OPTIONS } from "ngx-markdown";
 import {
   ApiModule,
   Configuration,
@@ -67,7 +67,7 @@ import { GameDetailStartComponent } from "./game/detail/start/start.component";
 import { NotFoundComponent } from "./not-found.component";
 import { ChangeLogComponent } from "./changelog/changelog.component";
 import { ChangelogService } from "./shared/changelog.service";
-import { NgChartsModule } from "ng2-charts";
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from "ng2-charts";
 import { DisplayTurnStatsComponent } from "./stats/display-turn-stats/display-turn-stats.component";
 import { TurnLengthChartComponent } from "./stats/turn-length-chart/turn-length-chart.component";
 import { TurnYearChartComponent } from "./stats/turn-year-chart/turn-year-chart.component";
@@ -154,7 +154,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     TooltipModule.forRoot(),
     MarkdownModule.forRoot({
       markedOptions: {
-        provide: MarkedOptions,
+        provide: MARKED_OPTIONS,
         useValue: {
           breaks: true,
         },
@@ -168,7 +168,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     VgControlsModule,
     VgOverlayPlayModule,
     VgBufferingModule,
-    NgChartsModule,
+    BaseChartDirective,
     // https://github.com/angular/angular/issues/47455
     ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
   ],
@@ -184,6 +184,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService,
     provideHttpClient(withInterceptorsFromDi()),
+    provideCharts(withDefaultRegisterables()),
   ],
 })
 export class AppModule {}

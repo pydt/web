@@ -63,7 +63,7 @@ export class GameDetailComponent implements OnInit {
       void this.loadGame().then(() => {
         this.metatag.setTitleAndDesc(
           `${this.game.displayName} | ${this.civGame.displayName}`,
-          removeMarkdown(this.game.description || "", { stripListLeaders: false }).trim() ||
+          removeMarkdown(this.game.description || "", { stripListLeaders: false, useImgAltText: true }).trim() ||
             "This game doesn't have a description... I'm sure it's great though!",
         );
       });
