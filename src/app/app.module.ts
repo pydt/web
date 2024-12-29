@@ -79,7 +79,7 @@ import { GameDetailAdminResetGameComponent } from "./game/detail/admin/reset-gam
 import { GameDetailAdminRestartGameComponent } from "./game/detail/admin/restart-game/restart-game.component";
 import { GameDetailAdminCloneGameComponent } from "./game/detail/admin/clone-game/clone-game.component";
 import { GameDetailAdminMarkSubstitutionComponent } from "./game/detail/admin/mark-substitution/mark-substitution.component";
-import { GameDetailAdminManageModsComponent } from "./game/detail/admin/manage-mods/manage-mods.component";
+import { GameDetailManageModsComponent } from "./game/detail/manage-mods/manage-mods.component";
 
 export const configFactory = (): Configuration =>
   new Configuration({
@@ -107,7 +107,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     GameDetailAdminComponent,
     GameDetailAdminCloneGameComponent,
     GameDetailAdminKickPlayerComponent,
-    GameDetailAdminManageModsComponent,
+    GameDetailManageModsComponent,
     GameDetailAdminMarkSubstitutionComponent,
     GameDetailAdminResetGameComponent,
     GameDetailAdminRestartGameComponent,

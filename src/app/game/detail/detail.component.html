@@ -173,6 +173,11 @@
         <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
       </div>
     </tab>
+    <tab heading="View Mods" *ngIf="game.createdBySteamId !== profile?.steamid && game.gameType === 'CIV6'">
+      <div class="well">
+        <pydt-game-detail-manage-mods [game]="game"></pydt-game-detail-manage-mods>
+      </div>
+    </tab>
     <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid" #adminTab="tab">
       <div class="well">
         <pydt-game-detail-admin

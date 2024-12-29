@@ -1,14 +1,15 @@
 import { Component, Input, ViewChild } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, RawCiv6Mods } from "pydt-shared";
-import { NotificationService } from "../../../../shared";
+import { NotificationService } from "../../../shared";
 
 @Component({
-  selector: "pydt-game-detail-admin-manage-mods",
+  selector: "pydt-game-detail-manage-mods",
   templateUrl: "./manage-mods.component.html",
 })
-export class GameDetailAdminManageModsComponent {
+export class GameDetailManageModsComponent {
   @Input() game: Game;
+  @Input() admin = false;
   @ViewChild("confirmDeleteModal", { static: true }) confirmDeleteModal: ModalDirective;
 
   mods: RawCiv6Mods[];

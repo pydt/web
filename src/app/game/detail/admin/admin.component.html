@@ -48,7 +48,7 @@
   </tab>
   <tab heading="Manage Mods" *ngIf="game.gameType === 'CIV6'">
     <div class="well">
-      <pydt-game-detail-admin-manage-mods [game]="game"></pydt-game-detail-admin-manage-mods>
+      <pydt-game-detail-manage-mods [game]="game" [admin]="true"></pydt-game-detail-manage-mods>
     </div>
   </tab>
 </tabset>
