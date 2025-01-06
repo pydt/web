@@ -88,7 +88,7 @@ export class TurnYearChartComponent implements OnChanges {
       }
     } else {
       const dataset = this.findDataSet(datasets);
-      dataset.data = Object.values(this.turnData?.yearBuckets || {}) as number[];
+      dataset.data = Object.values(this.turnData?.yearBuckets || {});
     }
 
     this.chartData = {

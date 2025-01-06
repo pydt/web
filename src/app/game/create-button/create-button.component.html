@@ -35,8 +35,7 @@
         <h4 class="modal-title">Cannot Create {{ selectedGame?.displayName }} Game</h4>
       </div>
       <div class="modal-body">
-        You cannot create a new {{ selectedGame?.displayName }} game at the moment because you already have one game
-        that hasn't been started yet!
+        {{ cannotCreateMessage }}
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" (click)="cannotCreateGameModal.hide()">OK</button>

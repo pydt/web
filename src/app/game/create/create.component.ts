@@ -5,7 +5,6 @@ import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheS
 import { AuthService, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
 import { ConfigureGameModel } from "../config/configure-game.model";
-import { GameCreateButtonComponent } from "../create-button/create-button.component";
 
 class CreateGameModel extends ConfigureGameModel {
   constructor(
@@ -62,7 +61,7 @@ export class CreateGameComponent implements OnInit {
 
     this.model.displayName = `${profile.personaname}'s game!`;
 
-    if (!(await GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, this.model.civGame))) {
+    if (!(await this.gameApi.canCreate({ gameType: civGame.id }).toPromise()).canCreate) {
       await this.router.navigate(["/user/games"]);
       return;
     }

@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { CivGame, UserService, MetadataCacheService } from "pydt-shared";
+import { CivGame, MetadataCacheService, GameService } from "pydt-shared";
 import { AuthService } from "../../shared";
 
 @Component({
@@ -10,40 +10,25 @@ import { AuthService } from "../../shared";
 })
 export class GameCreateButtonComponent implements OnInit {
   @ViewChild("cannotCreateGameModal", { static: true }) cannotCreateGameModal: ModalDirective;
+  cannotCreateMessage: string;
   selectedGame: CivGame;
   games: CivGame[] = [];
 
   constructor(
     public auth: AuthService,
-    private userApi: UserService,
+    private gameApi: GameService,
     private metadataCache: MetadataCacheService,
     private router: Router,
   ) {}
 
-  static async canCreateGame(auth: AuthService, userApi: UserService, civGame: CivGame): Promise<boolean> {
-    const user = await userApi.getCurrent().toPromise();
-
-    if (user.canCreateMultipleGames) {
-      return true;
-    }
-
-    const myGames = await userApi.games().toPromise();
-    const profile = auth.getSteamProfile();
-
-    for (const game of myGames.data) {
-      if (game.gameType === civGame.id && game.createdBySteamId === profile.steamid && !game.inProgress) {
-        return false;
-      }
-    }
-
-    return true;
-  }
-
   async tryCreateGame(civGame: CivGame): Promise<void> {
-    if (await GameCreateButtonComponent.canCreateGame(this.auth, this.userApi, civGame)) {
+    const cc = await this.gameApi.canCreate({ gameType: civGame.id }).toPromise();
+
+    if (cc.canCreate) {
       await this.router.navigate([`/game/create/${civGame.id}`]);
     } else {
       this.selectedGame = civGame;
+      this.cannotCreateMessage = cc.message;
       this.cannotCreateGameModal.show();
     }
   }

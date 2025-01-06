@@ -81,13 +81,12 @@ export class TurnLengthChartComponent implements OnChanges {
         const dataset = this.findDataSet(datasets, this.perUser ? profiles[player.steamId] : undefined);
 
         for (let i = 0; i < TURN_BUCKETS.length; i++) {
-          dataset.data[i] =
-            ((dataset.data[i] as number) || 0) + ((player.turnLengthBuckets?.[TURN_BUCKETS[i]] as number) || 0);
+          dataset.data[i] = ((dataset.data[i] as number) || 0) + (player.turnLengthBuckets?.[TURN_BUCKETS[i]] || 0);
         }
       }
     } else {
       const dataset = this.findDataSet(datasets);
-      dataset.data = TURN_BUCKETS.map(x => (this.turnData.turnLengthBuckets?.[x] as number) || 0);
+      dataset.data = TURN_BUCKETS.map(x => this.turnData.turnLengthBuckets?.[x] || 0);
     }
 
     this.chartData = {
@@ -103,9 +102,7 @@ export class TurnLengthChartComponent implements OnChanges {
       y: {
         display: !this.smallMode,
         stacked: "players" in this.turnData,
-        max: this.smallMode
-          ? Math.max(...(Object.values(this.turnData?.turnLengthBuckets || {}) as number[]))
-          : undefined,
+        max: this.smallMode ? Math.max(...Object.values(this.turnData?.turnLengthBuckets || {})) : undefined,
       },
     };
 
