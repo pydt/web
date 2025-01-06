@@ -85,6 +85,15 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2024-01-06",
+    desc: `A few small changes made over the holidays (not as much as hoped, hopefully I can put in some more time soon):
+- <a href="https://discourse.playyourdamnturn.com/t/fixed-how-can-i-change-my-token/9989" target="_blank">Tokens can now be revoked if you gave your token to someone else or something</a>
+- <a href="https://discourse.playyourdamnturn.com/t/fixed-allow-players-with-500-turns-to-have-2-open-games/9378/2" target="_blank">If you have more than 500 turns you can have more than one open game, up to 10.  Hopefully there won't be any spam issues to make me reconsider this.</a>
+- Log when a <a href="https://discourse.playyourdamnturn.com/t/keep-track-of-the-round-in-which-a-player-has-been-defeated/8796" target="_blank">player has been defeated</a> or <a href="https://discourse.playyourdamnturn.com/t/add-a-log-for-mod-changes-done-via-admin-tool/9161" target="_blank">mod has been changed with the admin mod tool</a>
+- <a href="https://discourse.playyourdamnturn.com/t/read-only-access-for-mods-for-non-host-players/10059" target="_blank">Read only access to the mod tool for non-admins</a>
+- Housecleaning with text for <a href="https://discourse.playyourdamnturn.com/t/turn-timer-clearer-option-descriptions/9352" target="_blank">turn timer descriptions</a> and <a href="https://discourse.playyourdamnturn.com/t/update-system-generated-post-for-new-game-masters/10282" target="_blank">new game smack talk posts</a>`,
+  },
+  {
     date: "2023-12-08",
     desc: `Added support for the ability to request a substitution in a game - games containing players that need substitution will be shown in the new "Substitution Requested" tab of the Open Games page.`,
   },
