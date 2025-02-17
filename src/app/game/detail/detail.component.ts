@@ -168,11 +168,10 @@ export class GameDetailComponent implements OnInit {
     this.playerCiv = null;
 
     if (this.profile) {
-      this.userInGame = steamIds.includes(this.profile.steamid);
-
       const userPlayer = game.players.find(player => player.steamId === this.profile.steamid);
+      this.userInGame = userPlayer && !userPlayer.hasSurrendered;
 
-      if (userPlayer) {
+      if (this.userInGame) {
         this.playerCiv = this.findLeader(userPlayer.civType);
       }
     }
