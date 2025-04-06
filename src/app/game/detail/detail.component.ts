@@ -36,8 +36,8 @@ export class GameDetailComponent implements OnInit {
   availableCivs: AvailableCiv[];
   tooManyHumans = false;
   playerCiv: CivDef;
-  dlcEnabled: string[];
-  dlcDisabled: string[];
+  dlcEnabled: string[] = [];
+  dlcDisabled: string[] = [];
   historyTabOpened = false;
   metadata: PydtMetadata;
   noOtherPlayers = false;
@@ -206,7 +206,7 @@ export class GameDetailComponent implements OnInit {
       for (const player of this.game.players) {
         const curLeader = this.findLeader(player.civType);
 
-        if (curLeader.civKey !== this.metadata.randomCiv.civKey) {
+        if (curLeader && curLeader.civKey !== this.metadata.randomCiv.civKey) {
           this.availableCivs = this.availableCivs.filter(x => x !== curLeader);
         }
       }
