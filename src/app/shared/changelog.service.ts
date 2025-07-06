@@ -11,6 +11,17 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.1.9",
+    date: "2025-07-06",
+    desc: `- A nice fix for showing the PYDT icon in the OSX menu bar (thanks @ccurtsinger) https://github.com/pydt/client/pull/79
+- Fixed a bug with the game description not showing on the play turn screen, also removed the button to switch to game info and now just always showing everything`,
+  },
+  {
+    version: "2.1.8",
+    date: "2024-09-21",
+    desc: "OSX Sequoia fix",
+  },
+  {
     version: "2.1.6",
     date: "2023-01-17",
     desc: `Very small release, a couple of bug fixes and an update to bring in the dead player icon.
