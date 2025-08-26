@@ -90,6 +90,20 @@
         </label>
       </div>
     </div>
+  </div>
+  <div class="form-group" *ngIf="communityDlc.length">
+    <label class="col-sm-3 control-label">Community DLC:</label>
+    <div class="col-sm-9">
+      <div class="checkbox" *ngFor="let dlc of communityDlc">
+        <label>
+          <input type="checkbox" [(ngModel)]="model.dlc[dlc.id]" (ngModelChange)="validateDlc()" />
+          {{ dlc.displayName }}
+          <pydt-info-tooltip *ngIf="dlc.extraInfo" [text]="dlc.extraInfo"></pydt-info-tooltip>
+        </label>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
     <span id="dlcHelp" class="help-block col-sm-offset-3"
       >All players in your game must have any DLC selected installed, otherwise they will be unable to load save
       files!</span

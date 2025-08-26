@@ -53,18 +53,22 @@ export class ConfigureGameComponent implements OnInit {
 
   selectAllDlc(selectAll: boolean): void {
     for (const dlc of this.model.civGame.dlcs) {
-      this.model.dlc[dlc.id] = selectAll;
+      this.model.dlc[dlc.id] = selectAll && !dlc.community;
     }
 
     this.validateDlc();
   }
 
+  get communityDlc(): DLC[] {
+    return this.model.civGame.dlcs.filter(dlc => dlc.community);
+  }
+
   get majorDlc(): DLC[] {
-    return this.model.civGame.dlcs.filter(dlc => dlc.major);
+    return this.model.civGame.dlcs.filter(dlc => dlc.major && !dlc.community);
   }
 
   get minorDlc(): DLC[] {
-    return this.model.civGame.dlcs.filter(dlc => !dlc.major);
+    return this.model.civGame.dlcs.filter(dlc => !dlc.major && !dlc.community);
   }
 
   get slotsArray() {
