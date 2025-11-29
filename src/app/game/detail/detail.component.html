@@ -94,7 +94,7 @@
       </div>
     </tab>
   </tabset>
-  <tabset *ngIf="game?.inProgress && userInGame">
+  <tabset *ngIf="game?.inProgress && (userInGame || game?.createdBySteamId === profile?.steamid)">
     <tab heading="Play Turn">
       <div class="well">
         <div *ngIf="game.currentPlayerSteamId === profile?.steamid">
