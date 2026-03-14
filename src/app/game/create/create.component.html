@@ -1,11 +1,11 @@
 <div class="container">
   <h1>Create New Game</h1>
-  <form class="form-horizontal" (ngSubmit)="onSubmit()" #newGameForm="ngForm">
+  <form class="" (ngSubmit)="onSubmit()" #newGameForm="ngForm">
     @if (model) {
       <pydt-configure-game [model]="model" [selectedCivs]="[model?.player1Civ.leaderKey]"></pydt-configure-game>
     }
-    <div class="form-group">
-      <label for="selectCiv" class="col-sm-3 control-label">Select Your Civ:</label>
+    <div class="mb-3">
+      <label for="selectCiv" class="col-sm-3 form-label">Select Your Civ:</label>
       @if (curCiv) {
         <pydt-select-civ
           [curCiv]="curCiv"
@@ -16,8 +16,8 @@
         ></pydt-select-civ>
       }
     </div>
-    <div class="form-group">
-      <div class="col-sm-offset-3 col-sm-9">
+    <div class="mb-3">
+      <div class="offset-sm-3 col-sm-9">
         <button type="submit" class="btn btn-primary" [disabled]="!newGameForm.form.valid">Create Game!</button>
       </div>
     </div>
@@ -36,10 +36,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" [routerLink]="['user/profile']">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">No Notification Email Set</h4>
+        <button type="button" class="btn-close" aria-label="Close" [routerLink]="['user/profile']"></button>
       </div>
       <div class="modal-body">
         Creating a game implies more responsibility than simply joining a game - please set your notification email

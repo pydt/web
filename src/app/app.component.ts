@@ -4,7 +4,6 @@ import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { setTheme } from "ngx-bootstrap/utils";
 import { AuthService as AuthApi } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
@@ -45,10 +44,6 @@ export class AppComponent implements OnInit {
     public changelog: ChangelogService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
-    // TODO: upgrade to Bootstrap 4/5 when ready
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    setTheme("bs3" as any);
-
     if (environment.name === "prod") {
       angulartics2GoogleAnalytics.startTracking();
     }

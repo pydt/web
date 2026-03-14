@@ -9,8 +9,8 @@
     </div>
   </div>
   <div class="row" style="margin-top: 20px">
-    <div class="col-xs-12 text-center">
-      <button type="button" class="btn btn-default" [disabled]="game.round > 10" (click)="confirmRestartModal.show()">
+    <div class="col-12 text-center">
+      <button type="button" class="btn btn-secondary" [disabled]="game.round > 10" (click)="confirmRestartModal.show()">
         @if (game.round > 10) {
           Too Late to Restart
         }
@@ -34,17 +34,15 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmRestartModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmRestartModal.hide()"></button>
       </div>
       <div class="modal-body">
         Are you sure you want to restart this game?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmRestartModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmRestartModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="restart()">Restart the Game!</button>
       </div>
     </div>

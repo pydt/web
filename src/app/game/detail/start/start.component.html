@@ -1,6 +1,6 @@
-<div class="panel panel-default">
-  <div class="panel-heading">Start Game</div>
-  <div class="panel-body">
+<div class="card mt-3">
+  <div class="card-header">Start Game</div>
+  <div class="card-body">
     @if (game.players.length < 2) {
       <div>
         <p>You can't start the game until you have at least 2 human players registered.</p>
@@ -10,7 +10,7 @@
       <div>
         <p>When you're ready to start the game, click the button below!</p>
         <div class="row">
-          <div class="col-xs-12 text-center">
+          <div class="col-12 text-center">
             <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.show()">Start Game!</button>
           </div>
         </div>
@@ -31,16 +31,14 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmStartGameModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmStartGameModal.hide()"></button>
       </div>
       <div class="modal-body">
         Are you sure you're ready to start this game with <b>{{ game?.players.length }}</b> human players?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmStartGameModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmStartGameModal.hide()">Cancel</button>
         <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.hide(); startGame()">
           Start the Game!
         </button>

@@ -1,13 +1,13 @@
-<div class="media" style="padding: 5px" (click)="clicked.emit(this.civ)">
-  <div class="media-left">
-    <img class="media-object" [src]="imageUrl()" />
+<div class="d-flex gap-3 mb-4" style="padding: 5px" (click)="clicked.emit(this.civ)">
+  <div class="flex-shrink-0">
+    <img [src]="imageUrl()" />
   </div>
-  <div class="media-body">
+  <div class="flex-grow-1">
     @if (!civ) {
-      <h4 class="media-heading" style="padding-top: 20px">Unknown Civ</h4>
+      <h4 style="padding-top: 20px">Unknown Civ</h4>
     }
     @if (civ) {
-      <h4 class="media-heading" style="padding-top: 20px">
+      <h4 style="padding-top: 20px">
         {{ civ.fullDisplayName }}
         @if (civ.steamIdNeedsSubstitution) {
           <span style="color: #f00"> (REQUESTED SUBSTITUTION)</span>

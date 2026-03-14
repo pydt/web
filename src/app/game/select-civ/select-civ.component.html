@@ -12,10 +12,8 @@
   <div class="modal-dialog modal-sm" style="width: 500px">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="selectCivModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Select Your Civ</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="selectCivModal.hide()"></button>
       </div>
       <div class="modal-body">
         <div style="height: 300px; overflow-y: scroll; margin-bottom: 10px">
@@ -31,7 +29,7 @@
         <input type="text" class="form-control" [formControl]="civFilter" placeholder="Filter Civs..." />
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="selectCivModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="selectCivModal.hide()">Cancel</button>
       </div>
     </div>
   </div>

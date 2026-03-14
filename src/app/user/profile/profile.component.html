@@ -3,7 +3,7 @@
     <div>
       <div class="row">
         <div class="col-sm-6">
-          <div class="well">
+          <div class="card card-body">
             <pydt-user-info [user]="user"></pydt-user-info>
             <hr />
             <div class="text-center">
@@ -12,12 +12,12 @@
           </div>
         </div>
         <div class="col-sm-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">User Information</div>
-            <div class="panel-body">
-              <form (ngSubmit)="onUserInfoSubmit()" class="form-horizontal" #userInfoForm="ngForm">
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Vacation Mode</label>
+          <div class="card">
+            <div class="card-header">User Information</div>
+            <div class="card-body">
+              <form (ngSubmit)="onUserInfoSubmit()" class="" #userInfoForm="ngForm">
+                <div class="mb-3">
+                  <label class="col-sm-3 form-label">Vacation Mode</label>
                   <div class="col-sm-9">
                     <div class="checkbox">
                       <label>
@@ -27,8 +27,8 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Time Zone</label>
+                <div class="mb-3">
+                  <label class="col-sm-3 form-label">Time Zone</label>
                   <div class="col-sm-9">
                     <select class="form-control" name="timezone" [(ngModel)]="user.timezone">
                       <option [ngValue]="undefined">-- Select a Time Zone --</option>
@@ -65,8 +65,8 @@
                     </select>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label class="col-sm-3 control-label">Comments</label>
+                <div class="mb-3">
+                  <label class="col-sm-3 form-label">Comments</label>
                   <div class="col-sm-9">
                     <input
                       type="text"
@@ -78,9 +78,9 @@
                     />
                   </div>
                 </div>
-                <div class="form-group">
-                  <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" class="btn btn-default">Submit</button>
+                <div class="mb-3">
+                  <div class="offset-sm-3 col-sm-9">
+                    <button type="submit" class="btn btn-secondary">Submit</button>
                   </div>
                 </div>
               </form>
@@ -92,29 +92,27 @@
         <div class="col-sm-12">
           <tabset>
             <tab heading="Client Token">
-              <div class="well">
+              <div class="card card-body">
                 <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
                 <div class="input-group">
                   <input type="text" class="form-control" [value]="token" readonly />
-                  <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">
-                      Copy Token to Clipboard
-                    </button>
-                  </span>
+                  <button class="btn btn-secondary" type="button" ngxClipboard [cbContent]="token">
+                    Copy Token to Clipboard
+                  </button>
                 </div>
                 <hr />
                 <div class="row">
-                  <div class="col-xs-8">
+                  <div class="col-8">
                     <p>If you'd like to invalidate the current token and generate a new one, click here:</p>
                   </div>
-                  <div class="col-xs-4">
-                    <button class="btn btn-danger pull-right" (click)="updateTokenNonce()">Invalidate Token!</button>
+                  <div class="col-4">
+                    <button class="btn btn-danger float-end" (click)="updateTokenNonce()">Invalidate Token!</button>
                   </div>
                 </div>
               </div>
             </tab>
             <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail' : ''">
-              <div class="well">
+              <div class="card card-body">
                 <p>
                   Enter your email address to receive game state notifications (it's your turn, a player has joined your
                   game, etc). Your email address will never be disclosed to any third parties, and will only be used for
@@ -123,7 +121,7 @@
                   emails below.
                 </p>
                 <form (ngSubmit)="onEmailSubmit()" #emailForm="ngForm">
-                  <div class="form-group">
+                  <div class="mb-3">
                     <label for="emailAddress">Email Address</label>
                     <input
                       type="text"
@@ -146,8 +144,8 @@
                     </label>
                   </div>
                   @if (pud.newGameEmails) {
-                    <div class="well" style="padding: 0 19px; background-color: #f8f8f8">
-                      <div class="form-group">
+                    <div class="card card-body" style="padding: 0 19px; background-color: #f8f8f8">
+                      <div class="mb-3">
                         <div class="checkbox">
                           <label>
                             <input
@@ -176,7 +174,7 @@
                             </label>
                           </div>
                         }
-                        <div class="form-group" style="margin-top: 16px">
+                        <div class="mb-3" style="margin-top: 16px">
                           <label for="emailAddress"
                             >Game Title Filter
                             <span style="font-weight: normal"
@@ -195,12 +193,12 @@
                       </div>
                     </div>
                   }
-                  <button type="submit" style="margin-top: 20px" class="btn btn-default">Submit</button>
+                  <button type="submit" style="margin-top: 20px" class="btn btn-secondary">Submit</button>
                 </form>
               </div>
             </tab>
             <tab heading="Web Push Notifications">
-              <div class="well">
+              <div class="card card-body">
                 <p>
                   You can get browser push notifications when it's your turn! Use the button below to
                   register/unregister this browser. If you ever press the button to block push notifications from this
@@ -219,7 +217,7 @@
               </div>
             </tab>
             <tab heading="Webhook Notifications">
-              <div class="well">
+              <div class="card card-body">
                 <p>
                   A URL to send turn notifications to when you have a new turn available for any of your games. The HTTP
                   request will be a POST with the following parameters: gameName, userName, round, civName, leaderName.
@@ -227,7 +225,7 @@
                   Cloud should work for this as well.
                 </p>
                 <form (ngSubmit)="onWebhookSubmit()">
-                  <div class="form-group">
+                  <div class="mb-3">
                     <label for="webhookUrl">Webhook URL</label>
                     <input
                       type="text"
@@ -237,18 +235,18 @@
                       name="webhookUrl"
                     />
                   </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
+                  <button type="submit" class="btn btn-secondary">Submit</button>
                 </form>
               </div>
             </tab>
             <tab heading="Forum Username">
-              <div class="well">
+              <div class="card card-body">
                 <p>
                   If your forum username is different than your Steam ID, you can set it here. Having the correct forum
                   username set will help notify you of smack talk messages appropriately.
                 </p>
                 <form (ngSubmit)="onForumUsernameSubmit()">
-                  <div class="form-group">
+                  <div class="mb-3">
                     <label for="webhookUrl">Forum Username</label>
                     <input
                       type="text"
@@ -258,12 +256,12 @@
                       name="forumUsername"
                     />
                   </div>
-                  <button type="submit" class="btn btn-default">Submit</button>
+                  <button type="submit" class="btn btn-secondary">Submit</button>
                 </form>
               </div>
             </tab>
             <tab heading="Substitution Availability">
-              <div class="well">
+              <div class="card card-body">
                 <p>
                   Players that have played more than 500 turns on the site can register themselves to be available to
                   substitute for players that are surrendering or getting kicked from games.
@@ -274,7 +272,7 @@
                 @if (user.turnsPlayed >= 500) {
                   <form (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
                     @for (game of games; track game) {
-                      <div class="form-group">
+                      <div class="mb-3">
                         <div class="checkbox">
                           <label>
                             <input
@@ -288,7 +286,7 @@
                         </div>
                       </div>
                     }
-                    <button type="submit" class="btn btn-default">Submit</button>
+                    <button type="submit" class="btn btn-secondary">Submit</button>
                   </form>
                 }
               </div>
@@ -299,15 +297,15 @@
       <div class="row">
         <div class="col-sm-12">
           @if (noDiscourseUser) {
-            <div class="panel panel-danger">
-              <div class="panel-heading">You haven't joined the forum!</div>
-              <div class="panel-body">
+            <div class="card border-danger">
+              <div class="card-header">You haven't joined the forum!</div>
+              <div class="card-body">
                 <p>
                   Please consider joining the forum! It's a simple process to register (you can use your steam
                   credentials there as well), and will help you communicate with other users during matchups.
                 </p>
                 <div class="row">
-                  <div class="col-xs-12 text-center">
+                  <div class="col-12 text-center">
                     <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
                   </div>
                 </div>

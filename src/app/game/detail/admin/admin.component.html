@@ -6,7 +6,7 @@
 <tabset>
   @if (game.createdBySteamId !== game.currentPlayerSteamId) {
     <tab heading="Kick Current Player">
-      <div class="well">
+      <div class="card card-body">
         <pydt-game-detail-admin-kick-player
           [game]="game"
           (setGame)="setGame.emit($event)"
@@ -15,7 +15,7 @@
     </tab>
   }
   <tab heading="Reset Game State on Next Upload">
-    <div class="well">
+    <div class="card card-body">
       <pydt-game-detail-admin-reset-game
         [game]="game"
         (setGame)="setGame.emit($event)"
@@ -23,7 +23,7 @@
     </div>
   </tab>
   <tab heading="Restart Game">
-    <div class="well">
+    <div class="card card-body">
       <div class="row">
         <pydt-game-detail-admin-restart-game
           [game]="game"
@@ -33,7 +33,7 @@
     </div>
   </tab>
   <tab heading="Clone Game">
-    <div class="well">
+    <div class="card card-body">
       <pydt-game-detail-admin-clone-game
         [game]="game"
         (setGame)="setGame.emit($event)"
@@ -41,7 +41,7 @@
     </div>
   </tab>
   <tab heading="Mark Player for Substitution">
-    <div class="well">
+    <div class="card card-body">
       <pydt-game-detail-admin-mark-substitution
         [game]="game"
         (setGame)="setGame.emit($event)"
@@ -50,7 +50,7 @@
   </tab>
   @if (game.gameType === "CIV6") {
     <tab heading="Manage Mods">
-      <div class="well">
+      <div class="card card-body">
         <pydt-game-detail-manage-mods [game]="game" [admin]="true"></pydt-game-detail-manage-mods>
       </div>
     </tab>

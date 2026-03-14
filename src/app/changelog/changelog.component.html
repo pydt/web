@@ -7,7 +7,7 @@
 
   <tabset>
     <tab heading="Web Site">
-      <div class="well">
+      <div class="card card-body">
         <hr />
         @for (change of changelog.websiteChanges; track change) {
           <h4>{{ change.date | date }}</h4>
@@ -17,7 +17,7 @@
       </div>
     </tab>
     <tab heading="Client">
-      <div class="well">
+      <div class="card card-body">
         <hr />
         @for (change of changelog.clientChanges; track change) {
           <h1>

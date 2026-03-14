@@ -8,234 +8,241 @@
     ></pydt-game-preview>
   }
   @if (game) {
-    <tabset>
-      @if (game.gameTurnRangeKey > 1) {
-        <tab heading="Game Stats">
-          <div class="well">
-            <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
-          </div>
-        </tab>
-      }
-      @if (game.gameTurnRangeKey > 1) {
-        <tab heading="Turn History" (selectTab)="historyTabOpened = true">
-          @if (historyTabOpened) {
-            <div class="well">
-              <pydt-game-detail-turns [game]="game"></pydt-game-detail-turns>
+    <div class="mt-3">
+      <tabset>
+        @if (game.gameTurnRangeKey > 1) {
+          <tab heading="Game Stats">
+            <div class="card card-body">
+              <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
             </div>
-          }
-        </tab>
-      }
-      @if (game) {
-        <tab heading="Game Details">
-          <div class="well">
-            @if (game.description) {
-              <markdown [data]="game.description"></markdown>
-              <hr />
-            }
-            <div class="row">
-              <div class="col-md-6">
-                <p><b>Game Type:</b> {{ civGame?.displayName }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><b>Password Protected:</b> {{ game.hashedPassword ? "Yes" : "No" }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><b>Number of Slots:</b> {{ game.slots }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><b>Max Human Players:</b> {{ game.humans }}</p>
-              </div>
-              @if (game.gameSpeed) {
-                <div class="col-md-6">
-                  <p><b>Game Speed:</b> {{ game | gamespeed: games }}</p>
-                </div>
-              }
-              <div class="col-md-6">
-                <p><b>Map Type:</b> {{ game | map: games }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><b>Allow Users to Join After Start:</b> {{ game.allowJoinAfterStart ? "Yes" : "No" }}</p>
-              </div>
-              @if (game.mapSize) {
-                <div class="col-md-6">
-                  <p><b>Map Size:</b> {{ game | mapsize: games }}</p>
-                </div>
-              }
-              <div class="col-md-6">
-                <p><b>Civ Selection:</b> {{ game | randomOnly }}</p>
-              </div>
-              <div class="col-md-6">
-                <p><b>Allow Duplicate Civs:</b> {{ game.allowDuplicateLeaders ? "Yes" : "No" }}</p>
-              </div>
-              @if (game.turnTimerMinutes) {
-                <div class="col-md-6">
-                  <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
-                </div>
-              }
-              @if (game.turnTimerMinutes) {
-                <div class="col-md-6">
-                  <p><b>Turn Timer Vacation Mode Behavior:</b> {{ game | turnTimerVacation }}</p>
-                </div>
-              }
-              @if (game.webhookUrl) {
-                <div class="col-md-6">
-                  <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
-                    <b>Webhook URL:</b> {{ game.webhookUrl }}
-                  </p>
-                </div>
-              }
-            </div>
-            <div class="row">
-              <div class="col-md-6">
-                <p><b>DLC Enabled:</b></p>
-                @if (dlcEnabled.length) {
-                  <ul class="fa-ul">
-                    @for (dlc of dlcEnabled; track dlc) {
-                      <li class="dlcEnabled">
-                        <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc }}
-                      </li>
-                    }
-                  </ul>
-                }
-                @if (!dlcEnabled.length) {
-                  <p>None</p>
-                }
-              </div>
-              <div class="col-md-6">
-                <p><b>DLC Disabled:</b></p>
-                @if (dlcDisabled.length) {
-                  <ul class="fa-ul">
-                    @for (dlc of dlcDisabled; track dlc) {
-                      <li class="dlcDisabled">
-                        <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc }}
-                      </li>
-                    }
-                  </ul>
-                }
-                @if (!dlcDisabled.length) {
-                  <p>None</p>
-                }
-              </div>
-            </div>
-            @if (game.createdBySteamId === profile?.steamid) {
-              <div class="row" style="margin-top: 20px">
-                <div class="col-xs-12 text-center">
-                  <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">
-                    Edit Game Parameters
-                  </button>
-                </div>
+          </tab>
+        }
+        @if (game.gameTurnRangeKey > 1) {
+          <tab heading="Turn History" (selectTab)="historyTabOpened = true">
+            @if (historyTabOpened) {
+              <div class="card card-body">
+                <pydt-game-detail-turns [game]="game"></pydt-game-detail-turns>
               </div>
             }
-          </div>
-        </tab>
-      }
-    </tabset>
+          </tab>
+        }
+        @if (game) {
+          <tab heading="Game Details">
+            <div class="card card-body">
+              @if (game.description) {
+                <markdown [data]="game.description"></markdown>
+                <hr />
+              }
+              <div class="row">
+                <div class="col-md-6">
+                  <p><b>Game Type:</b> {{ civGame?.displayName }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><b>Password Protected:</b> {{ game.hashedPassword ? "Yes" : "No" }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><b>Number of Slots:</b> {{ game.slots }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><b>Max Human Players:</b> {{ game.humans }}</p>
+                </div>
+                @if (game.gameSpeed) {
+                  <div class="col-md-6">
+                    <p><b>Game Speed:</b> {{ game | gamespeed: games }}</p>
+                  </div>
+                }
+                <div class="col-md-6">
+                  <p><b>Map Type:</b> {{ game | map: games }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><b>Allow Users to Join After Start:</b> {{ game.allowJoinAfterStart ? "Yes" : "No" }}</p>
+                </div>
+                @if (game.mapSize) {
+                  <div class="col-md-6">
+                    <p><b>Map Size:</b> {{ game | mapsize: games }}</p>
+                  </div>
+                }
+                <div class="col-md-6">
+                  <p><b>Civ Selection:</b> {{ game | randomOnly }}</p>
+                </div>
+                <div class="col-md-6">
+                  <p><b>Allow Duplicate Civs:</b> {{ game.allowDuplicateLeaders ? "Yes" : "No" }}</p>
+                </div>
+                @if (game.turnTimerMinutes) {
+                  <div class="col-md-6">
+                    <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
+                  </div>
+                }
+                @if (game.turnTimerMinutes) {
+                  <div class="col-md-6">
+                    <p><b>Turn Timer Vacation Mode Behavior:</b> {{ game | turnTimerVacation }}</p>
+                  </div>
+                }
+                @if (game.webhookUrl) {
+                  <div class="col-md-6">
+                    <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+                      <b>Webhook URL:</b> {{ game.webhookUrl }}
+                    </p>
+                  </div>
+                }
+              </div>
+              <div class="row">
+                <div class="col-md-6">
+                  <p><b>DLC Enabled:</b></p>
+                  @if (dlcEnabled.length) {
+                    <ul class="fa-ul">
+                      @for (dlc of dlcEnabled; track dlc) {
+                        <li class="dlcEnabled">
+                          <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc }}
+                        </li>
+                      }
+                    </ul>
+                  }
+                  @if (!dlcEnabled.length) {
+                    <p>None</p>
+                  }
+                </div>
+                <div class="col-md-6">
+                  <p><b>DLC Disabled:</b></p>
+                  @if (dlcDisabled.length) {
+                    <ul class="fa-ul">
+                      @for (dlc of dlcDisabled; track dlc) {
+                        <li class="dlcDisabled">
+                          <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc }}
+                        </li>
+                      }
+                    </ul>
+                  }
+                  @if (!dlcDisabled.length) {
+                    <p>None</p>
+                  }
+                </div>
+              </div>
+              @if (game.createdBySteamId === profile?.steamid) {
+                <div class="row" style="margin-top: 20px">
+                  <div class="col-12 text-center">
+                    <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">
+                      Edit Game Parameters
+                    </button>
+                  </div>
+                </div>
+              }
+            </div>
+          </tab>
+        }
+      </tabset>
+    </div>
   }
   @if (game?.inProgress && (userInGame || game?.createdBySteamId === profile?.steamid)) {
-    <tabset>
-      <tab heading="Play Turn">
-        <div class="well">
-          @if (game.currentPlayerSteamId === profile?.steamid) {
-            <div>
-              <h3 style="margin-top: 0">It's your turn!</h3>
-              @if (game.gameTurnRangeKey > 1) {
-                <div>
-                  <p>
-                    Press the button below to download the save file and play your turn. You'll need to put the file in
-                    the correct location for the game to find it, if you want a simpler experience try using our desktop
-                    client that you can download from the dropdown in the header bar. On Windows, the default location
-                    for hotseat save files is
-                    <b>{{ winDir }}</b
-                    >, and on OSX it's <b>{{ osxDir }}</b
-                    >.
-                  </p>
-                  <div class="row">
-                    <div class="col-xs-12 text-center">
-                      <button class="btn btn-primary" (click)="downloadTurn(game.gameId)">Download Save File</button>
+    <div class="mt-3">
+      <tabset>
+        <tab heading="Play Turn">
+          <div class="card card-body">
+            @if (game.currentPlayerSteamId === profile?.steamid) {
+              <div>
+                <h3 style="margin-top: 0">It's your turn!</h3>
+                @if (game.gameTurnRangeKey > 1) {
+                  <div>
+                    <p>
+                      Press the button below to download the save file and play your turn. You'll need to put the file
+                      in the correct location for the game to find it, if you want a simpler experience try using our
+                      desktop client that you can download from the dropdown in the header bar. On Windows, the default
+                      location for hotseat save files is
+                      <b>{{ winDir }}</b
+                      >, and on OSX it's <b>{{ osxDir }}</b
+                      >.
+                    </p>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <button class="btn btn-primary" (click)="downloadTurn(game.gameId)">Download Save File</button>
+                      </div>
+                    </div>
+                    <hr />
+                    <p>Then, upload the file using the button below after you've played your turn!</p>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <label class="btn btn-primary btn-file">
+                          Select File To Upload...<input
+                            type="file"
+                            (change)="fileSelected($event, game.gameId)"
+                            [accept]="saveExtension"
+                            style="display: none"
+                          />
+                        </label>
+                      </div>
                     </div>
                   </div>
-                  <hr />
-                  <p>Then, upload the file using the button below after you've played your turn!</p>
-                  <div class="row">
-                    <div class="col-xs-12 text-center">
-                      <label class="btn btn-primary btn-file">
-                        Select File To Upload...<input
-                          type="file"
-                          (change)="fileSelected($event, game.gameId)"
-                          [accept]="saveExtension"
-                          style="display: none"
-                        />
-                      </label>
+                }
+                @if (game.gameTurnRangeKey === 1) {
+                  <div>
+                    <p>
+                      Since you created the game, you need to create the initial save file. Click the button below to
+                      start the process:
+                    </p>
+                    <div class="row">
+                      <div class="col-12 text-center">
+                        <button type="button" class="btn btn-primary" (click)="uploadFirstTurnModal.show()">
+                          Create Save File
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              }
-              @if (game.gameTurnRangeKey === 1) {
-                <div>
-                  <p>
-                    Since you created the game, you need to create the initial save file. Click the button below to
-                    start the process:
-                  </p>
-                  <div class="row">
-                    <div class="col-xs-12 text-center">
-                      <button type="button" class="btn btn-primary" (click)="uploadFirstTurnModal.show()">
-                        Create Save File
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              }
-            </div>
-          }
-          @if (game.currentPlayerSteamId !== profile?.steamid) {
-            <p>It's not your turn :(</p>
-          }
-        </div>
-      </tab>
-      @if (
-        (game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) &&
-        game.gameTurnRangeKey > 1
-      ) {
-        <tab heading="Revert Turn">
-          <div class="well">
-            <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
-          </div>
-        </tab>
-      }
-      @if (!noOtherPlayers) {
-        <tab heading="Request Substitution">
-          <div class="well">
-            <pydt-game-request-substitution [game]="game" (setGame)="setGame($event)"></pydt-game-request-substitution>
-          </div>
-        </tab>
-      }
-      @if (
-        "need something here to get it ordered after request sub" ===
-        "need something here to get it ordered after request sub"
-      ) {
-        <tab [heading]="noOtherPlayers ? 'End Game' : 'Surrender'">
-          <div class="well">
-            <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
-          </div>
-        </tab>
-      }
-      @if (game.createdBySteamId !== profile?.steamid && game.gameType === "CIV6") {
-        <tab heading="View Mods">
-          <div class="well">
-            <pydt-game-detail-manage-mods [game]="game"></pydt-game-detail-manage-mods>
-          </div>
-        </tab>
-      }
-      @if (game.createdBySteamId === profile?.steamid) {
-        <tab heading="Admin Tools" #adminTab="tab">
-          <div class="well">
-            @if (adminTab.active) {
-              <pydt-game-detail-admin [game]="game" (setGame)="setGame($event)"></pydt-game-detail-admin>
+                }
+              </div>
+            }
+            @if (game.currentPlayerSteamId !== profile?.steamid) {
+              <p>It's not your turn :(</p>
             }
           </div>
         </tab>
-      }
-    </tabset>
+        @if (
+          (game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) &&
+          game.gameTurnRangeKey > 1
+        ) {
+          <tab heading="Revert Turn">
+            <div class="card card-body">
+              <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
+            </div>
+          </tab>
+        }
+        @if (!noOtherPlayers) {
+          <tab heading="Request Substitution">
+            <div class="card card-body">
+              <pydt-game-request-substitution
+                [game]="game"
+                (setGame)="setGame($event)"
+              ></pydt-game-request-substitution>
+            </div>
+          </tab>
+        }
+        @if (
+          "need something here to get it ordered after request sub" ===
+          "need something here to get it ordered after request sub"
+        ) {
+          <tab [heading]="noOtherPlayers ? 'End Game' : 'Surrender'">
+            <div class="card card-body">
+              <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
+            </div>
+          </tab>
+        }
+        @if (game.createdBySteamId !== profile?.steamid && game.gameType === "CIV6") {
+          <tab heading="View Mods">
+            <div class="card card-body">
+              <pydt-game-detail-manage-mods [game]="game"></pydt-game-detail-manage-mods>
+            </div>
+          </tab>
+        }
+        @if (game.createdBySteamId === profile?.steamid) {
+          <tab heading="Admin Tools" #adminTab="tab">
+            <div class="card card-body">
+              @if (adminTab.active) {
+                <pydt-game-detail-admin [game]="game" (setGame)="setGame($event)"></pydt-game-detail-admin>
+              }
+            </div>
+          </tab>
+        }
+      </tabset>
+    </div>
   }
   @if (game && availableCivs.length) {
     <pydt-game-detail-join
@@ -282,20 +289,18 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="uploadFirstTurnModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Start Game</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="uploadFirstTurnModal.hide()"></button>
       </div>
       <div class="modal-body">
         <p>
           Since you're the first player, you need to create the initial game save file!
           @if (game?.gameType === "OLD_WORLD") {
-            Old World requires the "Play Your Damn Turn Support" mod to be active in the game. This mod enhances the Old
+            Old World requires the"Play Your Damn Turn Support" mod to be active in the game. This mod enhances the Old
             World hotseat code to force a save and exit at the end of your turn, otherwise there's no place to save
-            before the next player's screen appears. From the main menu, go to Mods, then Install, and search for "Play
-            Your Damn Turn Support". Download the mod, and make sure when you're creating the hotseat game that "Use
-            Mods" is enabled at the bottom, and "Play Your Damn Turn Support" is enabled.
+            before the next player's screen appears. From the main menu, go to Mods, then Install, and search for"Play
+            Your Damn Turn Support". Download the mod, and make sure when you're creating the hotseat game that"Use
+            Mods" is enabled at the bottom, and"Play Your Damn Turn Support" is enabled.
           }
           @if (game?.gameType !== "OLD_WORLD") {
             First, make sure that you have the appropriate DLC enabled for the game. You can do this through the Mods
@@ -327,7 +332,7 @@
               }
             </ul>
           </span>
-          When you're ready, click "Confirm Settings", make sure that you have
+          When you're ready, click"Confirm Settings", make sure that you have
           <b>EXACTLY {{ game?.slots }}</b>
           slots active, and add the following human players, starting at the first slot:
         </p>
@@ -344,7 +349,7 @@
         </p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="uploadFirstTurnModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="uploadFirstTurnModal.hide()">Cancel</button>
         <label class="btn btn-primary btn-file">
           Select File To Upload...<input
             type="file"

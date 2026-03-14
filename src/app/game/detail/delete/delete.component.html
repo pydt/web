@@ -1,9 +1,9 @@
-<div class="panel panel-default">
-  <div class="panel-heading">Delete Game</div>
-  <div class="panel-body">
+<div class="card mt-3">
+  <div class="card-header">Delete Game</div>
+  <div class="card-body">
     <p>To delete this game before it starts, click the button below.</p>
     <div class="row">
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         <button type="button" class="btn btn-danger" (click)="confirmDeleteModal.show()">Delete Game</button>
       </div>
     </div>
@@ -22,16 +22,14 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmDeleteModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmDeleteModal.hide()"></button>
       </div>
       <div class="modal-body">
         Do you really want to delete {{ game?.displayName }}? <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmDeleteModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmDeleteModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="delete()">Delete Game!</button>
       </div>
     </div>

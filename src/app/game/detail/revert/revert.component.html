@@ -2,7 +2,7 @@
   If you're having issues with the current state of the game, press the button below to revert to the previous turn.
 </p>
 <div class="row">
-  <div class="col-xs-12 text-center">
+  <div class="col-12 text-center">
     <button type="button" class="btn btn-danger" (click)="confirmRevertModal.show()">Revert Turn</button>
   </div>
 </div>
@@ -19,14 +19,12 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmRevertModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmRevertModal.hide()"></button>
       </div>
       <div class="modal-body">Do you really want to revert to the previous turn in {{ game?.displayName }}?</div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmRevertModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmRevertModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="revert()">Revert!</button>
       </div>
     </div>

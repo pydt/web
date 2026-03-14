@@ -12,7 +12,7 @@
   </div>
 </div>
 <div class="row">
-  <div class="col-xs-12 text-center">
+  <div class="col-12 text-center">
     <button type="button" class="btn btn-danger" (click)="confirmSurrenderModal.show()">
       {{ noOtherPlayers ? "End Game" : "Surrender" }}
     </button>
@@ -31,17 +31,15 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmSurrenderModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmSurrenderModal.hide()"></button>
       </div>
       <div class="modal-body">
         Do you really want to {{ noOtherPlayers ? "end" : "surrender from" }} {{ game?.displayName }}?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmSurrenderModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmSurrenderModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="surrender()">
           {{ noOtherPlayers ? "End Game" : "Surrender!" }}
         </button>

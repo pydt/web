@@ -1,57 +1,57 @@
 <table class="table dataTable" ngClass="{{ config.className || '' }}" role="grid" style="width: 100%">
-  <thead>
-    <tr role="row">
-      @for (column of columns; track column) {
-        <th
-          [ngTableSorting]="config"
-          [column]="column"
-          (sortChanged)="onChangeTable($event)"
-          ngClass="{{ column.className || '' }}"
-        >
-          {{ column.title }}
-          @if (config && column.sort) {
-            <i
-              class="pull-right fa"
-              [ngClass]="{ 'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc' }"
-            ></i>
-          }
-        </th>
-      }
-    </tr>
-  </thead>
-  <tbody>
-    @if (showFilterRow) {
-      <tr>
-        @for (column of columns; track column) {
-          <td>
-            @if (column.filtering) {
-              <input
-                placeholder="{{ column.filtering.placeholder }}"
-                [ngTableFiltering]="column.filtering"
-                class="form-control"
-                style="width: auto"
-                (tableChanged)="onChangeTable(config)"
-              />
-            }
-          </td>
-        }
-      </tr>
-    }
-    @for (row of rows; track row) {
-      <tr>
-        @for (column of columns; track column) {
-          <td (click)="cellClick(row, column.name)">
-            @if (!column.isComponent) {
-              <span [innerHtml]="sanitize(getData(row, column.name))"></span>
-            }
-            @if (column.isComponent) {
-              <ng-container
-                *ngComponentOutlet="getData(row, column.name).component; inputs: getData(row, column.name).inputs"
-              />
-            }
-          </td>
-        }
-      </tr>
-    }
-  </tbody>
+ <thead>
+ <tr role="row">
+ @for (column of columns; track column) {
+ <th
+ [ngTableSorting]="config"
+ [column]="column"
+ (sortChanged)="onChangeTable($event)"
+ ngClass="{{ column.className || '' }}"
+ >
+ {{ column.title }}
+ @if (config && column.sort) {
+ <i
+ class="float-end fa"
+ [ngClass]="{ 'fa-chevron-down': column.sort === 'desc', 'fa-chevron-up': column.sort === 'asc' }"
+ ></i>
+ }
+ </th>
+ }
+ </tr>
+ </thead>
+ <tbody>
+ @if (showFilterRow) {
+ <tr>
+ @for (column of columns; track column) {
+ <td>
+ @if (column.filtering) {
+ <input
+ placeholder="{{ column.filtering.placeholder }}"
+ [ngTableFiltering]="column.filtering"
+ class="form-control"
+ style="width: auto"
+ (tableChanged)="onChangeTable(config)"
+ />
+ }
+ </td>
+ }
+ </tr>
+ }
+ @for (row of rows; track row) {
+ <tr>
+ @for (column of columns; track column) {
+ <td (click)="cellClick(row, column.name)">
+ @if (!column.isComponent) {
+ <span [innerHtml]="sanitize(getData(row, column.name))"></span>
+ }
+ @if (column.isComponent) {
+ <ng-container
+ *ngComponentOutlet="getData(row, column.name).component; inputs: getData(row, column.name).inputs"
+ />
+ }
+ </td>
+ }
+ </tr>
+ }
+ </tbody>
 </table>

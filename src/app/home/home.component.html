@@ -1,20 +1,17 @@
-<div
-  class="jumbotron"
-  style="background: url(img/pydt_home_bg.jpg);no-repeat fixed center;background-size: cover;margin-top:-20px;"
->
+<div style="background: url(img/pydt_home_bg.jpg) no-repeat fixed center; background-size: cover; padding: 48px 0">
   <div class="container">
     <div class="row">
-      <div class="col-xs-4">
-        <img src="/img/pydt_large.png" class="img-responsive" style="margin-left: -12%" />
+      <div class="col-4">
+        <img src="/img/pydt_large.png" class="img-fluid" style="margin-left: -12%" />
       </div>
-      <div class="col-xs-8" style="color: black; margin-left: -40px; margin-right: -80px; margin-left: -40px">
+      <div class="col-8" style="color: black">
         <h1>PLAY YOUR DAMN TURN</h1>
         <h3>Civilization 5 / 6 / Beyond Earth / Old World Hotseat Multiplayer Management</h3>
         <iframe
           width="444"
           height="250"
           style="margin-top: 10px"
-          class="hidden-xs hidden-sm"
+          class="d-none d-md-block"
           src="https://www.youtube.com/embed/L4PeMesClTI"
           title="YouTube video player"
           frameborder="0"
@@ -31,8 +28,8 @@
   <p>
     Want to play a game of Civ with some friends? Don't want to coordinate schedules and get everyone online at the same
     time? <b>Play Your Damn Turn</b>
-    runs a "hotseat" mode game of Civilization for you, passing save files around so everyone can play their damn turn
-    at their damn convenience.
+    runs a"hotseat" mode game of Civilization for you, passing save files around so everyone can play their damn turn at
+    their damn convenience.
   </p>
   <div class="row">
     <div class="col-md-4">
@@ -56,45 +53,45 @@
     width="560"
     height="315"
     style="margin: 0 auto"
-    class="visible-xs visible-sm"
+    class="d-block d-sm-none"
     src="https://www.youtube.com/embed/L4PeMesClTI"
     title="YouTube video player"
     frameborder="0"
     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen
   ></iframe>
-  <div class="media">
-    <div class="media-left">
+  <div class="d-flex gap-3 mb-4">
+    <div class="flex-shrink-0">
       <a href="javascript:void(0)" (click)="step1ImageModal.show()">
-        <img class="media-object" src="/img/home/step1.jpg" style="width: 200px" alt="Step 1" />
+        <img src="/img/home/step1.jpg" style="width: 200px" alt="Step 1" />
       </a>
     </div>
-    <div class="media-body">
-      <h4 class="media-heading">1. Join a Game!</h4>
+    <div class="flex-grow-1">
+      <h4>1. Join a Game!</h4>
       Look in the <a [routerLink]="['game/listOpen']">Open Games</a> area to find games to join, or create your own game
       if you don't see one!
     </div>
   </div>
-  <div class="media">
-    <div class="media-body">
-      <h4 class="media-heading">2. Play Your Damn Turn!</h4>
+  <div class="d-flex gap-3 mb-4">
+    <div class="flex-grow-1">
+      <h4>2. Play Your Damn Turn!</h4>
       Once the game starts, you'll get notified with an email when it's your turn. You can then use either the website
       or our Windows/OSX client to download the save file and Play Your Damn Turn!
     </div>
-    <div class="media-right">
+    <div class="flex-shrink-0 order-last">
       <a href="javascript:void(0)" (click)="step2ImageModal.show()">
-        <img class="media-object" src="/img/home/step2.jpg" style="width: 200px" alt="Step 2" />
+        <img src="/img/home/step2.jpg" style="width: 200px" alt="Step 2" />
       </a>
     </div>
   </div>
-  <div class="media" style="margin-bottom: 40px">
-    <div class="media-left">
+  <div class="d-flex gap-3 mb-4" style="margin-bottom: 40px">
+    <div class="flex-shrink-0">
       <a href="javascript:void(0)" (click)="step3ImageModal.show()">
-        <img class="media-object" src="/img/home/step3.jpg" style="width: 200px" alt="Step 3" />
+        <img src="/img/home/step3.jpg" style="width: 200px" alt="Step 3" />
       </a>
     </div>
-    <div class="media-body">
-      <h4 class="media-heading">3. Upload Your Turn!</h4>
+    <div class="flex-grow-1">
+      <h4>3. Upload Your Turn!</h4>
       When you're done playing your turn, save the game and the client will detect the new save file and allow you to
       upload your turn for the next player to play. Or, if you don't like convenience, you can use our website to do it
       in a slightly more annoying fashion!
@@ -114,10 +111,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="step1ImageModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Create Game</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="step1ImageModal.hide()"></button>
       </div>
       <div class="modal-body">
         <div style="text-align: center">
@@ -140,10 +135,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="step2ImageModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Windows Client</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="step2ImageModal.hide()"></button>
       </div>
       <div class="modal-body">
         <div style="text-align: center">
@@ -166,10 +159,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="step3ImageModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Play Turn on Web</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="step3ImageModal.hide()"></button>
       </div>
       <div class="modal-body">
         <div style="text-align: center">

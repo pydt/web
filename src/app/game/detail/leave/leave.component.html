@@ -1,12 +1,12 @@
-<div class="panel panel-default">
-  <div class="panel-heading">{{ steamId ? "Remove User From" : "Leave" }} Game</div>
-  <div class="panel-body">
+<div class="card mt-3">
+  <div class="card-header">{{ steamId ? "Remove User From" : "Leave" }} Game</div>
+  <div class="card-body">
     <p>
-      If you want to {{ steamId ? "remove this user from " : "leave" }} the game before it starts, click the button
+      If you want to {{ steamId ? "remove this user from" : "leave" }} the game before it starts, click the button
       below!
     </p>
     <div class="row">
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         <button type="button" class="btn btn-danger" (click)="confirmLeaveModal.show()">
           {{ steamId ? "Remove User From" : "Leave" }} Game
         </button>
@@ -27,16 +27,14 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmLeaveModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmLeaveModal.hide()"></button>
       </div>
       <div class="modal-body">
-        Do you really want to {{ steamId ? "remove this user from " : "leave" }} {{ game?.displayName }}?
+        Do you really want to {{ steamId ? "remove this user from" : "leave" }} {{ game?.displayName }}?
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmLeaveModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmLeaveModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="leave()">Leave Game!</button>
       </div>
     </div>

@@ -1,23 +1,23 @@
-<div class="form-group">
-  <label class="col-sm-3 control-label">Game Type:</label>
+<div class="mb-3">
+  <label class="col-sm-3 form-label">Game Type:</label>
   <div class="col-sm-9">
-    <p class="form-control-static">{{ model.civGame.displayName }}</p>
+    <p class="form-control-plaintext">{{ model.civGame.displayName }}</p>
   </div>
 </div>
 @if (game && game.inProgress) {
   <div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">Game Name:</label>
+    <div class="mb-3">
+      <label class="col-sm-3 form-label">Game Name:</label>
       <div class="col-sm-9">
-        <p class="form-control-static">{{ model.displayName }}</p>
+        <p class="form-control-plaintext">{{ model.displayName }}</p>
       </div>
     </div>
   </div>
 }
 @if (!game || !game.inProgress) {
   <div>
-    <div class="form-group" [class.has-error]="(displayName.statusChanges | async) !== 'VALID'">
-      <label for="displayName" class="col-sm-3 control-label">Game Name:</label>
+    <div class="mb-3" [class.has-error]="(displayName.statusChanges | async) !== 'VALID'">
+      <label for="displayName" class="col-sm-3 form-label">Game Name:</label>
       <div class="col-sm-9">
         <input
           type="text"
@@ -32,18 +32,18 @@
     </div>
   </div>
 }
-<div class="form-group">
-  <div class="col-sm-3 hidden-xs">
+<div class="mb-3">
+  <div class="col-sm-3 d-none d-sm-block">
     <div class="clearfix">
-      <label for="description" class="control-label pull-right">Description:</label>
+      <label for="description" class="form-label float-end">Description:</label>
     </div>
-    <button type="button" class="btn btn-default btn-xs pull-right" (click)="showMarkdown = !showMarkdown">
+    <button type="button" class="btn btn-secondary btn-sm float-end" (click)="showMarkdown = !showMarkdown">
       {{ markdownButtonText }}
     </button>
   </div>
-  <div class="visible-xs">
-    <label for="description" class="control-label" style="padding-left: 15px; padding-right: 10px">Description:</label>
-    <button type="button" class="btn btn-default btn-xs" (click)="showMarkdown = !showMarkdown">
+  <div class="d-block d-sm-none">
+    <label for="description" class="form-label" style="padding-left: 15px; padding-right: 10px">Description:</label>
+    <button type="button" class="btn btn-secondary btn-sm" (click)="showMarkdown = !showMarkdown">
       {{ markdownButtonText }}
     </button>
   </div>
@@ -60,7 +60,7 @@
       placeholder="A short description of game parameters, house rules, etc."
     ></textarea>
   </div>
-  <span id="dlcHelp" class="help-block col-sm-offset-3"
+  <span id="dlcHelp" class="form-text text-muted offset-sm-3"
     >You can use markdown to format your description.
     <a href="https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet" target="_blank"
       >Click here to see a markdown cheatsheet.</a
@@ -69,8 +69,8 @@
 </div>
 @if (!game || (game.gameTurnRangeKey || 0) <= 1) {
   <div>
-    <div class="form-group">
-      <label class="col-sm-3 control-label">DLC Support:</label>
+    <div class="mb-3">
+      <label class="col-sm-3 form-label">DLC Support:</label>
       <div class="col-sm-9">
         <div class="checkbox">
           <label>
@@ -105,8 +105,8 @@
       </div>
     </div>
     @if (communityDlc.length) {
-      <div class="form-group">
-        <label class="col-sm-3 control-label">Community DLC:</label>
+      <div class="mb-3">
+        <label class="col-sm-3 form-label">Community DLC:</label>
         <div class="col-sm-9">
           @for (dlc of communityDlc; track dlc) {
             <div class="checkbox">
@@ -122,14 +122,14 @@
         </div>
       </div>
     }
-    <div class="form-group">
-      <span id="dlcHelp" class="help-block col-sm-offset-3"
+    <div class="mb-3">
+      <span id="dlcHelp" class="form-text text-muted offset-sm-3"
         >All players in your game must have any DLC selected installed, otherwise they will be unable to load save
         files!</span
       >
     </div>
-    <div class="form-group">
-      <label for="description" class="col-sm-3 control-label">Game Speed:</label>
+    <div class="mb-3">
+      <label for="description" class="col-sm-3 form-label">Game Speed:</label>
       <div class="col-sm-9">
         <select class="form-control" [(ngModel)]="model.gameSpeed">
           @for (speed of model.civGame.gameSpeeds; track speed) {
@@ -140,13 +140,13 @@
           <option [ngValue]="undefined">{{ model.emptyGame | gamespeed: games }}</option>
         </select>
       </div>
-      <span id="dlcHelp" class="help-block col-sm-offset-3"
+      <span id="dlcHelp" class="form-text text-muted offset-sm-3"
         >Please select Online unless you know what you're doing! Asynchonous games can take a long time to
         complete!</span
       >
     </div>
-    <div class="form-group">
-      <label for="description" class="col-sm-3 control-label">Map Type:</label>
+    <div class="mb-3">
+      <label for="description" class="col-sm-3 form-label">Map Type:</label>
       <div class="col-sm-9">
         <select class="form-control" [(ngModel)]="model.mapFile">
           @for (map of model.civGame.maps; track map) {
@@ -158,8 +158,8 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="description" class="col-sm-3 control-label">Map Size:</label>
+    <div class="mb-3">
+      <label for="description" class="col-sm-3 form-label">Map Size:</label>
       <div class="col-sm-9">
         <select class="form-control" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap?.mapSize">
           @for (size of model.civGame.mapSizes; track size) {
@@ -169,10 +169,10 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="slotsRange" class="col-sm-3 control-label">Number of Slots:</label>
+    <div class="mb-3">
+      <label for="slotsRange" class="col-sm-3 form-label">Number of Slots:</label>
       <div class="col-sm-1">
-        <p class="form-control-static">
+        <p class="form-control-plaintext">
           <b>{{ model.slots }}</b>
         </p>
       </div>
@@ -188,12 +188,12 @@
           aria-describedby="slotsHelp"
         />
       </div>
-      <span id="slotsHelp" class="help-block col-sm-offset-3"
+      <span id="slotsHelp" class="form-text text-muted offset-sm-3"
         >The total number of civilizations in the game (human or ai).</span
       >
     </div>
-    <div class="form-group">
-      <label for="displayName" class="col-sm-3 control-label">Civ selection:</label>
+    <div class="mb-3">
+      <label for="displayName" class="col-sm-3 form-label">Civ selection:</label>
       <div class="col-sm-9">
         <select class="form-control" [(ngModel)]="model.randomOnly">
           @for (option of RANDOM_ONLY_OPTIONS; track option) {
@@ -204,8 +204,8 @@
         </select>
       </div>
     </div>
-    <div class="form-group">
-      <label for="displayName" class="col-sm-3 control-label">Allow Duplicate Civs:</label>
+    <div class="mb-3">
+      <label for="displayName" class="col-sm-3 form-label">Allow Duplicate Civs:</label>
       <div class="col-sm-9">
         <div class="checkbox">
           <label>
@@ -216,10 +216,10 @@
     </div>
   </div>
 }
-<div class="form-group">
-  <label for="humansRange" class="col-sm-3 control-label">Maximum Number of Humans:</label>
+<div class="mb-3">
+  <label for="humansRange" class="col-sm-3 form-label">Maximum Number of Humans:</label>
   <div class="col-sm-1">
-    <p class="form-control-static">
+    <p class="form-control-plaintext">
       <b>{{ model.humans }}</b>
     </p>
   </div>
@@ -235,11 +235,11 @@
       aria-describedby="humansHelp"
     />
   </div>
-  <span id="humansHelp" class="help-block col-sm-offset-3"
+  <span id="humansHelp" class="form-text text-muted offset-sm-3"
     >The maximum number of human players in the game. If the game is started with less than this number, the remaining
     slots will be filled with AI players.</span
   >
-  <div class="col-sm-offset-3 col-sm-8">
+  <div class="offset-sm-3 col-sm-8">
     @for (player of slotsArray; track player; let i = $index) {
       <div class="col-{{ model.slots }}-slots">
         <pydt-player-avatar [game]="slotsPreviewGame" [players]="[]" [index]="i" size="BIG"></pydt-player-avatar>
@@ -247,8 +247,8 @@
     }
   </div>
 </div>
-<div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Allow users to join after start:</label>
+<div class="mb-3">
+  <label for="displayName" class="col-sm-3 form-label">Allow users to join after start:</label>
   <div class="col-sm-9">
     <div class="checkbox">
       <label>
@@ -257,19 +257,19 @@
     </div>
   </div>
 </div>
-<div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Game Password:</label>
+<div class="mb-3">
+  <label for="displayName" class="col-sm-3 form-label">Game Password:</label>
   <div class="col-sm-9">
     <input type="password" class="form-control" id="password" [(ngModel)]="model.password" name="password" />
   </div>
-  <span id="passwordHelp" class="help-block col-sm-offset-3"
+  <span id="passwordHelp" class="form-text text-muted offset-sm-3"
     >If you wish for your game to be protected so that only people who know the password can join, set a password in the
     field above.</span
   >
 </div>
 @if (model.civGame.turnTimerSupported) {
-  <div class="form-group">
-    <label for="displayName" class="col-sm-3 control-label">Turn Timer:</label>
+  <div class="mb-3">
+    <label for="displayName" class="col-sm-3 form-label">Turn Timer:</label>
     <div class="col-sm-1">
       <div class="checkbox">
         <label>
@@ -290,15 +290,15 @@
         />
       </div>
       <div class="col-sm-3">
-        <p class="form-control-static">
+        <p class="form-control-plaintext">
           {{ model.turnTimerMinutesString }}
         </p>
       </div>
     }
   </div>
   @if (model.turnTimerEnabled) {
-    <div class="form-group">
-      <label for="displayName" class="col-sm-3 control-label">Turn Timer Vacation Mode Behavior:</label>
+    <div class="mb-3">
+      <label for="displayName" class="col-sm-3 form-label">Turn Timer Vacation Mode Behavior:</label>
       <div class="col-sm-9">
         <select class="form-control" [(ngModel)]="model.turnTimerVacationHandling">
           @for (option of TURN_TIMER_VACATION_OPTIONS; track option) {
@@ -308,19 +308,19 @@
           }
         </select>
       </div>
-      <span class="help-block col-sm-offset-3">
+      <span class="form-text text-muted offset-sm-3">
         Note: If the turn timer is turned on during a game when a player's current waiting turn time is greater than the
         set turn timer, the turn will be skipped immediately.
       </span>
     </div>
   }
 }
-<div class="form-group">
-  <label for="displayName" class="col-sm-3 control-label">Webhook URL:</label>
+<div class="mb-3">
+  <label for="displayName" class="col-sm-3 form-label">Webhook URL:</label>
   <div class="col-sm-9">
     <input type="text" class="form-control" id="webhookUrl" [(ngModel)]="model.webhookUrl" name="webhookUrl" />
   </div>
-  <span id="webhookUrlHelp" class="help-block col-sm-offset-3"
+  <span id="webhookUrlHelp" class="form-text text-muted offset-sm-3"
     >A URL to send turn notifications to when there is a new turn for any player in this game. The HTTP request will be
     a POST with the following parameters: gameName, userName, round, civName, leaderName. The value1/2/3 parameters used
     by Play By Cloud will also be sent, so any hook set up for Play By Cloud should work for this as well.</span

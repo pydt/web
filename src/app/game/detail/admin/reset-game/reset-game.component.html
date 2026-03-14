@@ -11,8 +11,8 @@
   </div>
   @if (!game.resetGameStateOnNextUpload) {
     <div class="row" style="margin-top: 20px">
-      <div class="col-xs-12 text-center">
-        <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">
+      <div class="col-12 text-center">
+        <button type="button" class="btn btn-secondary" (click)="resetGameStateOnNextUpload()">
           Enable Game State Reset
         </button>
       </div>
@@ -20,7 +20,7 @@
   }
   @if (!!game.resetGameStateOnNextUpload) {
     <div class="row" style="margin-top: 20px">
-      <div class="col-xs-12 text-center">
+      <div class="col-12 text-center">
         <h4><strong>Game State Reset Enabled!</strong></h4>
       </div>
     </div>

@@ -7,14 +7,13 @@
           <tab [heading]="game.displayName" [active]="game === currentGame" (selectTab)="setCurrentGame(game)"> </tab>
         }
       </tabset>
-      <hr style="margin-top: 1px" />
-      <div class="well">
+      <div class="card card-body mt-0">
         <pydt-turn-stats [turnData]="globalData" [hideQueueCharts]="true"></pydt-turn-stats>
       </div>
-      <div class="row">
-        <div class="col-md-6 form-inline">
-          <div class="form-group">
-            <label for="exampleInputName2">Search for User:</label>
+      <div class="row mt-3 mb-2">
+        <div class="col-md-6">
+          <div class="d-flex align-items-center gap-2">
+            <label class="mb-0 text-nowrap">Search for User:</label>
             <input
               type="text"
               class="form-control"
@@ -25,7 +24,7 @@
         </div>
         <div class="col-md-6">
           <pagination
-            class="pull-right"
+            class="float-end"
             [(ngModel)]="tableConfig.paging.page"
             [totalItems]="tableConfig.filtering.filteredResults"
             [itemsPerPage]="tableConfig.paging.itemsPerPage"
@@ -35,7 +34,6 @@
           ></pagination>
         </div>
       </div>
-      <hr />
       <ng-table
         [config]="tableConfig"
         [columns]="tableColumns"

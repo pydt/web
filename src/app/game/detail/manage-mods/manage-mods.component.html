@@ -23,20 +23,20 @@
           <hr />
           <h4>Add Mod:</h4>
           <form (ngSubmit)="addMod()">
-            <div class="form-group">
+            <div class="mb-3">
               <label for="webhookUrl">Mod ID:</label>
               <input type="text" class="form-control" id="newModId" [(ngModel)]="newModId" name="newModId" />
             </div>
-            <div class="form-group">
+            <div class="mb-3">
               <label for="webhookUrl">Mod Title:</label>
               <input type="text" class="form-control" id="newModTitle" [(ngModel)]="newModTitle" name="newModTitle" />
             </div>
-            <button type="submit" class="btn btn-default">Add Mod</button>
+            <button type="submit" class="btn btn-secondary">Add Mod</button>
           </form>
         }
         <hr />
         <h4>Current Mods:</h4>
-        <table class="table table-condensed table-striped">
+        <table class="table table-sm table-striped">
           <thead>
             <tr role="row">
               <th>Mod ID</th>
@@ -65,8 +65,8 @@
   </div>
   @if (!mods) {
     <div class="row" style="margin-top: 20px">
-      <div class="col-xs-12 text-center">
-        <button type="button" class="btn btn-default" (click)="loadMods()">Load Mods for Current Save</button>
+      <div class="col-12 text-center">
+        <button type="button" class="btn btn-secondary" (click)="loadMods()">Load Mods for Current Save</button>
       </div>
     </div>
   }
@@ -84,10 +84,8 @@
   <div class="modal-dialog modal-md">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmDeleteModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmDeleteModal.hide()"></button>
       </div>
       <div class="modal-body">
         <p>Are you sure you want to delete this mod?</p>
@@ -95,7 +93,7 @@
         <b>Title: </b> {{ modToDelete?.title }}
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmDeleteModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmDeleteModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="finishDelete()">Delete the Mod</button>
       </div>
     </div>

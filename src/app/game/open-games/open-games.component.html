@@ -10,36 +10,29 @@
     </p>
     @if (profile) {
       <div class="row">
-        <div class="col-xs-12 text-center">
+        <div class="col-12 text-center">
           <pydt-game-create-button></pydt-game-create-button>
         </div>
       </div>
     }
     <hr style="margin-bottom: 50px" />
     <div style="position: relative">
-      <div style="position: absolute; right: 0; top: -40px">
-        <div class="form-inline">
-          <div class="form-group">
-            <label>Filter Games: </label>
-            <select class="form-control" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
-              <option value="">All Game Types</option>
-              @for (game of games; track game) {
-                <option [value]="game.id">{{ game.displayName }}</option>
-              }
-            </select>
-          </div>
+      <div style="position: absolute; right: 0; top: -40px" class="d-flex flex-column align-items-end gap-1">
+        <div class="d-flex align-items-center gap-2">
+          <label class="mb-0">Filter Games: </label>
+          <select class="form-select" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
+            <option value="">All Game Types</option>
+            @for (game of games; track game) {
+              <option [value]="game.id">{{ game.displayName }}</option>
+            }
+          </select>
         </div>
-        <button
-          type="button"
-          class="btn btn-default btn-xs pull-right"
-          style="margin-top: 5px"
-          (click)="togglePublicOnly()"
-        >
+        <button type="button" class="btn btn-secondary btn-sm text-nowrap" (click)="togglePublicOnly()">
           <span
-            class="glyphicon"
+            class="fa-regular"
             [ngClass]="{
-              'glyphicon-check': publicOnly$ | async,
-              'glyphicon-unchecked': (publicOnly$ | async) === false,
+              'fa-square-check': publicOnly$ | async,
+              'fa-square': (publicOnly$ | async) === false,
             }"
             aria-hidden="true"
           ></span>
@@ -48,7 +41,7 @@
       </div>
       @if (profile) {
         <div class="row">
-          <div class="col-xs-10">
+          <div class="col-10">
             <tabset>
               <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
               <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
@@ -63,11 +56,11 @@
         <h1>No games found.</h1>
       }
       @for (game of filteredGames$ | async; track game) {
-        <div>
-          <div class="well">
+        <div class="mb-3">
+          <div class="card card-body">
             <pydt-game-preview [game]="game" [hideNotStarted]="true"></pydt-game-preview>
             <div class="row">
-              <div class="col-xs-12 text-center">
+              <div class="col-12 text-center mt-3">
                 <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
                   View Game Details
                 </button>

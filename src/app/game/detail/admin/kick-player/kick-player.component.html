@@ -14,7 +14,7 @@
           game is still competitive, you can substitute in another player to take over for the player you're removing.
         </p>
       </div>
-      <div class="form-group">
+      <div class="mb-3">
         <div class="col-sm-12">
           <div class="checkbox">
             <label>
@@ -30,8 +30,8 @@
         </div>
       </div>
       @if (userToSubstitute) {
-        <div class="form-group">
-          <label for="description" class="col-sm-3 control-label">Player to Substitute:</label>
+        <div class="mb-3">
+          <label for="description" class="col-sm-3 form-label">Player to Substitute:</label>
           <div class="col-sm-9">
             <select class="form-control" [(ngModel)]="userToSubstitute">
               @for (user of substituteUsers; track user) {
@@ -46,7 +46,7 @@
     }
   </div>
   <div class="row" style="margin-top: 20px">
-    <div class="col-xs-12 text-center">
+    <div class="col-12 text-center">
       <button type="button" class="btn btn-danger" (click)="confirmKickUserModal.show()">Kick Player</button>
     </div>
   </div>
@@ -64,17 +64,15 @@
   <div class="modal-dialog modal-sm">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" aria-label="Close" (click)="confirmKickUserModal.hide()">
-          <span aria-hidden="true">&times;</span>
-        </button>
         <h4 class="modal-title">Are you sure?</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="confirmKickUserModal.hide()"></button>
       </div>
       <div class="modal-body">
         Are you sure you want to kick the current player from {{ game?.displayName }}?
         <b>THIS ACTION IS IRREVERSIBLE!</b>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" (click)="confirmKickUserModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-secondary" (click)="confirmKickUserModal.hide()">Cancel</button>
         <button type="button" class="btn btn-danger" (click)="kickPlayer()">Kick Player!</button>
       </div>
     </div>
