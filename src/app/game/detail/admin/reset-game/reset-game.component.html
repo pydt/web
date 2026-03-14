@@ -9,16 +9,20 @@
       </p>
     </div>
   </div>
-  <div class="row" style="margin-top: 20px" *ngIf="!game.resetGameStateOnNextUpload">
-    <div class="col-xs-12 text-center">
-      <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">
-        Enable Game State Reset
-      </button>
+  @if (!game.resetGameStateOnNextUpload) {
+    <div class="row" style="margin-top: 20px">
+      <div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-default" (click)="resetGameStateOnNextUpload()">
+          Enable Game State Reset
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="row" style="margin-top: 20px" *ngIf="!!game.resetGameStateOnNextUpload">
-    <div class="col-xs-12 text-center">
-      <h4><strong>Game State Reset Enabled!</strong></h4>
+  }
+  @if (!!game.resetGameStateOnNextUpload) {
+    <div class="row" style="margin-top: 20px">
+      <div class="col-xs-12 text-center">
+        <h4><strong>Game State Reset Enabled!</strong></h4>
+      </div>
     </div>
-  </div>
+  }
 </ng-container>

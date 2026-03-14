@@ -4,6 +4,7 @@ import { Game, GameService } from "pydt-shared";
 @Component({
   selector: "pydt-game-detail-admin-reset-game",
   templateUrl: "./reset-game.component.html",
+  standalone: false,
 })
 export class GameDetailAdminResetGameComponent {
   @Input() game: Game;

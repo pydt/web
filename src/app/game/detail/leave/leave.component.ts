@@ -7,6 +7,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-leave",
   templateUrl: "./leave.component.html",
+  standalone: false,
 })
 export class GameDetailLeaveComponent {
   @Input() game: Game;

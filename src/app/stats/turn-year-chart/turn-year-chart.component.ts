@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-turn-year-chart",
   templateUrl: "./turn-year-chart.component.html",
+  standalone: false,
 })
 export class TurnYearChartComponent implements OnChanges {
   @Input() turnData: TurnData | Game;

@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-time-of-day-chart",
   templateUrl: "./time-of-day-chart.component.html",
+  standalone: false,
 })
 export class TimeOfDayChartComponent implements OnChanges {
   @Input() turnData: TurnData | Game;

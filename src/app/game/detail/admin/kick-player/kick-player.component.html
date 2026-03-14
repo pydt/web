@@ -7,7 +7,7 @@
         inappropriately you may be banned from the site!
       </p>
     </div>
-    <ng-container *ngIf="substituteUsers?.length">
+    @if (substituteUsers?.length) {
       <div class="col-sm-12">
         <p>
           Players with more than 500 turns played can register to be substituted in to games when players leave. If this
@@ -29,17 +29,21 @@
           </div>
         </div>
       </div>
-      <div class="form-group" *ngIf="userToSubstitute">
-        <label for="description" class="col-sm-3 control-label">Player to Substitute:</label>
-        <div class="col-sm-9">
-          <select class="form-control" [(ngModel)]="userToSubstitute">
-            <option *ngFor="let user of substituteUsers" [ngValue]="user">
-              {{ user.displayName }}
-            </option>
-          </select>
+      @if (userToSubstitute) {
+        <div class="form-group">
+          <label for="description" class="col-sm-3 control-label">Player to Substitute:</label>
+          <div class="col-sm-9">
+            <select class="form-control" [(ngModel)]="userToSubstitute">
+              @for (user of substituteUsers; track user) {
+                <option [ngValue]="user">
+                  {{ user.displayName }}
+                </option>
+              }
+            </select>
+          </div>
         </div>
-      </div>
-    </ng-container>
+      }
+    }
   </div>
   <div class="row" style="margin-top: 20px">
     <div class="col-xs-12 text-center">

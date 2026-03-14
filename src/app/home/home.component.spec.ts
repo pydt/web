@@ -21,5 +21,8 @@ describe("Home Component", () => {
 
 });
 
-@Component({ selector: "pydt-test", template: "" })
+@Component({
+    selector: "pydt-test", template: "",
+    standalone: false
+})
 class TestComponent { }

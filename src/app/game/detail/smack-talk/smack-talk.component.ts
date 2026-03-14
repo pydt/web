@@ -5,6 +5,7 @@ import { BrowserDataService } from "../../../shared/browser-data.service";
 @Component({
   selector: "pydt-game-detail-smack-talk",
   templateUrl: "./smack-talk.component.html",
+  standalone: false,
 })
 export class GameDetailSmackTalkComponent implements OnChanges {
   @Input() game: Game;

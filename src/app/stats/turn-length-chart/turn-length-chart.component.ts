@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-turn-length-chart",
   templateUrl: "./turn-length-chart.component.html",
+  standalone: false,
 })
 export class TurnLengthChartComponent implements OnChanges {
   @Input() turnData: TurnData | Game;

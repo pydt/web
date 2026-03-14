@@ -15,6 +15,7 @@ export interface TableColumn {
 @Component({
   selector: "pydt-game-detail-stats",
   templateUrl: "./stats.component.html",
+  standalone: false,
 })
 export class GameDetailStatsComponent implements OnInit {
   @Input() game: Game;

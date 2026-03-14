@@ -4,14 +4,16 @@
   </div>
 </div>
 <tabset>
-  <tab heading="Kick Current Player" *ngIf="game.createdBySteamId !== game.currentPlayerSteamId">
-    <div class="well">
-      <pydt-game-detail-admin-kick-player
-        [game]="game"
-        (setGame)="setGame.emit($event)"
-      ></pydt-game-detail-admin-kick-player>
-    </div>
-  </tab>
+  @if (game.createdBySteamId !== game.currentPlayerSteamId) {
+    <tab heading="Kick Current Player">
+      <div class="well">
+        <pydt-game-detail-admin-kick-player
+          [game]="game"
+          (setGame)="setGame.emit($event)"
+        ></pydt-game-detail-admin-kick-player>
+      </div>
+    </tab>
+  }
   <tab heading="Reset Game State on Next Upload">
     <div class="well">
       <pydt-game-detail-admin-reset-game
@@ -46,9 +48,11 @@
       ></pydt-game-detail-admin-mark-substitution>
     </div>
   </tab>
-  <tab heading="Manage Mods" *ngIf="game.gameType === 'CIV6'">
-    <div class="well">
-      <pydt-game-detail-manage-mods [game]="game" [admin]="true"></pydt-game-detail-manage-mods>
-    </div>
-  </tab>
+  @if (game.gameType === "CIV6") {
+    <tab heading="Manage Mods">
+      <div class="well">
+        <pydt-game-detail-manage-mods [game]="game" [admin]="true"></pydt-game-detail-manage-mods>
+      </div>
+    </tab>
+  }
 </tabset>

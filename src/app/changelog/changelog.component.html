@@ -9,17 +9,17 @@
     <tab heading="Web Site">
       <div class="well">
         <hr />
-        <ng-container *ngFor="let change of changelog.websiteChanges">
+        @for (change of changelog.websiteChanges; track change) {
           <h4>{{ change.date | date }}</h4>
           <markdown [data]="change.desc"></markdown>
           <hr />
-        </ng-container>
+        }
       </div>
     </tab>
     <tab heading="Client">
       <div class="well">
         <hr />
-        <ng-container *ngFor="let change of changelog.clientChanges">
+        @for (change of changelog.clientChanges; track change) {
           <h1>
             <a href="https://github.com/pydt/client/releases/tag/v{{ change.version }}" target="blank">{{
               change.version
@@ -28,7 +28,7 @@
           <h4>{{ change.date | date }}</h4>
           <markdown [data]="change.desc"></markdown>
           <hr />
-        </ng-container>
+        }
       </div>
     </tab>
   </tabset>

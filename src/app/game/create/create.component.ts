@@ -28,6 +28,7 @@ class CreateGameModel extends ConfigureGameModel {
 @Component({
   selector: "pydt-create-game",
   templateUrl: "./create.component.html",
+  standalone: false,
 })
 export class CreateGameComponent implements OnInit {
   model: CreateGameModel;

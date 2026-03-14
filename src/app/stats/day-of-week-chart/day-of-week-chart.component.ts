@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-day-of-week-chart",
   templateUrl: "./day-of-week-chart.component.html",
+  standalone: false,
 })
 export class DayOfWeekChartComponent implements OnChanges {
   @Input() turnData: TurnData | Game;

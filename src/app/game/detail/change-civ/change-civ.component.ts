@@ -5,6 +5,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-change-civ",
   templateUrl: "./change-civ.component.html",
+  standalone: false,
 })
 export class GameDetailChangeCivComponent {
   @Input() game: Game;

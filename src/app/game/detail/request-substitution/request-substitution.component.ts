@@ -5,6 +5,7 @@ import { AuthService, NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-request-substitution",
   templateUrl: "./request-substitution.component.html",
+  standalone: false,
 })
 export class GameDetailRequestSubstitutionComponent {
   @Input() game: Game;

@@ -5,6 +5,7 @@ import { Game } from "pydt-shared";
   selector: "pydt-game-detail-admin",
   templateUrl: "./admin.component.html",
   styleUrls: ["./admin.component.scss"],
+  standalone: false,
 })
 export class GameDetailAdminComponent {
   @Input() game: Game;

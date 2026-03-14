@@ -7,6 +7,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-delete",
   templateUrl: "./delete.component.html",
+  standalone: false,
 })
 export class GameDetailDeleteComponent {
   @Input() game: Game;

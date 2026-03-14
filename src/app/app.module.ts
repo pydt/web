@@ -137,11 +137,12 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     NotFoundComponent,
   ],
   bootstrap: [AppComponent],
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   imports: [
     DragulaModule,
     AlertModule.forRoot(),
     BrowserAnimationsModule,
-    BrowserModule.withServerTransition({ appId: "serverApp" }),
+    BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     ApiModule.forRoot(configFactory),

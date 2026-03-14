@@ -13,6 +13,7 @@ import { ConfigureGameModel } from "./configure-game.model";
   selector: "pydt-configure-game",
   templateUrl: "./config.component.html",
   styleUrls: ["./config.component.css"],
+  standalone: false,
 })
 export class ConfigureGameComponent implements OnInit {
   @Input() game: Game;

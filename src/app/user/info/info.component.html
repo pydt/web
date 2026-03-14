@@ -12,21 +12,34 @@
   </div>
   <div class="col-sm-8">
     <h1 style="margin-top: 0">
-      {{ user?.displayName }} <ng-container *ngIf="user.vacationMode">(On Vacation!)</ng-container>
+      {{ user?.displayName }}
+      @if (user.vacationMode) {
+        (On Vacation!)
+      }
     </h1>
-    <p *ngIf="user.timezone"><b>Time Zone:</b> {{ user.timezone }}</p>
-    <p *ngIf="user.comments"><b>Comments:</b> {{ user.comments }}</p>
-    <div *ngIf="stats.turnsPlayed">
-      <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
+    @if (user.timezone) {
+      <p><b>Time Zone:</b> {{ user.timezone }}</p>
+    }
+    @if (user.comments) {
+      <p><b>Comments:</b> {{ user.comments }}</p>
+    }
+    @if (stats.turnsPlayed) {
+      <div>
+        <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
+        <hr />
+        <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px">
+          @for (game of allCivGames; track game) {
+            <option [ngValue]="game.id">{{ game.displayName }}</option>
+          }
+        </select>
+        <pydt-turn-stats [turnData]="stats" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>
+      </div>
+    }
+  </div>
+  @if (stats.turnsPlayed) {
+    <div class="col-sm-12">
       <hr />
-      <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px">
-        <option *ngFor="let game of allCivGames" [ngValue]="game.id">{{ game.displayName }}</option>
-      </select>
-      <pydt-turn-stats [turnData]="stats" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>
+      <pydt-turn-stats [turnData]="stats" [displayFacts]="false"></pydt-turn-stats>
     </div>
-  </div>
-  <div *ngIf="stats.turnsPlayed" class="col-sm-12">
-    <hr />
-    <pydt-turn-stats [turnData]="stats" [displayFacts]="false"></pydt-turn-stats>
-  </div>
+  }
 </div>

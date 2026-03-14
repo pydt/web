@@ -1,5 +1,5 @@
 import { Component, HostListener, Input, OnInit } from "@angular/core";
-import * as moment from "moment";
+import moment from "moment";
 import {
   Game,
   GameService,
@@ -11,7 +11,6 @@ import {
   GameTurnListItem,
   CountdownUtility,
 } from "pydt-shared";
-import { Parser } from "json2csv";
 import * as FileSaver from "file-saver";
 import { AuthService } from "../../../shared";
 
@@ -24,6 +23,7 @@ export interface TableColumn {
 @Component({
   selector: "pydt-game-detail-turns",
   templateUrl: "./turns.component.html",
+  standalone: false,
 })
 export class GameDetailTurnsComponent implements OnInit {
   @Input() game: Game;
@@ -96,19 +96,21 @@ export class GameDetailTurnsComponent implements OnInit {
 
     const csvData = this.createTableData(turns, true);
 
-    const parser = new Parser({
-      fields: [
-        { label: "Turn #", value: "turn" },
-        { label: "Round #", value: "round" },
-        { label: "Player", value: "player" },
-        { label: "Start Time", value: "startDate" },
-        { label: "End Time", value: "endDate" },
-        { label: "Time Taken", value: "timeTaken" },
-        ...(this.civGame.turnTimerSupported ? [{ label: "Skipped?", value: "skipped" }] : []),
-      ],
-    });
+    const fields: Array<{ label: string; value: string }> = [
+      { label: "Turn #", value: "turn" },
+      { label: "Round #", value: "round" },
+      { label: "Player", value: "player" },
+      { label: "Start Time", value: "startDate" },
+      { label: "End Time", value: "endDate" },
+      { label: "Time Taken", value: "timeTaken" },
+      ...(this.civGame.turnTimerSupported ? [{ label: "Skipped?", value: "skipped" }] : []),
+    ];
 
-    const csv = parser.parse(csvData);
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
+    const escape = (v: unknown) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const header = fields.map(f => escape(f.label)).join(",");
+    const rows = csvData.map(row => fields.map(f => escape((row as Record<string, unknown>)[f.value])).join(","));
+    const csv = [header, ...rows].join("\n");
     const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
 
     FileSaver.saveAs(blob, `${this.game.displayName}.csv`);
@@ -147,7 +149,9 @@ export class GameDetailTurnsComponent implements OnInit {
         player: textOnly
           ? this.profiles[turn.playerSteamId].personaname
           : `<img src="${this.profiles[turn.playerSteamId].avatar}"> ${this.profiles[turn.playerSteamId].personaname}`,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         startDate: moment(turn.startDate).format("LLL"),
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
         endDate: turn.endDate ? moment(turn.endDate).format("LLL") : "In Progress...",
         timeTaken: timeTaken.toString(),
         skipped: turn.skipped ? "Skipped!" : "",

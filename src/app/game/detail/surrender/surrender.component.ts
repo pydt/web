@@ -7,6 +7,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-surrender",
   templateUrl: "./surrender.component.html",
+  standalone: false,
 })
 export class GameDetailSurrenderComponent {
   @Input() game: Game;

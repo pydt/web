@@ -4,6 +4,7 @@ import { CivGame, CountdownUtility, MetadataCacheService, ProfileCacheService, S
 @Component({
   selector: "pydt-user-info",
   templateUrl: "./info.component.html",
+  standalone: false,
 })
 export class UserInfoComponent implements OnInit {
   @Input() user: User;

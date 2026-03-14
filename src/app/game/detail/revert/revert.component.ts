@@ -6,6 +6,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-revert",
   templateUrl: "./revert.component.html",
+  standalone: false,
 })
 export class GameDetailRevertComponent {
   @Input() game: Game;

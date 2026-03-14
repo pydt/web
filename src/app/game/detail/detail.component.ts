@@ -25,6 +25,7 @@ import { MetatagService } from "./../../shared/metatag.service";
   selector: "pydt-game-detail",
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.scss"],
+  standalone: false,
 })
 export class GameDetailComponent implements OnInit {
   private gameId: string;
@@ -268,7 +269,7 @@ export class GameDetailComponent implements OnInit {
             const array = new Uint8Array(this.result as any);
             const toSend = gzip(array);
 
-            xhr.send(toSend);
+            xhr.send(toSend as unknown as XMLHttpRequestBodyInit);
           };
           reader.readAsArrayBuffer(fileTarget.files[0]);
         });

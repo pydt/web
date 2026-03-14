@@ -19,6 +19,7 @@ import { Router } from "@angular/router";
   selector: "pydt-user-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
+  standalone: false,
 })
 export class UserProfileComponent implements OnInit {
   token: string;

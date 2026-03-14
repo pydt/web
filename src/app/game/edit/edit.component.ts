@@ -21,6 +21,7 @@ class EditGameModel extends ConfigureGameModel {
 @Component({
   selector: "pydt-edit-game",
   templateUrl: "./edit.component.html",
+  standalone: false,
 })
 export class EditGameComponent implements OnInit {
   game: Game;

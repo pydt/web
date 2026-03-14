@@ -5,6 +5,7 @@ import { CountdownUtility, TurnData } from "pydt-shared";
 @Component({
   selector: "pydt-turn-stats",
   templateUrl: "./display-turn-stats.component.html",
+  standalone: false,
 })
 export class DisplayTurnStatsComponent {
   @Input() turnData: TurnData;

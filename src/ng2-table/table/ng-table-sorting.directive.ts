@@ -1,7 +1,10 @@
 import { Directive, EventEmitter, Input, Output, HostListener } from "@angular/core";
 
 // eslint-disable-next-line
-@Directive({selector: '[ngTableSorting]'})
+@Directive({
+    selector: '[ngTableSorting]',
+    standalone: false
+})
 export class NgTableSortingDirective {
   @Input() public ngTableSorting: any;
   @Input() public column: any;

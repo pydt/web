@@ -1,31 +1,26 @@
-<span
-  *ngIf="!canEditTurnOrder && !!game.hashedPassword"
-  tooltip="This game is password protected."
-  placement="left"
-  class="glyphicon glyphicon-lock pull-right ml"
-></span>
-<button
-  class="btn btn-sm btn-default pull-right ml"
-  *ngIf="canEditTurnOrder && !editingTurnOrder"
-  type="button"
-  (click)="startEditingTurnOrder()"
->
-  Edit Turn Order
-</button>
-<button class="btn btn-sm btn-primary pull-right ml" *ngIf="editingTurnOrder" type="button" (click)="saveTurnOrder()">
-  Save Turn Order
-</button>
-<button
-  class="btn btn-sm btn-default pull-right ml"
-  *ngIf="editingTurnOrder"
-  type="button"
-  (click)="sortViaPlayTimes()"
->
-  Sort via Play Times
-</button>
-<p *ngIf="showTurnInfo && game.gameTurnRangeKey > 1" class="pull-right ml">
-  Round {{ game.round }} - {{ lastTurnText$ | async }}
-</p>
+@if (!canEditTurnOrder && !!game.hashedPassword) {
+  <span
+    tooltip="This game is password protected."
+    placement="left"
+    class="glyphicon glyphicon-lock pull-right ml"
+  ></span>
+}
+@if (canEditTurnOrder && !editingTurnOrder) {
+  <button class="btn btn-sm btn-default pull-right ml" type="button" (click)="startEditingTurnOrder()">
+    Edit Turn Order
+  </button>
+}
+@if (editingTurnOrder) {
+  <button class="btn btn-sm btn-primary pull-right ml" type="button" (click)="saveTurnOrder()">Save Turn Order</button>
+}
+@if (editingTurnOrder) {
+  <button class="btn btn-sm btn-default pull-right ml" type="button" (click)="sortViaPlayTimes()">
+    Sort via Play Times
+  </button>
+}
+@if (showTurnInfo && game.gameTurnRangeKey > 1) {
+  <p class="pull-right ml">Round {{ game.round }} - {{ lastTurnText$ | async }}</p>
+}
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   <img
     src="/img/game_{{ game.gameType }}.png"
@@ -35,7 +30,7 @@
   {{ gameTitle }}
 </h3>
 <div class="row" style="padding-left: 13px; padding-right: 13px">
-  <ng-container *ngIf="editingTurnOrder">
+  @if (editingTurnOrder) {
     <div class="col-{{ game.slots }}-slots">
       <pydt-player-avatar
         [game]="game"
@@ -52,7 +47,23 @@
       [dragulaModel]="reorderableIndexes$ | async"
       (dragulaModelChange)="reorderableIndexes$.next($event)"
     >
-      <div *ngFor="let index of reorderableIndexes$ | async" class="col-{{ game.slots }}-slots">
+      @for (index of reorderableIndexes$ | async; track index) {
+        <div class="col-{{ game.slots }}-slots">
+          <pydt-player-avatar
+            [game]="game"
+            [players]="gamePlayers"
+            [gamePlayerProfiles]="gamePlayerProfiles"
+            [civDefs]="civDefs"
+            [index]="index"
+            [thumbnailOnly]="true"
+            [thumbnailOnlyDragMode]="true"
+            size="BIG"
+          ></pydt-player-avatar>
+        </div>
+      }
+    </div>
+    @for (index of emptyIndexes; track index) {
+      <div class="col-{{ game.slots }}-slots">
         <pydt-player-avatar
           [game]="game"
           [players]="gamePlayers"
@@ -60,69 +71,61 @@
           [civDefs]="civDefs"
           [index]="index"
           [thumbnailOnly]="true"
-          [thumbnailOnlyDragMode]="true"
           size="BIG"
         ></pydt-player-avatar>
       </div>
-    </div>
-    <div *ngFor="let index of emptyIndexes" class="col-{{ game.slots }}-slots">
-      <pydt-player-avatar
-        [game]="game"
-        [players]="gamePlayers"
-        [gamePlayerProfiles]="gamePlayerProfiles"
-        [civDefs]="civDefs"
-        [index]="index"
-        [thumbnailOnly]="true"
-        size="BIG"
-      ></pydt-player-avatar>
-    </div>
-  </ng-container>
-  <ng-container *ngIf="!editingTurnOrder">
-    <div *ngFor="let player of gamePlayers; let i = index" class="col-{{ game.slots }}-slots">
-      <pydt-player-avatar
-        [game]="game"
-        [players]="gamePlayers"
-        [gamePlayerProfiles]="gamePlayerProfiles"
-        [civDefs]="civDefs"
-        [index]="i"
-        size="BIG"
-        (click)="showUserDetail($event.steamId)"
-      ></pydt-player-avatar>
-    </div>
-  </ng-container>
+    }
+  }
+  @if (!editingTurnOrder) {
+    @for (player of gamePlayers; track player; let i = $index) {
+      <div class="col-{{ game.slots }}-slots">
+        <pydt-player-avatar
+          [game]="game"
+          [players]="gamePlayers"
+          [gamePlayerProfiles]="gamePlayerProfiles"
+          [civDefs]="civDefs"
+          [index]="i"
+          size="BIG"
+          (click)="showUserDetail($event.steamId)"
+        ></pydt-player-avatar>
+      </div>
+    }
+  }
 </div>
-<ng-container *ngIf="editingTurnOrder">
+@if (editingTurnOrder) {
   <p style="padding-bottom: 20px; text-align: center">
     Drag and drop the player icons to edit the turn order. The game creator must always be first and can't be moved, and
     all AI players must always be last.
   </p>
-
   <h4 style="text-align: center">Player Turn Times (in browser local time):</h4>
-
   <table class="table table-condensed table-striped">
     <thead>
       <tr role="row">
         <th></th>
-        <th *ngFor="let hour of hours">
-          {{ hour }}
-        </th>
+        @for (hour of hours; track hour) {
+          <th>
+            {{ hour }}
+          </th>
+        }
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of playerUsers$ | async">
-        <th>{{ user.displayName }}</th>
-        <td
-          *ngFor="let hour of userTurnTimesLocal(user)"
-          [ngClass]="{ maxHour: hour.isMax }"
-          [attr.colspan]="hour.timezoneHour ? 24 : undefined"
-        >
-          {{ hour.turns }}
-          {{ hour.timezoneHour ? "No turn data, using noon in profile timezone (" + hour.timezoneHour + ":00)" : "" }}
-        </td>
-      </tr>
+      @for (user of playerUsers$ | async; track user) {
+        <tr>
+          <th>{{ user.displayName }}</th>
+          @for (hour of userTurnTimesLocal(user); track hour) {
+            <td [ngClass]="{ maxHour: hour.isMax }" [attr.colspan]="hour.timezoneHour ? 24 : undefined">
+              {{ hour.turns }}
+              {{
+                hour.timezoneHour ? "No turn data, using noon in profile timezone (" + hour.timezoneHour + ":00)" : ""
+              }}
+            </td>
+          }
+        </tr>
+      }
     </tbody>
   </table>
-</ng-container>
+}
 
 <div
   bsModal
@@ -142,32 +145,36 @@
         <h4 class="modal-title">User Info</h4>
       </div>
       <div class="modal-body" style="min-height: 200px">
-        <h4 *ngIf="!user">Loading...</h4>
-        <ng-container *ngIf="user">
+        @if (!user) {
+          <h4>Loading...</h4>
+        }
+        @if (user) {
           <pydt-user-info [user]="user"></pydt-user-info>
           <div class="row" style="margin-top: 8px">
             <div class="col-sm-12">
-              <pydt-game-detail-change-civ
-                *ngIf="canEdit"
-                [game]="game"
-                [steamId]="user?.steamId"
-                [playerCiv]="userCiv"
-                [availableCivs]="availableCivs"
-                (setGame)="gameUpdated.emit($event)"
-              ></pydt-game-detail-change-civ>
+              @if (canEdit) {
+                <pydt-game-detail-change-civ
+                  [game]="game"
+                  [steamId]="user?.steamId"
+                  [playerCiv]="userCiv"
+                  [availableCivs]="availableCivs"
+                  (setGame)="gameUpdated.emit($event)"
+                ></pydt-game-detail-change-civ>
+              }
             </div>
           </div>
           <div class="row">
             <div class="col-sm-12">
-              <pydt-game-detail-leave
-                *ngIf="canEdit && activeProfile?.steamid !== user?.steamId"
-                [game]="game"
-                [steamId]="user?.steamId"
-                (setGame)="gameUpdated.emit($event)"
-              ></pydt-game-detail-leave>
+              @if (canEdit && activeProfile?.steamid !== user?.steamId) {
+                <pydt-game-detail-leave
+                  [game]="game"
+                  [steamId]="user?.steamId"
+                  (setGame)="gameUpdated.emit($event)"
+                ></pydt-game-detail-leave>
+              }
             </div>
           </div>
-        </ng-container>
+        }
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="playerDetailModal.hide()">OK</button>

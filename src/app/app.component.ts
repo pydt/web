@@ -17,6 +17,7 @@ import { ChangelogService } from "./shared/changelog.service";
 @Component({
   selector: "pydt-app",
   templateUrl: "./app.component.html",
+  standalone: false,
 })
 export class AppComponent implements OnInit {
   isCollapsed = true;
@@ -44,7 +45,9 @@ export class AppComponent implements OnInit {
     public changelog: ChangelogService,
     angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
   ) {
-    setTheme("bs3");
+    // TODO: upgrade to Bootstrap 4/5 when ready
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
+    setTheme("bs3" as any);
 
     if (environment.name === "prod") {
       angulartics2GoogleAnalytics.startTracking();

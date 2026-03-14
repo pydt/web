@@ -8,6 +8,7 @@ import { AvailableCiv } from "../detail.component";
 @Component({
   selector: "pydt-game-detail-join",
   templateUrl: "./join.component.html",
+  standalone: false,
 })
 export class GameDetailJoinComponent implements OnChanges {
   @Input() game: Game;

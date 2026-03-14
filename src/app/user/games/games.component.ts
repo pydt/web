@@ -6,6 +6,7 @@ import { orderBy } from "lodash";
 @Component({
   selector: "pydt-user-games",
   templateUrl: "./games.component.html",
+  standalone: false,
 })
 export class UserGamesComponent implements OnInit {
   games: Game[];
@@ -54,7 +55,7 @@ export class UserGamesComponent implements OnInit {
     ];
   }
 
-  @HostListener("document:visibilitychange", ["$event"])
+  @HostListener("document:visibilitychange")
   visibilitychange(): void {
     if (!document.hidden) {
       void this.refresh();

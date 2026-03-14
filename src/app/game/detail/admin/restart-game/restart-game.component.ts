@@ -6,6 +6,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-restart-game",
   templateUrl: "./restart-game.component.html",
+  standalone: false,
 })
 export class GameDetailAdminRestartGameComponent {
   @Input() game: Game;

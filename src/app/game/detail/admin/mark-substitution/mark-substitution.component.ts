@@ -5,6 +5,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-mark-substitution",
   templateUrl: "./mark-substitution.component.html",
+  standalone: false,
 })
 export class GameDetailAdminMarkSubstitutionComponent implements OnInit {
   @Input() game: Game;

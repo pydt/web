@@ -1,5 +1,5 @@
 import { ErrorHandler, Injectable } from "@angular/core";
-import * as Rollbar from "rollbar";
+import Rollbar from "rollbar";
 import { Subject } from "rxjs";
 import { environment } from "../../environments/environment";
 import envVars from "../../envVars";
@@ -21,6 +21,7 @@ export class ErrorHandlerService implements ErrorHandler {
   private rollbar: Rollbar;
 
   constructor(private auth?: AuthService) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     this.rollbar = new Rollbar({
       // eslint-disable-next-line dot-notation
       accessToken: process.env["ROLLBAR_SERVER_API_KEY"],

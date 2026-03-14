@@ -4,6 +4,7 @@ import { AvailableCiv } from "../detail/detail.component";
 @Component({
   selector: "pydt-display-civ",
   templateUrl: "./display-civ.component.html",
+  standalone: false,
 })
 export class DisplayCivComponent {
   @Input() civ: AvailableCiv;

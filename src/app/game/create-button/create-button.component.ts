@@ -7,6 +7,7 @@ import { AuthService } from "../../shared";
 @Component({
   selector: "pydt-game-create-button",
   templateUrl: "./create-button.component.html",
+  standalone: false,
 })
 export class GameCreateButtonComponent implements OnInit {
   @ViewChild("cannotCreateGameModal", { static: true }) cannotCreateGameModal: ModalDirective;

@@ -1,225 +1,272 @@
 <div class="container">
-  <pydt-game-preview
-    *ngIf="game"
-    [availableCivs]="availableCivs"
-    [game]="game"
-    (gameUpdated)="this.setGame($event)"
-    [editMode]="true"
-  ></pydt-game-preview>
-  <tabset *ngIf="game">
-    <tab heading="Game Stats" *ngIf="game.gameTurnRangeKey > 1">
-      <div class="well">
-        <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
-      </div>
-    </tab>
-    <tab heading="Turn History" *ngIf="game.gameTurnRangeKey > 1" (selectTab)="historyTabOpened = true">
-      <div class="well" *ngIf="historyTabOpened">
-        <pydt-game-detail-turns [game]="game"></pydt-game-detail-turns>
-      </div>
-    </tab>
-    <tab heading="Game Details" *ngIf="game">
-      <div class="well">
-        <ng-container *ngIf="game.description">
-          <markdown [data]="game.description"></markdown>
-          <hr />
-        </ng-container>
-        <div class="row">
-          <div class="col-md-6">
-            <p><b>Game Type:</b> {{ civGame?.displayName }}</p>
+  @if (game) {
+    <pydt-game-preview
+      [availableCivs]="availableCivs"
+      [game]="game"
+      (gameUpdated)="this.setGame($event)"
+      [editMode]="true"
+    ></pydt-game-preview>
+  }
+  @if (game) {
+    <tabset>
+      @if (game.gameTurnRangeKey > 1) {
+        <tab heading="Game Stats">
+          <div class="well">
+            <pydt-game-detail-stats [game]="game"></pydt-game-detail-stats>
           </div>
-          <div class="col-md-6">
-            <p><b>Password Protected:</b> {{ game.hashedPassword ? "Yes" : "No" }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Number of Slots:</b> {{ game.slots }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Max Human Players:</b> {{ game.humans }}</p>
-          </div>
-          <div class="col-md-6" *ngIf="game.gameSpeed">
-            <p><b>Game Speed:</b> {{ game | gamespeed: games }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Map Type:</b> {{ game | map: games }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Allow Users to Join After Start:</b> {{ game.allowJoinAfterStart ? "Yes" : "No" }}</p>
-          </div>
-          <div class="col-md-6" *ngIf="game.mapSize">
-            <p><b>Map Size:</b> {{ game | mapsize: games }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Civ Selection:</b> {{ game | randomOnly }}</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>Allow Duplicate Civs:</b> {{ game.allowDuplicateLeaders ? "Yes" : "No" }}</p>
-          </div>
-          <div class="col-md-6" *ngIf="game.turnTimerMinutes">
-            <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
-          </div>
-          <div class="col-md-6" *ngIf="game.turnTimerMinutes">
-            <p><b>Turn Timer Vacation Mode Behavior:</b> {{ game | turnTimerVacation }}</p>
-          </div>
-          <div class="col-md-6" *ngIf="game.webhookUrl">
-            <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
-              <b>Webhook URL:</b> {{ game.webhookUrl }}
-            </p>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-6">
-            <p><b>DLC Enabled:</b></p>
-            <ul class="fa-ul" *ngIf="dlcEnabled.length">
-              <li class="dlcEnabled" *ngFor="let dlc of dlcEnabled">
-                <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc }}
-              </li>
-            </ul>
-            <p *ngIf="!dlcEnabled.length">None</p>
-          </div>
-          <div class="col-md-6">
-            <p><b>DLC Disabled:</b></p>
-            <ul class="fa-ul" *ngIf="dlcDisabled.length">
-              <li class="dlcDisabled" *ngFor="let dlc of dlcDisabled">
-                <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc }}
-              </li>
-            </ul>
-            <p *ngIf="!dlcDisabled.length">None</p>
-          </div>
-        </div>
-        <div class="row" style="margin-top: 20px" *ngIf="game.createdBySteamId === profile?.steamid">
-          <div class="col-xs-12 text-center">
-            <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">Edit Game Parameters</button>
-          </div>
-        </div>
-      </div>
-    </tab>
-  </tabset>
-  <tabset *ngIf="game?.inProgress && (userInGame || game?.createdBySteamId === profile?.steamid)">
-    <tab heading="Play Turn">
-      <div class="well">
-        <div *ngIf="game.currentPlayerSteamId === profile?.steamid">
-          <h3 style="margin-top: 0">It's your turn!</h3>
-          <div *ngIf="game.gameTurnRangeKey > 1">
-            <p>
-              Press the button below to download the save file and play your turn. You'll need to put the file in the
-              correct location for the game to find it, if you want a simpler experience try using our desktop client
-              that you can download from the dropdown in the header bar. On Windows, the default location for hotseat
-              save files is
-              <b>{{ winDir }}</b
-              >, and on OSX it's <b>{{ osxDir }}</b
-              >.
-            </p>
+        </tab>
+      }
+      @if (game.gameTurnRangeKey > 1) {
+        <tab heading="Turn History" (selectTab)="historyTabOpened = true">
+          @if (historyTabOpened) {
+            <div class="well">
+              <pydt-game-detail-turns [game]="game"></pydt-game-detail-turns>
+            </div>
+          }
+        </tab>
+      }
+      @if (game) {
+        <tab heading="Game Details">
+          <div class="well">
+            @if (game.description) {
+              <markdown [data]="game.description"></markdown>
+              <hr />
+            }
             <div class="row">
-              <div class="col-xs-12 text-center">
-                <button class="btn btn-primary" (click)="downloadTurn(game.gameId)">Download Save File</button>
+              <div class="col-md-6">
+                <p><b>Game Type:</b> {{ civGame?.displayName }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><b>Password Protected:</b> {{ game.hashedPassword ? "Yes" : "No" }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><b>Number of Slots:</b> {{ game.slots }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><b>Max Human Players:</b> {{ game.humans }}</p>
+              </div>
+              @if (game.gameSpeed) {
+                <div class="col-md-6">
+                  <p><b>Game Speed:</b> {{ game | gamespeed: games }}</p>
+                </div>
+              }
+              <div class="col-md-6">
+                <p><b>Map Type:</b> {{ game | map: games }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><b>Allow Users to Join After Start:</b> {{ game.allowJoinAfterStart ? "Yes" : "No" }}</p>
+              </div>
+              @if (game.mapSize) {
+                <div class="col-md-6">
+                  <p><b>Map Size:</b> {{ game | mapsize: games }}</p>
+                </div>
+              }
+              <div class="col-md-6">
+                <p><b>Civ Selection:</b> {{ game | randomOnly }}</p>
+              </div>
+              <div class="col-md-6">
+                <p><b>Allow Duplicate Civs:</b> {{ game.allowDuplicateLeaders ? "Yes" : "No" }}</p>
+              </div>
+              @if (game.turnTimerMinutes) {
+                <div class="col-md-6">
+                  <p><b>Turn Timer:</b> {{ turnTimerString }}</p>
+                </div>
+              }
+              @if (game.turnTimerMinutes) {
+                <div class="col-md-6">
+                  <p><b>Turn Timer Vacation Mode Behavior:</b> {{ game | turnTimerVacation }}</p>
+                </div>
+              }
+              @if (game.webhookUrl) {
+                <div class="col-md-6">
+                  <p style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden">
+                    <b>Webhook URL:</b> {{ game.webhookUrl }}
+                  </p>
+                </div>
+              }
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <p><b>DLC Enabled:</b></p>
+                @if (dlcEnabled.length) {
+                  <ul class="fa-ul">
+                    @for (dlc of dlcEnabled; track dlc) {
+                      <li class="dlcEnabled">
+                        <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc }}
+                      </li>
+                    }
+                  </ul>
+                }
+                @if (!dlcEnabled.length) {
+                  <p>None</p>
+                }
+              </div>
+              <div class="col-md-6">
+                <p><b>DLC Disabled:</b></p>
+                @if (dlcDisabled.length) {
+                  <ul class="fa-ul">
+                    @for (dlc of dlcDisabled; track dlc) {
+                      <li class="dlcDisabled">
+                        <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc }}
+                      </li>
+                    }
+                  </ul>
+                }
+                @if (!dlcDisabled.length) {
+                  <p>None</p>
+                }
               </div>
             </div>
-            <hr />
-            <p>Then, upload the file using the button below after you've played your turn!</p>
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                <label class="btn btn-primary btn-file">
-                  Select File To Upload...<input
-                    type="file"
-                    (change)="fileSelected($event, game.gameId)"
-                    [accept]="saveExtension"
-                    style="display: none"
-                  />
-                </label>
+            @if (game.createdBySteamId === profile?.steamid) {
+              <div class="row" style="margin-top: 20px">
+                <div class="col-xs-12 text-center">
+                  <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">
+                    Edit Game Parameters
+                  </button>
+                </div>
               </div>
-            </div>
+            }
           </div>
-          <div *ngIf="game.gameTurnRangeKey === 1">
-            <p>
-              Since you created the game, you need to create the initial save file. Click the button below to start the
-              process:
-            </p>
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" (click)="uploadFirstTurnModal.show()">
-                  Create Save File
-                </button>
-              </div>
+        </tab>
+      }
+    </tabset>
+  }
+  @if (game?.inProgress && (userInGame || game?.createdBySteamId === profile?.steamid)) {
+    <tabset>
+      <tab heading="Play Turn">
+        <div class="well">
+          @if (game.currentPlayerSteamId === profile?.steamid) {
+            <div>
+              <h3 style="margin-top: 0">It's your turn!</h3>
+              @if (game.gameTurnRangeKey > 1) {
+                <div>
+                  <p>
+                    Press the button below to download the save file and play your turn. You'll need to put the file in
+                    the correct location for the game to find it, if you want a simpler experience try using our desktop
+                    client that you can download from the dropdown in the header bar. On Windows, the default location
+                    for hotseat save files is
+                    <b>{{ winDir }}</b
+                    >, and on OSX it's <b>{{ osxDir }}</b
+                    >.
+                  </p>
+                  <div class="row">
+                    <div class="col-xs-12 text-center">
+                      <button class="btn btn-primary" (click)="downloadTurn(game.gameId)">Download Save File</button>
+                    </div>
+                  </div>
+                  <hr />
+                  <p>Then, upload the file using the button below after you've played your turn!</p>
+                  <div class="row">
+                    <div class="col-xs-12 text-center">
+                      <label class="btn btn-primary btn-file">
+                        Select File To Upload...<input
+                          type="file"
+                          (change)="fileSelected($event, game.gameId)"
+                          [accept]="saveExtension"
+                          style="display: none"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              }
+              @if (game.gameTurnRangeKey === 1) {
+                <div>
+                  <p>
+                    Since you created the game, you need to create the initial save file. Click the button below to
+                    start the process:
+                  </p>
+                  <div class="row">
+                    <div class="col-xs-12 text-center">
+                      <button type="button" class="btn btn-primary" (click)="uploadFirstTurnModal.show()">
+                        Create Save File
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              }
             </div>
-          </div>
+          }
+          @if (game.currentPlayerSteamId !== profile?.steamid) {
+            <p>It's not your turn :(</p>
+          }
         </div>
-        <p *ngIf="game.currentPlayerSteamId !== profile?.steamid">It's not your turn :(</p>
-      </div>
-    </tab>
-    <tab
-      heading="Revert Turn"
-      *ngIf="
+      </tab>
+      @if (
         (game.currentPlayerSteamId === profile?.steamid || game.createdBySteamId === profile?.steamid) &&
         game.gameTurnRangeKey > 1
-      "
-    >
-      <div class="well">
-        <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
-      </div>
-    </tab>
-    <tab heading="Request Substitution" *ngIf="!noOtherPlayers">
-      <div class="well">
-        <pydt-game-request-substitution [game]="game" (setGame)="setGame($event)"></pydt-game-request-substitution>
-      </div>
-    </tab>
-    <tab
-      [heading]="noOtherPlayers ? 'End Game' : 'Surrender'"
-      *ngIf="
-        'need something here to get it ordered after request sub' ===
-        'need something here to get it ordered after request sub'
-      "
-    >
-      <div class="well">
-        <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
-      </div>
-    </tab>
-    <tab heading="View Mods" *ngIf="game.createdBySteamId !== profile?.steamid && game.gameType === 'CIV6'">
-      <div class="well">
-        <pydt-game-detail-manage-mods [game]="game"></pydt-game-detail-manage-mods>
-      </div>
-    </tab>
-    <tab heading="Admin Tools" *ngIf="game.createdBySteamId === profile?.steamid" #adminTab="tab">
-      <div class="well">
-        <pydt-game-detail-admin
-          *ngIf="adminTab.active"
-          [game]="game"
-          (setGame)="setGame($event)"
-        ></pydt-game-detail-admin>
-      </div>
-    </tab>
-  </tabset>
-  <pydt-game-detail-join
-    *ngIf="game && availableCivs.length"
-    [game]="game"
-    [availableCivs]="availableCivs"
-    [profile]="profile"
-    [playerCiv]="playerCiv"
-    [userInGame]="userInGame"
-    [dlcEnabled]="dlcEnabled"
-    (setGame)="setGame($event)"
-  ></pydt-game-detail-join>
-  <ng-container *ngIf="game && !game.inProgress">
-    <pydt-game-detail-change-civ
-      *ngIf="userInGame"
+      ) {
+        <tab heading="Revert Turn">
+          <div class="well">
+            <pydt-game-detail-revert [game]="game" (setGame)="setGame($event)"></pydt-game-detail-revert>
+          </div>
+        </tab>
+      }
+      @if (!noOtherPlayers) {
+        <tab heading="Request Substitution">
+          <div class="well">
+            <pydt-game-request-substitution [game]="game" (setGame)="setGame($event)"></pydt-game-request-substitution>
+          </div>
+        </tab>
+      }
+      @if (
+        "need something here to get it ordered after request sub" ===
+        "need something here to get it ordered after request sub"
+      ) {
+        <tab [heading]="noOtherPlayers ? 'End Game' : 'Surrender'">
+          <div class="well">
+            <pydt-game-detail-surrender [game]="game" [noOtherPlayers]="noOtherPlayers"></pydt-game-detail-surrender>
+          </div>
+        </tab>
+      }
+      @if (game.createdBySteamId !== profile?.steamid && game.gameType === "CIV6") {
+        <tab heading="View Mods">
+          <div class="well">
+            <pydt-game-detail-manage-mods [game]="game"></pydt-game-detail-manage-mods>
+          </div>
+        </tab>
+      }
+      @if (game.createdBySteamId === profile?.steamid) {
+        <tab heading="Admin Tools" #adminTab="tab">
+          <div class="well">
+            @if (adminTab.active) {
+              <pydt-game-detail-admin [game]="game" (setGame)="setGame($event)"></pydt-game-detail-admin>
+            }
+          </div>
+        </tab>
+      }
+    </tabset>
+  }
+  @if (game && availableCivs.length) {
+    <pydt-game-detail-join
       [game]="game"
-      [playerCiv]="playerCiv"
       [availableCivs]="availableCivs"
+      [profile]="profile"
+      [playerCiv]="playerCiv"
+      [userInGame]="userInGame"
+      [dlcEnabled]="dlcEnabled"
       (setGame)="setGame($event)"
-    ></pydt-game-detail-change-civ>
-    <pydt-game-detail-leave
-      *ngIf="userInGame && game.createdBySteamId !== profile?.steamid"
-      [game]="game"
-    ></pydt-game-detail-leave>
-    <pydt-game-detail-start
-      *ngIf="game.createdBySteamId === profile?.steamid"
-      [game]="game"
-      (setGame)="setGame($event)"
-    ></pydt-game-detail-start>
-  </ng-container>
-  <pydt-game-detail-delete
-    *ngIf="game && game.gameTurnRangeKey <= 1 && game.createdBySteamId === profile?.steamid"
-    [game]="game"
-  ></pydt-game-detail-delete>
+    ></pydt-game-detail-join>
+  }
+  @if (game && !game.inProgress) {
+    @if (userInGame) {
+      <pydt-game-detail-change-civ
+        [game]="game"
+        [playerCiv]="playerCiv"
+        [availableCivs]="availableCivs"
+        (setGame)="setGame($event)"
+      ></pydt-game-detail-change-civ>
+    }
+    @if (userInGame && game.createdBySteamId !== profile?.steamid) {
+      <pydt-game-detail-leave [game]="game"></pydt-game-detail-leave>
+    }
+    @if (game.createdBySteamId === profile?.steamid) {
+      <pydt-game-detail-start [game]="game" (setGame)="setGame($event)"></pydt-game-detail-start>
+    }
+  }
+  @if (game && game.gameTurnRangeKey <= 1 && game.createdBySteamId === profile?.steamid) {
+    <pydt-game-detail-delete [game]="game"></pydt-game-detail-delete>
+  }
   <pydt-game-detail-smack-talk [game]="game"></pydt-game-detail-smack-talk>
 </div>
 
@@ -243,38 +290,50 @@
       <div class="modal-body">
         <p>
           Since you're the first player, you need to create the initial game save file!
-          <ng-container *ngIf="game?.gameType === 'OLD_WORLD'">
+          @if (game?.gameType === "OLD_WORLD") {
             Old World requires the "Play Your Damn Turn Support" mod to be active in the game. This mod enhances the Old
             World hotseat code to force a save and exit at the end of your turn, otherwise there's no place to save
             before the next player's screen appears. From the main menu, go to Mods, then Install, and search for "Play
             Your Damn Turn Support". Download the mod, and make sure when you're creating the hotseat game that "Use
             Mods" is enabled at the bottom, and "Play Your Damn Turn Support" is enabled.
-          </ng-container>
-          <ng-container *ngIf="game?.gameType !== 'OLD_WORLD'">
+          }
+          @if (game?.gameType !== "OLD_WORLD") {
             First, make sure that you have the appropriate DLC enabled for the game. You can do this through the Mods
             dialog on the Multiplayer Game Setup screen.
-            <span *ngIf="game?.dlc.length"
-              >Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{ dlcEnabled }}</b
-              >.</span
-            >
-            <span *ngIf="!game?.dlc.length">Ensure that <b>NO DLC</b> is enabled!</span>
-          </ng-container>
+            @if (game?.dlc.length) {
+              <span
+                >Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{ dlcEnabled }}</b
+                >.</span
+              >
+            }
+            @if (!game?.dlc.length) {
+              <span>Ensure that <b>NO DLC</b> is enabled!</span>
+            }
+          }
         </p>
         <p>
           Now start {{ civGame?.displayName }}, go to Multiplayer / Hotseat, and configure the game.
           <span>
             Set the following settings:
             <ul>
-              <li *ngIf="game?.gameSpeed"><b>Game Speed:</b> {{ game | gamespeed: games }}</li>
-              <li *ngIf="game?.mapFile"><b>Map Type:</b> {{ game | map: games }}</li>
-              <li *ngIf="game?.mapSize"><b>Map Size:</b> {{ game | mapsize: games }}</li>
+              @if (game?.gameSpeed) {
+                <li><b>Game Speed:</b> {{ game | gamespeed: games }}</li>
+              }
+              @if (game?.mapFile) {
+                <li><b>Map Type:</b> {{ game | map: games }}</li>
+              }
+              @if (game?.mapSize) {
+                <li><b>Map Size:</b> {{ game | mapsize: games }}</li>
+              }
             </ul>
           </span>
           When you're ready, click "Confirm Settings", make sure that you have
           <b>EXACTLY {{ game?.slots }}</b>
           slots active, and add the following human players, starting at the first slot:
         </p>
-        <pydt-display-civ *ngFor="let civDef of civDefs" [civ]="civDef"></pydt-display-civ>
+        @for (civDef of civDefs; track civDef) {
+          <pydt-display-civ [civ]="civDef"></pydt-display-civ>
+        }
         <p class="text-danger">
           <b>If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</b>
         </p>

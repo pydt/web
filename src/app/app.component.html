@@ -38,28 +38,34 @@
           <li [routerLinkActive]="['active']">
             <a [routerLink]="['stats']" (click)="isCollapsed = true">Stats</a>
           </li>
-          <li *ngIf="!isLoggedIn" [routerLinkActive]="['active']">
-            <a
-              href="javascript:void(0)"
-              (click)="redirectToLogin()"
-              style="padding-bottom: 0; padding-top: 12px"
-              (click)="isCollapsed = true"
-              ><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
-            /></a>
-          </li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']">
-            <a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a>
-          </li>
-          <li *ngIf="isLoggedIn" [routerLinkActive]="['active']">
-            <a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a>
-          </li>
+          @if (!isLoggedIn) {
+            <li [routerLinkActive]="['active']">
+              <a
+                href="javascript:void(0)"
+                (click)="redirectToLogin()"
+                style="padding-bottom: 0; padding-top: 12px"
+                (click)="isCollapsed = true"
+                ><img src="https://steamcommunity-a.akamaihd.net/public/images/signinthroughsteam/sits_01.png"
+              /></a>
+            </li>
+          }
+          @if (isLoggedIn) {
+            <li [routerLinkActive]="['active']">
+              <a [routerLink]="['user/profile']" (click)="isCollapsed = true">Your Profile</a>
+            </li>
+          }
+          @if (isLoggedIn) {
+            <li [routerLinkActive]="['active']">
+              <a [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a>
+            </li>
+          }
           <li>
             <a [routerLink]="['changelog']" (click)="isCollapsed = true"
               >Changelog
-              <span *ngIf="changelog.unviewedChanges$ | async" class="badge">{{
-                changelog.unviewedChanges$ | async
-              }}</span></a
-            >
+              @if (changelog.unviewedChanges$ | async) {
+                <span class="badge">{{ changelog.unviewedChanges$ | async }}</span>
+              }
+            </a>
           </li>
           <li><a href="https://patreon.com/pydt" target="_blank">Donate!</a></li>
         </ul>
@@ -68,9 +74,9 @@
     </div>
   </nav>
   <div class="container alert-container">
-    <alert *ngFor="let config of alerts" dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{
-      config.msg
-    }}</alert>
+    @for (config of alerts; track config) {
+      <alert dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{ config.msg }}</alert>
+    }
   </div>
   <router-outlet></router-outlet>
   <div style="padding: 15px"></div>
@@ -115,7 +121,9 @@
       </div>
       <div class="modal-body">
         <p>Sorry, we ran into an error.</p>
-        <p class="text-danger" *ngIf="errorModalMessage">Error Message: {{ errorModalMessage }}</p>
+        @if (errorModalMessage) {
+          <p class="text-danger">Error Message: {{ errorModalMessage }}</p>
+        }
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" (click)="errorModal.hide()">Close</button>

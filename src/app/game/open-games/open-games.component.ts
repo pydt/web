@@ -15,6 +15,7 @@ import { AuthService } from "../../shared";
 @Component({
   selector: "pydt-open-games",
   templateUrl: "./open-games.component.html",
+  standalone: false,
 })
 export class OpenGamesComponent implements OnInit {
   profile: SteamProfile;

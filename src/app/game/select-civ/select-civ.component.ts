@@ -9,6 +9,7 @@ import { AvailableCiv } from "../detail/detail.component";
   selector: "pydt-select-civ",
   templateUrl: "./select-civ.component.html",
   styleUrls: ["./select-civ.component.scss"],
+  standalone: false,
 })
 export class SelectCivComponent implements OnInit {
   @Input() curCiv: AvailableCiv;

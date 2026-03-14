@@ -3,10 +3,16 @@
     <img class="media-object" [src]="imageUrl()" />
   </div>
   <div class="media-body">
-    <h4 *ngIf="!civ" class="media-heading" style="padding-top: 20px">Unknown Civ</h4>
-    <h4 *ngIf="civ" class="media-heading" style="padding-top: 20px">
-      {{ civ.fullDisplayName }}
-      <span *ngIf="civ.steamIdNeedsSubstitution" style="color: #f00"> (REQUESTED SUBSTITUTION)</span>
-    </h4>
+    @if (!civ) {
+      <h4 class="media-heading" style="padding-top: 20px">Unknown Civ</h4>
+    }
+    @if (civ) {
+      <h4 class="media-heading" style="padding-top: 20px">
+        {{ civ.fullDisplayName }}
+        @if (civ.steamIdNeedsSubstitution) {
+          <span style="color: #f00"> (REQUESTED SUBSTITUTION)</span>
+        }
+      </h4>
+    }
   </div>
 </div>

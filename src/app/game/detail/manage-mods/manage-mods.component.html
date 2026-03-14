@@ -1,21 +1,25 @@
 <ng-container>
   <div class="row">
     <div class="col-sm-12">
-      <p *ngIf="admin">
-        This will allow you to modify the Civ 6 mods registered in the save file.
-        <strong
-          >IF YOU DON'T KNOW WHAT THIS MEANS YOU LIKELY DON'T WANT TO TOUCH THIS! THIS CAN BREAK YOUR SAVE!</strong
-        >
-      </p>
-      <p *ngIf="!admin">Click the button below to view mods registered in the save file.</p>
+      @if (admin) {
+        <p>
+          This will allow you to modify the Civ 6 mods registered in the save file.
+          <strong
+            >IF YOU DON'T KNOW WHAT THIS MEANS YOU LIKELY DON'T WANT TO TOUCH THIS! THIS CAN BREAK YOUR SAVE!</strong
+          >
+        </p>
+      }
+      @if (!admin) {
+        <p>Click the button below to view mods registered in the save file.</p>
+      }
       <p>
         If you'd like more info about how to use this,
         <a target="_modHelp" href="https://discourse.playyourdamnturn.com/t/how-to-use-manage-mods-in-admin-tools/8644"
           >see this forum thread!</a
         >
       </p>
-      <ng-container *ngIf="mods">
-        <ng-container *ngIf="admin">
+      @if (mods) {
+        @if (admin) {
           <hr />
           <h4>Add Mod:</h4>
           <form (ngSubmit)="addMod()">
@@ -29,7 +33,7 @@
             </div>
             <button type="submit" class="btn btn-default">Add Mod</button>
           </form>
-        </ng-container>
+        }
         <hr />
         <h4>Current Mods:</h4>
         <table class="table table-condensed table-striped">
@@ -37,27 +41,35 @@
             <tr role="row">
               <th>Mod ID</th>
               <th>Mod Title</th>
-              <th *ngIf="admin">Delete Mod?</th>
+              @if (admin) {
+                <th>Delete Mod?</th>
+              }
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let mod of mods">
-              <td>{{ mod.id }}</td>
-              <td>{{ mod.title }}</td>
-              <td *ngIf="admin">
-                <a href="#" (click)="startDelete(mod); (false)"><i class="fa fa-trash text-danger"></i></a>
-              </td>
-            </tr>
+            @for (mod of mods; track mod) {
+              <tr>
+                <td>{{ mod.id }}</td>
+                <td>{{ mod.title }}</td>
+                @if (admin) {
+                  <td>
+                    <a href="#" (click)="startDelete(mod); (false)"><i class="fa fa-trash text-danger"></i></a>
+                  </td>
+                }
+              </tr>
+            }
           </tbody>
         </table>
-      </ng-container>
+      }
     </div>
   </div>
-  <div class="row" style="margin-top: 20px" *ngIf="!mods">
-    <div class="col-xs-12 text-center">
-      <button type="button" class="btn btn-default" (click)="loadMods()">Load Mods for Current Save</button>
+  @if (!mods) {
+    <div class="row" style="margin-top: 20px">
+      <div class="col-xs-12 text-center">
+        <button type="button" class="btn btn-default" (click)="loadMods()">Load Mods for Current Save</button>
+      </div>
     </div>
-  </div>
+  }
 </ng-container>
 
 <div

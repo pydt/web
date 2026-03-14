@@ -24,6 +24,7 @@ import { BehaviorSubject, Observable, map } from "rxjs";
   selector: "pydt-game-preview",
   templateUrl: "./preview.component.html",
   styleUrls: ["./preview.component.scss"],
+  standalone: false,
 })
 export class GamePreviewComponent implements OnChanges {
   @Input() game: Game;

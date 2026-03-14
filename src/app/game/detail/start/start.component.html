@@ -1,17 +1,21 @@
 <div class="panel panel-default">
   <div class="panel-heading">Start Game</div>
   <div class="panel-body">
-    <div *ngIf="game.players.length < 2">
-      <p>You can't start the game until you have at least 2 human players registered.</p>
-    </div>
-    <div *ngIf="game.players.length > 1">
-      <p>When you're ready to start the game, click the button below!</p>
-      <div class="row">
-        <div class="col-xs-12 text-center">
-          <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.show()">Start Game!</button>
+    @if (game.players.length < 2) {
+      <div>
+        <p>You can't start the game until you have at least 2 human players registered.</p>
+      </div>
+    }
+    @if (game.players.length > 1) {
+      <div>
+        <p>When you're ready to start the game, click the button below!</p>
+        <div class="row">
+          <div class="col-xs-12 text-center">
+            <button type="button" class="btn btn-primary" (click)="confirmStartGameModal.show()">Start Game!</button>
+          </div>
         </div>
       </div>
-    </div>
+    }
   </div>
 </div>
 

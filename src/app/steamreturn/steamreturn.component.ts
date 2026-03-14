@@ -9,6 +9,7 @@ import { BrowserDataService } from "../shared/browser-data.service";
 @Component({
   selector: "pydt-steam-return",
   templateUrl: "./steamreturn.component.html",
+  standalone: false,
 })
 export class SteamReturnComponent implements OnInit {
   constructor(

@@ -1,313 +1,321 @@
 <div class="container">
-  <div *ngIf="loaded">
-    <div class="row">
-      <div class="col-sm-6">
-        <div class="well">
-          <pydt-user-info [user]="user"></pydt-user-info>
-          <hr />
-          <div class="text-center">
-            <button class="btn btn-danger" (click)="logout()">Logout</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-6">
-        <div class="panel panel-default">
-          <div class="panel-heading">User Information</div>
-          <div class="panel-body">
-            <form (ngSubmit)="onUserInfoSubmit()" class="form-horizontal" #userInfoForm="ngForm">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Vacation Mode</label>
-                <div class="col-sm-9">
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode" />
-                      For games that support turn timers, will automatically skip your turn.
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Time Zone</label>
-                <div class="col-sm-9">
-                  <select class="form-control" name="timezone" [(ngModel)]="user.timezone">
-                    <option [ngValue]="undefined">-- Select a Time Zone --</option>
-                    <option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
-                    <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
-                    <option value="GMT -10:00">(GMT -10:00) Hawaii</option>
-                    <option value="GMT -9:00">(GMT -9:00) Alaska</option>
-                    <option value="GMT -8:00">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
-                    <option value="GMT -7:00">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
-                    <option value="GMT -6:00">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
-                    <option value="GMT -5:00">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
-                    <option value="GMT -4:00">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
-                    <option value="GMT -3:30">(GMT -3:30) Newfoundland</option>
-                    <option value="GMT -3:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
-                    <option value="GMT -2:00">(GMT -2:00) Mid-Atlantic</option>
-                    <option value="GMT -1:00">(GMT -1:00) Azores, Cape Verde Islands</option>
-                    <option value="GMT +0:00">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
-                    <option value="GMT +1:00">(GMT +1:00) Brussels, Copenhagen, Madrid, Paris</option>
-                    <option value="GMT +2:00">(GMT +2:00) Kaliningrad, South Africa</option>
-                    <option value="GMT +3:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
-                    <option value="GMT +3:30">(GMT +3:30) Tehran</option>
-                    <option value="GMT +4:00">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
-                    <option value="GMT +4:30">(GMT +4:30) Kabul</option>
-                    <option value="GMT +5:00">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
-                    <option value="GMT +5:30">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
-                    <option value="GMT +6:00">(GMT +6:00) Almaty, Dhaka, Colombo</option>
-                    <option value="GMT +7:00">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
-                    <option value="GMT +8:00">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
-                    <option value="GMT +9:00">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
-                    <option value="GMT +9:30">(GMT +9:30) Adelaide, Darwin</option>
-                    <option value="GMT +10:00">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
-                    <option value="GMT +11:00">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
-                    <option value="GMT +12:00">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
-                  </select>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Comments</label>
-                <div class="col-sm-9">
-                  <input
-                    type="text"
-                    class="form-control"
-                    name="comments"
-                    [(ngModel)]="user.comments"
-                    placeholder="A status message to show over your avatar."
-                    maxlength="50"
-                  />
-                </div>
-              </div>
-              <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                  <button type="submit" class="btn btn-default">Submit</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <tabset>
-          <tab heading="Client Token">
-            <div class="well">
-              <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
-              <div class="input-group">
-                <input type="text" class="form-control" [value]="token" readonly />
-                <span class="input-group-btn">
-                  <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">
-                    Copy Token to Clipboard
-                  </button>
-                </span>
-              </div>
-              <hr />
-              <div class="row">
-                <div class="col-xs-8">
-                  <p>If you'd like to invalidate the current token and generate a new one, click here:</p>
-                </div>
-                <div class="col-xs-4">
-                  <button class="btn btn-danger pull-right" (click)="updateTokenNonce()">Invalidate Token!</button>
-                </div>
-              </div>
+  @if (loaded) {
+    <div>
+      <div class="row">
+        <div class="col-sm-6">
+          <div class="well">
+            <pydt-user-info [user]="user"></pydt-user-info>
+            <hr />
+            <div class="text-center">
+              <button class="btn btn-danger" (click)="logout()">Logout</button>
             </div>
-          </tab>
-          <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail' : ''">
-            <div class="well">
-              <p>
-                Enter your email address to receive game state notifications (it's your turn, a player has joined your
-                game, etc). Your email address will never be disclosed to any third parties, and will only be used for
-                game-related messages and critical notifications from playyourdamnturn.com. If you don't want turn
-                notification emails but want other game state notification emails, you can just disable the new turn
-                emails below.
-              </p>
-              <form (ngSubmit)="onEmailSubmit()" #emailForm="ngForm">
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="panel panel-default">
+            <div class="panel-heading">User Information</div>
+            <div class="panel-body">
+              <form (ngSubmit)="onUserInfoSubmit()" class="form-horizontal" #userInfoForm="ngForm">
                 <div class="form-group">
-                  <label for="emailAddress">Email Address</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="emailAddress"
-                    [(ngModel)]="pud.emailAddress"
-                    name="emailAddress"
-                  />
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" style="top: -5px" name="newTurnEmails" [(ngModel)]="pud.newTurnEmails" />
-                    Send me turn notification emails.
-                  </label>
-                </div>
-                <div class="checkbox">
-                  <label>
-                    <input type="checkbox" style="top: -5px" name="newGameEmails" [(ngModel)]="pud.newGameEmails" />
-                    Send me new game notification emails.
-                  </label>
-                </div>
-                <div *ngIf="pud.newGameEmails" class="well" style="padding: 0 19px; background-color: #f8f8f8">
-                  <div class="form-group">
+                  <label class="col-sm-3 control-label">Vacation Mode</label>
+                  <div class="col-sm-9">
                     <div class="checkbox">
                       <label>
-                        <input
-                          type="checkbox"
-                          style="top: -5px"
-                          name="newGameEmailsWithPasswords"
-                          [(ngModel)]="pud.newGameEmailsWithPasswords"
-                        />
-                        Include Password Protected Games?
+                        <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode" />
+                        For games that support turn timers, will automatically skip your turn.
                       </label>
-                    </div>
-                    <p style="margin-top: 16px">
-                      <strong>Game Types</strong>
-                    </p>
-                    <div class="checkbox" *ngFor="let game of games">
-                      <label>
-                        <input
-                          style="top: -5px"
-                          type="checkbox"
-                          [name]="'emailTypes' + game.id"
-                          [ngModel]="hasNewGameEmailType(game.id)"
-                          (ngModelChange)="toggleNewGameEmailType(game.id)"
-                        />
-                        {{ game.displayName }}
-                      </label>
-                    </div>
-                    <div class="form-group" style="margin-top: 16px">
-                      <label for="emailAddress"
-                        >Game Title Filter
-                        <span style="font-weight: normal"
-                          >(comma seperated for multiple filters, if blank you will get notifications for all
-                          games)</span
-                        ></label
-                      >
-                      <input
-                        type="text"
-                        class="form-control"
-                        id="newGameEmailFilter"
-                        [(ngModel)]="pud.newGameEmailFilter"
-                        name="newGameEmailFilter"
-                      />
                     </div>
                   </div>
                 </div>
-                <button type="submit" style="margin-top: 20px" class="btn btn-default">Submit</button>
-              </form>
-            </div>
-          </tab>
-          <tab heading="Web Push Notifications">
-            <div class="well">
-              <p>
-                You can get browser push notifications when it's your turn! Use the button below to register/unregister
-                this browser. If you ever press the button to block push notifications from this site you'll need to
-                clear that setting in your browser before registration will work again!
-              </p>
-              <p>
-                Web notifications for this browser are currently
-                <strong>{{ (notificationsEnabled$ | async) ? "ENABLED" : "DISABLED" }}</strong>
-              </p>
-              <button
-                class="btn btn-primary"
-                *ngIf="(notificationsEnabled$ | async) === false"
-                (click)="subscribeWebPush()"
-              >
-                Enable Web Push Notifications
-              </button>
-              <button class="btn btn-primary" *ngIf="notificationsEnabled$ | async" (click)="unsubscribeWebPush()">
-                Disable Web Push Notifications
-              </button>
-            </div>
-          </tab>
-          <tab heading="Webhook Notifications">
-            <div class="well">
-              <p>
-                A URL to send turn notifications to when you have a new turn available for any of your games. The HTTP
-                request will be a POST with the following parameters: gameName, userName, round, civName, leaderName.
-                The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By Cloud
-                should work for this as well.
-              </p>
-              <form (ngSubmit)="onWebhookSubmit()">
                 <div class="form-group">
-                  <label for="webhookUrl">Webhook URL</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="webhookUrl"
-                    [(ngModel)]="pud.webhookUrl"
-                    name="webhookUrl"
-                  />
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
-            </div>
-          </tab>
-          <tab heading="Forum Username">
-            <div class="well">
-              <p>
-                If your forum username is different than your Steam ID, you can set it here. Having the correct forum
-                username set will help notify you of smack talk messages appropriately.
-              </p>
-              <form (ngSubmit)="onForumUsernameSubmit()">
-                <div class="form-group">
-                  <label for="webhookUrl">Forum Username</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="webhookUrl"
-                    [(ngModel)]="user.forumUsername"
-                    name="forumUsername"
-                  />
-                </div>
-                <button type="submit" class="btn btn-default">Submit</button>
-              </form>
-            </div>
-          </tab>
-          <tab heading="Substitution Availability">
-            <div class="well">
-              <p>
-                Players that have played more than 500 turns on the site can register themselves to be available to
-                substitute for players that are surrendering or getting kicked from games.
-                <span *ngIf="user.turnsPlayed >= 500" style="font-weight: bold"
-                  >Please select the games you'd like to substitute for below.</span
-                >
-              </p>
-              <form *ngIf="user.turnsPlayed >= 500" (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
-                <div class="form-group" *ngFor="let game of games">
-                  <div class="checkbox">
-                    <label>
-                      <input
-                        type="checkbox"
-                        [name]="game.id"
-                        style="top: -5px"
-                        [(ngModel)]="substitutionModel[game.id]"
-                      />
-                      {{ game.displayName }}
-                    </label>
+                  <label class="col-sm-3 control-label">Time Zone</label>
+                  <div class="col-sm-9">
+                    <select class="form-control" name="timezone" [(ngModel)]="user.timezone">
+                      <option [ngValue]="undefined">-- Select a Time Zone --</option>
+                      <option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
+                      <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
+                      <option value="GMT -10:00">(GMT -10:00) Hawaii</option>
+                      <option value="GMT -9:00">(GMT -9:00) Alaska</option>
+                      <option value="GMT -8:00">(GMT -8:00) Pacific Time (US &amp; Canada)</option>
+                      <option value="GMT -7:00">(GMT -7:00) Mountain Time (US &amp; Canada)</option>
+                      <option value="GMT -6:00">(GMT -6:00) Central Time (US &amp; Canada), Mexico City</option>
+                      <option value="GMT -5:00">(GMT -5:00) Eastern Time (US &amp; Canada), Bogota, Lima</option>
+                      <option value="GMT -4:00">(GMT -4:00) Atlantic Time (Canada), Caracas, La Paz</option>
+                      <option value="GMT -3:30">(GMT -3:30) Newfoundland</option>
+                      <option value="GMT -3:00">(GMT -3:00) Brazil, Buenos Aires, Georgetown</option>
+                      <option value="GMT -2:00">(GMT -2:00) Mid-Atlantic</option>
+                      <option value="GMT -1:00">(GMT -1:00) Azores, Cape Verde Islands</option>
+                      <option value="GMT +0:00">(GMT) Western Europe Time, London, Lisbon, Casablanca</option>
+                      <option value="GMT +1:00">(GMT +1:00) Brussels, Copenhagen, Madrid, Paris</option>
+                      <option value="GMT +2:00">(GMT +2:00) Kaliningrad, South Africa</option>
+                      <option value="GMT +3:00">(GMT +3:00) Baghdad, Riyadh, Moscow, St. Petersburg</option>
+                      <option value="GMT +3:30">(GMT +3:30) Tehran</option>
+                      <option value="GMT +4:00">(GMT +4:00) Abu Dhabi, Muscat, Baku, Tbilisi</option>
+                      <option value="GMT +4:30">(GMT +4:30) Kabul</option>
+                      <option value="GMT +5:00">(GMT +5:00) Ekaterinburg, Islamabad, Karachi, Tashkent</option>
+                      <option value="GMT +5:30">(GMT +5:30) Bombay, Calcutta, Madras, New Delhi</option>
+                      <option value="GMT +6:00">(GMT +6:00) Almaty, Dhaka, Colombo</option>
+                      <option value="GMT +7:00">(GMT +7:00) Bangkok, Hanoi, Jakarta</option>
+                      <option value="GMT +8:00">(GMT +8:00) Beijing, Perth, Singapore, Hong Kong</option>
+                      <option value="GMT +9:00">(GMT +9:00) Tokyo, Seoul, Osaka, Sapporo, Yakutsk</option>
+                      <option value="GMT +9:30">(GMT +9:30) Adelaide, Darwin</option>
+                      <option value="GMT +10:00">(GMT +10:00) Eastern Australia, Guam, Vladivostok</option>
+                      <option value="GMT +11:00">(GMT +11:00) Magadan, Solomon Islands, New Caledonia</option>
+                      <option value="GMT +12:00">(GMT +12:00) Auckland, Wellington, Fiji, Kamchatka</option>
+                    </select>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-default">Submit</button>
+                <div class="form-group">
+                  <label class="col-sm-3 control-label">Comments</label>
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="comments"
+                      [(ngModel)]="user.comments"
+                      placeholder="A status message to show over your avatar."
+                      maxlength="50"
+                    />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-3 col-sm-9">
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </div>
+                </div>
               </form>
-            </div>
-          </tab>
-        </tabset>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div *ngIf="noDiscourseUser" class="panel panel-danger">
-          <div class="panel-heading">You haven't joined the forum!</div>
-          <div class="panel-body">
-            <p>
-              Please consider joining the forum! It's a simple process to register (you can use your steam credentials
-              there as well), and will help you communicate with other users during matchups.
-            </p>
-            <div class="row">
-              <div class="col-xs-12 text-center">
-                <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
-              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <tabset>
+            <tab heading="Client Token">
+              <div class="well">
+                <p>Copy this token and paste it into your Play Your Damn Turn client:</p>
+                <div class="input-group">
+                  <input type="text" class="form-control" [value]="token" readonly />
+                  <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" ngxClipboard [cbContent]="token">
+                      Copy Token to Clipboard
+                    </button>
+                  </span>
+                </div>
+                <hr />
+                <div class="row">
+                  <div class="col-xs-8">
+                    <p>If you'd like to invalidate the current token and generate a new one, click here:</p>
+                  </div>
+                  <div class="col-xs-4">
+                    <button class="btn btn-danger pull-right" (click)="updateTokenNonce()">Invalidate Token!</button>
+                  </div>
+                </div>
+              </div>
+            </tab>
+            <tab heading="Email Notifications" [customClass]="!pud.emailAddress ? 'noEmail' : ''">
+              <div class="well">
+                <p>
+                  Enter your email address to receive game state notifications (it's your turn, a player has joined your
+                  game, etc). Your email address will never be disclosed to any third parties, and will only be used for
+                  game-related messages and critical notifications from playyourdamnturn.com. If you don't want turn
+                  notification emails but want other game state notification emails, you can just disable the new turn
+                  emails below.
+                </p>
+                <form (ngSubmit)="onEmailSubmit()" #emailForm="ngForm">
+                  <div class="form-group">
+                    <label for="emailAddress">Email Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="emailAddress"
+                      [(ngModel)]="pud.emailAddress"
+                      name="emailAddress"
+                    />
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" style="top: -5px" name="newTurnEmails" [(ngModel)]="pud.newTurnEmails" />
+                      Send me turn notification emails.
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" style="top: -5px" name="newGameEmails" [(ngModel)]="pud.newGameEmails" />
+                      Send me new game notification emails.
+                    </label>
+                  </div>
+                  @if (pud.newGameEmails) {
+                    <div class="well" style="padding: 0 19px; background-color: #f8f8f8">
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input
+                              type="checkbox"
+                              style="top: -5px"
+                              name="newGameEmailsWithPasswords"
+                              [(ngModel)]="pud.newGameEmailsWithPasswords"
+                            />
+                            Include Password Protected Games?
+                          </label>
+                        </div>
+                        <p style="margin-top: 16px">
+                          <strong>Game Types</strong>
+                        </p>
+                        @for (game of games; track game) {
+                          <div class="checkbox">
+                            <label>
+                              <input
+                                style="top: -5px"
+                                type="checkbox"
+                                [name]="'emailTypes' + game.id"
+                                [ngModel]="hasNewGameEmailType(game.id)"
+                                (ngModelChange)="toggleNewGameEmailType(game.id)"
+                              />
+                              {{ game.displayName }}
+                            </label>
+                          </div>
+                        }
+                        <div class="form-group" style="margin-top: 16px">
+                          <label for="emailAddress"
+                            >Game Title Filter
+                            <span style="font-weight: normal"
+                              >(comma seperated for multiple filters, if blank you will get notifications for all
+                              games)</span
+                            ></label
+                          >
+                          <input
+                            type="text"
+                            class="form-control"
+                            id="newGameEmailFilter"
+                            [(ngModel)]="pud.newGameEmailFilter"
+                            name="newGameEmailFilter"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  }
+                  <button type="submit" style="margin-top: 20px" class="btn btn-default">Submit</button>
+                </form>
+              </div>
+            </tab>
+            <tab heading="Web Push Notifications">
+              <div class="well">
+                <p>
+                  You can get browser push notifications when it's your turn! Use the button below to
+                  register/unregister this browser. If you ever press the button to block push notifications from this
+                  site you'll need to clear that setting in your browser before registration will work again!
+                </p>
+                <p>
+                  Web notifications for this browser are currently
+                  <strong>{{ (notificationsEnabled$ | async) ? "ENABLED" : "DISABLED" }}</strong>
+                </p>
+                @if ((notificationsEnabled$ | async) === false) {
+                  <button class="btn btn-primary" (click)="subscribeWebPush()">Enable Web Push Notifications</button>
+                }
+                @if (notificationsEnabled$ | async) {
+                  <button class="btn btn-primary" (click)="unsubscribeWebPush()">Disable Web Push Notifications</button>
+                }
+              </div>
+            </tab>
+            <tab heading="Webhook Notifications">
+              <div class="well">
+                <p>
+                  A URL to send turn notifications to when you have a new turn available for any of your games. The HTTP
+                  request will be a POST with the following parameters: gameName, userName, round, civName, leaderName.
+                  The value1/2/3 parameters used by Play By Cloud will also be sent, so any hook set up for Play By
+                  Cloud should work for this as well.
+                </p>
+                <form (ngSubmit)="onWebhookSubmit()">
+                  <div class="form-group">
+                    <label for="webhookUrl">Webhook URL</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="webhookUrl"
+                      [(ngModel)]="pud.webhookUrl"
+                      name="webhookUrl"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+              </div>
+            </tab>
+            <tab heading="Forum Username">
+              <div class="well">
+                <p>
+                  If your forum username is different than your Steam ID, you can set it here. Having the correct forum
+                  username set will help notify you of smack talk messages appropriately.
+                </p>
+                <form (ngSubmit)="onForumUsernameSubmit()">
+                  <div class="form-group">
+                    <label for="webhookUrl">Forum Username</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="webhookUrl"
+                      [(ngModel)]="user.forumUsername"
+                      name="forumUsername"
+                    />
+                  </div>
+                  <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+              </div>
+            </tab>
+            <tab heading="Substitution Availability">
+              <div class="well">
+                <p>
+                  Players that have played more than 500 turns on the site can register themselves to be available to
+                  substitute for players that are surrendering or getting kicked from games.
+                  @if (user.turnsPlayed >= 500) {
+                    <span style="font-weight: bold">Please select the games you'd like to substitute for below.</span>
+                  }
+                </p>
+                @if (user.turnsPlayed >= 500) {
+                  <form (ngSubmit)="onSubstitutionSubmit()" #subForm="ngForm">
+                    @for (game of games; track game) {
+                      <div class="form-group">
+                        <div class="checkbox">
+                          <label>
+                            <input
+                              type="checkbox"
+                              [name]="game.id"
+                              style="top: -5px"
+                              [(ngModel)]="substitutionModel[game.id]"
+                            />
+                            {{ game.displayName }}
+                          </label>
+                        </div>
+                      </div>
+                    }
+                    <button type="submit" class="btn btn-default">Submit</button>
+                  </form>
+                }
+              </div>
+            </tab>
+          </tabset>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          @if (noDiscourseUser) {
+            <div class="panel panel-danger">
+              <div class="panel-heading">You haven't joined the forum!</div>
+              <div class="panel-body">
+                <p>
+                  Please consider joining the forum! It's a simple process to register (you can use your steam
+                  credentials there as well), and will help you communicate with other users during matchups.
+                </p>
+                <div class="row">
+                  <div class="col-xs-12 text-center">
+                    <button type="button" class="btn btn-primary" [routerLink]="['/forum']">Go to the Forum!</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
     </div>
-  </div>
+  }
 </div>

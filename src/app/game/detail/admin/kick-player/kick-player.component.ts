@@ -6,6 +6,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-kick-player",
   templateUrl: "./kick-player.component.html",
+  standalone: false,
 })
 export class GameDetailAdminKickPlayerComponent implements OnInit {
   @Input() game: Game;

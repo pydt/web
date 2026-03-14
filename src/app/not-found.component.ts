@@ -6,6 +6,7 @@ import { Response } from "express";
 @Component({
   selector: "pydt-not-found",
   template: '<h1 style="text-align:center;margin-top:50px;">This damn page doesn\'t exist.</h1> ',
+  standalone: false,
 })
 export class NotFoundComponent implements OnInit {
   constructor(

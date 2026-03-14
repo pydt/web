@@ -1,8 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-heading">Change {{ steamId ? "" : "Your" }} Civ</div>
   <div class="panel-body">
-    <p *ngIf="!steamId">If you want to change your civ before the game starts, use the selector below...</p>
-    <p *ngIf="steamId">Use the selector below to change this player's civ...</p>
+    @if (!steamId) {
+      <p>If you want to change your civ before the game starts, use the selector below...</p>
+    }
+    @if (steamId) {
+      <p>Use the selector below to change this player's civ...</p>
+    }
     <pydt-select-civ
       [leaders]="availableCivs"
       [randomOnly]="game.randomOnly"

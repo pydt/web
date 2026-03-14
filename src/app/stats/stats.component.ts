@@ -7,6 +7,7 @@ import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.
   selector: "pydt-user-stats",
   templateUrl: "./stats.component.html",
   styleUrls: ["./stats.component.scss"],
+  standalone: false,
 })
 export class StatsComponent implements OnInit {
   tableColumns = [

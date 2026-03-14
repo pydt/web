@@ -8,6 +8,7 @@ export const CURRENT_CHANGE_LOCAL_STORAGE_KEY = "last_pydt_change_num";
 @Component({
   selector: "pydt-changelog",
   templateUrl: "./changelog.component.html",
+  standalone: false,
 })
 export class ChangeLogComponent implements OnInit {
   constructor(public changelog: ChangelogService) {}

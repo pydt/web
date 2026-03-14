@@ -9,13 +9,14 @@
       "projectType": "application",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/web/browser",
+            "outputPath": {
+              "base": "dist/web"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "tsConfig": "src/tsconfig.app.json",
-            "polyfills": "src/polyfills.ts",
+            "polyfills": ["src/polyfills.ts"],
             "preserveSymlinks": true,
             "assets": [
               {
@@ -24,24 +25,19 @@
                 "output": "/"
               }
             ],
-            "styles": [
-              "src/styles/app.scss",
-              "node_modules/dragula/dist/dragula.css"
-            ],
-            "scripts": [
-              "node_modules/marked/marked.min.js"
-            ],
-            "vendorChunk": true,
+            "styles": ["src/styles/app.scss", "node_modules/dragula/dist/dragula.css"],
+            "scripts": ["node_modules/marked/marked.min.js"],
             "extractLicenses": false,
-            "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
             "namedChunks": true,
-            "allowedCommonJsDependencies": [
-              "dragula"
-            ],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "allowedCommonJsDependencies": ["dragula", "moment", "rollbar", "lodash", "remove-markdown", "file-saver"],
+            "serviceWorker": "ngsw-config.json",
+            "browser": "src/main.ts",
+            "server": "src/main.server.ts",
+            "security": {
+              "allowedHosts": []
+            }
           },
           "configurations": {
             "production": {
@@ -58,7 +54,12 @@
                 }
               ],
               "outputHashing": "all",
-              "optimization": true
+              "optimization": true,
+              "prerender": false,
+              "outputMode": "server",
+              "ssr": {
+                "entry": "src/server.ts"
+              }
             },
             "development": {}
           },
@@ -111,76 +112,8 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
-        },
-        "server": {
-          "builder": "@angular-devkit/build-angular:server",
-          "options": {
-            "outputPath": "dist/web/server",
-            "main": "server.ts",
-            "tsConfig": "src/tsconfig.server.json",
-            "sourceMap": true
-          },
-          "configurations": {
-            "production": {
-              "outputHashing": "media",
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/app/uiOnlyModules.ts",
-                  "with": "src/app/uiOnlyModules.server.ts"
-                }
-              ]
-            },
-            "development": {
-              "optimization": false,
-              "extractLicenses": false,
-              "vendorChunk": true,
-              "buildOptimizer": false
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve-ssr": {
-          "builder": "@angular-devkit/build-angular:ssr-dev-server",
-          "configurations": {
-            "development": {
-              "browserTarget": "web:build:development",
-              "serverTarget": "web:server:development"
-            },
-            "production": {
-              "browserTarget": "web:build:production",
-              "serverTarget": "web:server:production"
-            }
-          },
-          "defaultConfiguration": "development"
-        },
-        "prerender": {
-          "builder": "@angular-devkit/build-angular:prerender",
-          "options": {
-            "routes": [
-              "/"
-            ],
-            "discoverRoutes": false
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "web:build:production",
-              "serverTarget": "web:server:production"
-            },
-            "development": {
-              "browserTarget": "web:build:development",
-              "serverTarget": "web:server:development"
-            }
-          },
-          "defaultConfiguration": "production"
         }
       }
     },
@@ -202,16 +135,34 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "style": "scss"
+      "style": "scss",
+      "type": "component"
     },
     "@schematics/angular:directive": {
-      "prefix": "app"
+      "prefix": "app",
+      "type": "directive"
+    },
+    "@schematics/angular:service": {
+      "type": "service"
+    },
+    "@schematics/angular:guard": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:interceptor": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:module": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:pipe": {
+      "typeSeparator": "."
+    },
+    "@schematics/angular:resolver": {
+      "typeSeparator": "."
     }
   },
   "cli": {
-    "schematicCollections": [
-      "@angular-eslint/schematics"
-    ],
+    "schematicCollections": ["@angular-eslint/schematics"],
     "analytics": false
   }
 }

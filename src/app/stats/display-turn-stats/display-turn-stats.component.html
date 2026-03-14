@@ -1,53 +1,65 @@
-<div *ngIf="turnData">
-  <div class="row">
-    <ng-container *ngIf="displayFacts">
-      <div class="col-md-{{ factWidth }}">
-        <p style="white-space: nowrap">
-          <b>First Turn Played:</b> {{ firstTurnEndDate }}<wbr /><span style="font-size: 12px"
-            >&nbsp;({{ firstTurnAgo }})</span
-          >
-        </p>
-      </div>
-      <div class="col-md-{{ factWidth }}">
-        <p style="white-space: nowrap">
-          <b>Last Turn Played:</b> {{ lastTurnEndDate }}<wbr /><span style="font-size: 12px"
-            >&nbsp;({{ lastTurnAgo }})</span
-          >
-        </p>
-      </div>
-      <div class="col-md-{{ factWidth }}">
-        <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
-      </div>
-      <div class="col-md-{{ factWidth }}">
-        <p>
-          <b>Turns Played / Skipped:</b> {{ (turnData.turnsPlayed || 0).toLocaleString() }} /
-          {{ (turnData.turnsSkipped || 0).toLocaleString() }}
-        </p>
-      </div>
-    </ng-container>
-    <div *ngIf="displayCharts" class="col-md-12">
-      <tabset>
-        <tab heading="Turn Length">
-          <pydt-turn-length-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-length-chart>
-        </tab>
-        <tab heading="Turns per Year" *ngIf="showTurnsPerYear">
-          <pydt-turn-year-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-year-chart>
-        </tab>
-        <tab heading="Time of Day" *ngIf="turnData.hourOfDayQueue && !hideQueueCharts">
-          <pydt-time-of-day-chart [turnData]="turnData" [perUser]="perUser"></pydt-time-of-day-chart>
-        </tab>
-        <tab heading="Day of Week" *ngIf="turnData.dayOfWeekQueue && !hideQueueCharts">
-          <pydt-day-of-week-chart [turnData]="turnData" [perUser]="perUser"></pydt-day-of-week-chart>
-        </tab>
-      </tabset>
-      <form *ngIf="showPerUserCheckbox" class="form-inline" style="margin-left: 28px">
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" [(ngModel)]="perUser" [ngModelOptions]="{ standalone: true }" />
-            Show Per-User Data
-          </label>
+@if (turnData) {
+  <div>
+    <div class="row">
+      @if (displayFacts) {
+        <div class="col-md-{{ factWidth }}">
+          <p style="white-space: nowrap">
+            <b>First Turn Played:</b> {{ firstTurnEndDate }}<wbr /><span style="font-size: 12px"
+              >&nbsp;({{ firstTurnAgo }})</span
+            >
+          </p>
         </div>
-      </form>
+        <div class="col-md-{{ factWidth }}">
+          <p style="white-space: nowrap">
+            <b>Last Turn Played:</b> {{ lastTurnEndDate }}<wbr /><span style="font-size: 12px"
+              >&nbsp;({{ lastTurnAgo }})</span
+            >
+          </p>
+        </div>
+        <div class="col-md-{{ factWidth }}">
+          <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
+        </div>
+        <div class="col-md-{{ factWidth }}">
+          <p>
+            <b>Turns Played / Skipped:</b> {{ (turnData.turnsPlayed || 0).toLocaleString() }} /
+            {{ (turnData.turnsSkipped || 0).toLocaleString() }}
+          </p>
+        </div>
+      }
+      @if (displayCharts) {
+        <div class="col-md-12">
+          <tabset>
+            <tab heading="Turn Length">
+              <pydt-turn-length-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-length-chart>
+            </tab>
+            @if (showTurnsPerYear) {
+              <tab heading="Turns per Year">
+                <pydt-turn-year-chart [turnData]="turnData" [perUser]="perUser"></pydt-turn-year-chart>
+              </tab>
+            }
+            @if (turnData.hourOfDayQueue && !hideQueueCharts) {
+              <tab heading="Time of Day">
+                <pydt-time-of-day-chart [turnData]="turnData" [perUser]="perUser"></pydt-time-of-day-chart>
+              </tab>
+            }
+            @if (turnData.dayOfWeekQueue && !hideQueueCharts) {
+              <tab heading="Day of Week">
+                <pydt-day-of-week-chart [turnData]="turnData" [perUser]="perUser"></pydt-day-of-week-chart>
+              </tab>
+            }
+          </tabset>
+          @if (showPerUserCheckbox) {
+            <form class="form-inline" style="margin-left: 28px">
+              <div class="checkbox">
+                <label>
+                  <input type="checkbox" [(ngModel)]="perUser" [ngModelOptions]="{ standalone: true }" />
+                  Show Per-User Data
+                </label>
+              </div>
+            </form>
+          }
+        </div>
+      }
     </div>
   </div>
-</div>
+}

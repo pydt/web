@@ -13,12 +13,14 @@
   </div>
 </div>
 <pydt-turn-stats [turnData]="game" [displayFacts]="false"></pydt-turn-stats>
-<div *ngIf="game.gameVideoUrl && isBrowser" class="row">
-  <div class="col-md-12">
-    <vg-player>
-      <video [vgMedia]="media" #media id="replay" preload="auto" controls style="width: 100%">
-        <source [src]="game.gameVideoUrl" type="video/webm" />
-      </video>
-    </vg-player>
+@if (game.gameVideoUrl && isBrowser) {
+  <div class="row">
+    <div class="col-md-12">
+      <vg-player>
+        <video [vgMedia]="media" #media id="replay" preload="auto" controls style="width: 100%">
+          <source [src]="game.gameVideoUrl" type="video/webm" />
+        </video>
+      </vg-player>
+    </div>
   </div>
-</div>
+}

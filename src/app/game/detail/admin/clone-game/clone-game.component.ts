@@ -7,6 +7,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-clone-game",
   templateUrl: "./clone-game.component.html",
+  standalone: false,
 })
 export class GameDetailAdminCloneGameComponent {
   @Input() game: Game;

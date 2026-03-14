@@ -10,8 +10,12 @@
   <div class="row" style="margin-top: 20px">
     <div class="col-xs-12 text-center">
       <button type="button" class="btn btn-default" [disabled]="game.gameTurnRangeKey < 15" (click)="clone()">
-        <ng-container *ngIf="game.gameTurnRangeKey < 15">Cannot Clone Yet</ng-container>
-        <ng-container *ngIf="game.gameTurnRangeKey >= 15">Clone Game!</ng-container>
+        @if (game.gameTurnRangeKey < 15) {
+          Cannot Clone Yet
+        }
+        @if (game.gameTurnRangeKey >= 15) {
+          Clone Game!
+        }
       </button>
     </div>
   </div>

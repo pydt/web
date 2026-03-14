@@ -6,6 +6,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-manage-mods",
   templateUrl: "./manage-mods.component.html",
+  standalone: false,
 })
 export class GameDetailManageModsComponent {
   @Input() game: Game;
