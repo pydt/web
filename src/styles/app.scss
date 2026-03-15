@@ -316,6 +316,22 @@ input[type=range]::-moz-range-thumb {
   cursor: pointer;
 }
 
+// Replacement for BS3 .thumbnail (removed in BS5)
+.avatar-tile {
+  display: block;
+  padding: 4px;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+
+  img {
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 // Custom columns for slots
 @mixin make-slot-column($slots) {
   position: relative;
