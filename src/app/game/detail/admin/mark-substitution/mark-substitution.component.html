@@ -2,7 +2,7 @@
   <div class="row">
     <div class="col-sm-12">
       <p>Use this to mark a player as requesting substitution so another player can take their spot.</p>
-      <select class="form-control" [(ngModel)]="profileToRequestSubstitution">
+      <select class="form-select" [(ngModel)]="profileToRequestSubstitution">
         @for (profile of profiles; track profile) {
           <option [ngValue]="profile">
             {{ profile.personaname }}

@@ -19,7 +19,7 @@
     <div style="position: relative">
       <div style="position: absolute; right: 0; top: -40px" class="d-flex flex-column align-items-end gap-1">
         <div class="d-flex align-items-center gap-2">
-          <label class="mb-0">Filter Games: </label>
+          <label class="mb-0" style="width: 150px">Filter Games: </label>
           <select class="form-select" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
             <option value="">All Game Types</option>
             @for (game of games; track game) {

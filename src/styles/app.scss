@@ -178,6 +178,7 @@ input {
   // Show borders on inactive tabs to match BS3 appearance
   .nav-link {
     border-color: #adb5bd;
+    background-color: $body-bg;
 
     &:hover {
       color: $primary;

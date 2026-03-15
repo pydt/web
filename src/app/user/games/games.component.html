@@ -40,11 +40,11 @@
               <h3>No completed games found.</h3>
             }
             @for (game of completedGames; track game) {
-              <div>
+              <div class="mb-3">
                 <div class="card card-body">
                   <pydt-game-preview [game]="game"></pydt-game-preview>
                   <div class="row">
-                    <div class="col-12 text-center">
+                    <div class="col-12 text-center mt-3">
                       <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
                         View Game Details
                       </button>

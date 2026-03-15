@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container pt-3">
   @if (loaded) {
     <div>
       <div class="row">
@@ -16,21 +16,27 @@
             <div class="card-header">User Information</div>
             <div class="card-body">
               <form (ngSubmit)="onUserInfoSubmit()" class="" #userInfoForm="ngForm">
-                <div class="mb-3">
-                  <label class="col-sm-3 form-label">Vacation Mode</label>
+                <div class="row mb-3">
+                  <label class="col-sm-3 col-form-label">Vacation Mode</label>
                   <div class="col-sm-9">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="vacationMode" [(ngModel)]="user.vacationMode" />
-                        For games that support turn timers, will automatically skip your turn.
-                      </label>
+                    <div class="form-check mt-2">
+                      <input
+                        class="form-check-input"
+                        type="checkbox"
+                        id="vacationMode"
+                        name="vacationMode"
+                        [(ngModel)]="user.vacationMode"
+                      />
+                      <label class="form-check-label" for="vacationMode"
+                        >For games that support turn timers, will automatically skip your turn.</label
+                      >
                     </div>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <label class="col-sm-3 form-label">Time Zone</label>
+                <div class="row mb-3">
+                  <label class="col-sm-3 col-form-label">Time Zone</label>
                   <div class="col-sm-9">
-                    <select class="form-control" name="timezone" [(ngModel)]="user.timezone">
+                    <select class="form-select" name="timezone" [(ngModel)]="user.timezone">
                       <option [ngValue]="undefined">-- Select a Time Zone --</option>
                       <option value="GMT -12:00">(GMT -12:00) Eniwetok, Kwajalein</option>
                       <option value="GMT -11:00">(GMT -11:00) Midway Island, Samoa</option>
@@ -65,8 +71,8 @@
                     </select>
                   </div>
                 </div>
-                <div class="mb-3">
-                  <label class="col-sm-3 form-label">Comments</label>
+                <div class="row mb-3">
+                  <label class="col-sm-3 col-form-label">Comments</label>
                   <div class="col-sm-9">
                     <input
                       type="text"
@@ -78,7 +84,7 @@
                     />
                   </div>
                 </div>
-                <div class="mb-3">
+                <div class="row mb-3">
                   <div class="offset-sm-3 col-sm-9">
                     <button type="submit" class="btn btn-secondary">Submit</button>
                   </div>
@@ -88,7 +94,7 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row mt-3">
         <div class="col-sm-12">
           <tabset>
             <tab heading="Client Token">
@@ -144,7 +150,7 @@
                     </label>
                   </div>
                   @if (pud.newGameEmails) {
-                    <div class="card card-body" style="padding: 0 19px; background-color: #f8f8f8">
+                    <div class="card card-body" style="background-color: #f0f0f0">
                       <div class="mb-3">
                         <div class="checkbox">
                           <label>

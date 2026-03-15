@@ -2,7 +2,8 @@
   background-color:#66aa66;
 }
 
-:host ::ng-deep .media:hover {
+:host ::ng-deep pydt-display-civ div:hover {
   background-color: #66ff66;
   cursor: pointer;
 }
+

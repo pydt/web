@@ -27,7 +27,7 @@
       <div>
         <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
         <hr />
-        <select class="form-control" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px">
+        <select class="form-select" name="timezone" [(ngModel)]="gameTypeId" style="margin-bottom: 12px">
           @for (game of allCivGames; track game) {
             <option [ngValue]="game.id">{{ game.displayName }}</option>
           }
