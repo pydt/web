@@ -60,7 +60,7 @@
             <a class="nav-link" [routerLink]="['changelog']" (click)="isCollapsed = true"
               >Changelog
               @if (changelog.unviewedChanges$ | async) {
-                <span class="badge">{{ changelog.unviewedChanges$ | async }}</span>
+                &nbsp;<span class="badge">{{ changelog.unviewedChanges$ | async }}</span>
               }
             </a>
           </li>
@@ -140,7 +140,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Update Available!</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="errorModal.hide()"></button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="updateModal.hide()"></button>
       </div>
       <div class="modal-body">
         <p>A new version of Play Your Damn Turn is available! You'll need to refresh the page to get the new code.</p>

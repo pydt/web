@@ -25,13 +25,23 @@ const angularApp = new AngularNodeAppEngine();
  */
 
 /**
- * Serve static files from /browser
+ * Serve static files from /browser.
+ * Hashed files (JS/CSS bundles) get a long cache; SW-critical files must never be cached
+ * so the service worker can detect new deployments.
  */
+const NO_CACHE_FILES =
+  /\/(ngsw\.json|ngsw-worker\.js|pydt-service-worker\.js|safety-worker\.js|worker-basic\.min\.js|index\.html)$/;
+
 app.use(
   express.static(browserDistFolder, {
     maxAge: "1y",
     index: false,
     redirect: false,
+    setHeaders: (res, filePath) => {
+      if (NO_CACHE_FILES.test(filePath)) {
+        res.setHeader("Cache-Control", "no-cache");
+      }
+    },
   }),
 );
 

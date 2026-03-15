@@ -126,7 +126,7 @@ export class AppComponent implements OnInit {
       // If the activation fails, just reload anyway
     }
 
-    document.location.reload();
+    window.location.href = window.location.href;
   }
 
   updateIsLoggedIn(): void {

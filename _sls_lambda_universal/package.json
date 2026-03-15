@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "copy": "npx copyfiles ../dist/**/*.* dist",
+    "copy": "node copy-dist.js",
     "deploy-develop": "npm run copy && sls deploy --verbose",
     "deploy-master": "npm run copy && sls deploy --verbose --stage prod"
   },
