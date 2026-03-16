@@ -1,4 +1,5 @@
 @use "sass:math";
+@use "sass:color";
 @import './bootstrap/bootstrap.scss';
 
 // Well-style cards (migrated from BS3 .well)
@@ -70,7 +71,7 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Lato:400,700,400italic"
 
     &.active > .nav-link,
     & > .nav-link.active {
-      background-color: darken(#2C3E50, 10%);
+      background-color: color.adjust(#2C3E50, $lightness: -10%);
     }
   }
 
@@ -344,7 +345,7 @@ input[type=range]::-moz-range-thumb {
 
   // Calculate width based on number of columns available
   float: left;
-  width: percentage(math.div(1, $slots));
+  width: math.percentage(math.div(1, $slots));
 
   @media (max-width: 576px) {
     $scRows: 1;
@@ -362,7 +363,7 @@ input[type=range]::-moz-range-thumb {
       $scFinalSlots: $scFinalSlots + 1;
     }
 
-    width: percentage(math.div($scRows, $scFinalSlots));
+    width: math.percentage(math.div($scRows, $scFinalSlots));
   }
 }
 

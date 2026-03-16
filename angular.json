@@ -25,6 +25,13 @@
                 "output": "/"
               }
             ],
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": [
+                  "import"
+                ]
+              }
+            },
             "styles": ["src/styles/app.scss", "node_modules/dragula/dist/dragula.css", "node_modules/@fortawesome/fontawesome-free/css/all.min.css"],
             "scripts": ["node_modules/marked/marked.min.js"],
             "extractLicenses": false,

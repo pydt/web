@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 // Flatly theme - Bootstrap 5 variable overrides
 // Map BS3 brand colors to BS5 theme colors
 
@@ -47,13 +49,13 @@ $pagination-color:              #fff;
 $pagination-bg:                 $primary;
 $pagination-border-color:       transparent;
 $pagination-hover-color:        #fff;
-$pagination-hover-bg:           darken($primary, 15%);
+$pagination-hover-bg:           color.adjust($primary, $lightness: -15%);
 $pagination-hover-border-color: transparent;
 $pagination-active-color:       #fff;
-$pagination-active-bg:          darken($primary, 15%);
+$pagination-active-bg:          color.adjust($primary, $lightness: -15%);
 $pagination-active-border-color: transparent;
 $pagination-disabled-color:     #ecf0f1;
-$pagination-disabled-bg:        lighten($primary, 15%);
+$pagination-disabled-bg:        color.adjust($primary, $lightness: 15%);
 $pagination-disabled-border-color: transparent;
 
 // Tables

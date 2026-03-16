@@ -35,7 +35,7 @@
             <a class="nav-link" [routerLink]="['stats']" (click)="isCollapsed = true">Stats</a>
           </li>
           @if (!isLoggedIn) {
-            <li class="nav-item" [routerLinkActive]="['active']">
+            <li class="nav-item pb-2" [routerLinkActive]="['active']">
               <a
                 class="nav-link"
                 href="javascript:void(0)"
@@ -60,7 +60,9 @@
             <a class="nav-link" [routerLink]="['changelog']" (click)="isCollapsed = true"
               >Changelog
               @if (changelog.unviewedChanges$ | async) {
-                &nbsp;<span class="badge">{{ changelog.unviewedChanges$ | async }}</span>
+                <span class="badge" style="position: relative; left: 5px">{{
+                  changelog.unviewedChanges$ | async
+                }}</span>
               }
             </a>
           </li>
