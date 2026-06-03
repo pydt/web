@@ -184,12 +184,16 @@ export class GameDetailComponent implements OnInit {
     if (game.gameTurnRangeKey > 1) {
       if (!this.playerCiv) {
         const needSubstitution = game.players.filter(x => x.substitutionRequested);
+        const dontNeedNoStinkingSubstitution = game.players.filter(x => !x.substitutionRequested);
 
         if (game.allowJoinAfterStart || needSubstitution.length) {
           this.availableCivs.push(
             ...[
               ...needSubstitution,
-              ...game.players.filter(player => !player.steamId && !needSubstitution.includes(player)),
+              ...dontNeedNoStinkingSubstitution.filter(player => !player.steamId),
+              ...dontNeedNoStinkingSubstitution.filter(
+                player => player.steamId && !player.isDead && player.hasSurrendered,
+              ),
             ].map(player => ({
               ...(this.civGame.leaders.find(leader => leader.leaderKey === player.civType) || {
                 ...this.metadata.randomCiv,
