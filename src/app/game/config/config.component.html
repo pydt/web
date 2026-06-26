@@ -73,7 +73,9 @@
         />
         <label class="form-check-label" for="selectAllDlc"><strong>Select All</strong></label>
       </div>
-      <hr />
+      @if (majorDlc.length) {
+        <hr />
+      }
       @for (dlc of majorDlc; track dlc) {
         <div class="form-check">
           <input

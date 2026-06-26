@@ -96,6 +96,12 @@ Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the 
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2026-06-25",
+    desc: `### CIV7 HOTSEAT!
+This is very beta and barely tested, but initial support for Civ 7 is in.  A mod is required to play, it blocks the screen after 1 turn to prevent accidentally moving on to the next player's turn, and also adds turn state to the save file (which is almost definitely somewhere in the file, but I've been unable to find it).
+You can subscribe to the mod here: https://steamcommunity.com/sharedfiles/filedetails/?id=3751833377`,
+  },
+  {
     date: "2024-01-06",
     desc: `A few small changes made over the holidays (not as much as hoped, hopefully I can put in some more time soon):
 - <a href="https://discourse.playyourdamnturn.com/t/fixed-how-can-i-change-my-token/9989" target="_blank">Tokens can now be revoked if you gave your token to someone else or something</a>
