@@ -273,7 +273,7 @@ export class GameDetailComponent implements OnInit {
             const array = new Uint8Array(this.result as any);
             const toSend = gzip(array);
 
-            xhr.send(toSend as unknown as XMLHttpRequestBodyInit);
+            xhr.send(toSend);
           };
           reader.readAsArrayBuffer(fileTarget.files[0]);
         });

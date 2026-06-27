@@ -140,19 +140,19 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   imports: [
     DragulaModule,
-    AlertModule.forRoot(),
+    AlertModule,
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
     ApiModule.forRoot(configFactory),
     ClipboardModule,
-    CollapseModule.forRoot(),
-    BsDropdownModule.forRoot(),
-    ModalModule.forRoot(),
-    PaginationModule.forRoot(),
-    TabsModule.forRoot(),
-    TooltipModule.forRoot(),
+    CollapseModule,
+    BsDropdownModule,
+    ModalModule,
+    PaginationModule,
+    TabsModule,
+    TooltipModule,
     MarkdownModule.forRoot({
       markedOptions: {
         provide: MARKED_OPTIONS,
