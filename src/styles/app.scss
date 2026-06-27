@@ -63,6 +63,7 @@ $web-font-path: "https://fonts.googleapis.com/css?family=Lato:400,700,400italic"
   .nav-item {
     display: flex;
     align-items: stretch;
+    position: relative;
 
     > .nav-link {
       display: flex;
@@ -150,7 +151,7 @@ table,
 // Forms ======================================================================
 
 .form-control,
-input {
+input:not([type="checkbox"]):not([type="radio"]) {
   border-width: 2px;
   box-shadow: none;
 
