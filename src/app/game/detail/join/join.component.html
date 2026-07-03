@@ -20,6 +20,16 @@
         @if (!tooManyHumans) {
           <div>
             <p>If you want to join this game, select a civ and then press the button below!</p>
+            @if (game.gameType === "CIV7") {
+              <div class="alert alert-info">
+                Civilization 7 requires the <strong>PYDT Hotseat Support</strong> mod. Make sure you've subscribed to it
+                on the
+                <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3751833377" target="_blank"
+                  >Steam Workshop</a
+                >
+                before joining!
+              </div>
+            }
             <pydt-select-civ
               [leaders]="availableCivs"
               [randomOnly]="game.randomOnly"
