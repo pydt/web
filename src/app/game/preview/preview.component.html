@@ -47,6 +47,7 @@
       dragula="players"
       [dragulaModel]="reorderableIndexes$ | async"
       (dragulaModelChange)="reorderableIndexes$.next($event)"
+      style="display: contents"
     >
       @for (index of reorderableIndexes$ | async; track index) {
         <div class="col-{{ game.slots }}-slots">
@@ -78,7 +79,7 @@
     }
   }
   @if (!editingTurnOrder) {
-    @for (player of gamePlayers; track player; let i = $index) {
+    @for (player of gamePlayers; track player?.steamId ?? $index; let i = $index) {
       <div class="col-{{ game.slots }}-slots">
         <pydt-player-avatar
           [game]="game"
@@ -111,10 +112,10 @@
       </tr>
     </thead>
     <tbody>
-      @for (user of playerUsers$ | async; track user) {
+      @for (user of playerUsers$ | async; track user?.steamId) {
         <tr>
           <th>{{ user.displayName }}</th>
-          @for (hour of userTurnTimesLocal(user); track hour) {
+          @for (hour of userTurnTimesLocal(user); track $index) {
             <td [ngClass]="{ maxHour: hour.isMax }" [attr.colspan]="hour.timezoneHour ? 24 : undefined">
               {{ hour.turns }}
               {{
