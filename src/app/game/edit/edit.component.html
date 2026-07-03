@@ -1,18 +1,20 @@
-<div class="container">
+<div class="container pt-3">
   @if (game) {
     <div>
       <h1>Edit Game</h1>
-      <form class="" (ngSubmit)="onSubmit()" #editGameForm="ngForm" novalidate="novalidate">
-        <pydt-configure-game [game]="game" [model]="model" [selectedCivs]="selectedCivs"></pydt-configure-game>
-        <div class="mb-3">
-          <div class="offset-sm-3 col-sm-9">
-            <button class="btn btn-secondary" [routerLink]="['/game', game.gameId]" style="margin-right: 10px">
-              Cancel
-            </button>
-            <button type="submit" class="btn btn-primary" [disabled]="!editGameForm.form.valid">Edit Game</button>
+      <div class="card card-body">
+        <form class="" (ngSubmit)="onSubmit()" #editGameForm="ngForm" novalidate="novalidate">
+          <pydt-configure-game [game]="game" [model]="model" [selectedCivs]="selectedCivs"></pydt-configure-game>
+          <div class="mb-3">
+            <div class="offset-sm-3 col-sm-9">
+              <button class="btn btn-secondary" [routerLink]="['/game', game.gameId]" style="margin-right: 10px">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary" [disabled]="!editGameForm.form.valid">Edit Game</button>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   }
 </div>
