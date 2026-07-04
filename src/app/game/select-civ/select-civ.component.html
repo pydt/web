@@ -1,4 +1,15 @@
-<pydt-display-civ [civ]="curCiv" (clicked)="showModal()"></pydt-display-civ>
+@if (separateLeaderCiv) {
+  <div class="mb-2">
+    <label class="form-label fw-bold">Leader:</label>
+    <pydt-display-civ [civ]="curCiv" (clicked)="showModal()"></pydt-display-civ>
+  </div>
+  <div>
+    <label class="form-label fw-bold">Civilization:</label>
+    <pydt-display-civ [civ]="curCivilization" (clicked)="showCivilizationModal()"></pydt-display-civ>
+  </div>
+} @else {
+  <pydt-display-civ [civ]="curCiv" (clicked)="showModal()"></pydt-display-civ>
+}
 
 <div
   bsModal
@@ -12,7 +23,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Select Your Civ</h4>
+        <h4 class="modal-title">Select Your {{ separateLeaderCiv ? "Leader" : "Civ" }}</h4>
         <button type="button" class="btn-close" aria-label="Close" (click)="selectCivModal.hide()"></button>
       </div>
       <div class="modal-body">
@@ -34,3 +45,46 @@
     </div>
   </div>
 </div>
+
+@if (separateLeaderCiv) {
+  <div
+    bsModal
+    #selectCivilizationModal="bs-modal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="selectCivilizationModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Select Your Civilization</h4>
+          <button type="button" class="btn-close" aria-label="Close" (click)="selectCivilizationModal.hide()"></button>
+        </div>
+        <div class="modal-body">
+          <div style="height: 300px; overflow-y: scroll; margin-bottom: 10px">
+            @for (civ of filteredCivilizations$ | async; track civ) {
+              <div [class.selectedCiv]="civ?.civKey === curCivilization?.civKey">
+                <pydt-display-civ
+                  [civ]="civ"
+                  (clicked)="civilizationClicked(civ); selectCivilizationModal.hide()"
+                ></pydt-display-civ>
+              </div>
+            }
+          </div>
+
+          <input
+            type="text"
+            class="form-control"
+            [formControl]="civilizationFilter"
+            placeholder="Filter Civilizations..."
+          />
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="selectCivilizationModal.hide()">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+}

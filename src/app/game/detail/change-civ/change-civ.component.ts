@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from "@angular/core";
-import { CivDef, Game, GameService } from "pydt-shared";
+import { CivDef, CivGame, Game, GameService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
 
 @Component({
@@ -9,9 +9,11 @@ import { NotificationService } from "../../../shared";
 })
 export class GameDetailChangeCivComponent {
   @Input() game: Game;
+  @Input() civGame?: CivGame;
   @Input() steamId?: string;
   @Input() availableCivs: CivDef[];
   @Input() playerCiv: CivDef;
+  @Input() playerCivilization?: CivDef;
   @Output() setGame = new EventEmitter<Game>();
 
   constructor(
@@ -19,11 +21,29 @@ export class GameDetailChangeCivComponent {
     private notificationService: NotificationService,
   ) {}
 
-  async changeCiv(newCiv: CivDef): Promise<void> {
+  async changeCiv(newLeader: CivDef): Promise<void> {
     const game = await this.gameApi
       .changeCiv(this.game.gameId, {
         steamId: this.steamId,
-        playerCiv: newCiv.leaderKey,
+        playerCiv: newLeader.leaderKey,
+        playerCivilization: this.playerCivilization?.civKey,
+      })
+      .toPromise();
+
+    this.notificationService.showAlert({
+      type: "success",
+      msg: "Changed civilization!",
+    });
+
+    this.setGame.emit(game);
+  }
+
+  async changeCivilization(newCiv: CivDef): Promise<void> {
+    const game = await this.gameApi
+      .changeCiv(this.game.gameId, {
+        steamId: this.steamId,
+        playerCiv: this.playerCiv.leaderKey,
+        playerCivilization: newCiv.civKey,
       })
       .toPromise();
 

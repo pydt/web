@@ -9,9 +9,12 @@
     }
     <pydt-select-civ
       [leaders]="availableCivs"
+      [civGame]="civGame"
       [randomOnly]="game.randomOnly"
       [curCiv]="playerCiv"
+      [curCivilization]="playerCivilization"
       (selectedCiv)="changeCiv($event)"
+      (selectedCivilization)="changeCivilization($event)"
     ></pydt-select-civ>
   </div>
 </div>

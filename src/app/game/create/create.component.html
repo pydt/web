@@ -11,9 +11,12 @@
           @if (curCiv) {
             <pydt-select-civ
               [curCiv]="curCiv"
+              [curCivilization]="curCivilization"
+              [civGame]="model?.civGame"
               [randomOnly]="model.randomOnly"
               [leaders]="filteredLeaders()"
               (selectedCiv)="selectedCivChange($event)"
+              (selectedCivilization)="selectedCivilizationChange($event)"
             ></pydt-select-civ>
           }
         </div>

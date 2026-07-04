@@ -32,9 +32,12 @@
             }
             <pydt-select-civ
               [leaders]="availableCivs"
+              [civGame]="civGame"
               [randomOnly]="game.randomOnly"
               [curCiv]="selectedCiv"
+              [curCivilization]="selectedCivilization"
               (selectedCiv)="selectedCiv = $event"
+              (selectedCivilization)="selectedCivilization = $event"
             ></pydt-select-civ>
             @if (game.hashedPassword) {
               <div class="mb-3">

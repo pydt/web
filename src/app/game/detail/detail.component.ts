@@ -37,6 +37,7 @@ export class GameDetailComponent implements OnInit {
   availableCivs: AvailableCiv[];
   tooManyHumans = false;
   playerCiv: CivDef;
+  playerCivilization: CivDef;
   dlcEnabled: string[] = [];
   dlcDisabled: string[] = [];
   historyTabOpened = false;
@@ -167,6 +168,7 @@ export class GameDetailComponent implements OnInit {
     this.civDefs = [];
     this.availableCivs = [];
     this.playerCiv = null;
+    this.playerCivilization = null;
 
     if (this.profile) {
       const userPlayer = game.players.find(player => player.steamId === this.profile.steamid);
@@ -174,6 +176,9 @@ export class GameDetailComponent implements OnInit {
 
       if (this.userInGame) {
         this.playerCiv = this.findLeader(userPlayer.civType);
+        if (this.civGame?.separateLeaderCiv && userPlayer.civilization) {
+          this.playerCivilization = this.civGame.civilizations?.find(c => c.civKey === userPlayer.civilization);
+        }
       }
     }
 

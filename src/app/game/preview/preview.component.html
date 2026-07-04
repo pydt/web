@@ -38,6 +38,7 @@
         [players]="gamePlayers"
         [gamePlayerProfiles]="gamePlayerProfiles"
         [civDefs]="civDefs"
+        [civGame]="civGame"
         [index]="0"
         [thumbnailOnly]="true"
         size="BIG"
@@ -56,6 +57,7 @@
             [players]="gamePlayers"
             [gamePlayerProfiles]="gamePlayerProfiles"
             [civDefs]="civDefs"
+            [civGame]="civGame"
             [index]="index"
             [thumbnailOnly]="true"
             [thumbnailOnlyDragMode]="true"
@@ -71,6 +73,7 @@
           [players]="gamePlayers"
           [gamePlayerProfiles]="gamePlayerProfiles"
           [civDefs]="civDefs"
+          [civGame]="civGame"
           [index]="index"
           [thumbnailOnly]="true"
           size="BIG"
@@ -86,6 +89,7 @@
           [players]="gamePlayers"
           [gamePlayerProfiles]="gamePlayerProfiles"
           [civDefs]="civDefs"
+          [civGame]="civGame"
           [index]="i"
           size="BIG"
           (click)="showUserDetail($event.steamId)"
@@ -155,8 +159,10 @@
               @if (canEdit) {
                 <pydt-game-detail-change-civ
                   [game]="game"
+                  [civGame]="civGame"
                   [steamId]="user?.steamId"
                   [playerCiv]="userCiv"
+                  [playerCivilization]="userCivilization"
                   [availableCivs]="availableCivs"
                   (setGame)="gameUpdated.emit($event)"
                 ></pydt-game-detail-change-civ>

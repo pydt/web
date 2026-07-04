@@ -16,11 +16,13 @@ class CreateGameModel extends ConfigureGameModel {
   }
 
   public player1Civ = this.civGame.leaders.find(leader => !leader.options.dlcId && leader !== this.randomCiv);
+  public player1Civilization?: CivDef;
 
   override toJSON(): CreateGameRequestBody {
     const result = super.toJSON() as CreateGameRequestBody;
 
     result.player1Civ = this.player1Civ.leaderKey;
+    result.player1Civilization = this.player1Civilization?.civKey;
     return result;
   }
 }
@@ -62,6 +64,10 @@ export class CreateGameComponent implements OnInit {
 
     this.model.displayName = `${profile.personaname}'s game!`;
 
+    if (civGame.separateLeaderCiv && civGame.civilizations?.length) {
+      this.model.player1Civilization = civGame.civilizations[0];
+    }
+
     if (!(await this.gameApi.canCreate({ gameType: civGame.id }).toPromise()).canCreate) {
       await this.router.navigate(["/user/games"]);
       return;
@@ -78,12 +84,20 @@ export class CreateGameComponent implements OnInit {
     this.model.player1Civ = civ;
   }
 
+  selectedCivilizationChange(civ: CivDef): void {
+    this.model.player1Civilization = civ;
+  }
+
   get curCiv(): CivDef {
     if (!this.model) {
       return null;
     }
 
     return this.model.randomOnly === "FORCE_RANDOM" ? this.randomCiv : this.model.player1Civ;
+  }
+
+  get curCivilization(): CivDef {
+    return this.model?.player1Civilization;
   }
 
   async onSubmit(): Promise<void> {

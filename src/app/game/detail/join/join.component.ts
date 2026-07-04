@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { CivDef, Game, GamePlayer, GameService, SteamProfile, UserService } from "pydt-shared";
+import { CivDef, CivGame, Game, GamePlayer, GameService, SteamProfile, UserService } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 import { AuthService, NotificationService } from "../../../shared";
 import { AvailableCiv } from "../detail.component";
@@ -12,6 +12,7 @@ import { AvailableCiv } from "../detail.component";
 })
 export class GameDetailJoinComponent implements OnChanges {
   @Input() game: Game;
+  @Input() civGame?: CivGame;
   @Input() profile: SteamProfile;
   @Input() needReplacement: GamePlayer[];
   @Input() availableCivs: AvailableCiv[];
@@ -23,6 +24,7 @@ export class GameDetailJoinComponent implements OnChanges {
   @ViewChild("mustHaveEmailSetToJoinModal", { static: true }) mustHaveEmailSetToJoinModal: ModalDirective;
 
   selectedCiv: AvailableCiv;
+  selectedCivilization?: CivDef;
   joinGamePassword: string;
 
   constructor(
@@ -35,6 +37,9 @@ export class GameDetailJoinComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.selectedCiv = this.playerCiv;
+    if (this.civGame?.separateLeaderCiv && this.civGame.civilizations?.length && !this.selectedCivilization) {
+      this.selectedCivilization = this.civGame.civilizations[0];
+    }
   }
 
   async startJoinGame(): Promise<void> {
@@ -81,6 +86,7 @@ export class GameDetailJoinComponent implements OnChanges {
         game = await this.gameApi
           .join(this.game.gameId, {
             playerCiv: this.selectedCiv.leaderKey,
+            playerCivilization: this.selectedCivilization?.civKey,
             password: this.joinGamePassword,
           })
           .toPromise();

@@ -247,6 +247,7 @@
   @if (game && availableCivs.length) {
     <pydt-game-detail-join
       [game]="game"
+      [civGame]="civGame"
       [availableCivs]="availableCivs"
       [profile]="profile"
       [playerCiv]="playerCiv"
@@ -259,7 +260,9 @@
     @if (userInGame) {
       <pydt-game-detail-change-civ
         [game]="game"
+        [civGame]="civGame"
         [playerCiv]="playerCiv"
+        [playerCivilization]="playerCivilization"
         [availableCivs]="availableCivs"
         (setGame)="setGame($event)"
       ></pydt-game-detail-change-civ>

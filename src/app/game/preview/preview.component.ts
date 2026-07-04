@@ -276,4 +276,13 @@ export class GamePreviewComponent implements OnChanges {
 
     return this.civDefs[index];
   }
+
+  get userCivilization() {
+    if (!this.civGame?.separateLeaderCiv) {
+      return undefined;
+    }
+
+    const player = this.gamePlayers.find(x => x.steamId === this.user?.steamId);
+    return this.civGame.civilizations?.find(c => c.civKey === player?.civilization);
+  }
 }
