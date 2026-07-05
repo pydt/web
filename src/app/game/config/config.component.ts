@@ -84,18 +84,38 @@ export class ConfigureGameComponent implements OnInit {
   }
 
   validateDlc(): void {
-    for (const civ of this.selectedCivs) {
-      const leader = this.model.civGame.leaders.find(l => l.leaderKey === civ);
+    const civGame = this.model.civGame;
 
-      if (leader.options.dlcId) {
-        if (!this.model.dlc[leader.options.dlcId]) {
+    for (const civType of this.selectedCivs) {
+      const leader = civGame.leaders.find(l => l.leaderKey === civType);
+
+      if (leader?.options.dlcId && !this.model.dlc[leader.options.dlcId]) {
+        // eslint-disable-next-line no-alert
+        alert("Can't deselect DLC because there's a player in the game using that DLC.");
+
+        setTimeout(() => {
+          this.model.dlc[leader.options.dlcId] = true;
+          this.cdRef.detectChanges();
+        }, 10);
+
+        return;
+      }
+    }
+
+    if (civGame.separateLeaderCiv && this.game?.players) {
+      for (const player of this.game.players) {
+        const civilization = civGame.civilizations?.find(c => c.civKey === player.civilization);
+
+        if (civilization?.options.dlcId && !this.model.dlc[civilization.options.dlcId]) {
           // eslint-disable-next-line no-alert
           alert("Can't deselect DLC because there's a player in the game using that DLC.");
 
           setTimeout(() => {
-            this.model.dlc[leader.options.dlcId] = true;
+            this.model.dlc[civilization.options.dlcId] = true;
             this.cdRef.detectChanges();
           }, 10);
+
+          return;
         }
       }
     }

@@ -16,6 +16,7 @@ export class GameDetailJoinComponent implements OnChanges {
   @Input() profile: SteamProfile;
   @Input() needReplacement: GamePlayer[];
   @Input() availableCivs: AvailableCiv[];
+  @Input() availableCivilizations: CivDef[] = [];
   @Input() playerCiv: CivDef;
   @Input() userInGame: boolean;
   @Input() dlcEnabled: string[];
@@ -37,8 +38,8 @@ export class GameDetailJoinComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.selectedCiv = this.playerCiv;
-    if (this.civGame?.separateLeaderCiv && this.civGame.civilizations?.length && !this.selectedCivilization) {
-      this.selectedCivilization = this.civGame.civilizations[0];
+    if (this.civGame?.separateLeaderCiv && this.availableCivilizations?.length && !this.selectedCivilization) {
+      this.selectedCivilization = this.availableCivilizations[0];
     }
   }
 

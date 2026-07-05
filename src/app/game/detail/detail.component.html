@@ -249,6 +249,7 @@
       [game]="game"
       [civGame]="civGame"
       [availableCivs]="availableCivs"
+      [availableCivilizations]="availableCivilizations"
       [profile]="profile"
       [playerCiv]="playerCiv"
       [userInGame]="userInGame"
@@ -264,6 +265,7 @@
         [playerCiv]="playerCiv"
         [playerCivilization]="playerCivilization"
         [availableCivs]="availableCivs"
+        [availableCivilizations]="availableCivilizations"
         (setGame)="setGame($event)"
       ></pydt-game-detail-change-civ>
     }
@@ -339,8 +341,13 @@
           <b>EXACTLY {{ game?.slots }}</b>
           slots active, and add the following human players, starting at the first slot:
         </p>
-        @for (civDef of civDefs; track civDef) {
-          <pydt-display-civ [civ]="civDef"></pydt-display-civ>
+        @for (civDef of civDefs; track civDef; let i = $index) {
+          <div class="d-flex">
+            <div class="w-50"><pydt-display-civ [civ]="civDef"></pydt-display-civ></div>
+            @if (civGame?.separateLeaderCiv) {
+              <div class="w-50"><pydt-display-civ [civ]="civilizationDefs[i]"></pydt-display-civ></div>
+            }
+          </div>
         }
         <p class="text-danger">
           <b>If you don't set up the game exactly as expected, you won't be able to upload it to PYDT!</b>

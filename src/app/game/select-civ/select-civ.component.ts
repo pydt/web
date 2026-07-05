@@ -15,6 +15,7 @@ export class SelectCivComponent implements OnInit {
   @Input() curCiv: AvailableCiv;
   @Input() curCivilization?: CivDef;
   @Input() leaders: AvailableCiv[];
+  @Input() availableCivilizations: CivDef[] = [];
   @Input() civGame?: CivGame;
   @Input() randomOnly: Game.RandomOnlyEnum = "EITHER";
   @Output() selectedCiv = new EventEmitter<AvailableCiv>();
@@ -31,7 +32,7 @@ export class SelectCivComponent implements OnInit {
 
   filteredCivilizations$ = this.civilizationFilter.valueChanges.pipe(
     map(x =>
-      (this.civGame?.civilizations || []).filter(y => !x || y.fullDisplayName.toUpperCase().includes(x.toUpperCase())),
+      (this.availableCivilizations || []).filter(y => !x || y.fullDisplayName.toUpperCase().includes(x.toUpperCase())),
     ),
   );
 

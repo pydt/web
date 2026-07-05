@@ -12,6 +12,7 @@ export class GameDetailChangeCivComponent {
   @Input() civGame?: CivGame;
   @Input() steamId?: string;
   @Input() availableCivs: CivDef[];
+  @Input() availableCivilizations: CivDef[] = [];
   @Input() playerCiv: CivDef;
   @Input() playerCivilization?: CivDef;
   @Output() setGame = new EventEmitter<Game>();

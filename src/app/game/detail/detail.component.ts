@@ -34,7 +34,9 @@ export class GameDetailComponent implements OnInit {
   profile: SteamProfile;
   userInGame = false;
   civDefs: CivDef[] = [];
+  civilizationDefs: CivDef[] = [];
   availableCivs: AvailableCiv[];
+  availableCivilizations: CivDef[] = [];
   tooManyHumans = false;
   playerCiv: CivDef;
   playerCivilization: CivDef;
@@ -166,7 +168,9 @@ export class GameDetailComponent implements OnInit {
     this.userInGame = false;
 
     this.civDefs = [];
+    this.civilizationDefs = [];
     this.availableCivs = [];
+    this.availableCivilizations = [];
     this.playerCiv = null;
     this.playerCivilization = null;
 
@@ -184,6 +188,11 @@ export class GameDetailComponent implements OnInit {
 
     for (const player of this.game.players) {
       this.civDefs.push(this.findLeader(player.civType));
+      this.civilizationDefs.push(
+        this.civGame?.separateLeaderCiv
+          ? this.civGame.civilizations?.find(c => c.civKey === player.civilization)
+          : undefined,
+      );
     }
 
     if (game.gameTurnRangeKey > 1) {
@@ -218,6 +227,20 @@ export class GameDetailComponent implements OnInit {
 
         if (curLeader && curLeader.civKey !== this.metadata.randomCiv.civKey) {
           this.availableCivs = this.availableCivs.filter(x => x !== curLeader);
+        }
+      }
+
+      if (this.civGame.separateLeaderCiv && this.civGame.civilizations) {
+        this.availableCivilizations = Utility.filterCivsByDlc(this.civGame.civilizations, this.game.dlc).slice();
+
+        if (!game.allowDuplicateLeaders) {
+          for (const player of this.game.players) {
+            const curCiv = this.civGame.civilizations.find(c => c.civKey === player.civilization);
+
+            if (curCiv && curCiv.civKey !== this.metadata.randomCiv.civKey) {
+              this.availableCivilizations = this.availableCivilizations.filter(x => x !== curCiv);
+            }
+          }
         }
       }
     }
