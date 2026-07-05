@@ -21,9 +21,9 @@ const routes: Routes = [
     component: HomeComponent,
     data: {
       meta: {
-        title: "Civ 5 / 6 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)",
+        title: "Civ 5 / 6 / 7 / Beyond Earth / Old World Asynchronous Multiplayer (PBEM)",
         description:
-          "Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5/6/Old World/Beyond Earth game easy.",
+          "Play Your Damn Turn is a service that makes playing an asynchronous (Play By Email) Civ 5/6/7/Beyond Earth/Old World game easy.",
       },
     },
   },

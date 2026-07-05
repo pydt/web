@@ -73,6 +73,12 @@
     </div>
   </nav>
   <div class="container alert-container">
+    @if (updateAvailable) {
+      <alert type="info" dismissible="true" (onClosed)="dismissUpdateAlert()">
+        A new version of Play Your Damn Turn is available.
+        <button type="button" class="btn btn-sm btn-primary ms-2" (click)="reload()">Reload Now</button>
+      </alert>
+    }
     @for (config of alerts; track config) {
       <alert dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{ config.msg }}</alert>
     }
@@ -129,28 +135,4 @@
   </div>
 </div>
 
-<div
-  bsModal
-  #updateModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="updateModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Update Available!</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="updateModal.hide()"></button>
-      </div>
-      <div class="modal-body">
-        <p>A new version of Play Your Damn Turn is available! You'll need to refresh the page to get the new code.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" (click)="reload()">Reload PYDT!</button>
-      </div>
-    </div>
-  </div>
-</div>
 <pydt-busy></pydt-busy>

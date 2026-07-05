@@ -25,9 +25,10 @@ export class AppComponent implements OnInit {
   errorModalMessage: string;
   alerts: AlertConfig[] = [];
   env = envVars;
+  updateAvailable = false;
+  private updateActivated: Promise<boolean>;
 
   @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
-  @ViewChild("updateModal", { static: true }) updateModal: ModalDirective;
 
   constructor(
     private authApi: AuthApi,
@@ -50,7 +51,21 @@ export class AppComponent implements OnInit {
 
     this.updates.versionUpdates.subscribe(e => {
       if (e.type === "VERSION_READY") {
-        this.updateModal.show();
+        // Activate right away so the SW is already serving the new version by the time the
+        // user acts on it - the reload button then just needs to trigger the navigation.
+        this.updateActivated = this.updates.activateUpdate();
+
+        this.zone.run(() => {
+          this.updateAvailable = true;
+        });
+      }
+    });
+
+    // SW only checks for updates on startup / full navigation, not on Angular's client-side
+    // route changes, so trigger a check ourselves whenever the user navigates around the site.
+    router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+      if (this.updates.isEnabled) {
+        void this.updates.checkForUpdate();
       }
     });
 
@@ -121,12 +136,16 @@ export class AppComponent implements OnInit {
 
   async reload(): Promise<void> {
     try {
-      await this.updates.activateUpdate();
+      await this.updateActivated;
     } catch {
       // If the activation fails, just reload anyway
     }
 
     window.location.href = window.location.href;
+  }
+
+  dismissUpdateAlert(): void {
+    this.updateAvailable = false;
   }
 
   updateIsLoggedIn(): void {
