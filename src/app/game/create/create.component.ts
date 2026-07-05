@@ -52,6 +52,10 @@ export class CreateGameComponent implements OnInit {
     return Utility.filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray);
   }
 
+  filteredCivilizations(): CivDef[] {
+    return Utility.filterCivsByDlc(this.model.civGame.civilizations || [], this.model.dlcIdArray);
+  }
+
   async ngOnInit(): Promise<void> {
     const metadata = await this.metadataCache.getCivGameMetadata();
 

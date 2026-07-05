@@ -15,6 +15,7 @@
               [civGame]="model?.civGame"
               [randomOnly]="model.randomOnly"
               [leaders]="filteredLeaders()"
+              [availableCivilizations]="filteredCivilizations()"
               (selectedCiv)="selectedCivChange($event)"
               (selectedCivilization)="selectedCivilizationChange($event)"
             ></pydt-select-civ>
