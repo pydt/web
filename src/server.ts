@@ -49,6 +49,10 @@ app.use(
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
+  // Server-rendered routes are per-request/dynamic (e.g. live game state) and must never
+  // be cached by CloudFront, regardless of the distribution's default cache policy.
+  res.setHeader("Cache-Control", "no-store");
+
   angularApp
     .handle(req)
     .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))

@@ -11,9 +11,11 @@ import { AppComponent } from "./app.component";
   providers: [
     provideServerRendering(
       withRoutes([
-        { path: "game/create/:gameType", renderMode: RenderMode.Server },
+        { path: "game/create/:gameType", renderMode: RenderMode.Client },
         { path: "game/:id", renderMode: RenderMode.Server },
-        { path: "game/:id/edit", renderMode: RenderMode.Server },
+        { path: "game/:id/edit", renderMode: RenderMode.Client },
+        { path: "user/profile", renderMode: RenderMode.Client },
+        { path: "user/games", renderMode: RenderMode.Client },
         { path: "**", renderMode: RenderMode.Prerender },
       ]),
     ),
