@@ -301,7 +301,7 @@
         <p>
           Since you're the first player, you need to create the initial game save file!
           @if (game?.gameType === "OLD_WORLD") {
-            Old World requires the"Play Your Damn Turn Support" mod to be active in the game. This mod enhances the Old
+            Old World requires the "Play Your Damn Turn Support" mod to be active in the game. This mod enhances the Old
             World hotseat code to force a save and exit at the end of your turn, otherwise there's no place to save
             before the next player's screen appears. From the main menu, go to Mods, then Install, and search for"Play
             Your Damn Turn Support". Download the mod, and make sure when you're creating the hotseat game that"Use
@@ -321,6 +321,16 @@
             }
           }
         </p>
+        @if (game?.gameType === "CIV7") {
+          <p>
+            Civilization 7 requires the <strong>PYDT Hotseat Support</strong> mod. Make sure you've subscribed to it on
+            the
+            <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3751833377" target="_blank"
+              >Steam Workshop</a
+            >
+            and that it's enabled when creating your game! If it is not enabled you won't be able to upload your save.
+          </p>
+        }
         <p>
           Now start {{ civGame?.displayName }}, go to Multiplayer / Hotseat, and configure the game.
           <span>

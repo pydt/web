@@ -190,7 +190,8 @@ export class GameDetailComponent implements OnInit {
       this.civDefs.push(this.findLeader(player.civType));
       this.civilizationDefs.push(
         this.civGame?.separateLeaderCiv
-          ? this.civGame.civilizations?.find(c => c.civKey === player.civilization)
+          ? (this.civGame.civilizations?.find(c => c.civKey === player.civilization) ??
+              this.metadata.randomCivilization)
           : undefined,
       );
     }
