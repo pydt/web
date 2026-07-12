@@ -89,31 +89,81 @@
               <div class="row">
                 <div class="col-md-6">
                   <p><b>DLC Enabled:</b></p>
-                  @if (dlcEnabled.length) {
+                  @if (dlcEnabledItems.length) {
                     <ul class="fa-ul">
-                      @for (dlc of dlcEnabled; track dlc) {
+                      @for (item of dlcEnabledItems; track item.group?.id || item.dlcs[0].id) {
                         <li class="dlcEnabled">
-                          <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc }}
+                          <span class="fa-li"><i class="fa fa-check"></i></span>
+                          @if (item.group) {
+                            <a
+                              href="javascript:void(0)"
+                              class="dlc-group-toggle"
+                              (click)="toggleDlcGroup(item.group.id)"
+                            >
+                              {{ item.group.displayName }}
+                              <i
+                                class="fa"
+                                [class.fa-caret-right]="!expandedDlcGroups.has(item.group.id)"
+                                [class.fa-caret-down]="expandedDlcGroups.has(item.group.id)"
+                              ></i>
+                            </a>
+                            @if (expandedDlcGroups.has(item.group.id)) {
+                              <ul class="fa-ul">
+                                @for (dlc of item.dlcs; track dlc.id) {
+                                  <li>
+                                    <span class="fa-li"><i class="fa fa-check"></i></span>{{ dlc.displayName }}
+                                  </li>
+                                }
+                              </ul>
+                            }
+                          } @else {
+                            {{ item.dlcs[0].displayName }}
+                          }
                         </li>
                       }
                     </ul>
                   }
-                  @if (!dlcEnabled.length) {
+                  @if (!dlcEnabledItems.length) {
                     <p>None</p>
                   }
                 </div>
                 <div class="col-md-6">
                   <p><b>DLC Disabled:</b></p>
-                  @if (dlcDisabled.length) {
+                  @if (dlcDisabledItems.length) {
                     <ul class="fa-ul">
-                      @for (dlc of dlcDisabled; track dlc) {
+                      @for (item of dlcDisabledItems; track item.group?.id || item.dlcs[0].id) {
                         <li class="dlcDisabled">
-                          <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc }}
+                          <span class="fa-li"><i class="fa fa-times"></i></span>
+                          @if (item.group) {
+                            <a
+                              href="javascript:void(0)"
+                              class="dlc-group-toggle"
+                              (click)="toggleDlcGroup(item.group.id)"
+                            >
+                              {{ item.group.displayName }}
+                              <i
+                                class="fa"
+                                [class.fa-caret-right]="!expandedDlcGroups.has(item.group.id)"
+                                [class.fa-caret-down]="expandedDlcGroups.has(item.group.id)"
+                              ></i>
+                            </a>
+                            @if (expandedDlcGroups.has(item.group.id)) {
+                              <ul class="fa-ul">
+                                @for (dlc of item.dlcs; track dlc.id) {
+                                  <li>
+                                    <span class="fa-li"><i class="fa fa-times"></i></span>{{ dlc.displayName }}
+                                  </li>
+                                }
+                              </ul>
+                            }
+                          } @else {
+                            {{ item.dlcs[0].displayName }}
+                          }
                         </li>
                       }
                     </ul>
                   }
-                  @if (!dlcDisabled.length) {
+                  @if (!dlcDisabledItems.length) {
                     <p>None</p>
                   }
                 </div>
@@ -312,7 +362,7 @@
             dialog on the Multiplayer Game Setup screen.
             @if (game?.dlc.length) {
               <span
-                >Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{ dlcEnabled }}</b
+                >Ensure that <b>ONLY</b> the following DLC is enabled: <b>{{ dlcEnabled.join(", ") }}</b
                 >.</span
               >
             }

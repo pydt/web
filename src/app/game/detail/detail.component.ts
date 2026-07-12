@@ -9,6 +9,8 @@ import {
   CivDef,
   CivGame,
   CountdownUtility,
+  DLC,
+  DlcGroup,
   Game,
   GameService,
   GameStore,
@@ -42,6 +44,9 @@ export class GameDetailComponent implements OnInit {
   playerCivilization: CivDef;
   dlcEnabled: string[] = [];
   dlcDisabled: string[] = [];
+  dlcEnabledItems: DlcListItem[] = [];
+  dlcDisabledItems: DlcListItem[] = [];
+  expandedDlcGroups = new Set<string>();
   historyTabOpened = false;
   metadata: PydtMetadata;
   noOtherPlayers = false;
@@ -250,11 +255,52 @@ export class GameDetailComponent implements OnInit {
       this.playerCiv = this.availableCivs[0];
     }
 
-    this.dlcEnabled = game.dlc.map(dlcId => this.civGame.dlcs.find(dlc => dlc.id === dlcId).displayName);
+    this.dlcEnabled = this.civGame.dlcs.flatMap(dlc =>
+      game.dlc?.some(dlcId => dlcId === dlc.id) ? [dlc.displayName] : [],
+    );
 
     this.dlcDisabled = this.civGame.dlcs
       .filter(dlc => game.dlc.every(dlcId => dlc.id !== dlcId))
       .map(x => x.displayName);
+
+    const enabledIds = new Set(game.dlc);
+
+    this.dlcEnabledItems = this.buildDlcItems(id => enabledIds.has(id));
+    this.dlcDisabledItems = this.buildDlcItems(id => !enabledIds.has(id));
+  }
+
+  // Collapses a DLC group into a single expandable item when every DLC it contains
+  // shares the same enabled/disabled status, otherwise lists its DLCs individually.
+  private buildDlcItems(isIncluded: (dlcId: string) => boolean): DlcListItem[] {
+    const items: DlcListItem[] = [];
+    const consumed = new Set<string>();
+
+    for (const group of this.civGame.dlcGroups ?? []) {
+      if (group.dlcIds.length && group.dlcIds.every(isIncluded)) {
+        const dlcs = group.dlcIds
+          .map(id => this.civGame.dlcs.find(dlc => dlc.id === id))
+          .filter((dlc): dlc is DLC => !!dlc);
+
+        items.push({ group, dlcs });
+        group.dlcIds.forEach(id => consumed.add(id));
+      }
+    }
+
+    for (const dlc of this.civGame.dlcs) {
+      if (isIncluded(dlc.id) && !consumed.has(dlc.id)) {
+        items.push({ dlcs: [dlc] });
+      }
+    }
+
+    return items;
+  }
+
+  toggleDlcGroup(groupId: string): void {
+    if (this.expandedDlcGroups.has(groupId)) {
+      this.expandedDlcGroups.delete(groupId);
+    } else {
+      this.expandedDlcGroups.add(groupId);
+    }
   }
 
   private findLeader(civType: string) {
@@ -326,4 +372,9 @@ export class GameDetailComponent implements OnInit {
 
 export interface AvailableCiv extends CivDef {
   steamIdNeedsSubstitution?: string;
+}
+
+export interface DlcListItem {
+  group?: DlcGroup;
+  dlcs: DLC[];
 }

@@ -1,3 +1,13 @@
 .help-block {
   padding-left: 17px;
 }
+
+.dlc-groups {
+  column-count: 2;
+  column-gap: 1.5rem;
+}
+
+.dlc-group {
+  break-inside: avoid;
+  margin-bottom: 0.75rem;
+}

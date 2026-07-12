@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
 import {
   DLC,
+  DlcGroup,
   Game,
   MetadataCacheService,
   CivGame,
@@ -60,16 +61,52 @@ export class ConfigureGameComponent implements OnInit {
     this.validateDlc();
   }
 
+  // Dlc ids that belong to a group are rendered nested under that group instead of
+  // in the flat community/major/minor lists.
+  private get groupedDlcIds(): Set<string> {
+    return new Set((this.model.civGame.dlcGroups ?? []).flatMap(group => group.dlcIds));
+  }
+
+  dlcsInGroup(group: DlcGroup): DLC[] {
+    return group.dlcIds
+      .map(id => this.model.civGame.dlcs.find(dlc => dlc.id === id))
+      .filter((dlc): dlc is DLC => !!dlc);
+  }
+
   get communityDlc(): DLC[] {
-    return this.model.civGame.dlcs.filter(dlc => dlc.community);
+    return this.model.civGame.dlcs.filter(dlc => dlc.community && !this.groupedDlcIds.has(dlc.id));
   }
 
   get majorDlc(): DLC[] {
-    return this.model.civGame.dlcs.filter(dlc => dlc.major && !dlc.community);
+    return this.model.civGame.dlcs.filter(dlc => dlc.major && !dlc.community && !this.groupedDlcIds.has(dlc.id));
   }
 
   get minorDlc(): DLC[] {
-    return this.model.civGame.dlcs.filter(dlc => !dlc.major && !dlc.community);
+    return this.model.civGame.dlcs.filter(dlc => !dlc.major && !dlc.community && !this.groupedDlcIds.has(dlc.id));
+  }
+
+  get communityDlcGroups(): DlcGroup[] {
+    return (this.model.civGame.dlcGroups ?? []).filter(group => group.community);
+  }
+
+  get majorDlcGroups(): DlcGroup[] {
+    return (this.model.civGame.dlcGroups ?? []).filter(group => group.major && !group.community);
+  }
+
+  get minorDlcGroups(): DlcGroup[] {
+    return (this.model.civGame.dlcGroups ?? []).filter(group => !group.major && !group.community);
+  }
+
+  dlcGroupSelected(group: DlcGroup): boolean {
+    return group.dlcIds.every(id => this.model.dlc[id]);
+  }
+
+  setDlcGroup(group: DlcGroup, selected: boolean): void {
+    for (const id of group.dlcIds) {
+      this.model.dlc[id] = selected;
+    }
+
+    this.validateDlc();
   }
 
   get slotsArray() {

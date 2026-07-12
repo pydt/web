@@ -5,3 +5,18 @@
 .dlcDisabled i::before {
   color: #990000;
 }
+
+.dlc-group-toggle {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover,
+  &:focus {
+    color: inherit;
+    text-decoration: underline;
+  }
+
+  i {
+    opacity: 0.6;
+  }
+}
