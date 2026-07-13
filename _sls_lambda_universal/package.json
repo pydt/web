@@ -17,6 +17,6 @@
     "serverless-apigw-binary": "^0.4.4"
   },
   "dependencies": {
-    "@vendia/serverless-express": "^4.10.4"
+    "@vendia/serverless-express": "^4.12.6"
   }
 }
