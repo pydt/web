@@ -11,6 +11,14 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.2.0",
+    date: "2026-07-13",
+    desc: `- General updates for Civ 7
+- Upgrade to bootstrap 5, things will probably look a bit "off", either I'll keep tweaking the look or it'll just be the new normal
+- An optional local HTTP server for turn data (thanks @zacekjakub) https://github.com/pydt/client/pull/111
+- Add arm64 support for Windows (thanks @geekman7473) https://github.com/pydt/client/pull/110`,
+  },
+  {
     version: "2.1.9",
     date: "2025-07-06",
     desc: `- A nice fix for showing the PYDT icon in the OSX menu bar (thanks @ccurtsinger) https://github.com/pydt/client/pull/79
