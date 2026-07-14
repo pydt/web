@@ -11,6 +11,11 @@ export type Changelog = {
 
 const CLIENT_CHANGES: Changelog[] = [
   {
+    version: "2.2.1",
+    date: "2026-07-14",
+    desc: "Fixes for turn detection performance, especially on OSX",
+  },
+  {
     version: "2.2.0",
     date: "2026-07-13",
     desc: `- General updates for Civ 7

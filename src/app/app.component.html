@@ -56,7 +56,7 @@
               <a class="nav-link" [routerLink]="['user/games']" (click)="isCollapsed = true">Your Games</a>
             </li>
           }
-          <li class="nav-item">
+          <li class="nav-item" [routerLinkActive]="['active']">
             <a class="nav-link" [routerLink]="['changelog']" (click)="isCollapsed = true"
               >Changelog
               @if (changelog.unviewedChanges$ | async) {
