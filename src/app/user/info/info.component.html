@@ -23,7 +23,7 @@
     @if (user.comments) {
       <p><b>Comments:</b> {{ user.comments }}</p>
     }
-    @if (stats.turnsPlayed) {
+    @if (user.turnsPlayed) {
       <div>
         <p><b>Active Games:</b> {{ (user.activeGameIds || []).length }}</p>
         <hr />

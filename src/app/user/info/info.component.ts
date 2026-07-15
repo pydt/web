@@ -22,7 +22,15 @@ export class UserInfoComponent implements OnInit {
   ) {}
 
   get allCivGames(): CivGame[] {
-    return [this.allGame, ...this.games.filter(x => this.user.statsByGameType.map(x => x.gameType).includes(x.id))];
+    return [
+      this.allGame,
+      ...this.games.filter(x =>
+        this.user.statsByGameType
+          .filter(x => x.turnsPlayed)
+          .map(x => x.gameType)
+          .includes(x.id),
+      ),
+    ];
   }
 
   get stats() {
