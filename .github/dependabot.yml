@@ -3,12 +3,16 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    # Disable version updates; only security updates will be created
+    open-pull-requests-limit: 0
 
   - package-ecosystem: "npm"
     directory: "/_sls_lambda_universal"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    # Disable version updates; only security updates will be created
+    open-pull-requests-limit: 0
     ignore:
       - dependency-name: "serverless"
         update-types: ["version-update:semver-major"]
