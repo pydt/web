@@ -16,6 +16,7 @@ import { AppComponent } from "./app.component";
         { path: "game/:id/edit", renderMode: RenderMode.Client },
         { path: "user/profile", renderMode: RenderMode.Client },
         { path: "user/games", renderMode: RenderMode.Client },
+        { path: "stats", renderMode: RenderMode.Client },
         { path: "**", renderMode: RenderMode.Prerender },
       ]),
     ),
