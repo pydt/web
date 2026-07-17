@@ -18,7 +18,13 @@ if (fs.existsSync(destDir)) {
   fs.rmSync(destDir, { recursive: true });
 }
 
+// Sourcemaps can exceed Lambda's 6MB synchronous response cap (main.js.map alone is ~7MB) and
+// aren't needed at runtime, so they're excluded from the deployed package rather than served.
 function copyRecursive(src, dest) {
+  if (src.endsWith('.map')) {
+    return;
+  }
+
   const stat = fs.statSync(src);
   if (stat.isDirectory()) {
     fs.mkdirSync(dest, { recursive: true });

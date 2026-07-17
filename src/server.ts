@@ -46,6 +46,21 @@ app.use(
 );
 
 /**
+ * Requests for a missing static asset (e.g. a devtools-only .css.map) would otherwise fall
+ * through to the SSR handler below, where a path segment like "game/:id" happily matches the
+ * filename as a bogus game id and triggers a full render. Reject asset-shaped paths as a plain
+ * 404 instead.
+ */
+app.use((req, res, next) => {
+  if (/\.[a-zA-Z0-9]+$/.test(req.path)) {
+    res.status(404).end();
+    return;
+  }
+
+  next();
+});
+
+/**
  * Handle all other requests by rendering the Angular application.
  */
 app.use((req, res, next) => {
