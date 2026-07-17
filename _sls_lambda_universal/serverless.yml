@@ -1,5 +1,7 @@
 service: pydt-universal-www
 
+frameworkVersion: "4"
+
 plugins:
   - serverless-apigw-binary
 
