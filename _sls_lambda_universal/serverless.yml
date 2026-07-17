@@ -17,6 +17,9 @@ provider:
     # CloudFront's custom origin sends the execute-api hostname as Host, not the public
     # domain, so Angular SSR's allowed-hosts check needs it explicitly (any API ID, this region).
     NG_ALLOWED_HOSTS: "*.execute-api.us-east-1.amazonaws.com"
+    # API Gateway always attaches x-forwarded-for/-port; Angular SSR only trusts x-forwarded-host/-proto
+    # by default and silently deopts to CSR (skipping per-request rendering) when it sees an untrusted one.
+    NG_TRUST_PROXY_HEADERS: "x-forwarded-for,x-forwarded-host,x-forwarded-port,x-forwarded-proto"
 
 custom:
   apigwBinary:
