@@ -53,10 +53,27 @@ app.use((req, res, next) => {
   // be cached by CloudFront, regardless of the distribution's default cache policy.
   res.setHeader("Cache-Control", "no-store");
 
+  console.log(`[ssr] handling ${req.method} ${req.originalUrl}`);
+
   angularApp
     .handle(req)
-    .then(response => (response ? writeResponseToNodeResponse(response, res) : next()))
-    .catch(next);
+    .then(response => {
+      console.log(
+        `[ssr] ${req.originalUrl} -> ${response ? `${response.status} (rendered)` : "no response, falling back to next()"}`,
+      );
+      return response ? writeResponseToNodeResponse(response, res) : next();
+    })
+    .catch(err => {
+      console.error(`[ssr] error rendering ${req.originalUrl}`, err);
+      next(err);
+    });
+});
+
+// Angular's zone-tracked async work (e.g. HTTP calls made during a component's ngOnInit)
+// can reject without the rejection surfacing through the request handler above, silently
+// deopting the render to the raw CSR shell. Log these so they show up in Lambda logs.
+process.on("unhandledRejection", reason => {
+  console.error("[ssr] unhandledRejection", reason);
 });
 
 /**

@@ -69,13 +69,17 @@ export class GameDetailComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.gameId = params.id as string;
-      void this.loadGame().then(() => {
-        this.metatag.setTitleAndDesc(
-          `${this.game.displayName} | ${this.civGame.displayName}`,
-          removeMarkdown(this.game.description || "", { stripListLeaders: false, useImgAltText: true }).trim() ||
-            "This game doesn't have a description... I'm sure it's great though!",
-        );
-      });
+      void this.loadGame()
+        .then(() => {
+          this.metatag.setTitleAndDesc(
+            `${this.game.displayName} | ${this.civGame.displayName}`,
+            removeMarkdown(this.game.description || "", { stripListLeaders: false, useImgAltText: true }).trim() ||
+              "This game doesn't have a description... I'm sure it's great though!",
+          );
+        })
+        .catch(err => {
+          console.error(`[ssr] loadGame failed for gameId=${this.gameId}`, err);
+        });
     });
   }
 
