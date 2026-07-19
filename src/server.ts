@@ -79,7 +79,7 @@ app.use((req, res, next) => {
       return response ? writeResponseToNodeResponse(response, res) : next();
     })
     .catch(err => {
-      console.error(`[ssr] error rendering ${req.originalUrl}`, err);
+      console.error("[ssr] error rendering %s", req.originalUrl, err);
       next(err);
     });
 });
