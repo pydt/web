@@ -13,6 +13,6 @@ export const CURRENT_CHANGE_LOCAL_STORAGE_KEY = "last_pydt_change_num";
 export class ChangeLogComponent implements OnInit {
   constructor(public changelog: ChangelogService) {}
   ngOnInit(): void {
-    this.changelog.setChangesViewed();
+    void this.changelog.setChangesViewed();
   }
 }

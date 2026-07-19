@@ -1,7 +1,11 @@
+import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { BrowserDataService } from "./browser-data.service";
 
 const CURRENT_CHANGE_LOCAL_STORAGE_KEY = "last_pydt_change_num";
+const CLIENT_RELEASES_URL = "https://api.github.com/repos/pydt/client/releases?per_page=100";
+const CLIENT_RELEASES_POLL_INTERVAL_MS = 60 * 60 * 1000;
 
 export type Changelog = {
   version?: string;
@@ -9,103 +13,14 @@ export type Changelog = {
   desc: string;
 };
 
-const CLIENT_CHANGES: Changelog[] = [
-  {
-    version: "2.2.1",
-    date: "2026-07-14",
-    desc: "Fixes for turn detection performance, especially on OSX",
-  },
-  {
-    version: "2.2.0",
-    date: "2026-07-13",
-    desc: `- General updates for Civ 7
-- Upgrade to bootstrap 5, things will probably look a bit "off", either I'll keep tweaking the look or it'll just be the new normal
-- An optional local HTTP server for turn data (thanks @zacekjakub) https://github.com/pydt/client/pull/111
-- Add arm64 support for Windows (thanks @geekman7473) https://github.com/pydt/client/pull/110`,
-  },
-  {
-    version: "2.1.9",
-    date: "2025-07-06",
-    desc: `- A nice fix for showing the PYDT icon in the OSX menu bar (thanks @ccurtsinger) https://github.com/pydt/client/pull/79
-- Fixed a bug with the game description not showing on the play turn screen, also removed the button to switch to game info and now just always showing everything`,
-  },
-  {
-    version: "2.1.8",
-    date: "2024-09-21",
-    desc: "OSX Sequoia fix",
-  },
-  {
-    version: "2.1.6",
-    date: "2023-01-17",
-    desc: `Very small release, a couple of bug fixes and an update to bring in the dead player icon.
-
-- [Fix double link open](https://discourse.playyourdamnturn.com/t/double-open/8740/10)
-- [Remove play save after submit](https://discourse.playyourdamnturn.com/t/save-file-not-being-removed/8674)`,
-  },
-  {
-    version: "2.1.5",
-    date: "2023-12-14",
-    desc: `Library bumps and a couple small niceties:
-- [Show more than hours](https://discourse.playyourdamnturn.com/t/client-shows-hours-since-last-turn-and-never-days/8087)
-- [Show timer when playing](https://discourse.playyourdamnturn.com/t/display-timer-in-the-client-screen-when-waiting-for-the-save-to-be-uploaded/8084)
-- [Congress Turn notification](https://discourse.playyourdamnturn.com/t/congress-turns/8079/3)
-- Added some code so I could override the OSX Civ 6 save path, I think they introduced a bug in a recent release where the path is doubled up so it looks like "/Users/user/Library/Application Support/Sid Meier's Civilization VI/Sid Meier's Civilization VI/Saves/Hotseat" instead of just having one SMCVI directory.
-`,
-  },
-  {
-    version: "2.1.4",
-    date: "2023-06-13",
-    desc: `A fairly small release with some bug/feature requests:
-
-- [Fix start minimized](https://discourse.playyourdamnturn.com/t/start-minimized-on-startup/832)
-- [Unique archive files](https://discourse.playyourdamnturn.com/t/unique-archive-files/7390)
-- [Clear unread smack talk](https://discourse.playyourdamnturn.com/t/option-to-dismiss-smack-talk-post-notifications-in-client/7860)
-  
-**NOTE:** Versions 2.1.2 and 2.1.3 were basically the same as this release, there were a couple things that needed to be hotfixed.`,
-  },
-  {
-    version: "2.1.1",
-    date: "2023-01-10",
-    desc: `A quick hotfix release to fix an issue with the taskbar icon duplicating endlessly. Also including a small commit I missed in the last release because I hadn't pushed it from another computer that shows the current round in the game header.`,
-  },
-  {
-    version: "2.1.0",
-    date: "2023-01-10",
-    desc: `It's been a long time since I did a client release, but not a lot in here other than version bumps and a couple small things:
-
-- Multiple user support: You can now switch between multiple user tokens in the client with the new User menu.
-- Proton/Steam Deck: I still don't think things are great on the steam deck, but I added better detection for proton installations (used by steam deck).
-- Fixed a bug with the game store dropdown not displaying the saved selections correctly.`,
-  },
-  {
-    version: "2.0.2",
-    date: "2022-02-13",
-    desc: `There's no real changes in this release - the 2.0.0 release wasn't able to upgrade 1.6.0 windows to 2.0.0 because of the change in updater/installer format.  This release fakes an upgrade in the old format (playyourdamnturn-2.0.2-full.nupkg and RELEASES), which really just contains the new installer.  The new installer runs, and the PYDT client will check for the old client on startup and run the uninstaller to get rid of it.  See here if you're interested in the details: https://github.com/electron-userland/electron-builder/issues/837#issuecomment-614127460.
-
-(2.0.1 was deleted because I fixed a bug preventing the app from closing when you pressed the update button)
-    
-Duplicating the note from 2.0.0: **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the box in settings, save, and then recheck the box because the actual location of the app on the hard drive has changed.`,
-  },
-  {
-    version: "2.0.0",
-    date: "2022-02-05",
-    desc: `This release is mostly digging out of a lot of technical debt, cleaning things up and getting updated to current versions of everything.  The biggest change is changing how updates on Windows are handled - we were using an old, deprecated installer format (Squirrel.Windows) and this release switches to the current recommended installer, NSIS.  I'm hoping this changeover will be transparent, but it's possible you'll need to manually uninstall/reinstall if you have issues. 🤞 
-
-Because of this, **IF YOU USE START CLIENT ON BOOT** you'll need to uncheck the box in settings, save, and then recheck the box because the actual location of the app on the hard drive has changed.
-    
-**UPDATE:** Windows auto update from 1.6.0 to 2.0.0 isn't working, I'll be releasing 2.0.1 next weekend (2/12ish) that will support auto update from 1.6.0.`,
-  },
-  {
-    version: "1.6.0",
-    date: "2020-11-21",
-    desc: `A bunch of bugfixes & features (thanks @Valamas for keeping the backlog full), and also getting the client synced up with some improvements from the website.
-
-#23: background turn download (disabled by default, enable in the settings menu, if it doesn't cause a lot of issues I'll make it the default behavior in the future)
-#24: cleaned up window close/tray behavior
-#37: allow cancelling downloads/uploads
-#44: sort turns by: your turn/smack talk/other, sort within by last update`,
-  },
-];
+interface GithubRelease {
+  // eslint-disable-next-line camelcase
+  tag_name: string;
+  // eslint-disable-next-line camelcase
+  published_at: string;
+  body: string;
+  draft: boolean;
+}
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
@@ -194,22 +109,57 @@ Also, you can now download your previous turns from the turn history tab, and on
 export class ChangelogService {
   unviewedChanges$ = new BehaviorSubject(0);
 
-  totalChanges = CLIENT_CHANGES.length + WEBSITE_CHANGES.length;
+  private clientChangesList: Changelog[] = [];
+  private clientChangesLoaded: Promise<void>;
 
-  constructor() {
+  constructor(
+    private http: HttpClient,
+    private browserData: BrowserDataService,
+  ) {
     this.updateUnviewedChanges();
+
+    if (this.browserData.isBrowser()) {
+      this.clientChangesLoaded = this.loadClientChanges();
+      setInterval(() => void this.loadClientChanges(), CLIENT_RELEASES_POLL_INTERVAL_MS);
+    } else {
+      this.clientChangesLoaded = Promise.resolve();
+    }
   }
 
   get clientChanges() {
-    return CLIENT_CHANGES;
+    return this.clientChangesList;
   }
 
   get websiteChanges() {
     return WEBSITE_CHANGES;
   }
 
-  setChangesViewed() {
+  get totalChanges() {
+    return this.clientChangesList.length + WEBSITE_CHANGES.length;
+  }
+
+  async setChangesViewed() {
+    await this.clientChangesLoaded;
+
     localStorage.setItem(CURRENT_CHANGE_LOCAL_STORAGE_KEY, this.totalChanges.toString());
+    this.updateUnviewedChanges();
+  }
+
+  private async loadClientChanges() {
+    try {
+      const releases = await this.http.get<GithubRelease[]>(CLIENT_RELEASES_URL).toPromise();
+
+      this.clientChangesList = releases
+        .filter(release => !release.draft && release.body)
+        .map(release => ({
+          version: release.tag_name.replace(/^v/, ""),
+          date: release.published_at,
+          desc: release.body,
+        }));
+    } catch {
+      // If GitHub is unreachable, just show no client changes rather than breaking the page
+    }
+
     this.updateUnviewedChanges();
   }
 
