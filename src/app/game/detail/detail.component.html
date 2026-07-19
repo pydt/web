@@ -171,9 +171,7 @@
               @if (game.createdBySteamId === profile?.steamid) {
                 <div class="row" style="margin-top: 20px">
                   <div class="col-12 text-center">
-                    <button class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']">
-                      Edit Game Parameters
-                    </button>
+                    <a class="btn btn-primary" [routerLink]="['/game', game.gameId, 'edit']"> Edit Game Parameters </a>
                   </div>
                 </div>
               }

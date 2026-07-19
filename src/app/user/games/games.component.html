@@ -22,9 +22,7 @@
                 <pydt-game-preview [game]="game" [showTurnInfo]="true"></pydt-game-preview>
                 <div class="row">
                   <div class="col-12 text-center mt-3">
-                    <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
-                      View Game Details
-                    </button>
+                    <a class="btn btn-primary" [routerLink]="['/game', game.gameId]"> View Game Details </a>
                   </div>
                 </div>
               </div>
@@ -45,9 +43,7 @@
                   <pydt-game-preview [game]="game"></pydt-game-preview>
                   <div class="row">
                     <div class="col-12 text-center mt-3">
-                      <button type="button" class="btn btn-primary" [routerLink]="['/game', game.gameId]">
-                        View Game Details
-                      </button>
+                      <a class="btn btn-primary" [routerLink]="['/game', game.gameId]"> View Game Details </a>
                     </div>
                   </div>
                 </div>
