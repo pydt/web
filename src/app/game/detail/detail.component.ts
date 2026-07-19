@@ -78,7 +78,7 @@ export class GameDetailComponent implements OnInit {
           );
         })
         .catch(err => {
-          console.error(`[ssr] loadGame failed for gameId=${this.gameId}`, err);
+          console.error("[ssr] loadGame failed for gameId=%s", this.gameId, err);
         });
     });
   }
