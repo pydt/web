@@ -116,8 +116,6 @@ export class ChangelogService {
     private http: HttpClient,
     private browserData: BrowserDataService,
   ) {
-    this.updateUnviewedChanges();
-
     if (this.browserData.isBrowser()) {
       this.clientChangesLoaded = this.loadClientChanges();
       setInterval(() => void this.loadClientChanges(), CLIENT_RELEASES_POLL_INTERVAL_MS);
@@ -165,9 +163,11 @@ export class ChangelogService {
 
   private updateUnviewedChanges() {
     setTimeout(() => {
-      this.unviewedChanges$.next(
-        this.totalChanges - parseInt(localStorage.getItem(CURRENT_CHANGE_LOCAL_STORAGE_KEY) || "0", 10),
-      );
+      const changeCount =
+        this.totalChanges - parseInt(localStorage.getItem(CURRENT_CHANGE_LOCAL_STORAGE_KEY) || "0", 10);
+
+      // Don't show negative numbers if loading client changes fails and the local storage value is higher than the total changes
+      this.unviewedChanges$.next(changeCount > 0 ? changeCount : 0);
     }, 10);
   }
 }
