@@ -95,6 +95,16 @@
             Version
             <a target="_blank" href="https://github.com/pydt/web/commit/{{ env.rev }}">{{ env.rev }}</a>
             ({{ env.date }})
+            @if (apiInfo.allowed) {
+              <!-- Non-prod builds only: which API this page talks to, and a switch (see api-override.ts) -->
+              · API: <b>{{ apiInfo.current }}</b>
+              @if (apiInfo.current !== "prod") {
+                (<a [href]="apiSwitchHref('prod')">use prod</a>)
+              }
+              @if (apiInfo.current !== "dev") {
+                (<a [href]="apiSwitchHref('dev')">use dev</a>)
+              }
+            }
           </p>
         </div>
         <div class="col-sm-4 text-end d-none d-sm-block">

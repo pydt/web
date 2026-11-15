@@ -8,6 +8,7 @@ import { AuthService as AuthApi } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
 import envVars from "../envVars";
+import { apiOverrideInfo } from "./shared/api-override";
 import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } from "./shared";
 import { MetatagService } from "./shared/metatag.service";
 import { BrowserDataService } from "./shared/browser-data.service";
@@ -25,6 +26,15 @@ export class AppComponent implements OnInit {
   errorModalMessage: string;
   alerts: AlertConfig[] = [];
   env = envVars;
+  apiInfo = apiOverrideInfo();
+
+  // Footer API switch link that stays on the current page (a bare "?api=x" would resolve
+  // against <base href="/"> and land on the home page)
+  apiSwitchHref(choice: "prod" | "dev"): string {
+    const path = typeof window !== "undefined" && window.location ? window.location.pathname : "/";
+
+    return `${path}?api=${choice}`;
+  }
   updateAvailable = false;
   private updateActivated: Promise<boolean>;
 

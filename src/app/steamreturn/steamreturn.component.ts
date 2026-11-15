@@ -2,8 +2,8 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { ValidateResponse } from "pydt-shared";
-import envVars from "../../envVars";
 import { AuthService } from "../shared";
+import { currentApiUrl } from "../shared/api-override";
 import { BrowserDataService } from "../shared/browser-data.service";
 
 @Component({
@@ -24,7 +24,7 @@ export class SteamReturnComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     if (this.browserData.isBrowser()) {
       const vResp = await this.http
-        .get<ValidateResponse>(`${envVars.apiUrl}/auth/steam/validate${window.location.search}`)
+        .get<ValidateResponse>(`${currentApiUrl()}/auth/steam/validate${window.location.search}`)
         .toPromise();
 
       if (vResp.token) {

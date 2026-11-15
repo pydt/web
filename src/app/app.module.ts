@@ -28,7 +28,7 @@ import { VgControlsModule } from "@videogular/ngx-videogular/controls";
 import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { Ng2TableModule } from "../ng2-table/ng-table-module";
-import envVars from "../envVars";
+import { currentApiUrl } from "./shared/api-override";
 import { AppComponent } from "./app.component";
 import { routing } from "./app.routing";
 import { ForumComponent } from "./forum/forum.component";
@@ -84,7 +84,8 @@ import { GameDetailManageModsComponent } from "./game/detail/manage-mods/manage-
 export const configFactory = (): Configuration =>
   new Configuration({
     apiKeys: {},
-    basePath: envVars.apiUrl,
+    // The build's API, unless a non-prod build was switched with ?api=dev / ?api=prod
+    basePath: currentApiUrl(),
   });
 
 export const profileCacheFactory = (userService: UserService): ProfileCacheService =>
