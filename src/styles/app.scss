@@ -243,6 +243,14 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+.footer-spacer {
+  padding: 15px;
+}
+// The forum iframe sits in a fixed container with a negative z-index, so the spacer (and the page
+// wrapper it stretches) would cover the top of the forum and block clicks there (forum #14365).
+pydt-forum + .footer-spacer {
+  display: none;
+}
 .footer {
   position: absolute;
   bottom: 0px;
