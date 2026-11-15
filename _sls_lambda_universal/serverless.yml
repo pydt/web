@@ -14,6 +14,8 @@ provider:
   environment:
     ROLLBAR_SERVER_API_KEY: ${env:ROLLBAR_SERVER_API_KEY}
     ROLLBAR_ENV: ${opt:stage, self:provider.stage}
+    # Map SSR stack traces (in Rollbar and the logs) to .ts using the server bundle's maps.
+    NODE_OPTIONS: "--enable-source-maps"
     # CloudFront's custom origin sends the execute-api hostname as Host, not the public
     # domain, so Angular SSR's allowed-hosts check needs it explicitly (any API ID, this region).
     NG_ALLOWED_HOSTS: "*.execute-api.us-east-1.amazonaws.com"

@@ -18,10 +18,14 @@ if (fs.existsSync(destDir)) {
   fs.rmSync(destDir, { recursive: true });
 }
 
-// Sourcemaps can exceed Lambda's 6MB synchronous response cap (main.js.map alone is ~7MB) and
-// aren't needed at runtime, so they're excluded from the deployed package rather than served.
+// Browser sourcemaps can exceed Lambda's 6MB synchronous response cap (main.js.map alone is ~7MB),
+// so they're excluded from the deployed package rather than served; CI uploads them to Rollbar
+// instead (see uploadSourceMaps.js). The SSR bundle's own maps are kept: they're never served,
+// and Node uses them (NODE_OPTIONS=--enable-source-maps) to map server stack traces to .ts.
+const browserDir = path.join(srcDir, 'web', 'browser');
+
 function copyRecursive(src, dest) {
-  if (src.endsWith('.map')) {
+  if (src.endsWith('.map') && src.startsWith(browserDir)) {
     return;
   }
 
