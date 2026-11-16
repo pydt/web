@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
@@ -27,6 +27,7 @@ import { MetatagService } from "./../../shared/metatag.service";
   selector: "pydt-game-detail",
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailComponent implements OnInit {

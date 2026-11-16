@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, RawCiv6Mods } from "pydt-shared";
 import { NotificationService } from "../../../shared";
@@ -6,6 +6,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-manage-mods",
   templateUrl: "./manage-mods.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailManageModsComponent {

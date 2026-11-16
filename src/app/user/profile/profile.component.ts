@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {
   AuthService as AuthApi,
   CivGame,
@@ -19,6 +19,7 @@ import { Router } from "@angular/router";
   selector: "pydt-user-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UserProfileComponent implements OnInit {

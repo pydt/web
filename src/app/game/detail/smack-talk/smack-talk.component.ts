@@ -1,10 +1,11 @@
-import { Component, Input, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from "@angular/core";
 import { Game } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 
 @Component({
   selector: "pydt-game-detail-smack-talk",
   templateUrl: "./smack-talk.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailSmackTalkComponent implements OnChanges {

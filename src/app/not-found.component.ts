@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, PLATFORM_ID } from "@angular/core";
+import { Component, OnInit, Optional, Inject, PLATFORM_ID, ChangeDetectionStrategy } from "@angular/core";
 import { RESPONSE } from "../express.tokens";
 import { isPlatformServer } from "@angular/common";
 import { Response } from "express";
@@ -6,6 +6,7 @@ import { Response } from "express";
 @Component({
   selector: "pydt-not-found",
   template: '<h1 style="text-align:center;margin-top:50px;">This damn page doesn\'t exist.</h1> ',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class NotFoundComponent implements OnInit {

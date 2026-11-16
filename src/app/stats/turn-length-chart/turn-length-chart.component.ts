@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from "@angular/core";
 import { CountdownUtility, Game, ProfileCacheService, SteamProfile, TURN_BUCKETS, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-turn-length-chart",
   templateUrl: "./turn-length-chart.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TurnLengthChartComponent implements OnChanges {

@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, combineLatest, map } from "rxjs";
 import {
@@ -15,6 +15,7 @@ import { AuthService } from "../../shared";
 @Component({
   selector: "pydt-open-games",
   templateUrl: "./open-games.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class OpenGamesComponent implements OnInit {

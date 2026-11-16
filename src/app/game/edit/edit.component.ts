@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Game, GameRequestBody, GameService, MetadataCacheService } from "pydt-shared";
 import { NotificationService } from "../../shared";
@@ -21,6 +21,7 @@ class EditGameModel extends ConfigureGameModel {
 @Component({
   selector: "pydt-edit-game",
   templateUrl: "./edit.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class EditGameComponent implements OnInit {

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
 import { Game, GameService } from "pydt-shared";
 import { AuthService, NotificationService } from "../../../shared";
 
 @Component({
   selector: "pydt-game-request-substitution",
   templateUrl: "./request-substitution.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailRequestSubstitutionComponent {

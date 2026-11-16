@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
@@ -6,6 +6,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-restart-game",
   templateUrl: "./restart-game.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailAdminRestartGameComponent {

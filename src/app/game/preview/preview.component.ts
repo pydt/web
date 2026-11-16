@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import {
   CivDef,
@@ -24,6 +24,7 @@ import { BehaviorSubject, Observable, map } from "rxjs";
   selector: "pydt-game-preview",
   templateUrl: "./preview.component.html",
   styleUrls: ["./preview.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GamePreviewComponent implements OnChanges {

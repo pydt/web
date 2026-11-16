@@ -1,10 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import moment from "moment";
 import { CountdownUtility, TurnData } from "pydt-shared";
 
 @Component({
   selector: "pydt-turn-stats",
   templateUrl: "./display-turn-stats.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DisplayTurnStatsComponent {

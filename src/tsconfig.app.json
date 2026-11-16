@@ -1,11 +1,12 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "outDir": "../out-tsc/app",
-    "baseUrl": "./",
-    "types": ["node"]
+    "outDir": "../out-tsc/app",    "types": ["node"]
   },
   "files": ["main.ts", "polyfills.ts", "server-dom-setup.ts", "main.server.ts", "server.ts"],
   "include": ["src/**/*.d.ts"],
-  "exclude": ["test.ts", "**/*.spec.ts"]
+  "exclude": ["test.ts", "**/*.spec.ts"],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  }
 }

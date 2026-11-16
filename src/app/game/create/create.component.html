@@ -3,7 +3,7 @@
   <div class="card card-body">
     <form class="" (ngSubmit)="onSubmit()" #newGameForm="ngForm">
       @if (model) {
-        <pydt-configure-game [model]="model" [selectedCivs]="[model?.player1Civ.leaderKey]"></pydt-configure-game>
+        <pydt-configure-game [model]="model" [selectedCivs]="[model.player1Civ.leaderKey]"></pydt-configure-game>
       }
       <div class="row mb-3">
         <label for="selectCiv" class="col-sm-3 col-form-label">Select Your Civ:</label>
@@ -12,7 +12,7 @@
             <pydt-select-civ
               [curCiv]="curCiv"
               [curCivilization]="curCivilization"
-              [civGame]="model?.civGame"
+              [civGame]="model.civGame"
               [randomOnly]="model.randomOnly"
               [leaders]="filteredLeaders()"
               [availableCivilizations]="filteredCivilizations()"

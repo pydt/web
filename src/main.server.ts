@@ -5,7 +5,7 @@
  * This import must come before any imports (direct or transitive) that rely on DOM built-ins being
  * available, such as `@angular/elements`.
  */
-// Set up DOM globals before any imports that may need them (e.g. videogular, localstorage-polyfill)
+// Set up DOM globals before any imports that may need them (e.g. localstorage-polyfill)
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const g = global as any;
 if (typeof g.document === "undefined") g.document = { createElement: () => ({}), createElementNS: () => ({}), getElementById: () => null, querySelector: () => null, querySelectorAll: () => [], body: {}, cookie: "" };

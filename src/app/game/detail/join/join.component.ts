@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, OnChanges } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild, OnChanges, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivDef, CivGame, Game, GamePlayer, GameService, SteamProfile, UserService } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
@@ -8,6 +8,7 @@ import { AvailableCiv } from "../detail.component";
 @Component({
   selector: "pydt-game-detail-join",
   templateUrl: "./join.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailJoinComponent implements OnChanges {

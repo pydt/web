@@ -33,7 +33,7 @@
               }
             },
             "styles": ["src/styles/app.scss", "node_modules/dragula/dist/dragula.css", "node_modules/@fortawesome/fontawesome-free/css/all.min.css"],
-            "scripts": ["node_modules/marked/marked.min.js"],
+            "scripts": [],
             "extractLicenses": false,
             "sourceMap": true,
             "optimization": false,
@@ -104,7 +104,6 @@
             "scripts": [],
             "styles": [
               "src/styles/app.scss",
-              "node_modules/@videogular/ngx-videogular/fonts/videogular.css",
               "node_modules/dragula/dist/dragula.css"
             ],
             "assets": [

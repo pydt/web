@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CivGame, CountdownUtility, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
@@ -7,6 +7,7 @@ import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.
   selector: "pydt-user-stats",
   templateUrl: "./stats.component.html",
   styleUrls: ["./stats.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class StatsComponent implements OnInit {

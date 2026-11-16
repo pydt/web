@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi, withXhr } from "@angular/common/http";
 import { ErrorHandler, NgModule } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from "@angular/platform-browser";
@@ -23,10 +23,6 @@ import {
   BusyService,
   MetadataCacheService,
 } from "pydt-shared";
-import { VgCoreModule } from "@videogular/ngx-videogular/core";
-import { VgControlsModule } from "@videogular/ngx-videogular/controls";
-import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
-import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { Ng2TableModule } from "../ng2-table/ng-table-module";
 import { currentApiUrl } from "./shared/api-override";
 import { AppComponent } from "./app.component";
@@ -166,10 +162,6 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     Ng2TableModule,
     routing,
     Angulartics2Module.forRoot(),
-    VgCoreModule,
-    VgControlsModule,
-    VgOverlayPlayModule,
-    VgBufferingModule,
     BaseChartDirective,
     // https://github.com/angular/angular/issues/47455
     ServiceWorkerModule.register("pydt-service-worker.js", { enabled: environment.production }),
@@ -185,7 +177,7 @@ export const profileCacheFactory = (userService: UserService): ProfileCacheServi
     { provide: HTTP_INTERCEPTORS, useExisting: MetadataCacheService, multi: true },
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     NotificationService,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
     provideCharts(withDefaultRegisterables()),
   ],
 })

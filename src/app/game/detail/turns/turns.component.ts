@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit } from "@angular/core";
+import { Component, HostListener, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import moment from "moment";
 import {
   Game,
@@ -23,6 +23,7 @@ export interface TableColumn {
 @Component({
   selector: "pydt-game-detail-turns",
   templateUrl: "./turns.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailTurnsComponent implements OnInit {

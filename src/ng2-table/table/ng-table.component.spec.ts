@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
 import { Ng2TableModule } from "../ng-table-module";
@@ -30,11 +30,10 @@ describe("Component: ng2-table", () => {
 });
 
 @Component({
-    // eslint-disable-next-line
-    selector: 'table-test',
-    template: "",
-    standalone: false
+  // eslint-disable-next-line
+  selector: "table-test",
+  template: "",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
-
-class TestTableComponent {
-}
+class TestTableComponent {}

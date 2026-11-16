@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, User, UserService } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
@@ -6,6 +6,7 @@ import { NotificationService } from "../../../../shared";
 @Component({
   selector: "pydt-game-detail-admin-kick-player",
   templateUrl: "./kick-player.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailAdminKickPlayerComponent implements OnInit {

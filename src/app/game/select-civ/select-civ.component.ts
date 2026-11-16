@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { CivDef, CivGame, Game, MetadataCacheService } from "pydt-shared";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { FormControl } from "@angular/forms";
@@ -9,6 +9,7 @@ import { AvailableCiv } from "../detail/detail.component";
   selector: "pydt-select-civ",
   templateUrl: "./select-civ.component.html",
   styleUrls: ["./select-civ.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SelectCivComponent implements OnInit {

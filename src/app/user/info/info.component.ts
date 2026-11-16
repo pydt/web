@@ -1,9 +1,10 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { CivGame, CountdownUtility, MetadataCacheService, ProfileCacheService, SteamProfile, User } from "pydt-shared";
 
 @Component({
   selector: "pydt-user-info",
   templateUrl: "./info.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UserInfoComponent implements OnInit {

@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ErrorHandler, NgZone, OnInit, ViewChild } from "@angular/core";
+import { Component, ErrorHandler, NgZone, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
@@ -17,6 +17,7 @@ import { ChangelogService } from "./shared/changelog.service";
 @Component({
   selector: "pydt-app",
   templateUrl: "./app.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class AppComponent implements OnInit {

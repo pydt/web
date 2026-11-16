@@ -292,7 +292,7 @@
   <div class="row mb-3">
     <label for="mapSize" class="col-sm-3 col-form-label">Map Size:</label>
     <div class="col-sm-9">
-      <select class="form-select" id="mapSize" [(ngModel)]="model.mapSize" [disabled]="model.selectedMap?.mapSize">
+      <select class="form-select" id="mapSize" [(ngModel)]="model.mapSize" [disabled]="!!model.selectedMap?.mapSize">
         @for (size of model.civGame.mapSizes; track size) {
           <option [ngValue]="size.key">{{ size.displayName }} (suggested {{ size.players }} players)</option>
         }

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivGame, MetadataCacheService, GameService } from "pydt-shared";
@@ -7,6 +7,7 @@ import { AuthService } from "../../shared";
 @Component({
   selector: "pydt-game-create-button",
   templateUrl: "./create-button.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameCreateButtonComponent implements OnInit {

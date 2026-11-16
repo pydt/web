@@ -160,7 +160,7 @@
                 <pydt-game-detail-change-civ
                   [game]="game"
                   [civGame]="civGame"
-                  [steamId]="user?.steamId"
+                  [steamId]="user.steamId"
                   [playerCiv]="userCiv"
                   [playerCivilization]="userCivilization"
                   [availableCivs]="availableCivs"
@@ -174,7 +174,7 @@
               @if (canEdit && activeProfile?.steamid !== user?.steamId) {
                 <pydt-game-detail-leave
                   [game]="game"
-                  [steamId]="user?.steamId"
+                  [steamId]="user.steamId"
                   (setGame)="gameUpdated.emit($event)"
                 ></pydt-game-detail-leave>
               }

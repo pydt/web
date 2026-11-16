@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from "@angular/core";
+import { Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService, CountdownUtility } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
@@ -15,6 +15,7 @@ export interface TableColumn {
 @Component({
   selector: "pydt-game-detail-stats",
   templateUrl: "./stats.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailStatsComponent implements OnInit {

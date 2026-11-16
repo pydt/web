@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from "@angular/core";
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { BusyService, StatsService } from "pydt-shared";
 
@@ -6,6 +6,7 @@ import { BusyService, StatsService } from "pydt-shared";
   selector: "pydt-home",
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.scss"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class HomeComponent implements OnInit {

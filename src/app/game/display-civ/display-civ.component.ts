@@ -1,9 +1,10 @@
-import { Component, Input, Output, EventEmitter } from "@angular/core";
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from "@angular/core";
 import { AvailableCiv } from "../detail/detail.component";
 
 @Component({
   selector: "pydt-display-civ",
   templateUrl: "./display-civ.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DisplayCivComponent {

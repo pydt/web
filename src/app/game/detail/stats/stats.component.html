@@ -16,11 +16,9 @@
 @if (game.gameVideoUrl && isBrowser) {
   <div class="row">
     <div class="col-md-12">
-      <vg-player>
-        <video [vgMedia]="media" #media id="replay" preload="auto" controls style="width: 100%">
-          <source [src]="game.gameVideoUrl" type="video/webm" />
-        </video>
-      </vg-player>
+      <video id="replay" preload="auto" controls style="width: 100%">
+        <source [src]="game.gameVideoUrl" type="video/webm" />
+      </video>
     </div>
   </div>
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheService, CivGame } from "pydt-shared";
@@ -30,6 +30,7 @@ class CreateGameModel extends ConfigureGameModel {
 @Component({
   selector: "pydt-create-game",
   templateUrl: "./create.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class CreateGameComponent implements OnInit {

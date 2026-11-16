@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { ValidateResponse } from "pydt-shared";
 import { AuthService } from "../shared";
@@ -9,6 +9,7 @@ import { BrowserDataService } from "../shared/browser-data.service";
 @Component({
   selector: "pydt-steam-return",
   templateUrl: "./steamreturn.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class SteamReturnComponent implements OnInit {

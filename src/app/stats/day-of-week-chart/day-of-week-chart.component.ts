@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from "@angular/core";
+import { Component, Input, OnChanges, ChangeDetectionStrategy } from "@angular/core";
 import { Game, ProfileCacheService, SteamProfile, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
@@ -6,6 +6,7 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
 @Component({
   selector: "pydt-day-of-week-chart",
   templateUrl: "./day-of-week-chart.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class DayOfWeekChartComponent implements OnChanges {

@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
-    // eslint-disable-next-line
-    selector: "ng-table",
-    templateUrl: "./ng-table.component.html",
-    standalone: false
+  // eslint-disable-next-line
+  selector: "ng-table",
+  templateUrl: "./ng-table.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
 })
 export class NgTableComponent {
   // Table values

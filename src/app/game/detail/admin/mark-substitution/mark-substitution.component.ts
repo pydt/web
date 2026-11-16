@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from "@angular/core";
 import { Game, GamePlayer, GameService, ProfileCacheService, SteamProfile } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
 
 @Component({
   selector: "pydt-game-detail-admin-mark-substitution",
   templateUrl: "./mark-substitution.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailAdminMarkSubstitutionComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit } from "@angular/core";
+import { Component, HostListener, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import { Game, ProfileCacheService, UserService } from "pydt-shared";
 import { AuthService } from "../../shared/auth.service";
 import { orderBy } from "lodash";
@@ -6,6 +6,7 @@ import { orderBy } from "lodash";
 @Component({
   selector: "pydt-user-games",
   templateUrl: "./games.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class UserGamesComponent implements OnInit {

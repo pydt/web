@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
 import {
   DLC,
   DlcGroup,
@@ -14,6 +14,7 @@ import { ConfigureGameModel } from "./configure-game.model";
   selector: "pydt-configure-game",
   templateUrl: "./config.component.html",
   styleUrls: ["./config.component.css"],
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class ConfigureGameComponent implements OnInit {

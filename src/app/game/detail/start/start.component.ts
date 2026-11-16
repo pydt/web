@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService } from "pydt-shared";
@@ -7,6 +7,7 @@ import { NotificationService } from "../../../shared";
 @Component({
   selector: "pydt-game-detail-start",
   templateUrl: "./start.component.html",
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GameDetailStartComponent {
