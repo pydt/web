@@ -1,23 +1,13 @@
-import { enableProdMode, provideZoneChangeDetection } from "@angular/core";
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
+import { provideZoneChangeDetection } from "@angular/core";
+import { platformBrowser } from "@angular/platform-browser";
 
 import { AppModule } from "./app/app.module";
-import { environment } from "./environments/environment";
 
-if (environment.production) {
-  enableProdMode();
-}
+// error.service.ts reads process.env for the SSR server's Rollbar settings; in the browser there is
+// no process, so give it an empty env (the client token is used instead). Must run before bootstrap.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(globalThis as any).process ??= { env: {} };
 
-function bootstrap() {
-  platformBrowserDynamic().bootstrapModule(AppModule, { applicationProviders: [provideZoneChangeDetection()] });
-}
-
-global.process = {
-  env: {},
-} as any;
-
-if (document.readyState === "complete") {
-  bootstrap();
-} else {
-  document.addEventListener("DOMContentLoaded", bootstrap);
-}
+platformBrowser()
+  .bootstrapModule(AppModule, { applicationProviders: [provideZoneChangeDetection()] })
+  .catch((err: unknown) => console.error(err));

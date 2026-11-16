@@ -22,14 +22,14 @@ describe("resolveApiOverride", () => {
 
     expect(r.apiUrl).toBe(API_URLS.dev);
     expect(r.storeChoice).toBe("dev");
-    expect(r.apiChanged).toBeTrue();
+    expect(r.apiChanged).toBe(true);
     expect(r.cleanSearch).toBe("");
   });
 
   it("doesn't flag a change when asking for the API already in use", () => {
     const r = resolveApiOverride("dev", BUILD_DEFAULT, "?api=dev", "dev");
 
-    expect(r.apiChanged).toBeFalse();
+    expect(r.apiChanged).toBe(false);
   });
 
   it("goes back to the build default with ?api=default", () => {
@@ -37,7 +37,7 @@ describe("resolveApiOverride", () => {
 
     expect(r.apiUrl).toBe(BUILD_DEFAULT);
     expect(r.storeChoice).toBeNull();
-    expect(r.apiChanged).toBeTrue();
+    expect(r.apiChanged).toBe(true);
   });
 
   it("keeps other query parameters", () => {
@@ -49,7 +49,7 @@ describe("resolveApiOverride", () => {
 
     expect(r.apiUrl).toBe(API_URLS.dev);
     expect(r.storeChoice).toBeUndefined();
-    expect(r.apiChanged).toBeFalse();
+    expect(r.apiChanged).toBe(false);
     expect(r.cleanSearch).toBe("");
   });
 });
