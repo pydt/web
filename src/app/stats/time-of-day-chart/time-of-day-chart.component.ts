@@ -22,6 +22,11 @@ export class TimeOfDayChartComponent implements OnChanges {
       title: {
         display: true,
       },
+      tooltip: {
+        callbacks: {
+          title: items => `${items[0]?.label}:00`,
+        },
+      },
     },
     scales: {
       x: {
@@ -77,7 +82,8 @@ export class TimeOfDayChartComponent implements OnChanges {
     // Get UTC hours of day
     for (const localHour of [...Array(24).keys()]) {
       const utcHour = new Date(2000, 1, 1, localHour).getUTCHours();
-      labels.push(`${localHour.toString().padStart(2, "0")}:00`);
+      // Just the hour on the axis (forum #10057); the tooltip adds ":00" back
+      labels.push(localHour.toString().padStart(2, "0"));
 
       if ("players" in this.turnData) {
         const humans = this.turnData.players.filter(x => x.steamId);
