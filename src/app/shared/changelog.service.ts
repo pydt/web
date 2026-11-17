@@ -24,6 +24,13 @@ interface GithubRelease {
 
 const WEBSITE_CHANGES: Changelog[] = [
   {
+    date: "2026-11-17",
+    desc: `### Civ 7 age transitions work now!
+Civ 7 hotseat games can finally move on to the next age. Firaxis still hasn't fixed the underlying hotseat bug, so the PYDT mod works around it and handles the transition for you. Make sure everyone in your game has the latest version of the mod (Steam should update it automatically, restart Steam if you're not sure): https://steamcommunity.com/sharedfiles/filedetails/?id=3751833377
+
+If your game was paused at the end of an age, you can pick it back up now. Let me know in the forum or on discord if you have any problems.`,
+  },
+  {
     date: "2026-06-25",
     desc: `### CIV7 HOTSEAT!
 This is very beta and barely tested, but initial support for Civ 7 is in.  A mod is required to play, it blocks the screen after 1 turn to prevent accidentally moving on to the next player's turn, and also adds turn state to the save file (which is almost definitely somewhere in the file, but I've been unable to find it).
