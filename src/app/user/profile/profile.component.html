@@ -210,15 +210,25 @@
                   register/unregister this browser. If you ever press the button to block push notifications from this
                   site you'll need to clear that setting in your browser before registration will work again!
                 </p>
-                <p>
-                  Web notifications for this browser are currently
-                  <strong>{{ (notificationsEnabled$ | async) ? "ENABLED" : "DISABLED" }}</strong>
-                </p>
-                @if ((notificationsEnabled$ | async) === false) {
-                  <button class="btn btn-primary" (click)="subscribeWebPush()">Enable Web Push Notifications</button>
-                }
-                @if (notificationsEnabled$ | async) {
-                  <button class="btn btn-primary" (click)="unsubscribeWebPush()">Disable Web Push Notifications</button>
+                @if ((pushSupported$ | async) === false) {
+                  <p>
+                    <strong>This browser doesn't support web push notifications.</strong> On an iPhone or iPad, add this
+                    site to your Home Screen (Share, then Add to Home Screen), open it from there, and come back to this
+                    page.
+                  </p>
+                } @else {
+                  <p>
+                    Web notifications for this browser are currently
+                    <strong>{{ (notificationsEnabled$ | async) ? "ENABLED" : "DISABLED" }}</strong>
+                  </p>
+                  @if ((notificationsEnabled$ | async) === false) {
+                    <button class="btn btn-primary" (click)="subscribeWebPush()">Enable Web Push Notifications</button>
+                  }
+                  @if (notificationsEnabled$ | async) {
+                    <button class="btn btn-primary" (click)="unsubscribeWebPush()">
+                      Disable Web Push Notifications
+                    </button>
+                  }
                 }
               </div>
             </tab>

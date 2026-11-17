@@ -30,12 +30,13 @@ export class UserProfileComponent implements OnInit {
   games: CivGame[];
 
   currentUser$ = new BehaviorSubject<CurrentUserDataWithPud>(null);
-  notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushNotificationsEndpoint$]).pipe(
+  pushSupported$ = this.notificationService.pushState$.pipe(map(x => x.supported));
+  notificationsEnabled$ = combineLatest([this.currentUser$, this.notificationService.pushState$]).pipe(
     map(l => {
-      const wps = l[0].pud.webPushSubscriptions || [];
-      const endpoint = l[1];
+      const wps = l[0]?.pud?.webPushSubscriptions || [];
+      const endpoint = l[1].endpoint;
 
-      return !!wps.find(x => x.endpoint === endpoint);
+      return !!endpoint && !!wps.find(x => x.endpoint === endpoint);
     }),
   );
 

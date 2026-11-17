@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
 import { PrivateUserData, UserService } from "pydt-shared";
-import { NextObserver, Subject } from "rxjs";
-import { first, map } from "rxjs/operators";
+import { NextObserver, Observable, of, Subject } from "rxjs";
+import { catchError, first, map, shareReplay } from "rxjs/operators";
 
 export interface AlertConfig {
   type: "success" | "info" | "warning" | "danger";
@@ -16,7 +16,19 @@ export class NotificationService {
 
   private alertStream = new Subject<AlertConfig>();
 
-  public readonly pushNotificationsEndpoint$ = this.swPush.subscription.pipe(map(x => x?.endpoint));
+  // A service worker isn't enough for web push: iOS browsers only offer push to sites added to the Home
+  // Screen. In a normal tab the registration has no pushManager and SwPush.subscription errors, so both
+  // checks are needed, plus the catchError below.
+  private readonly pushAvailable = this.swPush.isEnabled && typeof window !== "undefined" && "PushManager" in window;
+
+  // Whether this browser can do web push, and the endpoint it's subscribed with (if any)
+  public readonly pushState$: Observable<{ supported: boolean; endpoint?: string }> = (this.pushAvailable
+    ? this.swPush.subscription.pipe(
+        map(x => ({ supported: true, endpoint: x?.endpoint })),
+        catchError(() => of({ supported: false })),
+      )
+    : of({ supported: false })
+  ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 
   constructor(
     private swPush: SwPush,
