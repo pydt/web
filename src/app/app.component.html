@@ -80,7 +80,9 @@
       </alert>
     }
     @for (config of alerts; track config) {
-      <alert dismissible="true" dismissOnTimeout="5000" [type]="config.type">{{ config.msg }}</alert>
+      <alert dismissible="true" [dismissOnTimeout]="config.timeout || 5000" [type]="config.type">{{
+        config.msg
+      }}</alert>
     }
   </div>
   <router-outlet></router-outlet>

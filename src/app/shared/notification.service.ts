@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
 import { PrivateUserData, UserService } from "pydt-shared";
@@ -7,7 +8,34 @@ import { catchError, first, map, shareReplay } from "rxjs/operators";
 export interface AlertConfig {
   type: "success" | "info" | "warning" | "danger";
   msg: string;
+  // Milliseconds before the alert closes itself (default 5000)
+  timeout?: number;
 }
+
+// Turns a failure from enabling web push into something the user can act on
+export const describePushError = (e: unknown): string => {
+  const prefix = "Failed to enable web push notifications: ";
+
+  if (e instanceof HttpErrorResponse) {
+    return `${prefix}your browser subscribed, but saving it to PYDT failed. Please try again.`;
+  }
+
+  const name = (e as Error)?.name;
+  const message = (e as Error)?.message || "";
+
+  if (name === "NotAllowedError" || /permission denied/i.test(message)) {
+    return `${prefix}notifications are blocked for this site. Allow them in your browser's site settings and try again.`;
+  }
+
+  if (/push service/i.test(message)) {
+    return (
+      `${prefix}your browser's push service refused the request. In Brave, turn on "Use Google services for push ` +
+      `messaging" (Settings, Privacy and security) and restart Brave. Ad blockers and network filters can also cause this.`
+    );
+  }
+
+  return message ? `${prefix}${message}` : "Failed to enable web push notifications!";
+};
 
 @Injectable()
 export class NotificationService {
@@ -56,10 +84,13 @@ export class NotificationService {
       });
 
       return pud;
-    } catch {
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("Failed to enable web push notifications", e);
       this.showAlert({
-        msg: "Failed to enable web push notifications!",
+        msg: describePushError(e),
         type: "danger",
+        timeout: 15000,
       });
     }
 

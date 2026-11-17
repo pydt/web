@@ -1,6 +1,7 @@
 import { SwPush } from "@angular/service-worker";
 import { firstValueFrom, Observable, of, throwError } from "rxjs";
-import { NotificationService } from "./notification.service";
+import { HttpErrorResponse } from "@angular/common/http";
+import { describePushError, NotificationService } from "./notification.service";
 
 const makeService = (isEnabled: boolean, subscription: Observable<PushSubscription | null>) =>
   new NotificationService({ isEnabled, subscription } as unknown as SwPush, null);
@@ -47,5 +48,34 @@ describe("NotificationService.pushState$", () => {
     );
 
     expect(await firstValueFrom(svc.pushState$)).toEqual({ supported: false });
+  });
+});
+
+describe("describePushError", () => {
+  const domError = (name: string, message: string) => Object.assign(new Error(message), { name });
+
+  it("explains a refused push service (Brave, ad blockers)", () => {
+    const msg = describePushError(domError("AbortError", "Registration failed - push service error"));
+
+    expect(msg).toContain("push service refused");
+    expect(msg).toContain("Brave");
+  });
+
+  it("explains blocked permission", () => {
+    expect(describePushError(domError("NotAllowedError", "Permission denied"))).toContain("blocked for this site");
+    expect(describePushError(domError("AbortError", "Registration failed - permission denied"))).toContain(
+      "blocked for this site",
+    );
+  });
+
+  it("blames saving to PYDT for API errors", () => {
+    expect(describePushError(new HttpErrorResponse({ status: 500 }))).toContain("saving it to PYDT failed");
+  });
+
+  it("passes other messages through, and falls back when there is none", () => {
+    expect(describePushError(new Error("something odd"))).toBe(
+      "Failed to enable web push notifications: something odd",
+    );
+    expect(describePushError(undefined)).toBe("Failed to enable web push notifications!");
   });
 });
