@@ -37,7 +37,7 @@
       <hr />
       <ng-table
         [config]="tableConfig"
-        [columns]="tableColumns"
+        [columns]="visibleColumns"
         [rows]="visibleData"
         (tableChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)"
       ></ng-table>

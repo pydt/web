@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import moment from "moment";
-import { CountdownUtility, TurnData } from "pydt-shared";
+import { CountdownUtility, TurnData, User } from "pydt-shared";
 
 @Component({
   selector: "pydt-turn-stats",
@@ -37,6 +37,19 @@ export class DisplayTurnStatsComponent {
 
   get showPerUserCheckbox() {
     return "players" in this.turnData;
+  }
+
+  // Only a user's all-games stats carry this (not per game type, a game, or the site totals). Hidden when
+  // it covers every turn the player has taken, since it would just repeat the average above.
+  get recentAverage(): { time: string; count: number } | null {
+    const { recentTurnAverage, recentTurnCount } = this.turnData as Partial<User>;
+    const totalTurns = (this.turnData.turnsPlayed || 0) + (this.turnData.turnsSkipped || 0);
+
+    if (!recentTurnCount || recentTurnCount >= totalTurns) {
+      return null;
+    }
+
+    return { time: CountdownUtility.countdown(0, recentTurnAverage), count: recentTurnCount };
   }
 
   get averageTurnTime() {

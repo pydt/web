@@ -31,7 +31,9 @@ export class NgTableComponent {
 
   @Input()
   public set columns(values: Array<any>) {
-    values.forEach((value: any) => {
+    // The table shows exactly the columns passed in (so a page can hide some), reusing existing column
+    // objects so their state (e.g. sort) carries over.
+    this._columns = (values || []).map((value: any) => {
       if (value.filtering) {
         this.showFilterRow = true;
       }
@@ -41,11 +43,10 @@ export class NgTableComponent {
       const column = this._columns.find((col: any) => col.name === value.name);
 
       if (column) {
-        Object.assign(column, value);
+        return Object.assign(column, value);
       }
-      if (!column) {
-        this._columns.push(value);
-      }
+
+      return value;
     });
   }
 

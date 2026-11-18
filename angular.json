@@ -82,7 +82,11 @@
                 "entry": "src/server.ts"
               }
             },
-            "development": {},
+            "development": {
+              "externalDependencies": [
+                "marked-katex-extension"
+              ]
+            },
             "testing": {
               "aot": false,
               "styles": [

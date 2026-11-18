@@ -43,7 +43,7 @@
     "ngx-clipboard": "^16.0.0",
     "ngx-markdown": "^22.1.1",
     "pako": "^2.2.0",
-    "pydt-shared": "^2.1.0",
+    "pydt-shared": "^2.1.1",
     "remove-markdown": "^0.6.4",
     "rollbar": "^2.26.5",
     "rxjs": "^7.8.1",

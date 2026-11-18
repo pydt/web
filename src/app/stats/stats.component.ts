@@ -11,15 +11,27 @@ import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.
   standalone: false,
 })
 export class StatsComponent implements OnInit {
-  tableColumns = [
+  tableColumns: {
+    title: string;
+    name: string;
+    className?: string;
+    filter?: boolean;
+    isComponent?: boolean;
+    sort?: false | "asc" | "desc" | "";
+    allGamesOnly?: boolean;
+  }[] = [
     { title: "Rank", name: "rank", sort: false },
     { title: "Player", name: "player", className: "cursor-pointer", filter: true },
     { title: "Active Games", name: "activeGames", className: "cursor-pointer" },
     { title: "Total Games", name: "totalGames", className: "cursor-pointer" },
     { title: "Turns Played", name: "turnsPlayed", className: "cursor-pointer", sort: "desc" },
     { title: "Avg Turn Time", name: "avgTurnTime", className: "cursor-pointer" },
+    // Recent averages are only tracked across all game types, so this column is only on that tab
+    { title: "Recent Avg (Last 100)", name: "recentAvg", className: "cursor-pointer", allGamesOnly: true },
     { title: "Turn Length", name: "turnLength", isComponent: true, sort: false },
   ];
+  // The columns for the current tab, set in loadGameData
+  visibleColumns = this.tableColumns;
   tableConfig = {
     columns: this.tableColumns,
     sorting: { columns: this.tableColumns },
@@ -57,6 +69,21 @@ export class StatsComponent implements OnInit {
   }
 
   async loadGameData() {
+    const columns = this.tableColumns.filter(c => !c.allGamesOnly || this.currentGame.id === "ALL");
+
+    // Leaving the All tab while sorted by its extra column: fall back to the default sort
+    if (!columns.some(c => c.sort)) {
+      for (const c of this.tableColumns.filter(x => x.sort !== false)) {
+        delete c.sort;
+      }
+
+      columns.find(c => c.name === "turnsPlayed").sort = "desc";
+    }
+
+    this.visibleColumns = columns;
+    this.tableConfig.columns = columns;
+    this.tableConfig.sorting.columns = columns;
+
     if (!this.serverData[this.currentGame.id]) {
       this.serverData[this.currentGame.id] = await this.statsApi.users(this.currentGame.id).toPromise();
     }
@@ -78,6 +105,10 @@ export class StatsComponent implements OnInit {
         avgTurnTime: CountdownUtility.countdown(0, avgTurnTime),
         // eslint-disable-next-line camelcase
         avgTurnTime_sort: avgTurnTime,
+        recentAvg: x.recentTurnCount ? CountdownUtility.countdown(0, x.recentTurnAverage) : "",
+        // Players without one sort after everyone else when sorting fastest first
+        // eslint-disable-next-line camelcase
+        recentAvg_sort: x.recentTurnCount ? x.recentTurnAverage : Number.MAX_SAFE_INTEGER,
         fastTurns: x.fastTurns,
         slowTurns: x.slowTurns,
         turnLength: {

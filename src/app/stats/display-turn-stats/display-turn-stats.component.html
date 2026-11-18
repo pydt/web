@@ -19,6 +19,14 @@
         <div class="col-md-{{ factWidth }}">
           <p><b>Average Turn Time:</b> {{ averageTurnTime }}</p>
         </div>
+        @if (recentAverage; as recent) {
+          <div class="col-md-{{ factWidth }}">
+            <p>
+              <b>Recent Average:</b> {{ recent.time }}
+              <span style="font-size: 12px">(last {{ recent.count }} turns)</span>
+            </p>
+          </div>
+        }
         <div class="col-md-{{ factWidth }}">
           <p>
             <b>Turns Played / Skipped:</b> {{ (turnData.turnsPlayed || 0).toLocaleString() }} /
