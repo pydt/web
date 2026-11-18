@@ -403,6 +403,42 @@
     </div>
   </div>
 </div>
+<div class="row mb-3">
+  <label class="col-sm-3 col-form-label">Max Average Turn Time:</label>
+  <div class="col-sm-1 d-flex align-items-center">
+    <div class="form-check">
+      <input
+        class="form-check-input"
+        type="checkbox"
+        id="maxTurnAverageEnabled"
+        [(ngModel)]="model.maxTurnAverageEnabled"
+        name="maxTurnAverageEnabled"
+      />
+      <label class="form-check-label" for="maxTurnAverageEnabled"></label>
+    </div>
+  </div>
+  @if (model.maxTurnAverageEnabled) {
+    <div class="col-sm-5 d-flex align-items-center">
+      <input
+        type="range"
+        class="form-range"
+        id="maxTurnAverageHoursRange"
+        min="6"
+        max="24"
+        step="1"
+        [(ngModel)]="model.maxTurnAverageHours"
+        name="maxTurnAverageHours"
+      />
+    </div>
+    <div class="col-sm-3 d-flex align-items-center">{{ model.maxTurnAverageHours }} hours</div>
+  }
+  <div class="offset-sm-3 col-sm-9">
+    <div class="form-text">
+      Only players whose average turn time over their last 100 turns is at or under this limit can join. Players with
+      fewer than 10 turns can always join, and players already in the game are never removed.
+    </div>
+  </div>
+</div>
 @if (model.civGame.turnTimerSupported) {
   <div class="row mb-3">
     <label class="col-sm-3 col-form-label">Turn Timer:</label>

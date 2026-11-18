@@ -4,6 +4,10 @@ import { CivDef, CivGame, Game, GamePlayer, GameService, SteamProfile, UserServi
 import { BrowserDataService } from "../../../shared/browser-data.service";
 import { AuthService, NotificationService } from "../../../shared";
 import { AvailableCiv } from "../detail.component";
+import { Utility } from "../../../shared/utility";
+
+// Matches RECENT_TURN_AVERAGE_LIMIT_MIN_TURNS in the api: fewer turns than this and the limit doesn't apply
+const TURN_AVERAGE_LIMIT_MIN_TURNS = 10;
 
 @Component({
   selector: "pydt-game-detail-join",
@@ -28,6 +32,8 @@ export class GameDetailJoinComponent implements OnChanges {
   selectedCiv: AvailableCiv;
   selectedCivilization?: CivDef;
   joinGamePassword: string;
+  // Set when the game's max average turn time keeps this user out, so we can say so up front
+  turnAverageError: string;
 
   constructor(
     private auth: AuthService,
@@ -38,10 +44,34 @@ export class GameDetailJoinComponent implements OnChanges {
   ) {}
 
   ngOnChanges(): void {
+    void this.checkTurnAverageLimit();
     this.selectedCiv = this.playerCiv;
     if (this.civGame?.separateLeaderCiv && this.availableCivilizations?.length && !this.selectedCivilization) {
       this.selectedCivilization = this.availableCivilizations[0];
     }
+  }
+
+  // Same rule as the api's join check (which is what actually enforces it)
+  private async checkTurnAverageLimit(): Promise<void> {
+    const limitMinutes = this.game?.maxRecentTurnAverageMinutes;
+
+    if (
+      !limitMinutes ||
+      !this.profile?.steamid ||
+      this.userInGame ||
+      this.profile.steamid === this.game.createdBySteamId
+    ) {
+      this.turnAverageError = null;
+      return;
+    }
+
+    const user = await this.userApi.getCurrent().toPromise();
+
+    this.turnAverageError =
+      (user.recentTurnCount || 0) >= TURN_AVERAGE_LIMIT_MIN_TURNS && user.recentTurnAverage > limitMinutes * 60 * 1000
+        ? `This game only allows players whose average turn time over their last 100 turns is ` +
+          `${limitMinutes / 60} hours or less. Yours is ${Utility.formatTurnLength(user.recentTurnAverage)}.`
+        : null;
   }
 
   async startJoinGame(): Promise<void> {

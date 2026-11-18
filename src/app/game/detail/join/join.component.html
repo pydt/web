@@ -17,9 +17,18 @@
     }
     @if (!userInGame && profile.steamid) {
       <div>
-        @if (!tooManyHumans) {
+        @if (!tooManyHumans && turnAverageError) {
+          <div class="alert alert-warning mb-0">{{ turnAverageError }}</div>
+        }
+        @if (!tooManyHumans && !turnAverageError) {
           <div>
             <p>If you want to join this game, select a civ and then press the button below!</p>
+            @if (game.maxRecentTurnAverageMinutes && profile.steamid !== game.createdBySteamId) {
+              <p class="text-body-secondary">
+                This game is limited to players averaging {{ game.maxRecentTurnAverageMinutes / 60 }} hours or less per
+                turn over their last 100 turns. Players with fewer than 10 turns can always join.
+              </p>
+            }
             @if (game.gameType === "CIV7") {
               <div class="alert alert-info">
                 Civilization 7 requires the <strong>PYDT Hotseat Support</strong> mod. Make sure you've subscribed to it

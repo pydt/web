@@ -68,6 +68,13 @@
                 <div class="col-md-6">
                   <p><b>Allow Duplicate Civs:</b> {{ game.allowDuplicateLeaders ? "Yes" : "No" }}</p>
                 </div>
+                @if (game.maxRecentTurnAverageMinutes) {
+                  <div class="col-md-6">
+                    <p>
+                      <b>Max Average Turn Time:</b> {{ game.maxRecentTurnAverageMinutes / 60 }} hours (last 100 turns)
+                    </p>
+                  </div>
+                }
                 @if (game.turnTimerMinutes) {
                   <div class="col-md-6">
                     <p><b>Turn Timer:</b> {{ turnTimerString }}</p>

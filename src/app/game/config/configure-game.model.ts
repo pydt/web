@@ -17,6 +17,9 @@ export class ConfigureGameModel {
   public allowDuplicateLeaders = false;
   public turnTimerEnabled;
   public turnTimerVacationHandling = Game.TurnTimerVacationHandlingEnum.SKIPAFTERTIMER;
+  // Max average turn time (over each player's last 100 turns) to join, in hours. Forum #9293.
+  public maxTurnAverageEnabled = false;
+  public maxTurnAverageHours = 10;
 
   constructor(
     public civGame: CivGame,
@@ -40,6 +43,8 @@ export class ConfigureGameModel {
     this.allowDuplicateLeaders = game.allowDuplicateLeaders;
     this.webhookUrl = game.webhookUrl;
     this.turnTimerVacationHandling = game.turnTimerVacationHandling || "SKIP_AFTER_TIMER";
+    this.maxTurnAverageEnabled = !!game.maxRecentTurnAverageMinutes;
+    this.maxTurnAverageHours = game.maxRecentTurnAverageMinutes ? game.maxRecentTurnAverageMinutes / 60 : 10;
 
     for (const dlcId of game.dlc || []) {
       this.dlc[dlcId] = true;
@@ -132,6 +137,7 @@ export class ConfigureGameModel {
       ...(this.turnTimerEnabled
         ? { turnTimerMinutes: this.turnTimerMinutes, turnTimerVacationHandling: this.turnTimerVacationHandling }
         : {}),
+      ...(this.maxTurnAverageEnabled ? { maxRecentTurnAverageMinutes: this.maxTurnAverageHours * 60 } : {}),
       webhookUrl: this.webhookUrl,
     };
   }

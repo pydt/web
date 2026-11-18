@@ -1,3 +1,11 @@
+@if (!canEditTurnOrder && !!game.maxRecentTurnAverageMinutes) {
+  <span
+    [tooltip]="'Only players averaging ' + game.maxRecentTurnAverageMinutes / 60 + ' hours or less per turn can join.'"
+    placement="left"
+    class="fa fa-hourglass-half float-end ml"
+    style="font-size: 1.4em"
+  ></span>
+}
 @if (!canEditTurnOrder && !!game.hashedPassword) {
   <span
     tooltip="This game is password protected."
