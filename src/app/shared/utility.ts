@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types, no-param-reassign, @typescript-eslint/restrict-plus-operands, @typescript-eslint/no-unsafe-argument */
 import { Injectable } from "@angular/core";
 import { orderBy } from "lodash";
-import { CivDef } from "pydt-shared";
+import { CivDef, CountdownUtility } from "pydt-shared";
 
 @Injectable()
 export class Utility {
@@ -17,6 +17,16 @@ export class Utility {
     }
 
     return result;
+  }
+
+  // A turn length for display. CountdownUtility.countdown gives "" for anything under a minute, which
+  // looked like a missing value; zero turns (NaN) stays "".
+  public static formatTurnLength(ms: number): string {
+    if (ms == null || Number.isNaN(ms)) {
+      return "";
+    }
+
+    return CountdownUtility.countdown(0, ms) || "under a minute";
   }
 
   public static onChangeTable(tableConfig: any, rawData: Array<any>, visibleData?: Array<any>, page?: any): void {
@@ -38,9 +48,23 @@ export class Utility {
       return;
     }
 
-    // Sort...
+    // Sort... Rows with no value for the column (null, undefined, "" or NaN, e.g. an average over zero
+    // turns) always go last, whichever way it's sorted, so a missing value never tops the list.
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    const sorted = orderBy(rawData, x => x[`${columnName}_sort`] || x[columnName], sort);
+    const sortValue = (x: any) => x[`${columnName}_sort`] ?? x[columnName];
+    const isEmpty = (x: any) => {
+      const v = sortValue(x);
+
+      return v == null || v === "" || Number.isNaN(v);
+    };
+    const sorted = [
+      ...orderBy(
+        rawData.filter(x => !isEmpty(x)),
+        sortValue,
+        sort,
+      ),
+      ...rawData.filter(isEmpty),
+    ];
 
     for (let i = 0; i < sorted.length; i++) {
       sorted[i].rank = i + 1;

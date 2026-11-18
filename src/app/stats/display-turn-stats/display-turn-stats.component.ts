@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import moment from "moment";
 import { CountdownUtility, TurnData, User } from "pydt-shared";
+import { Utility } from "../../shared/utility";
 
 @Component({
   selector: "pydt-turn-stats",
@@ -49,13 +50,10 @@ export class DisplayTurnStatsComponent {
       return null;
     }
 
-    return { time: CountdownUtility.countdown(0, recentTurnAverage), count: recentTurnCount };
+    return { time: Utility.formatTurnLength(recentTurnAverage), count: recentTurnCount };
   }
 
   get averageTurnTime() {
-    return CountdownUtility.countdown(
-      0,
-      this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped),
-    );
+    return Utility.formatTurnLength(this.turnData.timeTaken / (this.turnData.turnsPlayed + this.turnData.turnsSkipped));
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
-import { CivGame, CountdownUtility, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
+import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
 
@@ -102,13 +102,13 @@ export class StatsComponent implements OnInit {
         activeGames: x.activeGames,
         totalGames: x.totalGames,
         turnsPlayed: x.turnsPlayed,
-        avgTurnTime: CountdownUtility.countdown(0, avgTurnTime),
+        avgTurnTime: Utility.formatTurnLength(avgTurnTime),
         // eslint-disable-next-line camelcase
         avgTurnTime_sort: avgTurnTime,
-        recentAvg: x.recentTurnCount ? CountdownUtility.countdown(0, x.recentTurnAverage) : "",
-        // Players without one sort after everyone else when sorting fastest first
+        recentAvg: x.recentTurnCount ? Utility.formatTurnLength(x.recentTurnAverage) : "",
+        // Players without one have no value, so they sort last either way
         // eslint-disable-next-line camelcase
-        recentAvg_sort: x.recentTurnCount ? x.recentTurnAverage : Number.MAX_SAFE_INTEGER,
+        recentAvg_sort: x.recentTurnCount ? x.recentTurnAverage : null,
         fastTurns: x.fastTurns,
         slowTurns: x.slowTurns,
         turnLength: {
