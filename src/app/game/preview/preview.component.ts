@@ -260,7 +260,7 @@ export class GamePreviewComponent implements OnChanges {
     this.sortResults = [maxHours[0], ...orderedPlayers];
 
     this.reorderableIndexes$.next(
-      orderedPlayers.map(x => this.gamePlayers.findIndex(y => y.steamId === x.user.steamId)),
+      orderedPlayers.map(x => this.gamePlayers.findIndex(y => y?.steamId === x.user.steamId)),
     );
   }
 
@@ -273,7 +273,8 @@ export class GamePreviewComponent implements OnChanges {
   }
 
   get userCiv() {
-    const index = this.gamePlayers.findIndex(x => x.steamId === this.user?.steamId);
+    // gamePlayers has a null for each empty slot
+    const index = this.gamePlayers.findIndex(x => x?.steamId === this.user?.steamId);
 
     return this.civDefs[index];
   }
@@ -283,7 +284,7 @@ export class GamePreviewComponent implements OnChanges {
       return undefined;
     }
 
-    const player = this.gamePlayers.find(x => x.steamId === this.user?.steamId);
+    const player = this.gamePlayers.find(x => x?.steamId === this.user?.steamId);
     return this.civGame.civilizations?.find(c => c.civKey === player?.civilization);
   }
 }
