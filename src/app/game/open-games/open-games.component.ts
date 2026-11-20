@@ -38,12 +38,12 @@ export class OpenGamesComponent implements OnInit {
           ? notStarted
           : openSlots?.filter(game => (tab === "substitutions" ? game.substitutionRequested : game.joinAfterStart));
 
-      if (!type) {
-        if (games) return games.filter(x => (publicOnly ? !x.hashedPassword : true));
-        else return games; // games is undefined
+      // undefined while the tab's games are still loading
+      if (!games) {
+        return games;
       }
 
-      return games.filter(x => x.gameType === type).filter(x => (publicOnly ? !x.hashedPassword : true));
+      return games.filter(x => !type || x.gameType === type).filter(x => (publicOnly ? !x.hashedPassword : true));
     }),
   );
   games: CivGame[] = [];
