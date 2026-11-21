@@ -1,0 +1,254 @@
+// Scoped by .pydt-changelog (the component turns off view encapsulation so these can style the
+// rendered markdown).
+.pydt-changelog {
+  --cl-web: var(--bs-primary);
+  --cl-client: var(--bs-success);
+  --cl-line: #c4c9cc;
+  --cl-muted: #6c7a80;
+  --cl-card: #fff;
+  --cl-gutter: 2rem; // space left of the cards for the timeline line and dots
+
+  padding-bottom: 2rem;
+
+  // Header + filter ----------------------------------------------------------
+
+  .changelog-header {
+    margin-bottom: 0.5rem;
+
+    h1 {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .changelog-intro {
+    color: var(--cl-muted);
+    margin-bottom: 1rem;
+  }
+
+  .changelog-filter {
+    display: inline-flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.06);
+
+    button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.3rem 0.9rem;
+      background: transparent;
+      color: var(--bs-primary);
+      font-weight: 700;
+      font-size: 0.875rem;
+      transition: background-color 0.15s;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.6);
+      }
+
+      &.active {
+        background: var(--cl-card);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+      }
+    }
+  }
+
+  .kind-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+
+    &.kind-web {
+      background: var(--cl-web);
+    }
+
+    &.kind-client {
+      background: var(--cl-client);
+    }
+  }
+
+  // Year groups --------------------------------------------------------------
+
+  .year-label {
+    margin: 2rem 0 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--cl-muted);
+  }
+
+  // Timeline -----------------------------------------------------------------
+
+  .timeline {
+    position: relative;
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 var(--cl-gutter);
+
+    // The vertical line
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0.5rem;
+      bottom: 0.5rem;
+      left: calc(var(--cl-gutter) / 2 - 1px);
+      width: 2px;
+      background: var(--cl-line);
+    }
+  }
+
+  .timeline-entry {
+    position: relative;
+    margin-bottom: 1rem;
+  }
+
+  .timeline-dot {
+    position: absolute;
+    top: 1.15rem;
+    left: calc(var(--cl-gutter) / -2 - 0.4rem);
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background: var(--cl-web);
+    box-shadow: 0 0 0 3px #ddd; // matches the page background so the dot "cuts" the line
+  }
+
+  .is-client .timeline-dot {
+    background: var(--cl-client);
+  }
+
+  .entry-card {
+    background: var(--cl-card);
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--cl-web);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+    padding: 0.9rem 1.25rem 0.4rem;
+  }
+
+  .is-client .entry-card {
+    border-left-color: var(--cl-client);
+  }
+
+  // Meta row: date · kind · version · new
+  .entry-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4rem 0.6rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .entry-date {
+    color: var(--cl-muted);
+    font-weight: 700;
+  }
+
+  .entry-kind {
+    color: var(--cl-muted);
+
+    &::before {
+      content: "·";
+      margin-right: 0.6rem;
+    }
+  }
+
+  .entry-version,
+  .entry-new {
+    border-radius: 999px;
+    padding: 0.05rem 0.55rem;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+
+  .entry-version {
+    background: rgba(24, 188, 156, 0.12);
+    color: #128c74;
+    text-decoration: none;
+
+    &:hover {
+      background: rgba(24, 188, 156, 0.22);
+    }
+  }
+
+  .entry-new {
+    background: var(--bs-warning);
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-size: 0.7rem;
+  }
+
+  // Rendered markdown --------------------------------------------------------
+
+  .entry-body {
+    display: block;
+    overflow-wrap: anywhere; // long bare URLs in older notes
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      margin: 0.1rem 0 0.4rem;
+      font-size: 1.15rem;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    p,
+    ul,
+    ol {
+      margin-bottom: 0.6rem;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.25rem;
+    }
+
+    li + li {
+      margin-top: 0.25rem;
+    }
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  // Footer bits --------------------------------------------------------------
+
+  .changelog-more {
+    padding-left: var(--cl-gutter);
+
+    button {
+      width: 100%;
+      border: 2px dashed var(--cl-line);
+      border-radius: 0.5rem;
+      padding: 0.6rem;
+      background: transparent;
+      color: var(--bs-primary);
+      font-weight: 700;
+
+      &:hover {
+        border-color: var(--cl-muted);
+        background: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+
+  .changelog-loading {
+    margin-top: 2rem;
+    color: var(--cl-muted);
+  }
+
+  @media (max-width: 575.98px) {
+    --cl-gutter: 1.25rem;
+
+    .entry-card {
+      padding: 0.75rem 0.9rem 0.25rem;
+    }
+  }
+}

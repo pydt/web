@@ -1,35 +1,65 @@
 <div class="container">
-  <h1>Changelog</h1>
-  <p>
-    This page will keep track of recent major changes to the website and client for easy reference. (Yes, I should have
-    done this a long time ago)
-  </p>
+  <div class="pydt-changelog">
+    <header class="changelog-header">
+      <h1>Changelog</h1>
+      <p class="changelog-intro">What's new on the website and in the desktop client.</p>
 
-  <tabset>
-    <tab heading="Web Site">
-      <div class="card card-body">
-        <hr />
-        @for (change of changelog.websiteChanges; track change) {
-          <h4>{{ change.date | date }}</h4>
-          <markdown [data]="change.desc"></markdown>
-          <hr />
-        }
+      <div class="changelog-filter" role="group" aria-label="Filter changes">
+        <button type="button" [class.active]="filter === 'all'" (click)="setFilter('all')">All</button>
+        <button type="button" [class.active]="filter === 'web'" (click)="setFilter('web')">
+          <span class="kind-dot kind-web"></span>Website
+        </button>
+        <button type="button" [class.active]="filter === 'client'" (click)="setFilter('client')">
+          <span class="kind-dot kind-client"></span>Client
+        </button>
       </div>
-    </tab>
-    <tab heading="Client">
-      <div class="card card-body">
-        <hr />
-        @for (change of changelog.clientChanges; track change) {
-          <h1>
-            <a href="https://github.com/pydt/client/releases/tag/v{{ change.version }}" target="blank">{{
-              change.version
-            }}</a>
-          </h1>
-          <h4>{{ change.date | date }}</h4>
-          <markdown [data]="change.desc"></markdown>
-          <hr />
-        }
+    </header>
+
+    @for (group of years; track group.year) {
+      <section class="changelog-year">
+        <h2 class="year-label">{{ group.year }}</h2>
+
+        <ol class="timeline">
+          @for (change of group.entries; track change.kind + change.date) {
+            <li class="timeline-entry" [class.is-client]="change.kind === 'client'">
+              <span class="timeline-dot" aria-hidden="true"></span>
+
+              <article class="entry-card">
+                <div class="entry-meta">
+                  <time class="entry-date" [attr.datetime]="change.when.toISOString()">{{
+                    change.when | date: "MMM d, y"
+                  }}</time>
+                  <span class="entry-kind">{{ change.kind === "client" ? "Client" : "Website" }}</span>
+                  @if (change.version) {
+                    <a
+                      class="entry-version"
+                      href="https://github.com/pydt/client/releases/tag/v{{ change.version }}"
+                      target="_blank"
+                      rel="noopener"
+                      >v{{ change.version }}</a
+                    >
+                  }
+                  @if (change.isNew) {
+                    <span class="entry-new">New</span>
+                  }
+                </div>
+
+                <markdown class="entry-body" [data]="change.desc"></markdown>
+              </article>
+            </li>
+          }
+        </ol>
+      </section>
+    } @empty {
+      <p class="changelog-loading">Loading changes…</p>
+    }
+
+    @if (hiddenCount) {
+      <div class="changelog-more">
+        <button type="button" (click)="showAll = true">
+          Show {{ hiddenCount }} older {{ hiddenCount === 1 ? "change" : "changes" }}
+        </button>
       </div>
-    </tab>
-  </tabset>
+    }
+  </div>
 </div>

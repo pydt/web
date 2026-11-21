@@ -143,11 +143,18 @@ export class ChangelogService {
     return this.clientChangesList.length + WEBSITE_CHANGES.length;
   }
 
-  async setChangesViewed() {
+  // Marks everything as seen and returns how many changes were new since the last visit (0 on a
+  // first visit, where calling everything "new" wouldn't mean much).
+  async setChangesViewed(): Promise<number> {
     await this.clientChangesLoaded;
+
+    const lastSeen = parseInt(localStorage.getItem(CURRENT_CHANGE_LOCAL_STORAGE_KEY) || "0", 10);
+    const newCount = lastSeen > 0 ? Math.max(this.totalChanges - lastSeen, 0) : 0;
 
     localStorage.setItem(CURRENT_CHANGE_LOCAL_STORAGE_KEY, this.totalChanges.toString());
     this.updateUnviewedChanges();
+
+    return newCount;
   }
 
   private async loadClientChanges() {
