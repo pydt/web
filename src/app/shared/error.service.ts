@@ -52,6 +52,7 @@ export class ErrorHandlerService implements ErrorHandler {
             itemsPerMinute: 10,
             maxItems: 50,
             hostSafeList: ["playyourdamnturn.com"],
+            ignoreBrowserExtensions: true,
             ignoredMessages: ["ResizeObserver loop", "Script error."],
           }),
       payload: {
