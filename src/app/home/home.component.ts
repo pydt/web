@@ -24,7 +24,11 @@ export class HomeComponent implements OnInit {
       .subscribe(x => (this.turnsText = `Over ${x.turnsPlayed.toLocaleString()} damn turns played.`));
   }
 
-  @ViewChild("step1ImageModal", { static: true }) step1ImageModal: ModalDirective;
-  @ViewChild("step2ImageModal", { static: true }) step2ImageModal: ModalDirective;
-  @ViewChild("step3ImageModal", { static: true }) step3ImageModal: ModalDirective;
+  @ViewChild("imageModal", { static: true }) imageModal: ModalDirective;
+  lightbox: { src: string; title: string } | null = null;
+
+  showImage(src: string, title: string) {
+    this.lightbox = { src, title };
+    this.imageModal.show();
+  }
 }

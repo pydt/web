@@ -182,18 +182,49 @@ input:not([type="checkbox"]):not([type="radio"]) {
 
 // Nav tabs ===================================================================
 
+// Flat underline tabs: muted labels, the active one bold with a green bar. They scroll sideways
+// on narrow screens instead of wrapping onto a second row.
 .nav-tabs {
-  a {
-    color: $primary;
+  flex-wrap: nowrap;
+  gap: 0.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  // An inset shadow rather than a border: the overflow above would clip an active bar that
+  // overlapped a border, while this line sits inside the strip, under the bar.
+  border-bottom: 0;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 1rem;
+
+  &::-webkit-scrollbar {
+    display: none;
   }
 
-  // Show borders on inactive tabs to match BS3 appearance
-  .nav-link {
-    border-color: #adb5bd;
-    background-color: $body-bg;
+  .nav-item {
+    flex-shrink: 0;
+  }
 
-    &:hover {
+  .nav-link {
+    margin-bottom: 0;
+    padding: 0.5rem 0.9rem;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    border-radius: 0;
+    background: transparent;
+    color: rgba($primary, 0.65);
+    font-weight: 700;
+    white-space: nowrap;
+
+    &:hover,
+    &:focus {
       color: $primary;
+      border-bottom-color: rgba($primary, 0.25);
+    }
+
+    &.active {
+      color: $primary;
+      background: transparent;
+      border-bottom-color: $success;
     }
   }
 }

@@ -1,0 +1,52 @@
+.open-games-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0 1rem;
+  margin-bottom: 1rem;
+
+  p {
+    margin-bottom: 0;
+  }
+}
+
+// Tabs on the left, filters on the right, sharing one underline. Wraps to two rows on narrow
+// screens.
+.open-games-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 1.25rem;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+
+  // The toolbar draws the underline, so the tabs don't need their own
+  ::ng-deep .nav-tabs {
+    box-shadow: none;
+    margin-bottom: 0;
+  }
+
+  // The tabs here just switch lists, they have no content panes
+  ::ng-deep .tab-content {
+    display: none;
+  }
+}
+
+.open-games-tabs {
+  min-width: 0;
+}
+
+.open-games-filters {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto;
+  padding-bottom: 0.5rem;
+
+  .form-select {
+    width: auto;
+    min-width: 11rem;
+  }
+}

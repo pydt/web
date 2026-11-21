@@ -1,55 +1,50 @@
 <div class="container">
   <div>
-    <h1>Open Games</h1>
-    <p>
-      This is a list of all games that are currently forming and available to join.
-      @if (profile) {
-        <span>If you don't see one that you want to join, use the button below to create one yourself!</span>
-      }
-      <b>Games must be started within 30 days of creation, or they will be automatically deleted!</b>
-    </p>
-    @if (profile) {
-      <div class="row">
-        <div class="col-12 text-center">
-          <pydt-game-create-button></pydt-game-create-button>
-        </div>
-      </div>
-    }
-    <hr style="margin-bottom: 50px" />
-    <div style="position: relative">
-      <div style="position: absolute; right: 0; top: -40px" class="d-flex flex-column align-items-end gap-1">
-        <div class="d-flex align-items-center gap-2">
-          <label class="mb-0" style="width: 150px">Filter Games: </label>
-          <select class="form-select" [ngModel]="gameTypeFilter$ | async" (ngModelChange)="setFilter($event)">
-            <option value="">All Game Types</option>
-            @for (game of games; track game) {
-              <option [value]="game.id">{{ game.displayName }}</option>
-            }
-          </select>
-        </div>
-        <button type="button" class="btn btn-secondary btn-sm text-nowrap" (click)="togglePublicOnly()">
-          <span
-            class="fa-regular"
-            [ngClass]="{
-              'fa-square-check': publicOnly$ | async,
-              'fa-square': (publicOnly$ | async) === false,
-            }"
-            aria-hidden="true"
-          ></span>
-          Public Only
-        </button>
+    <div class="open-games-header">
+      <div>
+        <h1>Open Games</h1>
+        <p>
+          Games looking for players.
+          <b>Games must be started within 30 days of creation, or they're deleted automatically.</b>
+        </p>
       </div>
       @if (profile) {
-        <div class="row">
-          <div class="col-12">
-            <tabset>
-              <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
-              <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
-              <tab heading="In-Progress Games with Open Slots" (selectTab)="getOpenSlots(false)"></tab>
-            </tabset>
-          </div>
-        </div>
+        <pydt-game-create-button></pydt-game-create-button>
       }
+    </div>
+
+    <div class="open-games-toolbar">
+      @if (profile) {
+        <tabset class="open-games-tabs">
+          <tab heading="New Games" (selectTab)="getNotStarted()"></tab>
+          <tab heading="Substitution Requested" (selectTab)="getOpenSlots(true)"></tab>
+          <tab heading="In-Progress with Open Slots" (selectTab)="getOpenSlots(false)"></tab>
+        </tabset>
+      }
+      <div class="open-games-filters">
+        <select
+          class="form-select form-select-sm"
+          aria-label="Filter by game"
+          [ngModel]="gameTypeFilter$ | async"
+          (ngModelChange)="setFilter($event)"
+        >
+          <option value="">All Game Types</option>
+          @for (game of games; track game) {
+            <option [value]="game.id">{{ game.displayName }}</option>
+          }
+        </select>
+        <div class="form-check form-switch mb-0">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            role="switch"
+            id="publicOnly"
+            [checked]="publicOnly$ | async"
+            (change)="togglePublicOnly()"
+          />
+          <label class="form-check-label text-nowrap" for="publicOnly">Public only</label>
+        </div>
+      </div>
     </div>
     @if (filteredGames$ | async) {
       @if (!(filteredGames$ | async).length) {

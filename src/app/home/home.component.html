@@ -48,125 +48,100 @@
       world domination!
     </div>
   </div>
-  <h2 style="text-align: center; margin-top: 50px">How does it work?</h2>
-  <iframe
-    width="560"
-    height="315"
-    style="margin: 0 auto"
-    class="d-block d-sm-none"
-    src="https://www.youtube.com/embed/L4PeMesClTI"
-    title="YouTube video player"
-    frameborder="0"
-    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-    allowfullscreen
-  ></iframe>
-  <div class="d-flex gap-3 mb-4">
-    <div class="flex-shrink-0">
-      <a href="javascript:void(0)" (click)="step1ImageModal.show()">
-        <img src="/img/home/step1.jpg" style="width: 200px" alt="Step 1" />
-      </a>
-    </div>
-    <div class="flex-grow-1">
-      <h4>1. Join a Game!</h4>
-      Look in the <a [routerLink]="['game/listOpen']">Open Games</a> area to find games to join, or create your own game
-      if you don't see one!
-    </div>
+  <h2 class="how-heading">How does it work?</h2>
+  <!-- The hero video is hidden on phones, so show it here instead -->
+  <div class="ratio ratio-16x9 d-md-none mb-4">
+    <iframe
+      src="https://www.youtube.com/embed/L4PeMesClTI"
+      title="YouTube video player"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
-  <div class="d-flex gap-3 mb-4">
-    <div class="flex-grow-1">
-      <h4>2. Play Your Damn Turn!</h4>
-      Once the game starts, you'll get notified with an email when it's your turn. You can then use either the website
-      or our Windows/OSX client to download the save file and Play Your Damn Turn!
-    </div>
-    <div class="flex-shrink-0 order-last">
-      <a href="javascript:void(0)" (click)="step2ImageModal.show()">
-        <img src="/img/home/step2.jpg" style="width: 200px" alt="Step 2" />
-      </a>
-    </div>
-  </div>
-  <div class="d-flex gap-3 mb-4" style="margin-bottom: 40px">
-    <div class="flex-shrink-0">
-      <a href="javascript:void(0)" (click)="step3ImageModal.show()">
-        <img src="/img/home/step3.jpg" style="width: 200px" alt="Step 3" />
-      </a>
-    </div>
-    <div class="flex-grow-1">
-      <h4>3. Upload Your Turn!</h4>
-      When you're done playing your turn, save the game and the client will detect the new save file and allow you to
-      upload your turn for the next player to play. Or, if you don't like convenience, you can use our website to do it
-      in a slightly more annoying fashion!
-    </div>
-  </div>
-</div>
-
-<div
-  bsModal
-  #step1ImageModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="step1ImageModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Create Game</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="step1ImageModal.hide()"></button>
+  <div class="row g-4 how-steps">
+    <div class="col-lg-4">
+      <div class="how-step">
+        <button
+          type="button"
+          class="how-step-image"
+          (click)="showImage('/img/home/step1.jpg', 'Create Game')"
+          aria-label="Enlarge step 1"
+        >
+          <img src="/img/home/step1.jpg" alt="The Open Games page" />
+        </button>
+        <div class="how-step-body">
+          <div class="how-step-title">
+            <span class="how-step-num">1</span>
+            <h4>Join a Game!</h4>
+          </div>
+          Look in the <a [routerLink]="['game/listOpen']">Open Games</a> area to find games to join, or create your own
+          game if you don't see one!
+        </div>
       </div>
-      <div class="modal-body">
-        <div style="text-align: center">
-          <img src="/img/home/step1.jpg" style="height: 65vh" alt="Step 1" />
+    </div>
+    <div class="col-lg-4">
+      <div class="how-step">
+        <button
+          type="button"
+          class="how-step-image"
+          (click)="showImage('/img/home/step2.jpg', 'Windows Client')"
+          aria-label="Enlarge step 2"
+        >
+          <img src="/img/home/step2.jpg" alt="A game waiting for your turn" />
+        </button>
+        <div class="how-step-body">
+          <div class="how-step-title">
+            <span class="how-step-num">2</span>
+            <h4>Play Your Damn Turn!</h4>
+          </div>
+          Once the game starts, you'll get notified with an email when it's your turn. You can then use either the
+          website or our Windows/OSX client to download the save file and Play Your Damn Turn!
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+      <div class="how-step">
+        <button
+          type="button"
+          class="how-step-image"
+          (click)="showImage('/img/home/step3.jpg', 'Play Turn on Web')"
+          aria-label="Enlarge step 3"
+        >
+          <img src="/img/home/step3.jpg" alt="Uploading a turn" />
+        </button>
+        <div class="how-step-body">
+          <div class="how-step-title">
+            <span class="how-step-num">3</span>
+            <h4>Upload Your Turn!</h4>
+          </div>
+          When you're done playing your turn, save the game and the client will detect the new save file and allow you
+          to upload your turn for the next player to play. Or, if you don't like convenience, you can use our website to
+          do it in a slightly more annoying fashion!
         </div>
       </div>
     </div>
   </div>
 </div>
 
+<!-- Lightbox for the step screenshots: shown at their real size at most, never stretched -->
 <div
   bsModal
-  #step2ImageModal="bs-modal"
-  class="modal fade"
+  #imageModal="bs-modal"
+  class="modal fade home-lightbox"
   tabindex="-1"
   role="dialog"
-  aria-labelledby="step1ImageModalLabel"
-  aria-hidden="true"
+  aria-label="Screenshot"
 >
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Windows Client</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="step2ImageModal.hide()"></button>
+        <h4 class="modal-title">{{ lightbox?.title }}</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="imageModal.hide()"></button>
       </div>
-      <div class="modal-body">
-        <div style="text-align: center">
-          <img src="/img/home/step2.jpg" style="height: 65vh" alt="Step 2" />
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div
-  bsModal
-  #step3ImageModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="step1ImageModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">Play Turn on Web</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="step3ImageModal.hide()"></button>
-      </div>
-      <div class="modal-body">
-        <div style="text-align: center">
-          <img src="/img/home/step3.jpg" style="height: 65vh" alt="Step 3" />
-        </div>
-      </div>
+      @if (lightbox) {
+        <img [src]="lightbox.src" [alt]="lightbox.title" (click)="imageModal.hide()" />
+      }
     </div>
   </div>
 </div>

@@ -1,8 +1,138 @@
 h1 {
-  font-weight:bold;
-  margin-top:0;
+  font-weight: bold;
+  margin-top: 0;
 
   @media (min-width: 768px) {
-    font-size:50px;
+    font-size: 50px;
+  }
+}
+// How does it work? ------------------------------------------------------------
+
+.how-heading {
+  text-align: center;
+  margin: 3rem 0 1.5rem;
+}
+
+.how-steps {
+  margin-bottom: 3rem;
+}
+
+.how-step {
+  height: 100%;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.how-step-image {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  background: #f4f5f6;
+  cursor: zoom-in;
+
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+    object-position: top left;
+    transition: opacity 0.15s;
+  }
+
+  &:hover img {
+    opacity: 0.85;
+  }
+}
+
+.how-step-body {
+  padding: 1rem 1.25rem 1.25rem;
+
+  h4 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 700;
+  }
+}
+
+.how-step-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.how-step-num {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border-radius: 50%;
+  background: var(--bs-success);
+  color: #fff;
+  font-weight: 700;
+}
+
+// Screenshot lightbox ----------------------------------------------------------
+
+.home-lightbox {
+  // Size the dialog to the image instead of a fixed modal width
+  .modal-dialog {
+    width: fit-content;
+    max-width: calc(100vw - 2rem);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .modal-content {
+    overflow: hidden;
+  }
+
+  .modal-header {
+    padding: 0.6rem 1rem;
+  }
+
+  .modal-title {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  img {
+    display: block;
+    // Never upscale past the screenshot's real size, and always fit the window
+    max-width: 100%;
+    max-height: calc(100vh - 8rem);
+    width: auto;
+    height: auto;
+    margin: 0 auto;
+    cursor: zoom-out;
+  }
+}
+
+// Between phone and desktop widths the steps are one per row, so put each screenshot beside its
+// text instead of letting it grow to the full width.
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .how-step {
+    display: flex;
+  }
+
+  .how-step-image {
+    flex: 0 0 42%;
+    border-bottom: 0;
+    border-right: 1px solid rgba(0, 0, 0, 0.08);
+
+    img {
+      height: 100%;
+    }
+  }
+
+  .how-step-body {
+    align-self: center;
   }
 }

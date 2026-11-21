@@ -95,7 +95,7 @@
             Copyright {{ copyrightDate }}
             <a target="_blank" href="https://www.rosacksoftwaresolutions.com">Rosack Software Solutions, LLC</a>.<br />
             Version
-            <a target="_blank" href="https://github.com/pydt/web/commit/{{ env.rev }}">{{ env.rev }}</a>
+            <a target="_blank" href="https://github.com/pydt/web/commit/{{ env.rev }}">{{ env.rev?.slice(0, 7) }}</a>
             ({{ env.date }})
             @if (apiInfo.allowed) {
               <!-- Non-prod builds only: which API this page talks to, and a switch (see api-override.ts) -->

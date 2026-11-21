@@ -15,6 +15,7 @@ import { AuthService } from "../../shared";
 @Component({
   selector: "pydt-open-games",
   templateUrl: "./open-games.component.html",
+  styleUrls: ["./open-games.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
