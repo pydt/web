@@ -2,12 +2,16 @@ import { Component, HostListener, OnInit, ChangeDetectionStrategy, inject } from
 import { Game, ProfileCacheService, UserService } from "pydt-shared";
 import { AuthService } from "../../shared/auth.service";
 import { orderBy } from "lodash";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { GamePreviewComponent } from "../../game/preview/preview.component";
+import { RouterLink } from "@angular/router";
+import { GameCreateButtonComponent } from "../../game/create-button/create-button.component";
 
 @Component({
   selector: "pydt-user-games",
   templateUrl: "./games.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [TabsetComponent, TabDirective, GamePreviewComponent, RouterLink, GameCreateButtonComponent],
 })
 export class UserGamesComponent implements OnInit {
   private userApi = inject(UserService);

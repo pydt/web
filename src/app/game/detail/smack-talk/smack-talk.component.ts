@@ -6,7 +6,6 @@ import { BrowserDataService } from "../../../shared/browser-data.service";
   selector: "pydt-game-detail-smack-talk",
   templateUrl: "./smack-talk.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class GameDetailSmackTalkComponent implements OnChanges {
   browserData = inject(BrowserDataService);

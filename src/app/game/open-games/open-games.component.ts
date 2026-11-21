@@ -1,5 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { BehaviorSubject, combineLatest, map } from "rxjs";
 import {
   Game,
@@ -11,13 +11,26 @@ import {
   MetadataCacheService,
 } from "pydt-shared";
 import { AuthService } from "../../shared";
+import { GameCreateButtonComponent } from "../create-button/create-button.component";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { FormsModule } from "@angular/forms";
+import { GamePreviewComponent } from "../preview/preview.component";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "pydt-open-games",
   templateUrl: "./open-games.component.html",
   styleUrls: ["./open-games.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    GameCreateButtonComponent,
+    TabsetComponent,
+    TabDirective,
+    FormsModule,
+    GamePreviewComponent,
+    RouterLink,
+    AsyncPipe,
+  ],
 })
 export class OpenGamesComponent implements OnInit {
   private gameApi = inject(GameService);

@@ -10,16 +10,18 @@ import {
 } from "@angular/core";
 import { CivDef, CivGame, Game, MetadataCacheService } from "pydt-shared";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { FormControl } from "@angular/forms";
+import { FormControl, FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { map } from "rxjs";
 import { AvailableCiv } from "../detail/detail.component";
+import { DisplayCivComponent } from "../display-civ/display-civ.component";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "pydt-select-civ",
   templateUrl: "./select-civ.component.html",
   styleUrls: ["./select-civ.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [DisplayCivComponent, ModalDirective, FormsModule, ReactiveFormsModule, AsyncPipe],
 })
 export class SelectCivComponent implements OnInit {
   private metadataCache = inject(MetadataCacheService);

@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
+import { NgClass, NgComponentOutlet } from "@angular/common";
+import { NgTableSortingDirective } from "./ng-table-sorting.directive";
+import { NgTableFilteringDirective } from "./ng-table-filtering.directive";
 
 @Component({
   // eslint-disable-next-line
   selector: "ng-table",
   templateUrl: "./ng-table.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [NgClass, NgTableSortingDirective, NgTableFilteringDirective, NgComponentOutlet],
 })
 export class NgTableComponent {
   private sanitizer = inject(DomSanitizer);

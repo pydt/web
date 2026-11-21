@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
 import { gzip } from "pako";
@@ -18,17 +18,57 @@ import {
   Platform,
   PydtMetadata,
   SteamProfile,
+  PydtSharedModule,
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
 import { MetatagService } from "./../../shared/metatag.service";
+import { GamePreviewComponent } from "../preview/preview.component";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { GameDetailStatsComponent } from "./stats/stats.component";
+import { GameDetailTurnsComponent } from "./turns/turns.component";
+import { MarkdownComponent } from "ngx-markdown";
+import { GameDetailRevertComponent } from "./revert/revert.component";
+import { GameDetailRequestSubstitutionComponent } from "./request-substitution/request-substitution.component";
+import { GameDetailSurrenderComponent } from "./surrender/surrender.component";
+import { GameDetailManageModsComponent } from "./manage-mods/manage-mods.component";
+import { GameDetailAdminComponent } from "./admin/admin.component";
+import { GameDetailJoinComponent } from "./join/join.component";
+import { GameDetailChangeCivComponent } from "./change-civ/change-civ.component";
+import { GameDetailLeaveComponent } from "./leave/leave.component";
+import { GameDetailStartComponent } from "./start/start.component";
+import { GameDetailDeleteComponent } from "./delete/delete.component";
+import { GameDetailSmackTalkComponent } from "./smack-talk/smack-talk.component";
+import { DisplayCivComponent } from "../display-civ/display-civ.component";
 
 @Component({
   selector: "pydt-game-detail",
   templateUrl: "./detail.component.html",
   styleUrls: ["./detail.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    GamePreviewComponent,
+    TabsetComponent,
+    TabDirective,
+    GameDetailStatsComponent,
+    GameDetailTurnsComponent,
+    MarkdownComponent,
+    RouterLink,
+    GameDetailRevertComponent,
+    GameDetailRequestSubstitutionComponent,
+    GameDetailSurrenderComponent,
+    GameDetailManageModsComponent,
+    GameDetailAdminComponent,
+    GameDetailJoinComponent,
+    GameDetailChangeCivComponent,
+    GameDetailLeaveComponent,
+    GameDetailStartComponent,
+    GameDetailDeleteComponent,
+    GameDetailSmackTalkComponent,
+    ModalDirective,
+    DisplayCivComponent,
+    PydtSharedModule,
+  ],
 })
 export class GameDetailComponent implements OnInit {
   private gameApi = inject(GameService);

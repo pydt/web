@@ -8,7 +8,7 @@ import { NotificationService } from "../../../shared";
   selector: "pydt-game-detail-start",
   templateUrl: "./start.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailStartComponent {
   private gameApi = inject(GameService);

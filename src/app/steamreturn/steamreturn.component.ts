@@ -10,7 +10,6 @@ import { BrowserDataService } from "../shared/browser-data.service";
   selector: "pydt-steam-return",
   templateUrl: "./steamreturn.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class SteamReturnComponent implements OnInit {
   private http = inject(HttpClient);

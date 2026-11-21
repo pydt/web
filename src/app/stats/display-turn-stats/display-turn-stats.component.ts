@@ -2,12 +2,26 @@ import { Component, Input, ChangeDetectionStrategy } from "@angular/core";
 import moment from "moment";
 import { CountdownUtility, TurnData, User } from "pydt-shared";
 import { Utility } from "../../shared/utility";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { TurnLengthChartComponent } from "../turn-length-chart/turn-length-chart.component";
+import { TurnYearChartComponent } from "../turn-year-chart/turn-year-chart.component";
+import { TimeOfDayChartComponent } from "../time-of-day-chart/time-of-day-chart.component";
+import { DayOfWeekChartComponent } from "../day-of-week-chart/day-of-week-chart.component";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "pydt-turn-stats",
   templateUrl: "./display-turn-stats.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    TabsetComponent,
+    TabDirective,
+    TurnLengthChartComponent,
+    TurnYearChartComponent,
+    TimeOfDayChartComponent,
+    DayOfWeekChartComponent,
+    FormsModule,
+  ],
 })
 export class DisplayTurnStatsComponent {
   @Input() turnData: TurnData;

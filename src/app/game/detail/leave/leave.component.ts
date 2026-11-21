@@ -8,7 +8,7 @@ import { NotificationService } from "../../../shared";
   selector: "pydt-game-detail-leave",
   templateUrl: "./leave.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailLeaveComponent {
   private gameApi = inject(GameService);

@@ -7,7 +7,7 @@ import { NotificationService } from "../../../../shared";
   selector: "pydt-game-detail-admin-restart-game",
   templateUrl: "./restart-game.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailAdminRestartGameComponent {
   private gameApi = inject(GameService);

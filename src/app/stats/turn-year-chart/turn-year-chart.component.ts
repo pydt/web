@@ -2,12 +2,13 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy, inject } from "@a
 import { Game, ProfileCacheService, SteamProfile, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
+import { BaseChartDirective } from "ng2-charts";
 
 @Component({
   selector: "pydt-turn-year-chart",
   templateUrl: "./turn-year-chart.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [BaseChartDirective],
 })
 export class TurnYearChartComponent implements OnChanges {
   private profileCache = inject(ProfileCacheService);

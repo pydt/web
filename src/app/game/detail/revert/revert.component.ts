@@ -7,7 +7,7 @@ import { NotificationService } from "../../../shared";
   selector: "pydt-game-detail-revert",
   templateUrl: "./revert.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailRevertComponent {
   private gameApi = inject(GameService);

@@ -11,12 +11,13 @@ import {
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, User, UserService } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "pydt-game-detail-admin-kick-player",
   templateUrl: "./kick-player.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, ModalDirective],
 })
 export class GameDetailAdminKickPlayerComponent implements OnInit {
   private gameApi = inject(GameService);

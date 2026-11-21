@@ -2,12 +2,13 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy, inject } from "@a
 import { CountdownUtility, Game, ProfileCacheService, SteamProfile, TURN_BUCKETS, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
+import { BaseChartDirective } from "ng2-charts";
 
 @Component({
   selector: "pydt-turn-length-chart",
   templateUrl: "./turn-length-chart.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [BaseChartDirective],
 })
 export class TurnLengthChartComponent implements OnChanges {
   private profileCache = inject(ProfileCacheService);

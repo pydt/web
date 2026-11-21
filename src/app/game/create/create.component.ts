@@ -1,10 +1,13 @@
 import { Component, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheService, CivGame } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
 import { ConfigureGameModel } from "../config/configure-game.model";
+import { FormsModule } from "@angular/forms";
+import { ConfigureGameComponent } from "../config/config.component";
+import { SelectCivComponent } from "../select-civ/select-civ.component";
 
 class CreateGameModel extends ConfigureGameModel {
   constructor(
@@ -31,7 +34,7 @@ class CreateGameModel extends ConfigureGameModel {
   selector: "pydt-create-game",
   templateUrl: "./create.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, ConfigureGameComponent, SelectCivComponent, ModalDirective, RouterLink],
 })
 export class CreateGameComponent implements OnInit {
   private gameApi = inject(GameService);

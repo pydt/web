@@ -1,5 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, inject } from "@angular/core";
 import { Changelog, ChangelogService } from "../shared/changelog.service";
+import { MarkdownComponent } from "ngx-markdown";
+import { DatePipe } from "@angular/common";
 
 export type ChangeKind = "web" | "client";
 export type ChangeFilter = ChangeKind | "all";
@@ -25,7 +27,7 @@ const INITIAL_VISIBLE = 10;
   // The release notes are rendered markdown, so the styles need to reach into it
   encapsulation: ViewEncapsulation.None,
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [MarkdownComponent, DatePipe],
 })
 export class ChangeLogComponent implements OnInit {
   changelog = inject(ChangelogService);

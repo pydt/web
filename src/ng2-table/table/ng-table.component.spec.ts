@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
 import { ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { Ng2TableModule } from "../ng-table-module";
+import { NgTableComponent } from "./ng-table.component";
 
 const html = "";
 
@@ -13,8 +13,7 @@ describe("Component: ng2-table", () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [TestTableComponent],
-      imports: [Ng2TableModule],
+      imports: [TestTableComponent],
     });
     TestBed.overrideComponent(TestTableComponent, { set: { template: html } });
     fixture = TestBed.createComponent(TestTableComponent);
@@ -34,6 +33,6 @@ describe("Component: ng2-table", () => {
   selector: "table-test",
   template: "",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [NgTableComponent],
 })
 class TestTableComponent {}

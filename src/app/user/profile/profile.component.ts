@@ -13,14 +13,19 @@ import {
 import { BehaviorSubject, combineLatest } from "rxjs";
 import { map } from "rxjs/operators";
 import { AuthService, NotificationService } from "../../shared";
-import { Router } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
+import { UserInfoComponent } from "../info/info.component";
+import { FormsModule } from "@angular/forms";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { ClipboardModule } from "ngx-clipboard";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "pydt-user-profile",
   templateUrl: "./profile.component.html",
   styleUrls: ["./profile.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [UserInfoComponent, FormsModule, TabsetComponent, TabDirective, ClipboardModule, RouterLink, AsyncPipe],
 })
 export class UserProfileComponent implements OnInit {
   private authApi = inject(AuthApi);

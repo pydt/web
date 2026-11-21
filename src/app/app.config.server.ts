@@ -1,13 +1,8 @@
-import { NgModule } from "@angular/core";
-import { ServerModule } from "@angular/platform-server";
+import { ApplicationConfig, mergeApplicationConfig } from "@angular/core";
 import { provideServerRendering, RenderMode, withRoutes } from "@angular/ssr";
+import { appConfig } from "./app.config";
 
-import { AppModule } from "./app.module";
-import { AppComponent } from "./app.component";
-
-@NgModule({
-  imports: [AppModule, ServerModule],
-  bootstrap: [AppComponent],
+const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(
       withRoutes([
@@ -21,5 +16,6 @@ import { AppComponent } from "./app.component";
       ]),
     ),
   ],
-})
-export class AppServerModule {}
+};
+
+export const config = mergeApplicationConfig(appConfig, serverConfig);

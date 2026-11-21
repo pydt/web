@@ -2,13 +2,25 @@ import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/cor
 import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
+import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
+import { DisplayTurnStatsComponent } from "./display-turn-stats/display-turn-stats.component";
+import { FormsModule } from "@angular/forms";
+import { PaginationComponent } from "ngx-bootstrap/pagination";
+import { NgTableComponent } from "../../ng2-table/table/ng-table.component";
 
 @Component({
   selector: "pydt-user-stats",
   templateUrl: "./stats.component.html",
   styleUrls: ["./stats.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    TabsetComponent,
+    TabDirective,
+    DisplayTurnStatsComponent,
+    FormsModule,
+    PaginationComponent,
+    NgTableComponent,
+  ],
 })
 export class StatsComponent implements OnInit {
   private statsApi = inject(StatsService);

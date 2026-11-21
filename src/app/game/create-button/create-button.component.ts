@@ -3,12 +3,13 @@ import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivGame, MetadataCacheService, GameService } from "pydt-shared";
 import { AuthService } from "../../shared";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
 
 @Component({
   selector: "pydt-game-create-button",
   templateUrl: "./create-button.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective, ModalDirective],
 })
 export class GameCreateButtonComponent implements OnInit {
   auth = inject(AuthService);

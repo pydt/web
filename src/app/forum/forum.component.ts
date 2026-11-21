@@ -4,6 +4,5 @@ import { Component, ChangeDetectionStrategy } from "@angular/core";
   selector: "pydt-forum",
   templateUrl: "./forum.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class ForumComponent {}

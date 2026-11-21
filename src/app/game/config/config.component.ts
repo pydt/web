@@ -7,15 +7,20 @@ import {
   CivGame,
   RANDOM_ONLY_OPTIONS,
   TURN_TIMER_VACATION_OPTIONS,
+  PydtSharedModule,
 } from "pydt-shared";
 import { ConfigureGameModel } from "./configure-game.model";
+import { FormsModule } from "@angular/forms";
+import { MarkdownComponent } from "ngx-markdown";
+import { InfoTooltipComponent } from "../../shared/info-tooltip/info-tooltip.component";
+import { AsyncPipe } from "@angular/common";
 
 @Component({
   selector: "pydt-configure-game",
   templateUrl: "./config.component.html",
   styleUrls: ["./config.component.css"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, MarkdownComponent, InfoTooltipComponent, PydtSharedModule, AsyncPipe],
 })
 export class ConfigureGameComponent implements OnInit {
   private cdRef = inject(ChangeDetectorRef);

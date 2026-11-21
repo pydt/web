@@ -5,7 +5,6 @@ import { Game, GameService } from "pydt-shared";
   selector: "pydt-game-detail-admin-reset-game",
   templateUrl: "./reset-game.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class GameDetailAdminResetGameComponent {
   private gameApi = inject(GameService);

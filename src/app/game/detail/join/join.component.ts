@@ -14,6 +14,10 @@ import { BrowserDataService } from "../../../shared/browser-data.service";
 import { AuthService, NotificationService } from "../../../shared";
 import { AvailableCiv } from "../detail.component";
 import { Utility } from "../../../shared/utility";
+import { ClipboardModule } from "ngx-clipboard";
+import { SelectCivComponent } from "../../select-civ/select-civ.component";
+import { FormsModule } from "@angular/forms";
+import { RouterLink } from "@angular/router";
 
 // Matches RECENT_TURN_AVERAGE_LIMIT_MIN_TURNS in the api: fewer turns than this and the limit doesn't apply
 const TURN_AVERAGE_LIMIT_MIN_TURNS = 10;
@@ -22,7 +26,7 @@ const TURN_AVERAGE_LIMIT_MIN_TURNS = 10;
   selector: "pydt-game-detail-join",
   templateUrl: "./join.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ClipboardModule, SelectCivComponent, FormsModule, ModalDirective, RouterLink],
 })
 export class GameDetailJoinComponent implements OnChanges {
   private auth = inject(AuthService);

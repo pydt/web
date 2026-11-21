@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import { Game, GameRequestBody, GameService, MetadataCacheService } from "pydt-shared";
 import { NotificationService } from "../../shared";
 import { ConfigureGameModel } from "../config/configure-game.model";
+import { FormsModule } from "@angular/forms";
+import { ConfigureGameComponent } from "../config/config.component";
 
 class EditGameModel extends ConfigureGameModel {
   gameId: string;
@@ -22,7 +24,7 @@ class EditGameModel extends ConfigureGameModel {
   selector: "pydt-edit-game",
   templateUrl: "./edit.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, ConfigureGameComponent, RouterLink],
 })
 export class EditGameComponent implements OnInit {
   private gameApi = inject(GameService);

@@ -6,7 +6,6 @@ import { AuthService, NotificationService } from "../../../shared";
   selector: "pydt-game-request-substitution",
   templateUrl: "./request-substitution.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class GameDetailRequestSubstitutionComponent {
   private auth = inject(AuthService);

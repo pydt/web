@@ -8,7 +8,7 @@ import { NotificationService } from "../../../shared";
   selector: "pydt-game-detail-surrender",
   templateUrl: "./surrender.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailSurrenderComponent {
   private gameApi = inject(GameService);

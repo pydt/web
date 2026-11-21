@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { CivDef, CivGame, Game, GameService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
+import { SelectCivComponent } from "../../select-civ/select-civ.component";
 
 @Component({
   selector: "pydt-game-detail-change-civ",
   templateUrl: "./change-civ.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [SelectCivComponent],
 })
 export class GameDetailChangeCivComponent {
   private gameApi = inject(GameService);

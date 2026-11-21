@@ -2,12 +2,13 @@ import { Component, Input, OnChanges, ChangeDetectionStrategy, inject } from "@a
 import { Game, HOUR_OF_DAY_KEY, ProfileCacheService, SteamProfile, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
+import { BaseChartDirective } from "ng2-charts";
 
 @Component({
   selector: "pydt-time-of-day-chart",
   templateUrl: "./time-of-day-chart.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [BaseChartDirective],
 })
 export class TimeOfDayChartComponent implements OnChanges {
   private profileCache = inject(ProfileCacheService);

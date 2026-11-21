@@ -13,6 +13,9 @@ import {
 } from "pydt-shared";
 import * as FileSaver from "file-saver";
 import { AuthService } from "../../../shared";
+import { NgTableComponent } from "../../../../ng2-table/table/ng-table.component";
+import { PaginationComponent } from "ngx-bootstrap/pagination";
+import { FormsModule } from "@angular/forms";
 
 export interface TableColumn {
   title: string;
@@ -24,7 +27,7 @@ export interface TableColumn {
   selector: "pydt-game-detail-turns",
   templateUrl: "./turns.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [NgTableComponent, PaginationComponent, FormsModule],
 })
 export class GameDetailTurnsComponent implements OnInit {
   private profileCache = inject(ProfileCacheService);

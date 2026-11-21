@@ -15,5 +15,10 @@ if (typeof g.navigator === "undefined") g.navigator = { userAgent: "" };
 // Must be first: sets up DOM classes AND creates global document/window instances
 import "./server-dom-setup";
 
-export { AppServerModule } from "./app/app.server.module";
-export { AppServerModule as default } from "./app/app.server.module";
+import { BootstrapContext, bootstrapApplication } from "@angular/platform-browser";
+import { AppComponent } from "./app/app.component";
+import { config } from "./app/app.config.server";
+
+const bootstrap = (context: BootstrapContext) => bootstrapApplication(AppComponent, config, context);
+
+export default bootstrap;

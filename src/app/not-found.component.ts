@@ -7,7 +7,6 @@ import { Response } from "express";
   selector: "pydt-not-found",
   template: '<h1 style="text-align:center;margin-top:50px;">This damn page doesn\'t exist.</h1> ',
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
 })
 export class NotFoundComponent implements OnInit {
   private response = inject<Response>(RESPONSE, { optional: true });

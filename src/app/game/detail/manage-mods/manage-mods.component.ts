@@ -2,12 +2,13 @@ import { Component, Input, ViewChild, ChangeDetectionStrategy, inject } from "@a
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, RawCiv6Mods } from "pydt-shared";
 import { NotificationService } from "../../../shared";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "pydt-game-detail-manage-mods",
   templateUrl: "./manage-mods.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, ModalDirective],
 })
 export class GameDetailManageModsComponent {
   private gameApi = inject(GameService);

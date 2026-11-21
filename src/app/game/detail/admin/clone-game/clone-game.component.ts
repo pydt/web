@@ -8,7 +8,7 @@ import { NotificationService } from "../../../../shared";
   selector: "pydt-game-detail-admin-clone-game",
   templateUrl: "./clone-game.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailAdminCloneGameComponent {
   private gameApi = inject(GameService);

@@ -1,12 +1,14 @@
 import { Component, Input, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { CivGame, MetadataCacheService, ProfileCacheService, SteamProfile, User } from "pydt-shared";
 import { Utility } from "../../shared/utility";
+import { FormsModule } from "@angular/forms";
+import { DisplayTurnStatsComponent } from "../../stats/display-turn-stats/display-turn-stats.component";
 
 @Component({
   selector: "pydt-user-info",
   templateUrl: "./info.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule, DisplayTurnStatsComponent],
 })
 export class UserInfoComponent implements OnInit {
   private profileCache = inject(ProfileCacheService);

@@ -3,6 +3,8 @@ import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService, C
 import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 import { TurnLengthChartComponent } from "../../../stats/turn-length-chart/turn-length-chart.component";
+import { DisplayTurnStatsComponent } from "../../../stats/display-turn-stats/display-turn-stats.component";
+import { NgTableComponent } from "../../../../ng2-table/table/ng-table.component";
 
 export interface TableColumn {
   title: string;
@@ -16,7 +18,7 @@ export interface TableColumn {
   selector: "pydt-game-detail-stats",
   templateUrl: "./stats.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [DisplayTurnStatsComponent, NgTableComponent],
 })
 export class GameDetailStatsComponent implements OnInit {
   private profileCache = inject(ProfileCacheService);

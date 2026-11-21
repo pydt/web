@@ -24,17 +24,34 @@ import {
   HOUR_OF_DAY_KEY,
   CountdownUtility,
   GAMEFLAG,
+  PydtSharedModule,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { orderBy } from "lodash";
 import { BehaviorSubject, Observable, map } from "rxjs";
+import { TooltipDirective } from "ngx-bootstrap/tooltip";
+import { DragulaModule } from "ng2-dragula";
+import { NgClass, AsyncPipe } from "@angular/common";
+import { UserInfoComponent } from "../../user/info/info.component";
+import { GameDetailChangeCivComponent } from "../detail/change-civ/change-civ.component";
+import { GameDetailLeaveComponent } from "../detail/leave/leave.component";
 
 @Component({
   selector: "pydt-game-preview",
   templateUrl: "./preview.component.html",
   styleUrls: ["./preview.component.scss"],
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    TooltipDirective,
+    PydtSharedModule,
+    DragulaModule,
+    NgClass,
+    ModalDirective,
+    UserInfoComponent,
+    GameDetailChangeCivComponent,
+    GameDetailLeaveComponent,
+    AsyncPipe,
+  ],
 })
 export class GamePreviewComponent implements OnChanges {
   private gameApi = inject(GameService);

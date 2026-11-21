@@ -8,7 +8,7 @@ import { NotificationService } from "../../../shared";
   selector: "pydt-game-detail-delete",
   templateUrl: "./delete.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [ModalDirective],
 })
 export class GameDetailDeleteComponent {
   private gameApi = inject(GameService);

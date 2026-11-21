@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, GamePlayer, GameService, ProfileCacheService, SteamProfile } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "pydt-game-detail-admin-mark-substitution",
   templateUrl: "./mark-substitution.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [FormsModule],
 })
 export class GameDetailAdminMarkSubstitutionComponent implements OnInit {
   private gameApi = inject(GameService);

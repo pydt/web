@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, ErrorHandler, NgZone, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
-import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
+import { NavigationEnd, Router, ActivatedRoute, RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { AuthService as AuthApi } from "pydt-shared";
+import { AuthService as AuthApi, PydtSharedModule } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
 import envVars from "../envVars";
@@ -13,6 +13,10 @@ import { AlertConfig, AuthService, ErrorHandlerService, NotificationService } fr
 import { MetatagService } from "./shared/metatag.service";
 import { BrowserDataService } from "./shared/browser-data.service";
 import { ChangelogService } from "./shared/changelog.service";
+import { CollapseDirective } from "ngx-bootstrap/collapse";
+import { BsDropdownDirective, BsDropdownToggleDirective, BsDropdownMenuDirective } from "ngx-bootstrap/dropdown";
+import { AlertComponent } from "ngx-bootstrap/alert";
+import { AsyncPipe } from "@angular/common";
 
 // An update found this soon after the page opens reloads without showing the "new version" alert.
 const SILENT_RELOAD_WINDOW_MS = 5_000;
@@ -21,7 +25,19 @@ const SILENT_RELOAD_WINDOW_MS = 5_000;
   selector: "pydt-app",
   templateUrl: "./app.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  standalone: false,
+  imports: [
+    RouterLink,
+    CollapseDirective,
+    RouterLinkActive,
+    BsDropdownDirective,
+    BsDropdownToggleDirective,
+    BsDropdownMenuDirective,
+    AlertComponent,
+    RouterOutlet,
+    ModalDirective,
+    PydtSharedModule,
+    AsyncPipe,
+  ],
 })
 export class AppComponent implements OnInit {
   private authApi = inject(AuthApi);
