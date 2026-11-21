@@ -1,9 +1,36 @@
-<ng-table
-  [config]="tableConfig"
-  [columns]="tableColumns"
-  [rows]="tableData"
-  (tableChanged)="updateTable($event.page)"
-></ng-table>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      @for (column of tableColumns; track column.name) {
+        <th>{{ column.title }}</th>
+      }
+    </tr>
+  </thead>
+  <tbody>
+    @for (row of tableData; track row.turn) {
+      <tr>
+        @for (column of tableColumns; track column.name) {
+          <td>
+            @switch (column.name) {
+              @case ("player") {
+                <img [src]="row.avatar" alt="" />
+                {{ row.player }}
+              }
+              @case ("download") {
+                @if (row.canDownload) {
+                  <a href="#" (click)="$event.preventDefault(); downloadTurn(row.turn)">Download</a>
+                }
+              }
+              @default {
+                {{ $any(row)[column.name] }}
+              }
+            }
+          </td>
+        }
+      </tr>
+    }
+  </tbody>
+</table>
 <div class="row">
   <div class="col-md-2">
     <button class="btn btn-primary" style="margin-top: 21px" (click)="downloadCsv()">Download as CSV</button>

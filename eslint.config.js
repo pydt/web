@@ -8,7 +8,7 @@ const prettierRecommended = require("eslint-plugin-prettier/recommended");
 
 module.exports = tseslint.config(
   {
-    ignores: ["src/ng2-table/**/*", "src/polyfills.ts", "src/main*.ts"],
+    ignores: ["src/polyfills.ts", "src/main*.ts"],
   },
   {
     // The old config didn't report stale eslint-disable comments; keep it that way

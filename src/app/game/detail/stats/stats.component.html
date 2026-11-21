@@ -4,12 +4,46 @@
     <pydt-turn-stats [turnData]="game" [displayCharts]="false" [factWidth]="12"></pydt-turn-stats>
   </div>
   <div class="col-md-8">
-    <ng-table
-      [config]="tableConfig"
-      [columns]="tableColumns"
-      [rows]="tableData"
-      (tableChanged)="onChangeTable(tableConfig, tableData)"
-    ></ng-table>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          @for (column of tableColumns; track column.name) {
+            <th [pydtSortColumn]="column" [columns]="tableColumns" (sortChange)="onChangeTable(tableConfig, tableData)">
+              {{ column.title }}
+              @if (column.sort) {
+                <i
+                  class="float-end fa"
+                  [class.fa-chevron-up]="column.sort === 'asc'"
+                  [class.fa-chevron-down]="column.sort === 'desc'"
+                ></i>
+              }
+            </th>
+          }
+        </tr>
+      </thead>
+      <tbody>
+        @for (row of tableData; track row.steamId) {
+          <tr>
+            @for (column of tableColumns; track column.name) {
+              <td>
+                @switch (column.name) {
+                  @case ("player") {
+                    <img [src]="row.avatar" alt="" />
+                    {{ row.player }}
+                  }
+                  @case ("turnLength") {
+                    <pydt-turn-length-chart [turnData]="row.turnData" [smallMode]="true"></pydt-turn-length-chart>
+                  }
+                  @default {
+                    {{ $any(row)[column.name] }}
+                  }
+                }
+              </td>
+            }
+          </tr>
+        }
+      </tbody>
+    </table>
   </div>
 </div>
 <pydt-turn-stats [turnData]="game" [displayFacts]="false"></pydt-turn-stats>

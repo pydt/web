@@ -1,12 +1,31 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
-import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
+import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse, UserTurnData } from "pydt-shared";
 import { Utility } from "../shared/utility";
+import { SortableColumn, SortColumnDirective } from "../shared/sort-column.directive";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
 import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
 import { DisplayTurnStatsComponent } from "./display-turn-stats/display-turn-stats.component";
 import { FormsModule } from "@angular/forms";
 import { PaginationComponent } from "ngx-bootstrap/pagination";
-import { NgTableComponent } from "../../ng2-table/table/ng-table.component";
+
+/* eslint-disable camelcase */
+interface StatsRow {
+  rank: number | "";
+  steamId: string;
+  avatar: string;
+  player: string;
+  player_sort: string;
+  activeGames: number;
+  totalGames: number;
+  turnsPlayed: number;
+  avgTurnTime: string;
+  avgTurnTime_sort: number;
+  recentAvg: string;
+  // Players without one have no value, so they sort last either way
+  recentAvg_sort: number | null;
+  turnData: UserTurnData;
+}
+/* eslint-enable camelcase */
 
 @Component({
   selector: "pydt-user-stats",
@@ -19,31 +38,24 @@ import { NgTableComponent } from "../../ng2-table/table/ng-table.component";
     DisplayTurnStatsComponent,
     FormsModule,
     PaginationComponent,
-    NgTableComponent,
+    SortColumnDirective,
+    TurnLengthChartComponent,
   ],
 })
 export class StatsComponent implements OnInit {
   private statsApi = inject(StatsService);
   private metadataCache = inject(MetadataCacheService);
 
-  tableColumns: {
-    title: string;
-    name: string;
-    className?: string;
-    filter?: boolean;
-    isComponent?: boolean;
-    sort?: false | "asc" | "desc" | "";
-    allGamesOnly?: boolean;
-  }[] = [
+  tableColumns: (SortableColumn & { filter?: boolean; allGamesOnly?: boolean })[] = [
     { title: "Rank", name: "rank", sort: false },
-    { title: "Player", name: "player", className: "cursor-pointer", filter: true },
-    { title: "Active Games", name: "activeGames", className: "cursor-pointer" },
-    { title: "Total Games", name: "totalGames", className: "cursor-pointer" },
-    { title: "Turns Played", name: "turnsPlayed", className: "cursor-pointer", sort: "desc" },
-    { title: "Avg Turn Time", name: "avgTurnTime", className: "cursor-pointer" },
+    { title: "Player", name: "player", filter: true },
+    { title: "Active Games", name: "activeGames" },
+    { title: "Total Games", name: "totalGames" },
+    { title: "Turns Played", name: "turnsPlayed", sort: "desc" },
+    { title: "Avg Turn Time", name: "avgTurnTime" },
     // Recent averages are only tracked across all game types, so this column is only on that tab
-    { title: "Recent Avg (Last 100)", name: "recentAvg", className: "cursor-pointer", allGamesOnly: true },
-    { title: "Turn Length", name: "turnLength", isComponent: true, sort: false },
+    { title: "Recent Avg (Last 100)", name: "recentAvg", allGamesOnly: true },
+    { title: "Turn Length", name: "turnLength", sort: false },
   ];
   // The columns for the current tab, set in loadGameData
   visibleColumns = this.tableColumns;
@@ -51,12 +63,11 @@ export class StatsComponent implements OnInit {
     columns: this.tableColumns,
     sorting: { columns: this.tableColumns },
     filtering: { filterString: "", filteredResults: 0 },
-    className: ["table", "table-condensed", "table-striped"],
     paging: { page: 1, itemsPerPage: 25 },
   };
   serverData: Record<string, UsersByGameTypeResponse> = {};
-  rawData: Record<string, unknown[]> = {};
-  visibleData: Array<unknown> = [];
+  rawData: Record<string, StatsRow[]> = {};
+  visibleData: StatsRow[] = [];
   allGame = <CivGame>{
     id: "ALL",
     displayName: "All Game Types",
@@ -98,15 +109,14 @@ export class StatsComponent implements OnInit {
       this.serverData[this.currentGame.id] = await this.statsApi.users(this.currentGame.id).toPromise();
     }
 
-    this.rawData[this.currentGame.id] = this.serverData[this.currentGame.id].users.map(x => {
+    this.rawData[this.currentGame.id] = this.serverData[this.currentGame.id].users.map((x): StatsRow => {
       const avgTurnTime = x.timeTaken / (x.turnsPlayed + x.turnsSkipped);
 
       return {
         rank: "",
         steamId: x.steamId,
-        player: `<a href="https://steamcommunity.com/profiles/${x.steamId}" target="_steamprofile">
-        <img src="${x.avatarSmall}">
-      </a> ${x.displayName}`,
+        avatar: x.avatarSmall,
+        player: x.displayName,
         // eslint-disable-next-line camelcase
         player_sort: x.displayName.toLowerCase(),
         activeGames: x.activeGames,
@@ -116,18 +126,9 @@ export class StatsComponent implements OnInit {
         // eslint-disable-next-line camelcase
         avgTurnTime_sort: avgTurnTime,
         recentAvg: x.recentTurnCount ? Utility.formatTurnLength(x.recentTurnAverage) : "",
-        // Players without one have no value, so they sort last either way
         // eslint-disable-next-line camelcase
         recentAvg_sort: x.recentTurnCount ? x.recentTurnAverage : null,
-        fastTurns: x.fastTurns,
-        slowTurns: x.slowTurns,
-        turnLength: {
-          component: TurnLengthChartComponent,
-          inputs: {
-            turnData: x,
-            smallMode: true,
-          },
-        },
+        turnData: x,
       };
     });
 

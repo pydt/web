@@ -4,21 +4,26 @@ import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 import { TurnLengthChartComponent } from "../../../stats/turn-length-chart/turn-length-chart.component";
 import { DisplayTurnStatsComponent } from "../../../stats/display-turn-stats/display-turn-stats.component";
-import { NgTableComponent } from "../../../../ng2-table/table/ng-table.component";
+import { SortableColumn, SortColumnDirective } from "../../../shared/sort-column.directive";
 
-export interface TableColumn {
-  title: string;
-  name: string;
-  sort?: string | false;
-  className?: string;
-  isComponent?: boolean;
+/* eslint-disable camelcase */
+interface PlayerStatsRow {
+  steamId: string;
+  avatar: string;
+  player: string;
+  player_sort: string;
+  avgTurnTime: string;
+  avgTurnTime_sort: number;
+  turnsSkipped: number;
+  turnData: GamePlayer;
 }
+/* eslint-enable camelcase */
 
 @Component({
   selector: "pydt-game-detail-stats",
   templateUrl: "./stats.component.html",
   changeDetection: ChangeDetectionStrategy.Eager,
-  imports: [DisplayTurnStatsComponent, NgTableComponent],
+  imports: [DisplayTurnStatsComponent, SortColumnDirective, TurnLengthChartComponent],
 })
 export class GameDetailStatsComponent implements OnInit {
   private profileCache = inject(ProfileCacheService);
@@ -26,16 +31,15 @@ export class GameDetailStatsComponent implements OnInit {
   private browserData = inject(BrowserDataService);
 
   @Input() game: Game;
-  tableColumns: Array<TableColumn> = [
-    { title: "Player", name: "player", className: "cursor-pointer" },
-    { title: "Avg Turn Time", name: "avgTurnTime", sort: "asc", className: "cursor-pointer" },
-    { title: "Turn Length", name: "turnLength", isComponent: true, sort: false },
+  tableColumns: SortableColumn[] = [
+    { title: "Player", name: "player" },
+    { title: "Avg Turn Time", name: "avgTurnTime", sort: "asc" },
+    { title: "Turn Length", name: "turnLength", sort: false },
   ];
   tableConfig = {
     sorting: { columns: this.tableColumns },
-    className: ["table", "table-condensed", "table-striped"],
   };
-  tableData: Array<unknown>;
+  tableData: PlayerStatsRow[];
   games: CivGame[] = [];
 
   get civGame(): CivGame {
@@ -54,14 +58,14 @@ export class GameDetailStatsComponent implements OnInit {
         {
           title: "Skipped",
           name: "turnsSkipped",
-          className: "cursor-pointer",
         },
       ];
+      this.tableConfig.sorting.columns = this.tableColumns;
     }
 
     const profiles = await this.profileCache.getProfiles(this.humanPlayers().map(x => x.steamId));
 
-    this.tableData = this.humanPlayers().map(player => {
+    this.tableData = this.humanPlayers().map((player): PlayerStatsRow => {
       let avgTurnTimeSort = 999999999999999;
       let avgTurnTime = "N/A";
 
@@ -71,22 +75,16 @@ export class GameDetailStatsComponent implements OnInit {
       }
 
       return {
-        player: `<img src="${profiles[player.steamId].avatar}"> ${profiles[player.steamId].personaname}`,
+        steamId: player.steamId,
+        avatar: profiles[player.steamId].avatar,
+        player: profiles[player.steamId].personaname,
         // eslint-disable-next-line camelcase
         player_sort: profiles[player.steamId].personaname.toLowerCase(),
         avgTurnTime,
         // eslint-disable-next-line camelcase
         avgTurnTime_sort: avgTurnTimeSort,
         turnsSkipped: player.turnsSkipped || 0,
-        fastTurns: player.fastTurns || 0,
-        slowTurns: player.slowTurns || 0,
-        turnLength: {
-          component: TurnLengthChartComponent,
-          inputs: {
-            turnData: player,
-            smallMode: true,
-          },
-        },
+        turnData: player,
       };
     });
 

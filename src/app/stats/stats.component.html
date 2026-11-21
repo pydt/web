@@ -35,12 +35,52 @@
         </div>
       </div>
       <hr />
-      <ng-table
-        [config]="tableConfig"
-        [columns]="visibleColumns"
-        [rows]="visibleData"
-        (tableChanged)="onChangeTable(tableConfig, rawData[this.currentGame.id], visibleData)"
-      ></ng-table>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            @for (column of visibleColumns; track column.name) {
+              <th
+                [pydtSortColumn]="column"
+                [columns]="visibleColumns"
+                (sortChange)="onChangeTable(tableConfig, rawData[currentGame.id], visibleData)"
+              >
+                {{ column.title }}
+                @if (column.sort) {
+                  <i
+                    class="float-end fa"
+                    [class.fa-chevron-up]="column.sort === 'asc'"
+                    [class.fa-chevron-down]="column.sort === 'desc'"
+                  ></i>
+                }
+              </th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (row of visibleData; track row.steamId) {
+            <tr>
+              @for (column of visibleColumns; track column.name) {
+                <td>
+                  @switch (column.name) {
+                    @case ("player") {
+                      <a [href]="'https://steamcommunity.com/profiles/' + row.steamId" target="_steamprofile">
+                        <img [src]="row.avatar" alt="" />
+                      </a>
+                      {{ row.player }}
+                    }
+                    @case ("turnLength") {
+                      <pydt-turn-length-chart [turnData]="row.turnData" [smallMode]="true"></pydt-turn-length-chart>
+                    }
+                    @default {
+                      {{ $any(row)[column.name] }}
+                    }
+                  }
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   }
 </div>
