@@ -1,5 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
-import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse, UserTurnData } from "pydt-shared";
+import {
+  CivGame,
+  MetadataCacheService,
+  StatsService,
+  TurnData,
+  UsersByGameTypeResponse,
+  UserTurnData,
+} from "pydt-shared";
+import { firstValueFrom } from "rxjs";
 import { Utility } from "../shared/utility";
 import { SortableColumn, SortColumnDirective } from "../shared/sort-column.directive";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
@@ -65,7 +73,9 @@ export class StatsComponent implements OnInit {
     filtering: { filterString: "", filteredResults: 0 },
     paging: { page: 1, itemsPerPage: 25 },
   };
-  serverData: Record<string, UsersByGameTypeResponse> = {};
+  // One request per game type, shared by every load of that tab, including one still in flight
+  private serverData: Record<string, Promise<UsersByGameTypeResponse>> = {};
+  globalData: TurnData | undefined;
   rawData: Record<string, StatsRow[]> = {};
   visibleData: StatsRow[] = [];
   allGame = <CivGame>{
@@ -77,10 +87,6 @@ export class StatsComponent implements OnInit {
 
   get allCivGames(): CivGame[] {
     return [this.allGame, ...this.games];
-  }
-
-  get globalData() {
-    return this.serverData?.[this.currentGame.id]?.global;
   }
 
   async ngOnInit(): Promise<void> {
@@ -105,11 +111,23 @@ export class StatsComponent implements OnInit {
     this.tableConfig.columns = columns;
     this.tableConfig.sorting.columns = columns;
 
-    if (!this.serverData[this.currentGame.id]) {
-      this.serverData[this.currentGame.id] = await this.statsApi.users(this.currentGame.id).toPromise();
+    const game = this.currentGame;
+
+    this.serverData[game.id] ??= firstValueFrom(this.statsApi.users(game.id)).catch((err: unknown) => {
+      // Don't cache the failure, so coming back to the tab tries again
+      delete this.serverData[game.id];
+      throw err;
+    });
+
+    const data = await this.serverData[game.id];
+
+    // The user switched tabs while this was loading; that tab's load fills the table
+    if (game !== this.currentGame) {
+      return;
     }
 
-    this.rawData[this.currentGame.id] = this.serverData[this.currentGame.id].users.map((x): StatsRow => {
+    this.globalData = data.global;
+    this.rawData[game.id] = data.users.map((x): StatsRow => {
       const avgTurnTime = x.timeTaken / (x.turnsPlayed + x.turnsSkipped);
 
       return {
@@ -140,7 +158,14 @@ export class StatsComponent implements OnInit {
   }
 
   async setCurrentGame(game: CivGame): Promise<void> {
+    // ngx-bootstrap also fires selectTab when the first tab is activated on render, while ngOnInit's
+    // load is still in flight; reloading here would request the same stats a second time.
+    if (game === this.currentGame) {
+      return;
+    }
+
     this.currentGame = game;
+    this.globalData = undefined;
     this.visibleData = [];
     await this.loadGameData();
   }
