@@ -1,9 +1,9 @@
 import { isPlatformBrowser } from "@angular/common";
-import { Inject, Injectable, PLATFORM_ID } from "@angular/core";
+import { Injectable, PLATFORM_ID, inject } from "@angular/core";
 
 @Injectable()
 export class BrowserDataService {
-  constructor(@Inject(PLATFORM_ID) private platformId: unknown) {}
+  private platformId = inject(PLATFORM_ID);
 
   isBrowser() {
     return isPlatformBrowser(this.platformId);

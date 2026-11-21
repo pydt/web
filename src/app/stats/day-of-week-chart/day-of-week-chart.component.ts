@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, OnChanges, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, ProfileCacheService, SteamProfile, TurnData } from "pydt-shared";
 import { ChartConfiguration } from "chart.js";
 import { BrowserDataService } from "../../../app/shared/browser-data.service";
@@ -10,6 +10,8 @@ import { BrowserDataService } from "../../../app/shared/browser-data.service";
   standalone: false,
 })
 export class DayOfWeekChartComponent implements OnChanges {
+  private profileCache = inject(ProfileCacheService);
+
   @Input() turnData: TurnData | Game;
   @Input() perUser = false;
 
@@ -36,10 +38,9 @@ export class DayOfWeekChartComponent implements OnChanges {
 
   isBrowser = false;
 
-  constructor(
-    browserData: BrowserDataService,
-    private profileCache: ProfileCacheService,
-  ) {
+  constructor() {
+    const browserData = inject(BrowserDataService);
+
     this.isBrowser = browserData.isBrowser();
   }
 

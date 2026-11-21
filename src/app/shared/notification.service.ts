@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
 import { PrivateUserData, UserService } from "pydt-shared";
 import { NextObserver, Observable, of, Subject } from "rxjs";
@@ -39,6 +39,9 @@ export const describePushError = (e: unknown): string => {
 
 @Injectable()
 export class NotificationService {
+  private swPush = inject(SwPush);
+  private userService = inject(UserService);
+
   private readonly VAPID_PUBLIC_KEY =
     "BJh1i7oz44uFwBjtIIN5B7AIyMlHvDt9LN8DbTl4xhgBIF2RrbLMF3B3ntlCK_3TaAL_AI0vK81E-pMCUWv8DO0";
 
@@ -57,11 +60,6 @@ export class NotificationService {
       )
     : of({ supported: false })
   ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
-
-  constructor(
-    private swPush: SwPush,
-    private userService: UserService,
-  ) {}
 
   async subscribeToPushNotifications(): Promise<PrivateUserData> {
     try {

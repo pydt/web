@@ -1,4 +1,4 @@
-import { ErrorHandler, Injectable } from "@angular/core";
+import { ErrorHandler, Injectable, inject } from "@angular/core";
 import Rollbar from "rollbar";
 import { Subject } from "rxjs";
 import envVars from "../../envVars";
@@ -20,10 +20,12 @@ export class EndUserError extends Error {
 
 @Injectable()
 export class ErrorHandlerService implements ErrorHandler {
+  private auth = inject(AuthService);
+
   private errorStream = new Subject();
   private rollbar: Rollbar;
 
-  constructor(private auth?: AuthService) {
+  constructor() {
     // On the SSR Lambda the server token is in the environment. In the browser,
     // main.ts sets process.env to {}, so the client token is used instead.
     // eslint-disable-next-line dot-notation

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, GameService } from "pydt-shared";
 
 @Component({
@@ -8,10 +8,10 @@ import { Game, GameService } from "pydt-shared";
   standalone: false,
 })
 export class GameDetailAdminResetGameComponent {
+  private gameApi = inject(GameService);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
-
-  constructor(private gameApi: GameService) {}
 
   async resetGameStateOnNextUpload(): Promise<void> {
     const game = await this.gameApi.resetGameStateOnNextUpload(this.game.gameId).toPromise();

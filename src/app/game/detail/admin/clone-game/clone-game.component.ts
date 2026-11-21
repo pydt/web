@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService } from "pydt-shared";
@@ -11,15 +11,13 @@ import { NotificationService } from "../../../../shared";
   standalone: false,
 })
 export class GameDetailAdminCloneGameComponent {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+  private router = inject(Router);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
   @ViewChild("confirmCloneModal", { static: true }) confirmCloneModal: ModalDirective;
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private router: Router,
-  ) {}
 
   async clone() {
     this.confirmCloneModal.hide();

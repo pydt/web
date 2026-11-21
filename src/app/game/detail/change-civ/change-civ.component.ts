@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { CivDef, CivGame, Game, GameService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
 
@@ -9,6 +9,9 @@ import { NotificationService } from "../../../shared";
   standalone: false,
 })
 export class GameDetailChangeCivComponent {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+
   @Input() game: Game;
   @Input() civGame?: CivGame;
   @Input() steamId?: string;
@@ -17,11 +20,6 @@ export class GameDetailChangeCivComponent {
   @Input() playerCiv: CivDef;
   @Input() playerCivilization?: CivDef;
   @Output() setGame = new EventEmitter<Game>();
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {}
 
   async changeCiv(newLeader: CivDef): Promise<void> {
     const game = await this.gameApi

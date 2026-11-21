@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, HostListener, Input, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import moment from "moment";
 import {
   Game,
@@ -27,6 +27,11 @@ export interface TableColumn {
   standalone: false,
 })
 export class GameDetailTurnsComponent implements OnInit {
+  private profileCache = inject(ProfileCacheService);
+  private gameService = inject(GameService);
+  private metadataCache = inject(MetadataCacheService);
+  private auth = inject(AuthService);
+
   @Input() game: Game;
 
   tableColumns: TableColumn[] = [
@@ -45,13 +50,6 @@ export class GameDetailTurnsComponent implements OnInit {
   currentPage = 1;
   itemsPerPage = 15;
   games: CivGame[] = [];
-
-  constructor(
-    private profileCache: ProfileCacheService,
-    private gameService: GameService,
-    private metadataCache: MetadataCacheService,
-    private auth: AuthService,
-  ) {}
 
   get civGame(): CivGame {
     return this.games.find(x => x.id === this.game.gameType);

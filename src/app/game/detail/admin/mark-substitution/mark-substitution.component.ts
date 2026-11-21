@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, GamePlayer, GameService, ProfileCacheService, SteamProfile } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
 
@@ -9,17 +9,15 @@ import { NotificationService } from "../../../../shared";
   standalone: false,
 })
 export class GameDetailAdminMarkSubstitutionComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+  private profileCache = inject(ProfileCacheService);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
 
   profileToRequestSubstitution: SteamProfile;
   profiles: SteamProfile[];
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private profileCache: ProfileCacheService,
-  ) {}
 
   get humanPlayers(): GamePlayer[] {
     return this.game.players.filter(player => !!player.steamId && !player.isDead);

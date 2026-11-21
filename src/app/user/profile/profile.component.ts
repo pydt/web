@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import {
   AuthService as AuthApi,
   CivGame,
@@ -23,6 +23,15 @@ import { Router } from "@angular/router";
   standalone: false,
 })
 export class UserProfileComponent implements OnInit {
+  private authApi = inject(AuthApi);
+  private userApi = inject(UserService);
+  private auth = inject(AuthService);
+  private http = inject(HttpClient);
+  notificationService = inject(NotificationService);
+  private profileCache = inject(ProfileCacheService);
+  private metadataCache = inject(MetadataCacheService);
+  private router = inject(Router);
+
   token: string;
   substitutionModel: { [index: string]: boolean } = {};
   loaded: boolean;
@@ -39,17 +48,6 @@ export class UserProfileComponent implements OnInit {
       return !!endpoint && !!wps.find(x => x.endpoint === endpoint);
     }),
   );
-
-  constructor(
-    private authApi: AuthApi,
-    private userApi: UserService,
-    private auth: AuthService,
-    private http: HttpClient,
-    public notificationService: NotificationService,
-    private profileCache: ProfileCacheService,
-    private metadataCache: MetadataCacheService,
-    private router: Router,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     this.token = this.auth.getToken();

@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, Output, ViewChild, OnChanges, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+  OnChanges,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivDef, CivGame, Game, GamePlayer, GameService, SteamProfile, UserService } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
@@ -16,6 +25,12 @@ const TURN_AVERAGE_LIMIT_MIN_TURNS = 10;
   standalone: false,
 })
 export class GameDetailJoinComponent implements OnChanges {
+  private auth = inject(AuthService);
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+  private userApi = inject(UserService);
+  browserData = inject(BrowserDataService);
+
   @Input() game: Game;
   @Input() civGame?: CivGame;
   @Input() profile: SteamProfile;
@@ -34,14 +49,6 @@ export class GameDetailJoinComponent implements OnChanges {
   joinGamePassword: string;
   // Set when the game's max average turn time keeps this user out, so we can say so up front
   turnAverageError: string;
-
-  constructor(
-    private auth: AuthService,
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private userApi: UserService,
-    public browserData: BrowserDataService,
-  ) {}
 
   ngOnChanges(): void {
     void this.checkTurnAverageLimit();

@@ -1,12 +1,10 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { Meta, Title } from "@angular/platform-browser";
 
 @Injectable()
 export class MetatagService {
-  constructor(
-    private title: Title,
-    private meta: Meta,
-  ) {}
+  private title = inject(Title);
+  private meta = inject(Meta);
 
   setTitleAndDesc(title: string, desc?: string) {
     this.title.setTitle(`${title} | Play Your Damn Turn`);

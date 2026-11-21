@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import removeMarkdown from "remove-markdown";
@@ -31,6 +31,14 @@ import { MetatagService } from "./../../shared/metatag.service";
   standalone: false,
 })
 export class GameDetailComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private auth = inject(AuthService);
+  private route = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+  private busyService = inject(BusyService);
+  private metadataCache = inject(MetadataCacheService);
+  private metatag = inject(MetatagService);
+
   private gameId: string;
 
   game: Game;
@@ -53,16 +61,6 @@ export class GameDetailComponent implements OnInit {
   noOtherPlayers = false;
 
   @ViewChild("uploadFirstTurnModal", { static: true }) uploadFirstTurnModal: ModalDirective;
-
-  constructor(
-    private gameApi: GameService,
-    private auth: AuthService,
-    private route: ActivatedRoute,
-    private notificationService: NotificationService,
-    private busyService: BusyService,
-    private metadataCache: MetadataCacheService,
-    private metatag: MetatagService,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     this.metadata = await this.metadataCache.getCivGameMetadata();

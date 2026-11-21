@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, GamePlayer, ProfileCacheService, CivGame, MetadataCacheService, CountdownUtility } from "pydt-shared";
 import { Utility } from "../../../shared/utility";
 import { BrowserDataService } from "../../../shared/browser-data.service";
@@ -19,6 +19,10 @@ export interface TableColumn {
   standalone: false,
 })
 export class GameDetailStatsComponent implements OnInit {
+  private profileCache = inject(ProfileCacheService);
+  private metadataCache = inject(MetadataCacheService);
+  private browserData = inject(BrowserDataService);
+
   @Input() game: Game;
   tableColumns: Array<TableColumn> = [
     { title: "Player", name: "player", className: "cursor-pointer" },
@@ -31,12 +35,6 @@ export class GameDetailStatsComponent implements OnInit {
   };
   tableData: Array<unknown>;
   games: CivGame[] = [];
-
-  constructor(
-    private profileCache: ProfileCacheService,
-    private metadataCache: MetadataCacheService,
-    private browserData: BrowserDataService,
-  ) {}
 
   get civGame(): CivGame {
     return this.games.find(x => x.id === this.game.gameType);

@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, User, UserService } from "pydt-shared";
 import { NotificationService } from "../../../../shared";
@@ -10,18 +19,16 @@ import { NotificationService } from "../../../../shared";
   standalone: false,
 })
 export class GameDetailAdminKickPlayerComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private userApi = inject(UserService);
+  private notificationService = inject(NotificationService);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
   @ViewChild("confirmKickUserModal", { static: true }) confirmKickUserModal: ModalDirective;
 
   substituteUsers: User[];
   userToSubstitute: User;
-
-  constructor(
-    private gameApi: GameService,
-    private userApi: UserService,
-    private notificationService: NotificationService,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     if (!this.substituteUsers) {

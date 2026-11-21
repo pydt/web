@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { BehaviorSubject, combineLatest, map } from "rxjs";
 import {
@@ -20,6 +20,13 @@ import { AuthService } from "../../shared";
   standalone: false,
 })
 export class OpenGamesComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private auth = inject(AuthService);
+  private profileCache = inject(ProfileCacheService);
+  private metadataCache = inject(MetadataCacheService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   profile: SteamProfile;
   private notStarted$ = new BehaviorSubject<Game[]>(undefined);
   private openSlots$ = new BehaviorSubject<OpenSlotsGame[]>(undefined);
@@ -48,15 +55,6 @@ export class OpenGamesComponent implements OnInit {
     }),
   );
   games: CivGame[] = [];
-
-  constructor(
-    private gameApi: GameService,
-    private auth: AuthService,
-    private profileCache: ProfileCacheService,
-    private metadataCache: MetadataCacheService,
-    private route: ActivatedRoute,
-    private router: Router,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadataCache.getCivGameMetadata()).civGames;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivDef, CreateGameRequestBody, GameService, UserService, MetadataCacheService, CivGame } from "pydt-shared";
@@ -34,20 +34,18 @@ class CreateGameModel extends ConfigureGameModel {
   standalone: false,
 })
 export class CreateGameComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private userApi = inject(UserService);
+  private auth = inject(AuthService);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+  private route = inject(ActivatedRoute);
+  private metadataCache = inject(MetadataCacheService);
+
   model: CreateGameModel;
   randomCiv: CivDef;
 
   @ViewChild("mustSetEmailModal", { static: true }) mustSetEmailModal: ModalDirective;
-
-  constructor(
-    private gameApi: GameService,
-    private userApi: UserService,
-    private auth: AuthService,
-    private router: Router,
-    private notificationService: NotificationService,
-    private route: ActivatedRoute,
-    private metadataCache: MetadataCacheService,
-  ) {}
 
   filteredLeaders(): CivDef[] {
     return Utility.filterCivsByDlc(this.model.civGame.leaders, this.model.dlcIdArray);

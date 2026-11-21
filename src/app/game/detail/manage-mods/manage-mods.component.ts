@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService, RawCiv6Mods } from "pydt-shared";
 import { NotificationService } from "../../../shared";
@@ -10,6 +10,9 @@ import { NotificationService } from "../../../shared";
   standalone: false,
 })
 export class GameDetailManageModsComponent {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+
   @Input() game: Game;
   @Input() admin = false;
   @ViewChild("confirmDeleteModal", { static: true }) confirmDeleteModal: ModalDirective;
@@ -19,11 +22,6 @@ export class GameDetailManageModsComponent {
 
   newModId = "";
   newModTitle = "";
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {}
 
   async loadMods() {
     this.mods = await this.gameApi.getCiv6Mods(this.game.gameId).toPromise();

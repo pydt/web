@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, OnChanges, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game } from "pydt-shared";
 import { BrowserDataService } from "../../../shared/browser-data.service";
 
@@ -9,10 +9,10 @@ import { BrowserDataService } from "../../../shared/browser-data.service";
   standalone: false,
 })
 export class GameDetailSmackTalkComponent implements OnChanges {
+  browserData = inject(BrowserDataService);
+
   @Input() game: Game;
   private discourse: HTMLScriptElement;
-
-  constructor(public browserData: BrowserDataService) {}
 
   ngOnChanges(): void {
     if (this.game && !this.discourse && this.browserData.isBrowser()) {

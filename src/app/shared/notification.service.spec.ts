@@ -1,10 +1,18 @@
+import { Injector } from "@angular/core";
 import { SwPush } from "@angular/service-worker";
+import { UserService } from "pydt-shared";
 import { firstValueFrom, Observable, of, throwError } from "rxjs";
 import { HttpErrorResponse } from "@angular/common/http";
 import { describePushError, NotificationService } from "./notification.service";
 
 const makeService = (isEnabled: boolean, subscription: Observable<PushSubscription | null>) =>
-  new NotificationService({ isEnabled, subscription } as unknown as SwPush, null);
+  Injector.create({
+    providers: [
+      NotificationService,
+      { provide: SwPush, useValue: { isEnabled, subscription } },
+      { provide: UserService, useValue: null },
+    ],
+  }).get(NotificationService);
 
 describe("NotificationService.pushState$", () => {
   // jsdom has no PushManager; give it one unless a test removes it

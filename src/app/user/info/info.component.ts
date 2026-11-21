@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { CivGame, MetadataCacheService, ProfileCacheService, SteamProfile, User } from "pydt-shared";
 import { Utility } from "../../shared/utility";
 
@@ -9,6 +9,9 @@ import { Utility } from "../../shared/utility";
   standalone: false,
 })
 export class UserInfoComponent implements OnInit {
+  private profileCache = inject(ProfileCacheService);
+  private metadataCache = inject(MetadataCacheService);
+
   @Input() user: User;
   profile: SteamProfile;
   allGame = <CivGame>{
@@ -17,11 +20,6 @@ export class UserInfoComponent implements OnInit {
   };
   games: CivGame[] = [];
   gameTypeId = "ALL";
-
-  constructor(
-    private profileCache: ProfileCacheService,
-    private metadataCache: MetadataCacheService,
-  ) {}
 
   get allCivGames(): CivGame[] {
     return [

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, GameService } from "pydt-shared";
 import { AuthService, NotificationService } from "../../../shared";
 
@@ -9,14 +9,12 @@ import { AuthService, NotificationService } from "../../../shared";
   standalone: false,
 })
 export class GameDetailRequestSubstitutionComponent {
+  private auth = inject(AuthService);
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
-
-  constructor(
-    private auth: AuthService,
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {}
 
   get substitutionRequested() {
     return this.game.players.find(x => x.steamId === this.auth.getSteamProfile().steamid)?.substitutionRequested;

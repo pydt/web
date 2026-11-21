@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Game, GameRequestBody, GameService, MetadataCacheService } from "pydt-shared";
 import { NotificationService } from "../../shared";
@@ -25,17 +25,15 @@ class EditGameModel extends ConfigureGameModel {
   standalone: false,
 })
 export class EditGameComponent implements OnInit {
+  private gameApi = inject(GameService);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private notificationService = inject(NotificationService);
+  private metadataCache = inject(MetadataCacheService);
+
   game: Game;
   model: EditGameModel;
   selectedCivs: string[];
-
-  constructor(
-    private gameApi: GameService,
-    private route: ActivatedRoute,
-    private router: Router,
-    private notificationService: NotificationService,
-    private metadataCache: MetadataCacheService,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     const metadata = await this.metadataCache.getCivGameMetadata();

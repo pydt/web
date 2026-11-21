@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { CivGame, MetadataCacheService, StatsService, UsersByGameTypeResponse } from "pydt-shared";
 import { Utility } from "../shared/utility";
 import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.component";
@@ -11,6 +11,9 @@ import { TurnLengthChartComponent } from "./turn-length-chart/turn-length-chart.
   standalone: false,
 })
 export class StatsComponent implements OnInit {
+  private statsApi = inject(StatsService);
+  private metadataCache = inject(MetadataCacheService);
+
   tableColumns: {
     title: string;
     name: string;
@@ -48,11 +51,6 @@ export class StatsComponent implements OnInit {
   };
   games: CivGame[] = [];
   currentGame = this.allGame;
-
-  constructor(
-    private statsApi: StatsService,
-    private metadataCache: MetadataCacheService,
-  ) {}
 
   get allCivGames(): CivGame[] {
     return [this.allGame, ...this.games];

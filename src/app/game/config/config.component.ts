@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import {
   DLC,
   DlcGroup,
@@ -18,6 +18,9 @@ import { ConfigureGameModel } from "./configure-game.model";
   standalone: false,
 })
 export class ConfigureGameComponent implements OnInit {
+  private cdRef = inject(ChangeDetectorRef);
+  private metadata = inject(MetadataCacheService);
+
   @Input() game: Game;
   @Input() model: ConfigureGameModel;
   @Input() selectedCivs: string[];
@@ -26,11 +29,6 @@ export class ConfigureGameComponent implements OnInit {
   games: CivGame[];
   RANDOM_ONLY_OPTIONS = RANDOM_ONLY_OPTIONS;
   TURN_TIMER_VACATION_OPTIONS = TURN_TIMER_VACATION_OPTIONS;
-
-  constructor(
-    private cdRef: ChangeDetectorRef,
-    private metadata: MetadataCacheService,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     this.games = (await this.metadata.getCivGameMetadata()).civGames;

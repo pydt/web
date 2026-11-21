@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation } from "@angular/core";
+import { Component, OnInit, ChangeDetectionStrategy, ViewEncapsulation, inject } from "@angular/core";
 import { Changelog, ChangelogService } from "../shared/changelog.service";
 
 export type ChangeKind = "web" | "client";
@@ -28,14 +28,14 @@ const INITIAL_VISIBLE = 10;
   standalone: false,
 })
 export class ChangeLogComponent implements OnInit {
+  changelog = inject(ChangelogService);
+
   filter: ChangeFilter = "all";
   showAll = false;
   private newCount = 0;
 
   private cacheKey: unknown[] = [];
   private cache: { years: TimelineYear[]; hiddenCount: number } = { years: [], hiddenCount: 0 };
-
-  constructor(public changelog: ChangelogService) {}
 
   async ngOnInit(): Promise<void> {
     this.newCount = await this.changelog.setChangesViewed();

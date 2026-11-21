@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { BrowserDataService } from "./browser-data.service";
 
@@ -114,15 +114,15 @@ Also, you can now download your previous turns from the turn history tab, and on
 
 @Injectable()
 export class ChangelogService {
+  private http = inject(HttpClient);
+  private browserData = inject(BrowserDataService);
+
   unviewedChanges$ = new BehaviorSubject(0);
 
   private clientChangesList: Changelog[] = [];
   private clientChangesLoaded: Promise<void>;
 
-  constructor(
-    private http: HttpClient,
-    private browserData: BrowserDataService,
-  ) {
+  constructor() {
     if (this.browserData.isBrowser()) {
       this.clientChangesLoaded = this.loadClientChanges();
       setInterval(() => void this.loadClientChanges(), CLIENT_RELEASES_POLL_INTERVAL_MS);

@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { BusyService, StatsService } from "pydt-shared";
 
@@ -10,12 +10,10 @@ import { BusyService, StatsService } from "pydt-shared";
   standalone: false,
 })
 export class HomeComponent implements OnInit {
-  turnsText = "🤔";
+  private busyService = inject(BusyService);
+  private statsApi = inject(StatsService);
 
-  constructor(
-    private busyService: BusyService,
-    private statsApi: StatsService,
-  ) {}
+  turnsText = "🤔";
 
   ngOnInit(): void {
     this.busyService.ignoreNextIntercept = true;

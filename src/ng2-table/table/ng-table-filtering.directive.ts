@@ -1,4 +1,4 @@
-import { Directive, EventEmitter, ElementRef, Renderer2, HostListener, Input, Output } from "@angular/core";
+import { Directive, EventEmitter, ElementRef, Renderer2, HostListener, Input, Output, inject } from "@angular/core";
 
 // import {setProperty} from 'angular2/ts/src/core/forms/directives/shared';
 /**
@@ -13,8 +13,8 @@ function setProperty(renderer: Renderer2, elementRef: ElementRef, propName: stri
 
 // eslint-disable-next-line
 @Directive({
-    selector: '[ngTableFiltering]',
-    standalone: false
+  selector: "[ngTableFiltering]",
+  standalone: false,
 })
 export class NgTableFilteringDirective {
   @Input() public ngTableFiltering: any = {
@@ -42,7 +42,10 @@ export class NgTableFilteringDirective {
     this.tableChanged.emit({ filtering: this.ngTableFiltering });
   }
 
-  public constructor(element: ElementRef, renderer: Renderer2) {
+  public constructor() {
+    const element = inject(ElementRef);
+    const renderer = inject(Renderer2);
+
     this.element = element;
     this.renderer = renderer;
     // Set default value for filter

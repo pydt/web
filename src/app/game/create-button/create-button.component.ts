@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { CivGame, MetadataCacheService, GameService } from "pydt-shared";
@@ -11,17 +11,15 @@ import { AuthService } from "../../shared";
   standalone: false,
 })
 export class GameCreateButtonComponent implements OnInit {
+  auth = inject(AuthService);
+  private gameApi = inject(GameService);
+  private metadataCache = inject(MetadataCacheService);
+  private router = inject(Router);
+
   @ViewChild("cannotCreateGameModal", { static: true }) cannotCreateGameModal: ModalDirective;
   cannotCreateMessage: string;
   selectedGame: CivGame;
   games: CivGame[] = [];
-
-  constructor(
-    public auth: AuthService,
-    private gameApi: GameService,
-    private metadataCache: MetadataCacheService,
-    private router: Router,
-  ) {}
 
   async tryCreateGame(civGame: CivGame): Promise<void> {
     const cc = await this.gameApi.canCreate({ gameType: civGame.id }).toPromise();

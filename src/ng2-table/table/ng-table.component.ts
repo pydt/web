@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy, inject } from "@angular/core";
 import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
 
 @Component({
@@ -9,6 +9,8 @@ import { DomSanitizer, SafeHtml } from "@angular/platform-browser";
   standalone: false,
 })
 export class NgTableComponent {
+  private sanitizer = inject(DomSanitizer);
+
   // Table values
   @Input() public rows: Array<any> = [];
 
@@ -52,8 +54,6 @@ export class NgTableComponent {
 
   private _columns: Array<any> = [];
   private _config: any = {};
-
-  public constructor(private sanitizer: DomSanitizer) {}
 
   public sanitize(html: string): SafeHtml {
     return this.sanitizer.bypassSecurityTrustHtml(html);

@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional, Inject, PLATFORM_ID, ChangeDetectionStrategy } from "@angular/core";
+import { Component, OnInit, PLATFORM_ID, ChangeDetectionStrategy, inject } from "@angular/core";
 import { RESPONSE } from "../express.tokens";
 import { isPlatformServer } from "@angular/common";
 import { Response } from "express";
@@ -10,10 +10,8 @@ import { Response } from "express";
   standalone: false,
 })
 export class NotFoundComponent implements OnInit {
-  constructor(
-    @Optional() @Inject(RESPONSE) private response: Response,
-    @Inject(PLATFORM_ID) private platformId: unknown,
-  ) {}
+  private response = inject<Response>(RESPONSE, { optional: true });
+  private platformId = inject(PLATFORM_ID);
 
   ngOnInit() {
     if (isPlatformServer(this.platformId)) {

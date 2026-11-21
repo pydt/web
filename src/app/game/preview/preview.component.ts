@@ -1,4 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import {
   CivDef,
@@ -28,6 +37,13 @@ import { BehaviorSubject, Observable, map } from "rxjs";
   standalone: false,
 })
 export class GamePreviewComponent implements OnChanges {
+  private gameApi = inject(GameService);
+  private userApi = inject(UserService);
+  private auth = inject(AuthService);
+  private profileCache = inject(ProfileCacheService);
+  private notificationService = inject(NotificationService);
+  private metadataCache = inject(MetadataCacheService);
+
   @Input() game: Game;
   @Input() editMode = false;
   @Input() availableCivs: CivDef[];
@@ -57,15 +73,6 @@ export class GamePreviewComponent implements OnChanges {
       ...x.map(y => this.userCache.find(z => this.gamePlayers[y].steamId === z.steamId)),
     ]),
   );
-
-  constructor(
-    private gameApi: GameService,
-    private userApi: UserService,
-    private auth: AuthService,
-    private profileCache: ProfileCacheService,
-    private notificationService: NotificationService,
-    private metadataCache: MetadataCacheService,
-  ) {}
 
   async ngOnChanges(): Promise<void> {
     this.activeProfile = this.auth.getSteamProfile();

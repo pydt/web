@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, ErrorHandler, NgZone, OnInit, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ErrorHandler, NgZone, OnInit, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { NavigationEnd, Router, ActivatedRoute } from "@angular/router";
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
@@ -24,6 +24,19 @@ const SILENT_RELOAD_WINDOW_MS = 5_000;
   standalone: false,
 })
 export class AppComponent implements OnInit {
+  private authApi = inject(AuthApi);
+  private auth = inject(AuthService);
+  private http = inject(HttpClient);
+  private errorService = inject(ErrorHandler);
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
+  private notificationService = inject(NotificationService);
+  private zone = inject(NgZone);
+  private updates = inject(SwUpdate);
+  private metatag = inject(MetatagService);
+  private browserData = inject(BrowserDataService);
+  changelog = inject(ChangelogService);
+
   isCollapsed = true;
   copyrightDate = new Date().getFullYear();
   isLoggedIn = false;
@@ -45,21 +58,9 @@ export class AppComponent implements OnInit {
 
   @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
 
-  constructor(
-    private authApi: AuthApi,
-    private auth: AuthService,
-    private http: HttpClient,
-    private errorService: ErrorHandler,
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private notificationService: NotificationService,
-    private zone: NgZone,
-    private updates: SwUpdate,
-    private metatag: MetatagService,
-    private browserData: BrowserDataService,
-    public changelog: ChangelogService,
-    angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics,
-  ) {
+  constructor() {
+    const angulartics2GoogleAnalytics = inject(Angulartics2GoogleAnalytics);
+
     if (environment.name === "prod") {
       angulartics2GoogleAnalytics.startTracking();
     }
@@ -86,14 +87,14 @@ export class AppComponent implements OnInit {
 
     // SW only checks for updates on startup / full navigation, not on Angular's client-side
     // route changes, so trigger a check ourselves whenever the user navigates around the site.
-    router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
+    this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(() => {
       if (this.updates.isEnabled) {
         void this.updates.checkForUpdate();
       }
     });
 
     // https://stackoverflow.com/questions/48330535/dynamically-add-meta-description-based-on-route-in-angular
-    router.events
+    this.router.events
       .pipe(
         filter(event => event instanceof NavigationEnd),
         map(() => this.activatedRoute),

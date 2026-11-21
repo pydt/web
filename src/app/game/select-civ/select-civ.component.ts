@@ -1,4 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectionStrategy,
+  inject,
+} from "@angular/core";
 import { CivDef, CivGame, Game, MetadataCacheService } from "pydt-shared";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { FormControl } from "@angular/forms";
@@ -13,6 +22,8 @@ import { AvailableCiv } from "../detail/detail.component";
   standalone: false,
 })
 export class SelectCivComponent implements OnInit {
+  private metadataCache = inject(MetadataCacheService);
+
   @Input() curCiv: AvailableCiv;
   @Input() curCivilization?: CivDef;
   @Input() leaders: AvailableCiv[];
@@ -38,8 +49,6 @@ export class SelectCivComponent implements OnInit {
   );
 
   RANDOM_CIV: CivDef;
-
-  constructor(private metadataCache: MetadataCacheService) {}
 
   async ngOnInit(): Promise<void> {
     this.RANDOM_CIV = (await this.metadataCache.getCivGameMetadata()).randomCiv;

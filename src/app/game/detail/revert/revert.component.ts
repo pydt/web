@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, EventEmitter, Input, Output, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService } from "pydt-shared";
 import { NotificationService } from "../../../shared";
@@ -10,14 +10,12 @@ import { NotificationService } from "../../../shared";
   standalone: false,
 })
 export class GameDetailRevertComponent {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+
   @Input() game: Game;
   @Output() setGame = new EventEmitter<Game>();
   @ViewChild("confirmRevertModal", { static: true }) confirmRevertModal: ModalDirective;
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-  ) {}
 
   async revert(): Promise<void> {
     this.confirmRevertModal.hide();

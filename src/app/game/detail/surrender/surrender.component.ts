@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ChangeDetectionStrategy } from "@angular/core";
+import { Component, Input, ViewChild, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Router } from "@angular/router";
 import { ModalDirective } from "ngx-bootstrap/modal";
 import { Game, GameService } from "pydt-shared";
@@ -11,15 +11,13 @@ import { NotificationService } from "../../../shared";
   standalone: false,
 })
 export class GameDetailSurrenderComponent {
+  private gameApi = inject(GameService);
+  private notificationService = inject(NotificationService);
+  private router = inject(Router);
+
   @Input() game: Game;
   @Input() noOtherPlayers: boolean;
   @ViewChild("confirmSurrenderModal", { static: true }) confirmSurrenderModal: ModalDirective;
-
-  constructor(
-    private gameApi: GameService,
-    private notificationService: NotificationService,
-    private router: Router,
-  ) {}
 
   async surrender(): Promise<void> {
     this.confirmSurrenderModal.hide();

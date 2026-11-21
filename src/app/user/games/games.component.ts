@@ -1,4 +1,4 @@
-import { Component, HostListener, OnInit, ChangeDetectionStrategy } from "@angular/core";
+import { Component, HostListener, OnInit, ChangeDetectionStrategy, inject } from "@angular/core";
 import { Game, ProfileCacheService, UserService } from "pydt-shared";
 import { AuthService } from "../../shared/auth.service";
 import { orderBy } from "lodash";
@@ -10,15 +10,13 @@ import { orderBy } from "lodash";
   standalone: false,
 })
 export class UserGamesComponent implements OnInit {
+  private userApi = inject(UserService);
+  private authService = inject(AuthService);
+  private profileCache = inject(ProfileCacheService);
+
   games: Game[];
   completedGames: Game[];
   refreshDisabled = false;
-
-  constructor(
-    private userApi: UserService,
-    private authService: AuthService,
-    private profileCache: ProfileCacheService,
-  ) {}
 
   async ngOnInit(): Promise<void> {
     await this.getGames();
