@@ -24,7 +24,7 @@ import {
   HOUR_OF_DAY_KEY,
   CountdownUtility,
   GAMEFLAG,
-  PydtSharedModule,
+  PlayerAvatarComponent,
 } from "pydt-shared";
 import { AuthService, NotificationService } from "../../shared";
 import { orderBy } from "lodash";
@@ -43,7 +43,7 @@ import { GameDetailLeaveComponent } from "../detail/leave/leave.component";
   changeDetection: ChangeDetectionStrategy.Eager,
   imports: [
     TooltipDirective,
-    PydtSharedModule,
+    PlayerAvatarComponent,
     DragulaModule,
     NgClass,
     ModalDirective,

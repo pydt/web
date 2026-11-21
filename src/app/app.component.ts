@@ -4,7 +4,7 @@ import { NavigationEnd, Router, ActivatedRoute, RouterLink, RouterLinkActive, Ro
 import { SwUpdate } from "@angular/service-worker";
 import { Angulartics2GoogleAnalytics } from "angulartics2";
 import { ModalDirective } from "ngx-bootstrap/modal";
-import { AuthService as AuthApi, PydtSharedModule } from "pydt-shared";
+import { AuthService as AuthApi, BusyComponent } from "pydt-shared";
 import { filter, map, mergeMap } from "rxjs/operators";
 import { environment } from "../environments/environment";
 import envVars from "../envVars";
@@ -35,7 +35,7 @@ const SILENT_RELOAD_WINDOW_MS = 5_000;
     AlertComponent,
     RouterOutlet,
     ModalDirective,
-    PydtSharedModule,
+    BusyComponent,
     AsyncPipe,
   ],
 })

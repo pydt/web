@@ -15,16 +15,7 @@ import { TabsModule } from "ngx-bootstrap/tabs";
 import { TooltipModule } from "ngx-bootstrap/tooltip";
 import { ClipboardModule } from "ngx-clipboard";
 import { MarkdownModule, MARKED_OPTIONS } from "ngx-markdown";
-import {
-  ApiModule,
-  BusyService,
-  Configuration,
-  DateInterceptor,
-  MetadataCacheService,
-  ProfileCacheService,
-  PydtSharedModule,
-  UserService,
-} from "pydt-shared";
+import { ApiModule, BusyService, Configuration, DateInterceptor, MetadataCacheService } from "pydt-shared";
 import { environment } from "../environments/environment";
 import { routing } from "./app.routing";
 import { AuthService, ErrorHandlerService, MetatagService, NotificationService } from "./shared";
@@ -38,9 +29,6 @@ export const configFactory = (): Configuration =>
     // The build's API, unless a non-prod build was switched with ?api=dev / ?api=prod
     basePath: currentApiUrl(),
   });
-
-export const profileCacheFactory = (userService: UserService): ProfileCacheService =>
-  new ProfileCacheService(userService, null);
 
 // Shared by the browser (main.ts) and the SSR server (app.config.server.ts).
 export const appConfig: ApplicationConfig = {
@@ -69,7 +57,6 @@ export const appConfig: ApplicationConfig = {
           },
         },
       }),
-      PydtSharedModule,
       routing,
       Angulartics2Module.forRoot(),
       // https://github.com/angular/angular/issues/47455
@@ -79,7 +66,6 @@ export const appConfig: ApplicationConfig = {
     BrowserDataService,
     ChangelogService,
     MetatagService,
-    { provide: ProfileCacheService, useFactory: profileCacheFactory, deps: [UserService] },
     { provide: HTTP_INTERCEPTORS, useExisting: BusyService, multi: true },
     { provide: HTTP_INTERCEPTORS, useExisting: DateInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useExisting: MetadataCacheService, multi: true },

@@ -18,7 +18,11 @@ import {
   Platform,
   PydtMetadata,
   SteamProfile,
-  PydtSharedModule,
+  GameSpeedPipe,
+  MapPipe,
+  MapSizePipe,
+  RandomOnlyPipe,
+  TurnTimerVacationPipe,
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
@@ -67,7 +71,11 @@ import { DisplayCivComponent } from "../display-civ/display-civ.component";
     GameDetailSmackTalkComponent,
     ModalDirective,
     DisplayCivComponent,
-    PydtSharedModule,
+    GameSpeedPipe,
+    MapPipe,
+    MapSizePipe,
+    RandomOnlyPipe,
+    TurnTimerVacationPipe,
   ],
 })
 export class GameDetailComponent implements OnInit {
