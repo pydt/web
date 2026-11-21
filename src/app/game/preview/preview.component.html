@@ -32,7 +32,7 @@
 }
 <h3 [class.yourTurn]="game.inProgress && activeProfile?.steamid === game.currentPlayerSteamId">
   <img
-    src="/img/game_{{ game.gameType }}.png"
+    src="/img/game_{{ game.gameType }}.png?v=2"
     style="height: 25px; padding-right: 10px; position: relative; top: -3px"
     [tooltip]="civGame?.displayName"
   />
