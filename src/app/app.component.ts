@@ -14,6 +14,9 @@ import { MetatagService } from "./shared/metatag.service";
 import { BrowserDataService } from "./shared/browser-data.service";
 import { ChangelogService } from "./shared/changelog.service";
 
+// An update found this soon after the page opens reloads without showing the "new version" alert.
+const SILENT_RELOAD_WINDOW_MS = 5_000;
+
 @Component({
   selector: "pydt-app",
   templateUrl: "./app.component.html",
@@ -38,6 +41,7 @@ export class AppComponent implements OnInit {
   }
   updateAvailable = false;
   private updateActivated: Promise<boolean>;
+  private startedAt = Date.now();
 
   @ViewChild("errorModal", { static: true }) errorModal: ModalDirective;
 
@@ -65,6 +69,14 @@ export class AppComponent implements OnInit {
         // Activate right away so the SW is already serving the new version by the time the
         // user acts on it - the reload button then just needs to trigger the navigation.
         this.updateActivated = this.updates.activateUpdate();
+
+        // The startup check usually finds the update right after the page opens, before the user
+        // has done anything, so just reload instead of asking. Once the new version is active,
+        // the reload doesn't find it again, so this can't loop.
+        if (Date.now() - this.startedAt < SILENT_RELOAD_WINDOW_MS) {
+          void this.reload();
+          return;
+        }
 
         this.zone.run(() => {
           this.updateAvailable = true;
