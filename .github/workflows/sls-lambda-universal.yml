@@ -47,7 +47,10 @@ jobs:
         uses: chetan/invalidate-cloudfront-action@v2
         env:
           DISTRIBUTION: ${{ secrets[format('DISTRIBUTION_{0}', steps.extract_branch.outputs.branch)] }}
-          PATHS: "/ngsw.json /ngsw-worker.js /pydt-service-worker.js /safety-worker.js /worker-basic.min.js /index.html"
+          # Everything, not just the service worker files: if ngsw.json lists a new hash for a file
+          # (say, a replaced image) while CloudFront still serves the old copy, the service worker
+          # rejects the whole new version and users stay on the old one. "/*" counts as one path.
+          PATHS: "/*"
           AWS_REGION: "us-east-1"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
