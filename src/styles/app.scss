@@ -9,6 +9,29 @@
   --fa-width: auto;
 }
 
+// ngx-bootstrap places tooltips flush against their target, but Bootstrap draws the arrow outside the
+// tooltip box (it expects a gap), so the arrow lands on top of the target. Push each tooltip away by the
+// arrow plus a small gap. `translate` adds to the inline transform ngx-bootstrap positions with.
+$tooltip-gap: calc(var(--bs-tooltip-arrow-height) + 3px);
+
+.tooltip {
+  &.bs-tooltip-start {
+    translate: calc(-1 * #{$tooltip-gap}) 0;
+  }
+
+  &.bs-tooltip-end {
+    translate: $tooltip-gap 0;
+  }
+
+  &.bs-tooltip-top {
+    translate: 0 calc(-1 * #{$tooltip-gap});
+  }
+
+  &.bs-tooltip-bottom {
+    translate: 0 $tooltip-gap;
+  }
+}
+
 // Restore BS3-style depth on cards
 .card {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
