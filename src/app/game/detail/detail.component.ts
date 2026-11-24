@@ -26,6 +26,7 @@ import {
 } from "pydt-shared";
 import { AuthService, EndUserError, NotificationService } from "../../shared";
 import { Utility } from "../../shared/utility";
+import { uploadSave } from "../../shared/upload-save";
 import { MetatagService } from "./../../shared/metatag.service";
 import { GamePreviewComponent } from "../preview/preview.component";
 import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
@@ -373,36 +374,9 @@ export class GameDetailComponent implements OnInit {
 
       try {
         const gameResp = await this.gameApi.startSubmit(gameId).toPromise();
+        const save = gzip(new Uint8Array(await fileTarget.files[0].arrayBuffer()));
 
-        await new Promise((resolve, reject) => {
-          const xhr = new XMLHttpRequest();
-
-          xhr.open("PUT", gameResp.putUrl, true);
-
-          xhr.onload = () => {
-            if (xhr.status === 200) {
-              resolve(null);
-            } else {
-              reject(new Error(`XHR error status: ${xhr.status}`));
-            }
-          };
-
-          xhr.onerror = () => {
-            reject(new Error(`XHR error status: ${xhr.status}`));
-          };
-
-          xhr.setRequestHeader("Content-Type", "application/octet-stream");
-          const reader = new FileReader();
-
-          reader.onload = function () {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-            const array = new Uint8Array(this.result as any);
-            const toSend = gzip(array);
-
-            xhr.send(toSend);
-          };
-          reader.readAsArrayBuffer(fileTarget.files[0]);
-        });
+        await uploadSave(gameResp.putUrl, gameResp.fallbackPutUrl, save);
 
         await this.gameApi.finishSubmit(gameId).toPromise();
 

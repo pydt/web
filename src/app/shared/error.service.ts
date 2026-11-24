@@ -10,7 +10,11 @@ import { AuthService } from "./auth.service";
 const ROLLBAR_CLIENT_TOKEN = "449af5e02e4248a489633e6c917b333b";
 
 export class EndUserError extends Error {
-  constructor(m: string) {
+  // report: also send it to Rollbar (for failures we want to keep seeing, not user mistakes)
+  constructor(
+    m: string,
+    public readonly report = false,
+  ) {
     super(m);
 
     // Set the prototype explicitly.
@@ -109,7 +113,7 @@ export class ErrorHandlerService implements ErrorHandler {
       endUserErrorMessage = error.message;
     }
 
-    if (!endUserErrorMessage) {
+    if (!endUserErrorMessage || (error instanceof EndUserError && error.report)) {
       const messagesToIgnore = ["Cannot match any routes"];
 
       if (!error?.message || !messagesToIgnore.some(x => error.message.includes(x))) {
