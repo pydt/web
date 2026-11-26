@@ -63,10 +63,10 @@
                 <td>
                   @switch (column.name) {
                     @case ("player") {
-                      <a [href]="'https://steamcommunity.com/profiles/' + row.steamId" target="_steamprofile">
+                      <button type="button" class="player-link" (click)="userDetailModal.show(row.steamId)">
                         <img [src]="row.avatar" alt="" />
-                      </a>
-                      {{ row.player }}
+                        <span>{{ row.player }}</span>
+                      </button>
                     }
                     @case ("turnLength") {
                       <pydt-turn-length-chart [turnData]="row.turnData" [smallMode]="true"></pydt-turn-length-chart>
@@ -84,3 +84,5 @@
     </div>
   }
 </div>
+
+<pydt-user-detail-modal #userDetailModal></pydt-user-detail-modal>

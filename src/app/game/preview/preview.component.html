@@ -141,58 +141,33 @@
   </table>
 }
 
-<div
-  bsModal
-  #playerDetailModal="bs-modal"
-  class="modal fade"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="playerDetailModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">User Info</h4>
-        <button type="button" class="btn-close" aria-label="Close" (click)="playerDetailModal.hide()"></button>
+<pydt-user-detail-modal #userDetailModal>
+  @if (user; as user) {
+    @if (canEdit) {
+      <div class="row" style="margin-top: 8px">
+        <div class="col-sm-12">
+          <pydt-game-detail-change-civ
+            [game]="game"
+            [civGame]="civGame"
+            [steamId]="user.steamId"
+            [playerCiv]="userCiv"
+            [playerCivilization]="userCivilization"
+            [availableCivs]="availableCivs"
+            (setGame)="gameUpdated.emit($event)"
+          ></pydt-game-detail-change-civ>
+        </div>
       </div>
-      <div class="modal-body" style="min-height: 200px">
-        @if (!user) {
-          <h4>Loading...</h4>
-        }
-        @if (user) {
-          <pydt-user-info [user]="user"></pydt-user-info>
-          <div class="row" style="margin-top: 8px">
-            <div class="col-sm-12">
-              @if (canEdit) {
-                <pydt-game-detail-change-civ
-                  [game]="game"
-                  [civGame]="civGame"
-                  [steamId]="user.steamId"
-                  [playerCiv]="userCiv"
-                  [playerCivilization]="userCivilization"
-                  [availableCivs]="availableCivs"
-                  (setGame)="gameUpdated.emit($event)"
-                ></pydt-game-detail-change-civ>
-              }
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-12">
-              @if (canEdit && activeProfile?.steamid !== user?.steamId) {
-                <pydt-game-detail-leave
-                  [game]="game"
-                  [steamId]="user.steamId"
-                  (setGame)="gameUpdated.emit($event)"
-                ></pydt-game-detail-leave>
-              }
-            </div>
-          </div>
-        }
+    }
+    @if (canEdit && activeProfile?.steamid !== user.steamId) {
+      <div class="row">
+        <div class="col-sm-12">
+          <pydt-game-detail-leave
+            [game]="game"
+            [steamId]="user.steamId"
+            (setGame)="gameUpdated.emit($event)"
+          ></pydt-game-detail-leave>
+        </div>
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="playerDetailModal.hide()">OK</button>
-      </div>
-    </div>
-  </div>
-</div>
+    }
+  }
+</pydt-user-detail-modal>

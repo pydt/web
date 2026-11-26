@@ -1,3 +1,25 @@
-pagination, ::ng-deep ul.pagination {
+pagination,
+::ng-deep ul.pagination {
   margin: 0;
+}
+
+// The avatar and name open the player's pop-up; styled like the rest of the row, not a link
+.player-link {
+  display: inline-flex;
+  align-items: center;
+  // Sitting on the text baseline would add descender space under it and make every row taller
+  vertical-align: middle;
+  gap: 0.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+
+  &:hover span,
+  &:focus-visible span {
+    text-decoration: underline;
+  }
 }

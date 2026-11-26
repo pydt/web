@@ -1,0 +1,29 @@
+<div
+  bsModal
+  #modal="bs-modal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="userDetailModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="userDetailModalLabel">User Info</h4>
+        <button type="button" class="btn-close" aria-label="Close" (click)="hide()"></button>
+      </div>
+      <div class="modal-body">
+        @if (user(); as user) {
+          <pydt-user-info [user]="user"></pydt-user-info>
+        } @else {
+          <h4>Loading...</h4>
+        }
+        <ng-content></ng-content>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="hide()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

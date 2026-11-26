@@ -8,7 +8,6 @@ import {
   ChangeDetectionStrategy,
   inject,
 } from "@angular/core";
-import { ModalDirective } from "ngx-bootstrap/modal";
 import {
   CivDef,
   Game,
@@ -32,7 +31,7 @@ import { BehaviorSubject, Observable, map } from "rxjs";
 import { TooltipDirective } from "ngx-bootstrap/tooltip";
 import { DragulaModule } from "ng2-dragula";
 import { NgClass, AsyncPipe } from "@angular/common";
-import { UserInfoComponent } from "../../user/info/info.component";
+import { UserDetailModalComponent } from "../../user/detail-modal/user-detail-modal.component";
 import { GameDetailChangeCivComponent } from "../detail/change-civ/change-civ.component";
 import { GameDetailLeaveComponent } from "../detail/leave/leave.component";
 
@@ -46,8 +45,7 @@ import { GameDetailLeaveComponent } from "../detail/leave/leave.component";
     PlayerAvatarComponent,
     DragulaModule,
     NgClass,
-    ModalDirective,
-    UserInfoComponent,
+    UserDetailModalComponent,
     GameDetailChangeCivComponent,
     GameDetailLeaveComponent,
     AsyncPipe,
@@ -67,13 +65,12 @@ export class GamePreviewComponent implements OnChanges {
   @Input() showTurnInfo = false;
   @Input() hideNotStarted = false;
   @Output() gameUpdated = new EventEmitter<Game>();
-  @ViewChild("playerDetailModal", { static: true }) playerDetailModal: ModalDirective;
+  @ViewChild("userDetailModal", { static: true }) userDetailModal: UserDetailModalComponent;
   lastTurnText$: Observable<string>;
   gamePlayers: GamePlayer[];
   activeProfile: SteamProfile;
   reorderableIndexes$ = new BehaviorSubject<number[]>([]);
   emptyIndexes: number[];
-  user: User;
   editingTurnOrder = false;
   gamePlayerProfiles: SteamProfileMap = {};
   games: CivGame[] = [];
@@ -288,12 +285,13 @@ export class GamePreviewComponent implements OnChanges {
     );
   }
 
+  // The user shown in the pop-up (null while it loads)
+  get user(): User | null {
+    return this.userDetailModal.user();
+  }
+
   async showUserDetail(userId: string): Promise<void> {
-    if (userId) {
-      this.user = null;
-      this.playerDetailModal.show();
-      this.user = await this.userApi.byId(userId).toPromise();
-    }
+    await this.userDetailModal.show(userId);
   }
 
   get userCiv() {

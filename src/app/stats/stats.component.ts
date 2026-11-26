@@ -15,6 +15,7 @@ import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
 import { DisplayTurnStatsComponent } from "./display-turn-stats/display-turn-stats.component";
 import { FormsModule } from "@angular/forms";
 import { PaginationComponent } from "ngx-bootstrap/pagination";
+import { UserDetailModalComponent } from "../user/detail-modal/user-detail-modal.component";
 
 /* eslint-disable camelcase */
 interface StatsRow {
@@ -48,6 +49,7 @@ interface StatsRow {
     PaginationComponent,
     SortColumnDirective,
     TurnLengthChartComponent,
+    UserDetailModalComponent,
   ],
 })
 export class StatsComponent implements OnInit {
