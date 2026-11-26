@@ -2,10 +2,6 @@ h3 {
   margin-top: 0;
 }
 
-.glyphicon-lock {
-  font-size:1.5em;
-}
-
 .yourTurn {
   font-weight: bold;
   color:#f00;
@@ -18,4 +14,18 @@ h3 {
 
 .ml {
   margin-left: 12px;
+}
+
+// Private / max-average badges right after the game name (forum #13685)
+.title-badge {
+  margin-left: 8px;
+  font-size: 0.55em;
+  font-weight: normal;
+  // Nudged up from the text baseline, which reads as sitting too low next to the big title
+  position: relative;
+  top: -5px;
+
+  .fa {
+    margin-right: 0.25em;
+  }
 }

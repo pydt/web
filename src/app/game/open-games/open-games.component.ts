@@ -16,6 +16,7 @@ import { TabsetComponent, TabDirective } from "ngx-bootstrap/tabs";
 import { FormsModule } from "@angular/forms";
 import { GamePreviewComponent } from "../preview/preview.component";
 import { AsyncPipe } from "@angular/common";
+import { orderBy } from "lodash";
 
 @Component({
   selector: "pydt-open-games",
@@ -64,7 +65,12 @@ export class OpenGamesComponent implements OnInit {
         return games;
       }
 
-      return games.filter(x => !type || x.gameType === type).filter(x => (publicOnly ? !x.hashedPassword : true));
+      const filtered = games
+        .filter(x => !type || x.gameType === type)
+        .filter(x => (publicOnly ? !x.hashedPassword : true));
+
+      // Public games first; the api already sorts newest first, and orderBy keeps that order within each group
+      return orderBy(filtered, [x => !!x.hashedPassword], ["asc"]);
     }),
   );
   games: CivGame[] = [];

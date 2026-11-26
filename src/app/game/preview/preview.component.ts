@@ -155,6 +155,11 @@ export class GamePreviewComponent implements OnChanges {
     return result;
   }
 
+  // The join limit on players' recent average turn time, in hours (rounded to a tenth)
+  get maxTurnAverageHours(): number {
+    return Math.round(this.game.maxRecentTurnAverageMinutes / 6) / 10;
+  }
+
   get canEditTurnOrder(): boolean {
     return this.canEdit && this.game.players.length > 2;
   }
