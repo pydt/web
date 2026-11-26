@@ -61,11 +61,19 @@ export class ConfigureGameModel {
     return this._slots;
   }
 
+  // Adding slots adds human slots (the AI count stays the same). Removing slots takes AI slots
+  // first and only then human ones, so 3 humans + 1 AI going to 3 slots leaves 3 humans (forum #10421).
+  // The slider's minimum keeps slots at or above the players already in the game.
   set slots(slots: number) {
-    const slotsHumansDiff = this._slots - this.humans;
+    const newSlots = Number(slots);
 
-    this._slots = Number(slots);
-    this.humans = Math.max(this._slots - slotsHumansDiff, 2);
+    if (newSlots > this._slots) {
+      this.humans += newSlots - this._slots;
+    } else {
+      this.humans = Math.min(this.humans, newSlots);
+    }
+
+    this._slots = newSlots;
   }
 
   dlcSelected(dlc: DLC): boolean {
